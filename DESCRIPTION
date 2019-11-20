@@ -1,0 +1,15 @@
+Package: gsignal
+Type: Package
+Title: Signal Processing
+Version: 0.1.0
+Date: 2019-11-20
+Author: Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>
+Maintainer: Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>
+Description: Gsignal is my own R implementation of the Matlab/Octave signal package.
+Depends: R (>= 3.1.0)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat

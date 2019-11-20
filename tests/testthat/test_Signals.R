@@ -1,0 +1,124 @@
+# gsignal Signals functions
+library(gsignal)
+library(testthat)
+
+# -----------------------------------------------------------------------
+# buffer()
+
+test_that("parameters to buffer() are correct", {
+  expect_error(buffer())
+  expect_error(buffer(x = 1:10, n = 4.1))
+  expect_error(buffer(x = 1:10, n = 4, p = 3.1))
+  expect_error(buffer(x = 1:10, n = 4, p = 4))
+  expect_error(buffer(x = 1:10, n = 4, p = 1, opt = 10:11))
+  expect_error(buffer(x = 1:10, n = 4, p = 1, opt = 'badstring'))
+  expect_error(buffer(x = 1:10, n = 3, p = -2, opt = 4))
+  expect_error(buffer(x = 1:10, n = 4, zopt = 5))
+})
+
+test_that("buffer() tests returning only y are correct", {
+  expect_that(buffer(1:10, 4), equals(matrix(c(1:10, 0, 0), 4, 3)))
+  expect_that(buffer(1:10, 4, 1), equals(matrix(c(0:3, 3:6, 6:9, 9, 10, 0, 0), 4, 4)))
+  expect_that(buffer(1:10, 4, 2), equals(matrix(c(0, 0:2, 1:4, 3:6, 5:8, 7:10), 4, 5)))
+  expect_that(buffer(1:10, 4, 3), equals(rbind(c(0, 0, 0:7), c(0, 0:8), 0:9, 1:10)))
+  expect_that(buffer(1:10, 4, -1), equals(matrix(c(1:4, 6:9), 4, 2)))
+  expect_that(buffer(1:10, 4, -2), equals(matrix(c(1:4, 7:10), 4, 2)))
+  expect_that(buffer(1:10, 4, -3), equals(matrix(c(1:4, 8:10, 0), 4, 2)))
+  expect_that(buffer(1:10, 4, 1, 11), equals(matrix(c(11,1:3,3:6,6:9,9,10,0,0), 4, 4)))
+  expect_that(buffer(1:10, 4, 1, 'nodelay'), equals(matrix(c(1:4,4:7,7:10), 4, 3)))
+  expect_that(buffer(1:10, 4, 2, 'nodelay'), equals(matrix(c(1:4,3:6,5:8,7:10), 4, 4)))
+  expect_that(buffer(1:10, 4, 3, c(11, 12, 13)), equals(rbind(c(11:13, 1:7), c(12:13, 1:8), c(13, 1:9), 1:10)))
+  expect_that(buffer(1:10, 4, 3, 'nodelay'), equals(rbind(1:8, 2:9, 3:10, c(4:10, 0))))
+  expect_that(buffer(1:11, 4, -2, 1), equals(matrix(c(2:5, 8:11), 4, 2)))
+})
+
+test_that("buffer() tests returning y, and z are correct", {
+  buf <- buffer(1:12, 4, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(1:12, 4, 3)))
+  expect_that(buf$z, equals(NULL))
+  
+  buf <- buffer(1:11, 4, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(1:8, 4, 2)))
+  expect_that(buf$z, equals(9:11))
+  
+  buf <- buffer(t(1:12), 4, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(1:12, 4, 3)))
+  expect_that(buf$z, equals(NULL))
+  
+  # slightly different from Matlab implementation (column vector)
+  # not sure if this matters - find field tests for this situation
+  buf <- buffer(t(1:11), 4, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(1:8, 4, 2)))
+  expect_that(buf$z, equals(9:11))
+})
+
+test_that("buffer() tests returning y, z, and opt are correct", {
+  buf <- buffer(1:15, 4, -2, 1, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
+  expect_that(buf$z, equals(c(14,15)))
+  expect_that(buf$opt, equals(0L))
+  
+  buf <- buffer(1:11, 4, -2, 1, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
+  expect_that(buf$z, equals(NULL))
+  expect_that(buf$opt, equals(2))
+  
+  # slightly different from Matlab implementation (column vector)
+  # not sure if this matters - find field tests for this situation
+  buf <- buffer(t(1:15), 4, -2, 1, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
+  expect_that(buf$z, equals(c(14,15)))
+  expect_that(buf$opt, equals(0L))
+  
+  buf <- buffer(t(1:11), 4, -2, 1, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
+  expect_that(buf$z, equals(NULL))
+  expect_that(buf$opt, equals(2))
+  
+  buf <- buffer(1:11, 5, 2, c(-1,0), zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(-1:3,2:6,5:9), 5, 3)))
+  expect_that(buf$z, equals(c(10, 11)))
+  expect_that(buf$opt, equals(c(8, 9)))
+  
+  buf <- buffer(t(1:11), 5, 2, c(-1,0), zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(-1:3,2:6,5:9), 5, 3)))
+  expect_that(buf$z, equals(c(10, 11)))
+  expect_that(buf$opt, equals(c(8, 9)))
+  
+  buf <- buffer(t(1:10), 6, 4, zopt = TRUE)
+  expect_that(buf$y, equals(matrix(c(rep(0, 4), 1:2, rep(0, 2), 1:4, 1:6, 3:8, 5:10), 6, 5)))
+  expect_that(buf$z, equals(NULL))
+  expect_that(buf$opt, equals(7:10))
+  
+})
+
+test_that("buffer() works correctly with continuous buffering", {
+  
+  # overlap
+  data <- buffer(1:1100, 11)
+  n <- 4
+  p <- 1
+  buf <- list(y = NULL, z = NULL, opt = -5)
+  for (i in 1:ncol(data)) {
+    x <- data[,i]
+    buf <- buffer(x = c(buf$z,x), n, p, opt=buf$opt, zopt = TRUE)
+  }
+  expect_that(buf$y, equals(matrix(c(1089:1092, 1092:1095, 1095:1098), 4, 3)))
+  expect_that(buf$z, equals(c(1099, 1100)))
+  expect_that(buf$opt, equals(1098))
+  
+  # underlap
+  data <- buffer(1:1100, 11)
+  n <- 4
+  p <- -2
+  buf <- list(y = NULL, z = NULL, opt = 1)
+  for (i in 1:ncol(data)) {
+    x <- data[,i]
+    buf <- buffer(x = c(buf$z,x), n, p, opt=buf$opt, zopt = TRUE)
+  }
+  expect_that(buf$y, equals(matrix(c(1088:1091, 1094:1097), 4, 2)))
+  expect_that(buf$z, equals(1100))
+  expect_that(buf$opt, equals(0))
+  
+})
+  
