@@ -121,4 +121,31 @@ test_that("buffer() works correctly with continuous buffering", {
   expect_that(buf$opt, equals(0))
   
 })
+
+# -----------------------------------------------------------------------
+# chirp()
+
+test_that("parameters to chirp() are correct", {
+  expect_error(chirp())
+  expect_error(chirp(1, 2, 3, 4, 5, 6, 7))
+  expect_error(chirp(0, shape = "foo"))
+})
+
+test_that("chirp() works for linear, quadratic and logarithmic shapes", {
   
+  t <- seq(0, 5, 0.001)
+  y <- chirp (t)
+  expect_that(sum(head(y)), equals(5.999952, tolerance = 1e-6))
+  expect_that(sum(tail(y)), equals(2.146626e-05, tolerance = 1e-6))
+  
+  t <- seq(-2, 15, 0.001)
+  y <- chirp (t, 400, 10, 100, "quadratic")
+  expect_that(sum(head(y)), equals(0.8976858, tolerance = 1e-6))
+  expect_that(sum(tail(y)), equals(0.4537373, tolerance = 1e-6))
+  
+  t <- seq(0, 5, 1/8000)
+  y <- chirp (t, 200, 2, 500, "logarithmic")
+  expect_that(sum(head(y)), equals(-4.56818, tolerance = 1e-6))
+  expect_that(sum(tail(y)), equals(0.8268064, tolerance = 1e-6))
+  
+})
