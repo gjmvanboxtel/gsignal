@@ -136,6 +136,6 @@ for (i in 1:ncol(data)) {
 
 }
 \author{
-Original Matlab/Octave code by David Bateman <\email{adb014@gmail.com}>, port to R by
-Geert van Boxtel <\email{G.J.M.vanBoxtel@gmail.com}>
+Original Matlab/Octave code by David Bateman \email{adb014@gmail.com}, port to R by
+Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}
 }

@@ -2,3 +2,4 @@
 
 export(buffer)
 export(chirp)
+export(cmorwavf)

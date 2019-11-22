@@ -149,3 +149,16 @@ test_that("chirp() works for linear, quadratic and logarithmic shapes", {
   expect_that(sum(tail(y)), equals(0.8268064, tolerance = 1e-6))
   
 })
+
+# -----------------------------------------------------------------------
+# cmorwavf()
+
+test_that("parameters to cmorwavf() are correct", {
+  expect_error(cmorwavf(n = -1))
+  expect_error(cmorwavf(n = 2.5))
+  expect_error(cmorwavf(fb = -1))
+  expect_error(cmorwavf(fb = 0))
+  expect_error(cmorwavf(fc = -1))
+  expect_error(cmorwavf(fc = 0))
+})
+
