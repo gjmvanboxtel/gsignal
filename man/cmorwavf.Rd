@@ -2,7 +2,7 @@
 % Please edit documentation in R/cmorwavf.R
 \name{cmorwavf}
 \alias{cmorwavf}
-\title{Complex Morlet wavelet}
+\title{Complex Morlet Wavelet}
 \usage{
 cmorwavf(lb = -8, ub = 8, n = 1000, fb = 5, fc = 1)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/chirp.R
 \name{chirp}
 \alias{chirp}
-\title{A chirp signal}
+\title{Chirp signal}
 \usage{
 chirp(
   t,

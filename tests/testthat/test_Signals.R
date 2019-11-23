@@ -162,3 +162,14 @@ test_that("parameters to cmorwavf() are correct", {
   expect_error(cmorwavf(fc = 0))
 })
 
+# -----------------------------------------------------------------------
+# diric()
+
+test_that("parameters to diric() are correct", {
+  expect_error(diric())
+  expect_error(diric(seq(-2*pi, 2*pi, len = 301)))
+  expect_error(diric(seq(-2*pi, 2*pi, len = 301), 0))
+  expect_error(diric(seq(-2*pi, 2*pi, len = 301), -1))
+  expect_error(diric(seq(-2*pi, 2*pi, len = 301), 2.5))
+})
+

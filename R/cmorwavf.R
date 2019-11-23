@@ -20,7 +20,7 @@
 # 20191122 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Complex Morlet wavelet
+#' Complex Morlet Wavelet
 #' 
 #' the Morlet wavelet (or Gabor wavelet) is a wavelet composed of a complex exponential (carrier) multiplied by a Gaussian window
 #' (envelope). The wavelet exists as a complex version or a purely real-valued version. Some distinguish between the "real Morlet"

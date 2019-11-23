@@ -21,7 +21,7 @@
 # 20191122 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' A chirp signal
+#' Chirp signal
 #' 
 #' Evaluate a chirp signal at time \code{t}.  A chirp signal is a frequency swept cosine wave.
 #' 
