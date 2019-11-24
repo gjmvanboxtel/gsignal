@@ -17,7 +17,7 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20191122 Geert van Boxtel          First version for v0.1.0
+# 20191123 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Dirichlet function

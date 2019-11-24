@@ -25,7 +25,7 @@ the Morlet wavelet (or Gabor wavelet) is a wavelet composed of a complex exponen
 versus the "complex Morlet". Others consider the complex version to be the "Gabor wavelet", while the real-valued version is the
 "Morlet wavelet". This function returns the complex Morlet wavelet, with time-decay parameter \code{fb}, and center frequency 
 \code{fc}. The general expression for the complex Morlet wavelet is
-\deqn{\Psi(x) = ((\pi * fb)^(-0.5)) * exp(2 * \pi * i * fc * x) * exp(-(x^2) / fb)}
+\deqn{\Psi(x) = ((\pi * fb)^{-0.5}) * \exp{2 * \pi * i * fc * x} * exp{-(x^2) / fb}}
 \code{x} is evaluated on an \code{n}-point regular grid in the interval (lb, ub).
 }
 \details{

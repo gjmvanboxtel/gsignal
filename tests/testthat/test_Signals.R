@@ -173,3 +173,12 @@ test_that("parameters to diric() are correct", {
   expect_error(diric(seq(-2*pi, 2*pi, len = 301), 2.5))
 })
 
+# -----------------------------------------------------------------------
+# gauspuls()
+
+test_that("parameters to gauspuls() are correct", {
+  expect_error(gauspuls())
+  expect_error(gauspuls(seq(-2*pi, 2*pi, len = 301), -1))
+  expect_error(gauspuls(seq(-2*pi, 2*pi, len = 301), 2, 0))
+  expect_error(gauspuls(seq(-2*pi, 2*pi, len = 301), 2, -1))
+})
