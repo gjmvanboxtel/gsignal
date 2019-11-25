@@ -27,7 +27,6 @@
 #'
 #' \code{yi = gauspuls(t,fc,bw)} returns a unit-amplitude Gaussian-modulated sinusoidal RF pulse at the times indicated in array t,
 #' with a center frequency fc in hertz and a fractional bandwidth bw
-#' plitude.#' 
 #' 
 #' @note The Octave \code{gauspuls} function differs from the function in the Matlab signal package. The Octave function
 #' does not use the \code{bwr} (fractional bandwidth reference level), the \code{tpe} (trailing pulse envelope level), and
@@ -59,7 +58,7 @@
 #' #        xlab = "Time (ms)", ylab = "Amplitude",
 #' #       main = "Gaussian pulse train ,at 10 ms intervals")
 #'
-#' @author Original Matlab/Octave code # Copyright (C) 2007 Slvain Pelissier, 
+#' @author Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, 
 #' Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export

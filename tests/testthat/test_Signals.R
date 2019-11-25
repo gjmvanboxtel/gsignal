@@ -182,3 +182,11 @@ test_that("parameters to gauspuls() are correct", {
   expect_error(gauspuls(seq(-2*pi, 2*pi, len = 301), 2, 0))
   expect_error(gauspuls(seq(-2*pi, 2*pi, len = 301), 2, -1))
 })
+
+# -----------------------------------------------------------------------
+# gauspuls()
+
+test_that("parameters to gmonopuls() are correct", {
+  expect_error(gmonopuls())
+  expect_error(gmonopuls(seq(-2*pi, 2*pi, len = 301), -1))
+})

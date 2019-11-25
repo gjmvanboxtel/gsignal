@@ -24,7 +24,6 @@ Generate a Gaussian modulated sinusoidal pulse sampled at times \code{t}.
 \details{
 \code{yi = gauspuls(t,fc,bw)} returns a unit-amplitude Gaussian-modulated sinusoidal RF pulse at the times indicated in array t,
 with a center frequency fc in hertz and a fractional bandwidth bw
-plitude.#'
 }
 \note{
 The Octave \code{gauspuls} function differs from the function in the Matlab signal package. The Octave function
@@ -51,6 +50,6 @@ lines(t, yi2, col = "red")
 
 }
 \author{
-Original Matlab/Octave code # Copyright (C) 2007 Slvain Pelissier, 
+Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, 
 Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }
