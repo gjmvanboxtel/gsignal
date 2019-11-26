@@ -184,9 +184,17 @@ test_that("parameters to gauspuls() are correct", {
 })
 
 # -----------------------------------------------------------------------
-# gauspuls()
+# gmonopuls()
 
 test_that("parameters to gmonopuls() are correct", {
   expect_error(gmonopuls())
   expect_error(gmonopuls(seq(-2*pi, 2*pi, len = 301), -1))
+})
+
+# -----------------------------------------------------------------------
+# mexihat()
+
+test_that("parameters to mexihat() are correct", {
+  expect_error(mexihat(n = -1))
+  expect_error(mexihat(n = 2.5))
 })
