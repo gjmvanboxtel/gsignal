@@ -1,4 +1,4 @@
-# mexihat.R
+# morlet.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Matlab/Octave signal package:
 # Copyright (C) 2007 Sylvain Pelissier
@@ -20,39 +20,38 @@
 # 20191126 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Mexicat Hat
+#' Morlet Wavelet
 #' 
-#' Generate a Mexican Hat (Ricker) wavelet sampled on a regular grid.
+#' Compute the Morlet wavelet on a regular grid.
 #'
-#' The Mexican Hat or Ricker wavelet is the negative normalized second derivative of a Gaussian function, i.e., 
-#' up to scale and normalization, the second Hermite function. It is a special case of the family of continuous wavelets
-#' (wavelets used in a continuous wavelet transform) known as Hermitian wavelets. The Ricker wavelet is frequently employed
-#' to model seismic data, and as a broad spectrum source term in computational electrodynamics. It is usually only referred
-#' to as the Mexican hat wavelet in the Americas, due to taking the shape of a sombrero when used as a 2D image processing kernel.
-#' It is also known as the Marr wavelet (source: Wikipedia)
+#' The code \code{m <- morlet(lb, ub, n)} returns values of the Morlet wavelet on an \code{n}-point regular grid in the interval
+#' \code{[lb,ub]}. This wavelet has [-4 4] as effective support.
 #' 
-#' @param lb,ub Lower and upper bounds of the interval to evaluate the wavelet on. Default: -5 to 5.
+#' The Morlet waveform is defined as
+#' \deqn{\psi(x) = e^{-x^{2}/2} cos (5x)}
+#' 
+#' @param lb,ub Lower and upper bounds of the interval to evaluate the wavelet on. Default: -4 to 4.
 #' @param n Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.
 #' 
-#' @return A list containing 2 variables; \code{x}, the grid on which the complex Mexican Hat wavelet was evaluated, and \code{psi}
+#' @return A list containing 2 variables; \code{x}, the grid on which the Morlet wavelet was evaluated, and \code{psi}
 #' (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
 ##' 
 #' @examples
 #'
-#' mh <- mexihat(-5, 5, 1000)
-#' plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet", xlab = "", ylab = "")
+#' m <- morlet(-4, 4, 1000)
+#' plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 #'
 #' @author Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.
 #' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-mexihat <- function (lb = -5, ub = 5, n = 1000) {
+morlet <- function (lb = -8, ub = 8, n = 1000) {
   
   if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
   
   x <- seq(lb, ub, length.out =  n)
-  psi <- (1 - x^2) * (2 / (sqrt(3) * pi^0.25)) * exp(-x^2/ 2)
+  psi <- cos(5 * x) * exp(-x^2 / 2)
   list(x = x, psi = psi)
   
 }

@@ -4,7 +4,7 @@
 \alias{mexihat}
 \title{Mexicat Hat}
 \usage{
-mexihat(lb = -8, ub = 8, n = 1000)
+mexihat(lb = -5, ub = 5, n = 1000)
 }
 \arguments{
 \item{lb, ub}{Lower and upper bounds of the interval to evaluate the wavelet on. Default: -5 to 5.}
@@ -16,7 +16,7 @@ A list containing 2 variables; \code{x}, the grid on which the complex Mexican H
 (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
 }
 \description{
-Generate a Mexican Hat (Ricker) wavelet sampled at times \code{t}.
+Generate a Mexican Hat (Ricker) wavelet sampled on a regular grid.
 }
 \details{
 The Mexican Hat or Ricker wavelet is the negative normalized second derivative of a Gaussian function, i.e., 

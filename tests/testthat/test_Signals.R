@@ -205,3 +205,11 @@ test_that("parameters to mexihat() are correct", {
 test_that("parameters to meyeraux() are correct", {
   expect_error(meyeraux())
 })
+
+# -----------------------------------------------------------------------
+# morlet()
+
+test_that("parameters to morlet() are correct", {
+  expect_error(morlet(n = -1))
+  expect_error(morlet(n = 2.5))
+})
