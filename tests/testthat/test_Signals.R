@@ -198,3 +198,10 @@ test_that("parameters to mexihat() are correct", {
   expect_error(mexihat(n = -1))
   expect_error(mexihat(n = 2.5))
 })
+
+# -----------------------------------------------------------------------
+# meyeraux()
+
+test_that("parameters to meyeraux() are correct", {
+  expect_error(meyeraux())
+})

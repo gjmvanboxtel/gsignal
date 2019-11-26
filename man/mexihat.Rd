@@ -12,7 +12,7 @@ mexihat(lb = -8, ub = 8, n = 1000)
 \item{n}{Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.}
 }
 \value{
-A list containing 2 variables; \code{x}, the grid on which the complex Morlet wavelet was evaluated, and \code{psi}
+A list containing 2 variables; \code{x}, the grid on which the complex Mexican Hat wavelet was evaluated, and \code{psi}
 (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
 }
 \description{

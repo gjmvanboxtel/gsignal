@@ -34,7 +34,7 @@
 #' @param lb,ub Lower and upper bounds of the interval to evaluate the wavelet on. Default: -5 to 5.
 #' @param n Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.
 #' 
-#' @return A list containing 2 variables; \code{x}, the grid on which the complex Morlet wavelet was evaluated, and \code{psi}
+#' @return A list containing 2 variables; \code{x}, the grid on which the complex Mexican Hat wavelet was evaluated, and \code{psi}
 #' (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
 ##' 
 #' @examples
