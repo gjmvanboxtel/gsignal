@@ -33,6 +33,6 @@ plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet", xlab = "", ylab = "")
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
+Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
 Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

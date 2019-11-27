@@ -4,7 +4,7 @@
 \alias{morlet}
 \title{Morlet Wavelet}
 \usage{
-morlet(lb = -8, ub = 8, n = 1000)
+morlet(lb = -4, ub = 4, n = 1000)
 }
 \arguments{
 \item{lb, ub}{Lower and upper bounds of the interval to evaluate the wavelet on. Default: -4 to 4.}
@@ -32,6 +32,6 @@ plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
+Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
 Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -213,3 +213,32 @@ test_that("parameters to morlet() are correct", {
   expect_error(morlet(n = -1))
   expect_error(morlet(n = 2.5))
 })
+
+# -----------------------------------------------------------------------
+# pulstran()
+
+# test_that("parameters to pulstran() are correct", {
+#   expect_error(pulstran())
+#   expect_error(pulstran(seq(0, 0.1, 0.001)))
+#   expect_error(pulstran(d = seq(0, 0.1, 0.01)))
+# })
+#
+
+# # -----------------------------------------------------------------------
+# rectpuls()
+
+test_that("parameters to rectpuls() are correct", {
+  expect_error(rectpuls())
+  expect_error(rectpuls(NULL, 0.1))
+  expect_error(rectpuls(seq(-2*pi, 2*pi, len = 301), -1))
+  expect_error(rectpuls(seq(-2*pi, 2*pi, len = 301), 1, 3))
+  expect_error(rectpuls(seq(-2*pi, 2*pi, len = 301), 1i))
+})
+
+test_that("rectpuls() works correctly", {
+  expect_that(rectpuls(0, 0), equals(0))
+  expect_that(rectpuls(0, 0.1), equals(1))
+  expect_that(rectpuls(rep(0L, 10)), equals(rep(1L, 10)))
+  expect_that(rectpuls(-1:1), equals(c(0, 1, 0)))
+  expect_that(rectpuls(-5:5, 9), equals(c(0, rep(1L, 9), 0)))
+})
