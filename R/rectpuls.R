@@ -35,7 +35,7 @@
 #' 
 #' @return Rectangular pulse of unit amplitude, returned as a vector.
 #' 
-#' @seealso pulstran
+#' @seealso \code{\link{pulstran}}
 #' 
 #' @examples
 #'
@@ -54,7 +54,7 @@
 #' ##       ylab = "Amplitude", main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
 #' ##
 #' 
-#' @author Original Matlab/Octave code Copyright (C) 2000 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller
+#' @author Original Matlab/Octave code Copyright (C) 2000 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller.
 #' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export

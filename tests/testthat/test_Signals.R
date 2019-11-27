@@ -224,7 +224,7 @@ test_that("parameters to morlet() are correct", {
 # })
 #
 
-# # -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 # rectpuls()
 
 test_that("parameters to rectpuls() are correct", {
@@ -243,7 +243,7 @@ test_that("rectpuls() works correctly", {
   expect_that(rectpuls(-5:5, 9), equals(c(0, rep(1L, 9), 0)))
 })
 
-# # -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 # sawtooth()
 
 test_that("parameters to sawtooth() are correct", {
@@ -259,4 +259,23 @@ test_that("sawtooth() works correctly", {
   expect_that(sawtooth(0, 0), equals(1))
   expect_that(sawtooth(0, 1), equals(-1))
   expect_that(sawtooth(rep(0L, 10)), equals(rep(-1L, 10)))
+})
+
+# -----------------------------------------------------------------------
+# square()
+
+test_that("parameters to square() are correct", {
+  expect_error(square())
+  expect_error(square(NULL, 1))
+  expect_error(square(0:10, -1))
+  expect_error(square(0:10, 150))
+  expect_error(square(0:10, 1, 3))
+  expect_error(square(0:10, 1i))
+})
+
+test_that("square() works correctly", {
+  expect_that(square(0, 0), equals(-1))
+  expect_that(square(0, 1), equals(1))
+  expect_that(square(rep(0L, 10)), equals(rep(1L, 10)))
+  expect_that(square(1:12, 50), equals(rep(c(rep(1,3), rep(-1, 3)), 2)))
 })

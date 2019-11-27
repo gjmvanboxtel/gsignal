@@ -43,9 +43,9 @@ plot(t, y, type="l", xlab = "Time", ylab = "Amplitude")
 
 }
 \seealso{
-pulstran
+\code{\link{pulstran}}
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2000 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller
+Original Matlab/Octave code Copyright (C) 2000 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller.
 Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }
