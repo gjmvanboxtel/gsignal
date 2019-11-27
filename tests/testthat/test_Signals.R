@@ -242,3 +242,21 @@ test_that("rectpuls() works correctly", {
   expect_that(rectpuls(-1:1), equals(c(0, 1, 0)))
   expect_that(rectpuls(-5:5, 9), equals(c(0, rep(1L, 9), 0)))
 })
+
+# # -----------------------------------------------------------------------
+# sawtooth()
+
+test_that("parameters to sawtooth() are correct", {
+  expect_error(sawtooth())
+  expect_error(sawtooth(NULL, 0.1))
+  expect_error(sawtooth(0:10, -1))
+  expect_error(sawtooth(0:10, 2))
+  expect_error(sawtooth(0:10, 1, 3))
+  expect_error(sawtooth(0:10, 1i))
+})
+
+test_that("sawtooth() works correctly", {
+  expect_that(sawtooth(0, 0), equals(1))
+  expect_that(sawtooth(0, 1), equals(-1))
+  expect_that(sawtooth(rep(0L, 10)), equals(rep(-1L, 10)))
+})
