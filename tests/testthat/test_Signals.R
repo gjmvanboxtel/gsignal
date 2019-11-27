@@ -279,3 +279,20 @@ test_that("square() works correctly", {
   expect_that(square(rep(0L, 10)), equals(rep(1L, 10)))
   expect_that(square(1:12, 50), equals(rep(c(rep(1,3), rep(-1, 3)), 2)))
 })
+
+# -----------------------------------------------------------------------
+# tripuls()
+
+test_that("parameters to tripuls() are correct", {
+  expect_error(tripuls())
+  expect_error(tripuls(NULL, 1))
+  expect_error(tripuls(0:10, c(0,1)))
+  expect_error(tripuls(0:10, 1, -2))
+  expect_error(tripuls(0:10, 1, 2))
+  expect_error(tripuls(0:10, 1i))
+})
+
+test_that("tripuls() works correctly", {
+  expect_that(tripuls(0, 1), equals(1))
+  expect_that(tripuls(rep(0L, 10)), equals(rep(1L, 10)))
+})
