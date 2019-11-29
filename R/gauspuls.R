@@ -50,13 +50,12 @@
 #' plot(t, yi1, type="l", xlab = "Time", ylab = "Amplitude")
 #' lines(t, yi2, col = "red")
 #' 
-#' ## uncomment this example when pulstran() is ready 
-#' # fs <- 11025  # arbitrary sample rate
-#' # f0 <- 100    # pulse train sample rate
-#' # x <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), "gauspuls")
-#' # plot (0:(length(x)-1) * 1000/fs, x, type="l",
-#' #        xlab = "Time (ms)", ylab = "Amplitude",
-#' #       main = "Gaussian pulse train ,at 10 ms intervals")
+#' fs <- 11025  # arbitrary sample rate
+#' f0 <- 100    # pulse train sample rate
+#' x <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), "gauspuls")
+#' plot (0:(length(x)-1) * 1000/fs, x, type="l",
+#'       xlab = "Time (ms)", ylab = "Amplitude",
+#'       main = "Gaussian pulse train at 10 ms intervals")
 #'
 #' @author Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, 
 #' Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -65,7 +64,7 @@
 
 gauspuls <- function (t, fc = 1e3, bw = 0.5) {
   
-  if (!isPosscal(fc)) stop ("n must be a non-negative real scalar")
+  if (!isPosscal(fc)) stop ("fc must be a non-negative real scalar")
   if (!isPosscal(bw) || bw <= 0) stop ("bw must be a positive real scalar")
 
   fv <- -(bw^2 * fc^2) / (8 * log (10 ^ (-6/20)))

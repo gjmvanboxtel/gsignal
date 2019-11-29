@@ -21,15 +21,15 @@ an optional gain factor to each delayed evaluation by specifying \code{d} as a t
 column 1 and associated gain in column 2. If you specify \code{d} as a vector, the values are interpreted as delays only.}
 
 \item{func}{Continuous function used to generate a pulse train based on its samples, specified as 'rectpuls', 'gauspuls',
-'tripuls', or a function handle. If you use \code{func} as a function handle, you can pass the function parameters as follows:
-\code{y <- pulstran(t, d, 'gauspuls', 10e3, 0.5)}. This creates a pulse train using a 10 kHz Gaussian pulse with 50% bandwidth.
-Alternatively, \code{func} can be a prototype function, specified as a vector. The interval of the function is given by
-\code{[0, (length(p) - 1) / fs]}, and its samples are identically zero outside this interval. By default, linear interpolation
+'tripuls', or a function handle. If you use \code{func} as a function handle, you can pass the function parameters as follows:\cr
+\code{y <- pulstran(t, d, 'gauspuls', 10e3, bw = 0.5)}.\cr This creates a pulse train using a 10 kHz Gaussian pulse with 50\% bandwidth.
+Alternatively, \code{func} can be a prototype function, specified as a vector. The interval of the function \code{0}
+to \code{(length(p) - 1) / fs}, and its samples are identically zero outside this interval. By default, linear interpolation
 is used for generating delays.}
 
 \item{fs}{Sample rate in Hz, specified as a real scalar.}
 
-\item{method}{Interpolation method, specified as one of the options in this table:
+\item{method}{Interpolation method, specified as one of the following options:
 \itemize{
   \item{'linear' (default). Linear interpolation. The interpolated value at a query point is based on linear interpolation
     of the values at neighboring grid points in each respective dimension. This is the default interpolation method.}
@@ -40,7 +40,8 @@ is used for generating delays.}
   \item{'spline'. Spline interpolation using not-a-knot end conditions. The interpolated value at a query point is based
     on a cubic interpolation of the values at neighboring grid points in each respective dimension.}
 }
-Interpolation is performed by the \code{interp1()} function (library \code{pracma}).}
+Interpolation is performed by the \code{interp1()} function (library \code{pracma}), and any interpolation method accepted
+by the function \code{interp1} can be specified here.}
 
 \item{...}{Further arguments passed to \code{func}.}
 }
@@ -62,14 +63,90 @@ The interpolation method defaults to linear, but it can be any interpolation met
 }
 \examples{
 
-fs <- 11025                   # arbitrary sample rate
-f0 <- 100                     # pulse train sample rate
-w <- 0.003                    # pulse width of 3 milliseconds
-t <- seq(0, 0.1, 1/fs)        # define sample times
-d <- seq(0,0.1, 1/f0)         # define pulse times
-x <- pulstran(t, d, 'rectpuls', w)
-plot((0:length(x)-1)*1000/fs, x, type = "l", ylab = "amplitude", xlab = "time (ms)",
-    main = "rectpuls")
+## periodic rectangular pulse
+t <- seq(0, 60, 1/1e3)
+d <- cbind(seq(0, 60, 2), sin(2 * pi * 0.05 * seq(0, 60, 2)))
+y <- pulstran(t, d, 'rectpuls')
+plot(t, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
+     main = "Periodic rectangular pulse")
+
+## assymetric sawtooth waveform
+fs <- 1e3
+t <- seq(0, 1, 1/fs)
+d <- seq(0, 1, 1/3)   
+x <- tripuls(t, 0.2, -1)
+y <- pulstran(t, d, x, fs)
+plot(t, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
+     main = "Asymmetric sawtooth waveform")
+     
+## Periodic Gaussian waveform
+fs <- 1e7
+tc <- 0.00025 
+t <- seq(-tc, tc, 1/fs) 
+x <- gauspuls(t, 10e3, 0.5)
+plot(t, x, type="l", xlab = "Time (s)", ylab = "Waveform", 
+     main = "Gaussian pulse")
+ts <- seq(0, 0.025, 1/50e3)
+d <- cbind(seq(0, 0.025, 1/1e3), sin(2 * pi * 0.1 * (0:25)))
+y <- pulstran(ts, d, x, fs)
+plot(ts, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
+     main = "Gaussian pulse train")
+     
+# Custom pulse trains
+fnx <- function(x, fn) sin(2 * pi * fn * x) * exp(-fn * abs(x))
+ffs <- 1000
+tp <- seq(0, 1, 1/ffs)
+pp <- fnx(tp, 30)
+plot(tp, pp, type = "l",xlab = 'Time (s)', ylab = 'Waveform',
+     main = "Custom pulse")
+fs <- 2e3
+t <- seq(0, 1.2, 1/fs)
+d <- seq(0, 1, 1/3)
+dd <- cbind(d, 4^-d)
+z <- pulstran(t, dd, pp, ffs)
+plot(t, z, type = "l", xlab = "Time (s)", ylab = "Waveform",
+     main = "Custom pulse train")
+
+## Generate the pulse train again, but now use the generating 
+## function as an input argument. Include the frequency and damping
+## parameter in the function call. In this case, pulstran generates the pulse
+## so that it is centered about zero.
+y <- pulstran(t, dd, 'fnx', fn = 30)
+plot(t, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
+     main = "Custom pulse train")
+
+## Change Interpolation Method with Custom Pulse
+## Generate a custom exponentially decaying sawtooth waveform of frequency 0.25 Hz.
+## The generating function has a second input argument that specifies a single
+## value for the sawtooth frequency and the damping factor. Display a generated
+## pulse, sampled at 0.1 kHz for 1 second, with a frequency and damping value equal to 50.
+
+fnx <- function (x, fn) sawtooth(2 * pi * fn * 0.25 * x) * exp(-2 * fn * x^2)
+fs <- 100
+t <- seq(0, 1, 1/fs)
+pp <- fnx(t, 50)
+plot(t, pp, type = "l", xlab = "Time (s)", ylab = "Waveform")
+
+## Use the pulstran function to generate a train of custom pulses.
+## The train is sampled at 0.1 kHz for 125 seconds. The pulses occur every 25 seconds
+## and have exponentially decreasing amplitudes. Specify the generated pulse as a
+## prototype. Generate three pulse trains using the default linear interpolation method,
+## nearest neighbor interpolation and piecewise cubic interpolation.
+## Compare the pulse trains on a single plot.
+d <- cbind(seq(0, 125, 25), exp(-0.015 * seq(0, 125, 25)))
+ffs <- 100
+tp <- seq(0, 125, 1/ffs)
+
+r <- pulstran(tp, d, pp)
+y <- pulstran(tp, d, pp, method = 'nearest')
+q <- pulstran(tp, d, pp, method = 'spline')
+plot(tp, r, type = "l", xlab = "Time (s)", ylab = "Waveform")
+lines(tp, y, col=2)
+lines(tp, q, col=3)
+legend ("bottomright", lty=1,
+        legend=c("linear", "nearest neighbor", "spline"),
+        col=1:3)
+
   
 }
 \author{

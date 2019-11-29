@@ -29,17 +29,15 @@ This is useful with the function \code{pulstran} for generating a series of puls
 fs <- 10e3
 t <- seq(-0.1, 0.1, 1/fs)
 w <- 20e-3
-y = rectpuls(t, w)
+y <- rectpuls(t, w)
 plot(t, y, type="l", xlab = "Time", ylab = "Amplitude")
 
-## Uncomment this when pulstran function is ready
-## fs <- 11025  # arbitrary sample rate
-## f0 <- 100    # pulse train sample rate
-## w <- 0.3/f0  # pulse width 1/10th the distance between pulses
-## y <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), "rectpuls", w)
-## plot (seq(0, length(y)-1) * 1000/fs, y, xlab = "Time (ms)",
-##       ylab = "Amplitude", main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
-##
+fs <- 11025  # arbitrary sample rate
+f0 <- 100    # pulse train sample rate
+w <- 0.3/f0  # pulse width 1/10th the distance between pulses
+y <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), 'rectpuls', w = w)
+plot (seq(0, length(y)-1) * 1000/fs, y, type ="l", xlab = "Time (ms)",
+      ylab = "Amplitude", main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
 
 }
 \seealso{

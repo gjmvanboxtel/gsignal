@@ -40,13 +40,12 @@ yi2 <- gauspuls(t, 0.1, 2)
 plot(t, yi1, type="l", xlab = "Time", ylab = "Amplitude")
 lines(t, yi2, col = "red")
 
-## uncomment this example when pulstran() is ready 
-# fs <- 11025  # arbitrary sample rate
-# f0 <- 100    # pulse train sample rate
-# x <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), "gauspuls")
-# plot (0:(length(x)-1) * 1000/fs, x, type="l",
-#        xlab = "Time (ms)", ylab = "Amplitude",
-#       main = "Gaussian pulse train ,at 10 ms intervals")
+fs <- 11025  # arbitrary sample rate
+f0 <- 100    # pulse train sample rate
+x <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), "gauspuls")
+plot (0:(length(x)-1) * 1000/fs, x, type="l",
+      xlab = "Time (ms)", ylab = "Amplitude",
+      main = "Gaussian pulse train at 10 ms intervals")
 
 }
 \author{

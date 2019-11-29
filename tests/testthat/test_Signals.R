@@ -217,12 +217,21 @@ test_that("parameters to morlet() are correct", {
 # -----------------------------------------------------------------------
 # pulstran()
 
-# test_that("parameters to pulstran() are correct", {
-#   expect_error(pulstran())
-#   expect_error(pulstran(seq(0, 0.1, 0.001)))
-#   expect_error(pulstran(d = seq(0, 0.1, 0.01)))
-# })
-#
+test_that("parameters to pulstran() are correct", {
+  expect_error(pulstran())
+  expect_error(pulstran(NULL))
+  expect_error(pulstran(1, 2, 3, 4, 5, 6))
+  expect_error(pulstran(d = seq(0, 0.1, 0.01)))
+})
+
+test_that("rectpuls() works correctly", {
+  t <- seq(0, 1, 0.01)
+  d <- seq(0, 1, 0.1)
+  expect_that(pulstran(NA, d, 'sin'), equals(NA_integer_))
+  expect_that(pulstran(t, NULL, 'sin'), equals(rep(0L, length(t))))
+  expect_that(pulstran(seq(0, 0.1, 0.001)), equals(rep(0L, length(seq(0, 0.1, 0.001)))))
+  expect_that(length(pulstran(t, d, 'sin')), equals(length(t)))
+})
 
 # -----------------------------------------------------------------------
 # rectpuls()
