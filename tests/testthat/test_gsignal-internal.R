@@ -2,6 +2,9 @@
 library(gsignal)
 library(testthat)
 
+# -----------------------------------------------------------------------
+# isScalar()
+
 test_that("parameters to isScalar() are correct", {
   expect_error(isScalar())
   expect_error(isScalar(1, 2))
@@ -19,12 +22,15 @@ test_that("isScalar() returns TRUE or FALSE", {
   expect_equal(isScalar(complex(real = 1, imaginary = 1)), TRUE)
 })
 
+# -----------------------------------------------------------------------
+# isPosscal()
+
 test_that("parameters to isPosscal() are correct", {
   expect_error(isPosscal())
   expect_error(isPosscal(1, 2))
 })
 
-test_that("isScalar returns TRUE or FALSE", {
+test_that("isPosscal returns TRUE or FALSE", {
   expect_equal(isPosscal(1), TRUE)
   expect_equal(isPosscal(-1), FALSE)
   expect_equal(isPosscal(c(1,2)), FALSE)
@@ -34,6 +40,9 @@ test_that("isScalar returns TRUE or FALSE", {
   expect_equal(isPosscal(complex(real = 1, imaginary = 1)), FALSE)
   expect_equal(isPosscal(Re(complex(real = 1, imaginary = 1))), TRUE)
 })
+
+# -----------------------------------------------------------------------
+# isWhole()
 
 test_that("parameters to isWhole() are correct", {
   expect_error(isWhole())
@@ -54,6 +63,9 @@ test_that("isWhole() returns TRUE or FALSE", {
   expect_equal(isWhole(Re(complex(real = 1, imaginary = 1))), TRUE)
 })
 
+# -----------------------------------------------------------------------
+# unfactor()
+
 test_that("parameters to unfactor() are correct", {
   expect_error(unfactor())
   expect_error(unfactor(1, 2))
@@ -64,4 +76,17 @@ test_that("unfactor returns integer levels of factor", {
   expect_equal(unfactor(as.factor(c(1,2,3))), c(1,2,3))
   expect_equal(unfactor(1), NULL)
   expect_equal(unfactor("test"), NULL)
+})
+
+# -----------------------------------------------------------------------
+# sinc()
+
+test_that("parameters to sinc() are correct", {
+  expect_error(sinc())
+  expect_error(sinc(1, 2))
+})
+
+test_that("sinc() returns correct values", {
+  expect_equal(sinc(0), 1L)
+  expect_equal(round(sum(sinc(1:1e6)), 4), round((pi - 1)/2, 4))
 })

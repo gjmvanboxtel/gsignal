@@ -39,5 +39,8 @@ isWhole <- function(x, tol = .Machine$double.eps^0.5)  !(is.null(x) || is.charac
 # convert factor to numeric
 unfactor <- function (f) if (is.factor(f)) as.numeric(levels(f)[as.integer(f)]) else NULL
 
+# sinc function
+sinc <- function (x) ifelse(x == 0, 1, sin(x) / x)
+
 # # compute next power of 2 
 # nextpow <- function (x) 2^ceiling(log2(x))

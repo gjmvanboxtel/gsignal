@@ -162,6 +162,15 @@ test_that("parameters to cmorwavf() are correct", {
   expect_error(cmorwavf(fc = 0))
 })
 
+test_that("cmorwavf() works correctly", {
+  expect_that(round(mean(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), equals(0))
+  expect_that(round(mean(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), equals(0))
+  expect_lt(max(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 1L)
+  expect_lt(max(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 1L)
+  expect_gt(min(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), -1L)
+  expect_gt(min(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), -1L)
+})
+
 # -----------------------------------------------------------------------
 # diric()
 
@@ -304,4 +313,21 @@ test_that("parameters to tripuls() are correct", {
 test_that("tripuls() works correctly", {
   expect_that(tripuls(0, 1), equals(1))
   expect_that(tripuls(rep(0L, 10)), equals(rep(1L, 10)))
+})
+
+# -----------------------------------------------------------------------
+# shanwavf()
+
+test_that("parameters to shanwavf() are correct", {
+  expect_error(shanwavf(n = -1))
+  expect_error(shanwavf(n = 2.5))
+  expect_error(shanwavf(fb = -1))
+  expect_error(shanwavf(fb = 0))
+  expect_error(shanwavf(fc = -1))
+  expect_error(shanwavf(fc = 0))
+})
+
+test_that("shanwavf() works correctly", {
+  expect_that(round(mean(Re(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
+  expect_that(round(mean(Im(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
 })
