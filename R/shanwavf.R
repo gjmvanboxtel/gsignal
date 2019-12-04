@@ -22,7 +22,7 @@
 
 #' Complex Shannon Wavelet
 #' 
-#' Compute the Complex Shannon wavelet#' 
+#' Compute the Complex Shannon wavelet
 #' 
 #' The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the complex Shannon wavelet.
 #' The complex Shannon wavelet is defined by a bandwidth parameter \code{fb}, a wavelet center frequency
@@ -53,7 +53,6 @@
 #' 
 #' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@@gmail.com}.
 #' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#
 #' 
 #' @export
 

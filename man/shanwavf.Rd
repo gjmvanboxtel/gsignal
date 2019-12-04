@@ -20,7 +20,7 @@ A list containing 2 variables; \code{x}, the grid on which the complex Shannon w
 (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
 }
 \description{
-Compute the Complex Shannon wavelet#'
+Compute the Complex Shannon wavelet
 }
 \details{
 The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the complex Shannon wavelet.

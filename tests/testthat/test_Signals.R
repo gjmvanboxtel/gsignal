@@ -331,3 +331,77 @@ test_that("shanwavf() works correctly", {
   expect_that(round(mean(Re(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
   expect_that(round(mean(Im(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
 })
+
+# -----------------------------------------------------------------------
+# shiftdata()
+
+test_that("parameters to shiftdata() are correct", {
+  expect_error(shiftdata())
+  expect_error(shiftdata(1, 2, 3))
+  expect_error(shiftdata(1, 2.5))
+  expect_error(shiftdata(1, 2i))
+  expect_error(shiftdata(1:5, 2))
+  expect_error(shiftdata(array(1:24, c(2,3)), 3))
+})
+
+test_that("shiftdata() works correctly", {
+  sd <- shiftdata(matrix(1:9, 3, 3, byrow = TRUE), 2)
+  expect_that(sd$x, equals(matrix(c(1, 4, 7, 2, 5, 8, 3, 6, 9), 3, 3, byrow = TRUE)))
+  expect_that(sd$perm, equals(c(2,1)))
+  expect_that(sd$nshifts, equals(NA))
+  
+  sd <- shiftdata(array(c(27, 63, 67, 42, 48, 74, 11, 5, 93, 15, 34, 70, 23, 60, 54, 81, 28, 38), c(3, 3, 2)), 2)
+  expect_that(sd$x, equals(array(c(27, 42, 11, 63, 48, 5, 67, 74, 93, 15, 23, 81, 34, 60, 28, 70, 54, 38), c(3, 3, 2))))
+  expect_that(sd$perm, equals(c(2, 1, 3)))
+  expect_that(sd$nshifts, equals(NA))
+
+  X <- array(round(runif(4 * 4 * 4 * 4) * 100), c(4, 4, 4, 4))
+  Y <- shiftdata(X, 3)
+  T <- NULL
+  for (i in 1:3) {
+    for (j in 1:3) {
+      for (k in 1:2) {
+        for (l in 1:2) {
+          T <- c(T, Y$x[k, i, j, l] - X[i, j, k ,l])
+        }
+      }
+    }
+  }
+  expect_that(T, equals(rep(0L, length(T))))
+})
+
+# -----------------------------------------------------------------------
+# unshiftdata()
+
+test_that("parameters to unshiftdata() are correct", {
+  expect_error(unshiftdata())
+  expect_error(unshiftdata(1, 2, 3))
+  expect_error(unshiftdata(1))
+  expect_error(unshiftdata(2i))
+  expect_error(unshiftdata(list(x = 1:5, perm = 1, nshifts = 0)))
+  expect_error(unshiftdata(list(x=array(1:5), perm = 2i, nshifts = 0)))
+  expect_error(unshiftdata(list(x=array(1:5), perm = NULL, nshifts = NULL)))
+})
+
+test_that("unshiftdata() works correctly", {
+  x <- 1:5
+  sd <- shiftdata(x)
+  x2 <- unshiftdata(sd)
+  expect_that(array(x), equals(x2))
+  
+  x <- array(round(runif(3 * 3) * 100), c(3, 3))
+  sd <- shiftdata(x, 2)
+  x2 <- unshiftdata(sd)
+  expect_that(x, equals(x2))
+  
+  x <- array(round(runif(4 * 4 * 4 * 4) * 100), c(4, 4, 4, 4))
+  sd <- shiftdata(x, 3)
+  x2 <- unshiftdata(sd)
+  expect_that(x, equals(x2))
+
+  x <- array(round(runif(1 * 1 * 3 * 4) * 100), c(1, 1, 3, 4))
+  sd <- shiftdata(x)
+  x2 <- unshiftdata(sd)
+  expect_that(x, equals(x2))
+  
+})
