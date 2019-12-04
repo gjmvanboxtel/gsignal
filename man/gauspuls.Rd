@@ -49,6 +49,6 @@ plot (0:(length(x)-1) * 1000/fs, x, type="l",
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, 
+Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, 
 Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

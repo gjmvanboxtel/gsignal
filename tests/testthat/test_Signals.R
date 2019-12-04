@@ -405,3 +405,20 @@ test_that("unshiftdata() works correctly", {
   expect_that(x, equals(x2))
   
 })
+
+# -----------------------------------------------------------------------
+# sigmoid_train()
+
+test_that("parameters to sigmoid_train() are correct", {
+  expect_error(sigmoid_train())
+  expect_error(sigmoid_train(1:10, NULL, NULL))
+  expect_error(sigmoid_train(1:10, c(1,2), NULL))
+  expect_error(sigmoid_train(1:10, rbind(c(1,2),1), NULL))
+  expect_error(sigmoid_train(1:10, rbind(c(1,2),1), 2i))
+})
+
+test_that("sigmoid_train() works correctly", {
+  st <- sigmoid_train(1:10, rbind(c(2,3)), 1)
+  expect_that(st$y, equals(st$s))
+})
+

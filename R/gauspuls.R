@@ -57,7 +57,7 @@
 #'       xlab = "Time (ms)", ylab = "Amplitude",
 #'       main = "Gaussian pulse train at 10 ms intervals")
 #'
-#' @author Original Matlab/Octave code Copyright (C) 2007 Slvain Pelissier, 
+#' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, 
 #' Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
