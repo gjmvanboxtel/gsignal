@@ -55,15 +55,15 @@ The chirp can have one of three shapes:
 # from bottom left to top right.
 t <- seq(0, 5, 0.001)
 y <- chirp (t)
-#specgram (y, 256, 1000)
+specgram (y, 256, 1000)
 
 # Shows a quadratic chirp of 400 Hz at t=0 and 100 Hz at t=10
 # Time goes from -2 to 15 seconds.
-#specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
+specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
 
 # Shows a logarithmic chirp of 200 Hz at t=0 and 500 Hz at t=2
 # Time goes from 0 to 5 seconds at 8000 Hz.
-#specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), Fs = 8000)
+specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000)
 
 }
 \author{

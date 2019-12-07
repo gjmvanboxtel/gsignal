@@ -422,3 +422,22 @@ test_that("sigmoid_train() works correctly", {
   expect_that(st$y, equals(st$s))
 })
 
+# -----------------------------------------------------------------------
+# specgram()
+
+test_that("parameters to specgram() are correct", {
+  expect_error(specgram())
+  expect_error(specgram(matrix(1:10, 2, 5)))
+  expect_error(specgram(x = 1:10, n = 4.1))
+  expect_warning(specgram(x = 1:10, n = 11))
+  expect_warning(specgram(x = 1:10, n = 2, window = 1:11))
+  expect_error(specgram(x = 1:10, n = 2, overlap = 3))
+})
+
+test_that("buffer() tests returning only y are correct", {
+  sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'), plot = FALSE)
+  expect_that(length(sp$f), equals(128))
+  expect_that(length(sp$t), equals(131))
+  expect_that(nrow(sp$S), equals(length(sp$f)))
+  expect_that(ncol(sp$S), equals(length(sp$t)))
+})

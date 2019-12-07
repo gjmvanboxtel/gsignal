@@ -8,7 +8,7 @@
 \description{
 I wanted to learn more about signal analysis, so I thought it would be useful to study
     the the Matlab/Octave signal package. Gsignal is my own R implementation of the Octave signal package.
-    This allowed me to play around with and experiment in R.
+    This allowed me to play around and experiment in R.
 }
 \details{
 gsignal is my own implementation of the Matlab/Octave package signal
