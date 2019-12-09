@@ -434,10 +434,60 @@ test_that("parameters to specgram() are correct", {
   expect_error(specgram(x = 1:10, n = 2, overlap = 3))
 })
 
-test_that("buffer() tests returning only y are correct", {
+test_that("specgram() works correctly", {
   sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'), plot = FALSE)
   expect_that(length(sp$f), equals(128))
   expect_that(length(sp$t), equals(131))
   expect_that(nrow(sp$S), equals(length(sp$f)))
   expect_that(ncol(sp$S), equals(length(sp$t)))
+})
+
+# -----------------------------------------------------------------------
+# uencode()
+
+test_that("parameters to uencode() are correct", {
+  expect_error(uencode())
+  expect_error(uencode(1))
+  expect_error(uencode(1, 2, 3, 4, 5))
+  expect_error(uencode(1, 100))
+  expect_error(uencode(1, 4, 0))
+  expect_error(uencode(1, 4, -1))
+  expect_error(uencode(1, 4, 2, 'invalid'))
+})
+
+test_that("uencode() works correctly", {
+  expect_that(uencode(seq(-3, 3, 0.5), 2), equals(c(0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3)))
+  expect_that(uencode(seq(-4, 4, 0.5), 3, 4), equals(c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7)))
+  expect_that(uencode(seq(-8, 8, 0.5), 4, 8, FALSE),
+              equals(c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15)))
+  expect_that(uencode(seq(-8, 8, 0.5), 4, 8, TRUE),
+              equals(c(-8, -8, -7, -7, -6, -6, -5, -5, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7)))
+  expect_that(uencode(matrix(c(-2, 1, -1, 2), 2, 2), 2), equals(matrix(c(0, 3, 0, 3), 2, 2)))
+  expect_that(uencode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
+              equals(matrix(rep(3, 9), 3, 3)))
+})
+
+# -----------------------------------------------------------------------
+# udecode()
+
+test_that("parameters to udecode() are correct", {
+  expect_error(udecode())
+  expect_error(udecode(1))
+  expect_error(udecode(1, 2, 3, 4, 5))
+  expect_error(udecode(1, 100))
+  expect_error(udecode(1, 4, 0))
+  expect_error(udecode(1, 4, -1))
+  expect_error(udecode(1, 4, 2, 'invalid'))
+})
+
+test_that("udecode() works correctly", {
+  expect_that(udecode(c(rep(0, 5), 1, 2, rep(3, 6)), 2), equals(c(-1, -1, -1, -1, -1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)))
+  expect_that(udecode(0:10, 2, 1, TRUE), equals(c(-1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)))
+  expect_that(udecode(0:10, 2, 1, FALSE), equals(c(-1, -0.5, 0, 0.5, -1, -0.5, 0, 0.5, -1, -0.5, 0)))
+  expect_that(udecode(-4:3, 3, 2),  equals(c(-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5)))
+  expect_that(udecode(-7:7, 3, 2, TRUE), equals(c(-2, -2, -2, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.5, 1.5, 1.5, 1.5)))
+  expect_that(udecode(-7:7, 3, 2, FALSE), equals(c(0.5, 1, 1.5, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, -2, -1.5, -1, -0.5)))
+  expect_that(udecode(matrix(c(-2, 1, -1, 2), 2, 2), 2), equals(matrix(c(-1, 0.5, -0.5, 0.5), 2, 2)))
+  expect_that(udecode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
+              equals(matrix(complex(real = c(-0.5, 0.0, rep(0.5, 7)), imaginary = c(rep(-0.5, 3), rep(0, 3), rep(0.5,3))), 3, 3)))
 })
