@@ -115,9 +115,6 @@
 specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n), 
                       overlap = ceiling(n / 2), plot = TRUE, ...) {
   
-  #remove later  
-  hanning <- function (n) 0.5 - 0.5 * cos(2 * pi * (0:(n - 1)) / (n-1))
-  
   if (!is.numeric(x) || !is.vector(x)) stop("x must be a numeric vector")
   if (!isPosscal (n) || !isWhole(n)) stop('n must be a positive integer')
   if (n > length(x)) {
