@@ -130,3 +130,61 @@ test_that("blackman() tests are correct", {
   expect_that(A[N / 2 + 1], equals(1L))
   
 })
+
+# -----------------------------------------------------------------------
+# barthannwin()
+
+test_that("parameters to barthannwin() are correct", {
+  expect_error(barthannwin())
+  expect_error(barthannwin(0.5))
+  expect_error(barthannwin(-1L))
+  expect_error(barthannwin(array(1L, c(1, 4))))
+  expect_error(barthannwin(1, 2))
+})
+
+test_that("barthannwin() tests are correct", {
+  expect_that(barthannwin(1), equals(1))
+  expect_that(barthannwin(2), equals(c(0, 0)))
+  expect_that(rev(barthannwin(15)), equals(barthannwin(15)))
+  expect_that(rev(barthannwin(16)), equals(barthannwin(16)))
+})
+
+# -----------------------------------------------------------------------
+# blackmanharris()
+
+test_that("parameters to blackmanharris() are correct", {
+  expect_error(blackmanharris())
+  expect_error(blackmanharris(0.5))
+  expect_error(blackmanharris(-1L))
+  expect_error(blackmanharris(array(1L, c(1, 4))))
+  expect_error(blackmanharris(1, 'invalid'))
+})
+
+test_that("blackmanharris() tests are correct", {
+  expect_that(blackmanharris(1), equals(1))
+  expect_that(blackmanharris(2), equals(c(6e-5, 6e-5)))
+  expect_that(rev(blackmanharris(15)), equals(blackmanharris(15)))
+  expect_that(rev(blackmanharris(16)), equals(blackmanharris(16)))
+  expect_that(blackmanharris(15), equals(blackmanharris(15, 'symmetric')))
+  expect_that(blackmanharris(16)[1:15], equals(blackmanharris(15, 'periodic')))
+})
+
+# -----------------------------------------------------------------------
+# blackmannuttall()
+
+test_that("parameters to blackmannuttall() are correct", {
+  expect_error(blackmannuttall())
+  expect_error(blackmannuttall(0.5))
+  expect_error(blackmannuttall(-1L))
+  expect_error(blackmannuttall(array(1L, c(1, 4))))
+  expect_error(blackmannuttall(1, 'invalid'))
+})
+
+test_that("blackmannuttall() tests are correct", {
+  expect_that(blackmannuttall(1), equals(1))
+  expect_that(blackmannuttall(2), equals(c(0.0003628, 0.0003628)))
+  expect_that(rev(blackmannuttall(15)), equals(blackmannuttall(15)))
+  expect_that(rev(blackmannuttall(16)), equals(blackmannuttall(16)))
+  expect_that(blackmannuttall(15), equals(blackmannuttall(15, 'symmetric')))
+  expect_that(blackmannuttall(16)[1:15], equals(blackmannuttall(15, 'periodic')))
+})
