@@ -100,3 +100,33 @@ test_that("triang() tests are correct", {
   x <- bartlett(5)
   expect_that(triang(3), equals(x[2:4]))
 })
+
+# -----------------------------------------------------------------------
+# blackman()
+
+test_that("parameters to blackman() are correct", {
+  expect_error(blackman())
+  expect_error(blackman(0.5))
+  expect_error(blackman(-1L))
+  expect_error(blackman(array(1L, c(1, 4))))
+  expect_error(blackman(1, 'invalid'))
+})
+
+test_that("blackman() tests are correct", {
+  expect_that(blackman(1), equals(1))
+  expect_that(blackman(2), equals(c(0, 0)))
+  expect_that(rev(blackman(15)), equals(blackman(15)))
+  expect_that(rev(blackman(16)), equals(blackman(16)))
+  
+  N <- 9
+  A <- blackman(N)
+  expect_that(A[ceiling(N / 2)], equals(1L))
+  
+  expect_that(blackman(15), equals(blackman(15, 'symmetric')))
+  expect_that(blackman(16)[1:15], equals(blackman(15, 'periodic')))
+  
+  N <- 16
+  A <- blackman(N, 'periodic')
+  expect_that(A[N / 2 + 1], equals(1L))
+  
+})
