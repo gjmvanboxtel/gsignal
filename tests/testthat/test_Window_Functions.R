@@ -188,3 +188,76 @@ test_that("blackmannuttall() tests are correct", {
   expect_that(blackmannuttall(15), equals(blackmannuttall(15, 'symmetric')))
   expect_that(blackmannuttall(16)[1:15], equals(blackmannuttall(15, 'periodic')))
 })
+
+# -----------------------------------------------------------------------
+# barthannwin()
+
+test_that("parameters to barthannwin() are correct", {
+  expect_error(barthannwin())
+  expect_error(barthannwin(0.5))
+  expect_error(barthannwin(-1L))
+  expect_error(barthannwin(array(1L, c(1, 4))))
+  expect_error(barthannwin(1, 2))
+})
+
+test_that("barthannwin() tests are correct", {
+  expect_that(barthannwin(1), equals(1))
+  expect_that(barthannwin(2), equals(c(0, 0)))
+  expect_that(rev(barthannwin(15)), equals(barthannwin(15)))
+  expect_that(rev(barthannwin(16)), equals(barthannwin(16)))
+})
+
+# -----------------------------------------------------------------------
+# bohmanwin()
+
+test_that("parameters to bohmanwin() are correct", {
+  expect_error(bohmanwin())
+  expect_error(bohmanwin(0.5))
+  expect_error(bohmanwin(-1L))
+  expect_error(bohmanwin(array(1L, c(1, 4))))
+  expect_error(bohmanwin(1, 2))
+})
+
+test_that("bohmanwin() tests are correct", {
+  expect_that(bohmanwin(1), equals(1))
+  expect_that(bohmanwin(2), equals(rep(0, 2)))
+  expect_that(rev(bohmanwin(15)), equals(bohmanwin(15)))
+  expect_that(rev(bohmanwin(16)), equals(bohmanwin(16)))
+  expect_that(bohmanwin(15)[1], equals(0L))
+  expect_that(bohmanwin(15)[15], equals(0L))
+})
+
+# -----------------------------------------------------------------------
+# boxcar()
+
+test_that("parameters to boxcar() are correct", {
+  expect_error(boxcar())
+  expect_error(boxcar(0.5))
+  expect_error(boxcar(-1L))
+  expect_error(boxcar(array(1L, c(1, 4))))
+  expect_error(boxcar(1, 2))
+})
+
+test_that("boxcar() tests are correct", {
+  expect_that(boxcar(1), equals(1L))
+  expect_that(boxcar(2), equals(rep(1L, 2)))
+  expect_that(rev(boxcar(100)), equals(rep(1L, 100)))
+})
+
+# -----------------------------------------------------------------------
+# chebwin()
+
+test_that("parameters to chebwin() are correct", {
+  expect_error(chebwin())
+  expect_error(chabwin(0.5))
+  expect_error(chebwin(-1L))
+  expect_error(chebwin(array(1L, c(1, 4))))
+})
+
+test_that("boxcar() tests are correct", {
+  expect_that(chebwin(1), equals(1L))
+  expect_that(chebwin(2), equals(rep(1L, 2)))
+  expect_that(rev(chebwin(15)), equals(chebwin(15)))
+  expect_that(rev(chebwin(16)), equals(chebwin(16)))
+})
+
