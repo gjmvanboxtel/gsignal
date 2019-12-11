@@ -261,3 +261,60 @@ test_that("boxcar() tests are correct", {
   expect_that(rev(chebwin(16)), equals(chebwin(16)))
 })
 
+# -----------------------------------------------------------------------
+# flattopwin()
+
+test_that("parameters to flattopwin() are correct", {
+  expect_error(flattopwin())
+  expect_error(flattopwin(0.5))
+  expect_error(flattopwin(-1L))
+  expect_error(flattopwin(array(1L, c(1, 4))))
+  expect_error(flattopwin(1, 'invalid'))
+})
+
+test_that("flattopwin() tests are correct", {
+  expect_that(flattopwin(1), equals(1))
+  expect_that(flattopwin(2), equals(0.0042 / 4.6402 * rep(1L, 2)))
+  expect_that(rev(flattopwin(15)), equals(flattopwin(15)))
+  expect_that(rev(flattopwin(16)), equals(flattopwin(16)))
+  expect_that(flattopwin(15), equals(flattopwin(15, 'symmetric')))
+  expect_that(flattopwin(16)[1:15], equals(flattopwin(15, 'periodic')))
+})
+
+# -----------------------------------------------------------------------
+# gaussian()
+
+test_that("parameters to gaussian() are correct", {
+  expect_error(gaussian())
+  expect_error(gaussian(0.5))
+  expect_error(gaussian(-1L))
+  expect_error(gaussian(array(1L, c(1, 4))))
+  expect_error(gaussian(1, 2, 3))
+})
+
+test_that("gaussian() tests are correct", {
+  expect_that(gaussian(1), equals(1))
+  expect_that(rev(gaussian(15)), equals(gaussian(15)))
+  expect_that(rev(gaussian(16)), equals(gaussian(16)))
+})
+
+# -----------------------------------------------------------------------
+# gausswin()
+
+test_that("parameters to gausswin() are correct", {
+  expect_error(gausswin())
+  expect_error(gausswin(0.5))
+  expect_error(gausswin(-1L))
+  expect_error(gausswin(array(1L, c(1, 4))))
+  expect_error(gausswin(1, 2, 3))
+})
+
+test_that("gausswin() tests are correct", {
+  expect_that(gausswin(1), equals(1))
+  expect_that(gausswin(2), equals(c(exp(-3.125), exp(-3.125))))
+  expect_that(gausswin(3), equals(c(exp(-3.125), 1, exp(-3.125))))
+  expect_that(rev(gausswin(15)), equals(gausswin(15)))
+  expect_that(rev(gausswin(16)), equals(gausswin(16)))
+})
+
+
