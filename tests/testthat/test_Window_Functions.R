@@ -317,4 +317,102 @@ test_that("gausswin() tests are correct", {
   expect_that(rev(gausswin(16)), equals(gausswin(16)))
 })
 
+# -----------------------------------------------------------------------
+# kaiser()
 
+test_that("parameters to kaiser() are correct", {
+  expect_error(kaiser())
+  expect_error(kaiser(0.5))
+  expect_error(kaiser(-1L))
+  expect_error(kaiser(array(1L, c(1, 4))))
+  expect_error(kaiser(1, 2, 3))
+})
+
+test_that("kaiser() tests are correct", {
+  expect_that(kaiser(1), equals(1))
+  expect_that(round(kaiser(2), 4), equals(rep(0.9403, 2)))
+  expect_that(rev(kaiser(15)), equals(kaiser(15)))
+  expect_that(rev(kaiser(16)), equals(kaiser(16)))
+})
+
+# -----------------------------------------------------------------------
+# nuttallwin()
+
+test_that("parameters to nuttallwin() are correct", {
+  expect_error(nuttallwin())
+  expect_error(nuttallwin(0.5))
+  expect_error(nuttallwin(-1L))
+  expect_error(nuttallwin(array(1L, c(1, 4))))
+  expect_error(nuttallwin(1, 2))
+  expect_error(nuttallwin(1, 'invalid'))
+})
+
+test_that("nuttallwin() tests are correct", {
+  expect_that(nuttallwin(1), equals(1))
+  expect_that(nuttallwin(2), equals(c(0, 0)))
+  expect_that(rev(nuttallwin(15)), equals(nuttallwin(15)))
+  expect_that(rev(nuttallwin(16)), equals(nuttallwin(16)))
+  expect_that(nuttallwin(15), equals(nuttallwin(15, 'symmetric')))
+  expect_that(nuttallwin(16)[1:15], equals(nuttallwin(15, 'periodic')))
+})
+
+# -----------------------------------------------------------------------
+# parzenwin()
+
+test_that("parameters to parzenwin() are correct", {
+  expect_error(parzenwin())
+  expect_error(parzenwin(0.5))
+  expect_error(parzenwin(-1L))
+  expect_error(parzenwin(array(1L, c(1, 4))))
+  expect_error(parzenwin(1, 2))
+})
+
+test_that("parzenwin() tests are correct", {
+  expect_that(parzenwin(1), equals(1))
+  expect_that(parzenwin(2), equals(0.25 * rep(1, 2)))
+  expect_that(rev(parzenwin(15)), equals(parzenwin(15)))
+  expect_that(rev(parzenwin(16)), equals(parzenwin(16)))
+})
+
+# -----------------------------------------------------------------------
+# rectwin()
+
+test_that("parameters to rectwin() are correct", {
+  expect_error(rectwin())
+  expect_error(rectwin(0.5))
+  expect_error(rectwin(-1L))
+  expect_error(rectwin(array(1L, c(1, 4))))
+  expect_error(rectwin(1, 2))
+})
+
+test_that("rectwin() tests are correct", {
+  expect_that(rectwin(1), equals(1L))
+  expect_that(rectwin(2), equals(rep(1L, 2)))
+  expect_that(rev(rectwin(100)), equals(rep(1L, 100)))
+})
+
+# -----------------------------------------------------------------------
+# tukeywin()
+
+test_that("parameters to tukeywin() are correct", {
+  expect_error(tukeywin())
+  expect_error(tukeywin(0.5))
+  expect_error(tukeywin(-1L))
+  expect_error(tukeywin(array(1L, c(1, 4))))
+  expect_error(tukeywin(1, 2, 3))
+})
+
+test_that("tukeywin() tests are correct", {
+  expect_that(tukeywin(1, 0), equals(1L))
+  expect_that(tukeywin(1, 1), equals(1L))
+  expect_that(tukeywin(2, 0), equals(rep(1L, 2)))
+  expect_that(tukeywin(2, 1), equals(rep(0L, 2)))
+  expect_that(tukeywin(3, 0), equals(rep(1L, 3)))
+  expect_that(tukeywin(3, 1), equals(c(0, 1, 0)))
+  expect_that(tukeywin(4, 0), equals(rep(1L, 4)))
+  expect_that(tukeywin(4, 1), equals(c(0, 0.75, 0.75, 0)))
+  expect_that(tukeywin(5, 0), equals(rep(1L, 5)))
+  expect_that(tukeywin(5, 1), equals(c(0, 0.5, 1, 0.5, 0)))
+  expect_that(tukeywin(16, 0), equals(rectwin(16)))
+  expect_that(tukeywin(16, 1), equals(hann(16)))
+})
