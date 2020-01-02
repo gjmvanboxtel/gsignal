@@ -416,3 +416,25 @@ test_that("tukeywin() tests are correct", {
   expect_that(tukeywin(16, 0), equals(rectwin(16)))
   expect_that(tukeywin(16, 1), equals(hann(16)))
 })
+
+# -----------------------------------------------------------------------
+# welchwin()
+
+test_that("parameters to welchwin() are correct", {
+  expect_error(welchwin())
+  expect_error(welchwin(0.5))
+  expect_error(welchwin(1))
+  expect_error(welchwin(2, "symmatric"))
+  expect_error(welchwin(-1L))
+  expect_error(welchwin(array(1L, c(1, 4))))
+  expect_error(welchwin(1, 'invalid'))
+})
+
+test_that("welchwin() tests are correct", {
+  expect_that(welchwin(2, 'periodic'), equals(c(0,1)))
+  expect_that(welchwin(3, 'symmetric'), equals(c(0, 1, 0)))
+  expect_that(rev(welchwin(15)), equals(welchwin(15)))
+  expect_that(rev(welchwin(16)), equals(welchwin(16)))
+  expect_that(welchwin(15), equals(welchwin(15, 'symmetric')))
+  expect_that(welchwin(16)[1:15], equals(welchwin(15, 'periodic')))
+})
