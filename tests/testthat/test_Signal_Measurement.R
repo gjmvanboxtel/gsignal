@@ -62,3 +62,32 @@ test_that("peak2peak() tests are correct", {
   expect_equal(peak2peak(x), 4+8i)
 
 })
+
+# -----------------------------------------------------------------------
+# peak2rms()
+
+test_that("parameters to peak2rms() are correct", {
+  expect_error(peak2rms())
+  expect_error(peak2rms('invalid'))
+  expect_error(peak2rms(1, 2, 3))
+  expect_error(peak2rms(1, 1.5))
+  expect_error(peak2rms(1, -1))
+})
+
+test_that("peak2rms() tests are correct", {
+  
+  expect_equal(peak2rms(1), 1L)
+  expect_equal(peak2rms(-5), 1L)
+  
+  x <- c(1:5)
+  expect_equal(peak2rms(x), 5 / sqrt(11))
+  
+  x <- matrix(c(1,2,3, 100, 150, 200, 1000, 1500, 2000), 3, 3)
+  expect_equal(peak2rms(x), c(3/sqrt(14/3), 200/sqrt(72500/3), 2000/sqrt(7250000/3)))
+  expect_equal(peak2rms(x, 1), c(1000/sqrt(1010001/3), 1500/sqrt(2272504/3), 2000/sqrt(4040009/3)))
+  
+  x <- c(1+1i, 2+3i, 3+5i, 4+7i, 5+9i)
+  expect_equal(peak2rms(x), 0.776061-1.346036i, tolerance = 10e-7)
+  
+})
+

@@ -24,21 +24,19 @@ Compute the maximum-to-minimum difference of the input data \code{x}.
 The input \code{x} can be a vector, a matrix or an array. If the input is a vector, a single value is returned representing
 the maximum-to-minimum difference of the vector. If the input is a matrix or an array, a vector or an array of values is returned
 representing the maximum-to-minimum differences of the dimensions of \code{x} indicated by the \code{MARGIN} argument.
+
+Support for complex valued input is provided. In this case, the function \code{peak2peak} identifies the maximum
+and minimum in complex magnitude, and then subtracts the complex number with the minimum modulus from the complex number with the
+maximum modulus.
 }
 \note{
 This R implementation of the \code{peak2peak} function differs from the implementation of the \code{signal} package in Octave
-in the following ways:
-\enumerate{
-  \item The parameter \code{dim} in the Octave function is replaced here by the \code{MARGIN} argument, which is interpreted
-    as in the \code{apply} family of functions. That is, given a \code{r} by \code{c} matrix as input, 
-    specifying \code{MARGIN = 1} will result in a vector of length \code{r} containing the maximum-to-minimum differences of the
-    \code{r} rows, and specifying \code{MARGIN = 2} will result in a vector of length \code{c} containing the maximum-to-minimum
-    differences of the \code{c} columns. In Octave, by contrast, \code{dim = 1} will give a row vector containing the differences
-    over columns, and  \code{dim = 2} will give a column vector containing the differences over rows.
-  \item Unlike the Octave function, the present implementation provides support for complex valued input. In this case, the 
-    function \code{peak2peak} identifies the maximum and minimum in complex magnitude, and then subtracts the complex number
-    with the minimum modulus from the complex number with the maximum modulus.
-}
+in that he parameter \code{dim} in the Octave function is replaced here by the \code{MARGIN} argument, which is interpreted
+as in the \code{apply} family of functions. That is, given a \code{r} by \code{c} matrix as input, specifying \code{MARGIN = 1}
+will result in a vector of length \code{r} containing the maximum-to-minimum differences of the  \code{r} rows, and
+specifying \code{MARGIN = 2} will result in a vector of length \code{c} containing the maximum-to-minimum differences of 
+the \code{c} columns. In Octave, by contrast, \code{dim = 1} will give a row vector containing the differences over columns,
+and  \code{dim = 2} will give a column vector containing the differences over rows.
 }
 \examples{
 ## numeric vector

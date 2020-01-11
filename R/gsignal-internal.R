@@ -44,3 +44,6 @@ sinc <- function (x) ifelse(x == 0, 1, sin(x) / x)
 
 # # compute next power of 2 
 # nextpow <- function (x) 2^ceiling(log2(x))
+
+# compute root mean square
+rms <- function (x) sqrt(sum(x^2) / length(x))
