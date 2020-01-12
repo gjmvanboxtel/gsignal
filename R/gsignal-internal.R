@@ -19,6 +19,7 @@
 #
 # Version history
 # 20191029  GvB       Initial setup
+# 20200112  GvB       Added ssq() msq() rmsq()
 #
 #---------------------------------------------------------------------------------------------------------------------
 
@@ -31,19 +32,25 @@
 isScalar <- function(x) is.atomic(x) && length(x) == 1L
 
 # test if x is a positive scalar    
-isPosscal <- function (x) isScalar(x) && is.numeric(x) && x >= 0
+isPosscal <- function(x) isScalar(x) && is.numeric(x) && x >= 0
 
 # test if x is a whole number
 isWhole <- function(x, tol = .Machine$double.eps^0.5)  !(is.null(x) || is.character(x)) && abs(x - round(x)) < tol
 
 # convert factor to numeric
-unfactor <- function (f) if (is.factor(f)) as.numeric(levels(f)[as.integer(f)]) else NULL
+unfactor <- function(f) if (is.factor(f)) as.numeric(levels(f)[as.integer(f)]) else NULL
 
 # sinc function
-sinc <- function (x) ifelse(x == 0, 1, sin(x) / x)
+sinc <- function(x) ifelse(x == 0, 1, sin(x) / x)
+
+# sum of squares (assume input is a vector)
+ssq <- function(x) ifelse(is.complex(x), sum(Re(x * Conj(x))), sum(x * x))
+
+# mean sum of squares (assume input is a vector)
+msq <- function(x) ssq(x) / length(x)
+
+# root mean square (assume input is a vector)
+rmsq <- function(x) sqrt(msq(x))
 
 # # compute next power of 2 
 # nextpow <- function (x) 2^ceiling(log2(x))
-
-# compute root mean square
-rms <- function (x) sqrt(sum(x^2) / length(x))
