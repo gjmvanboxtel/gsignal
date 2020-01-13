@@ -32,3 +32,18 @@ test_that("detrend() tests are correct", {
   expect_true(all(abs(y) < 1e-10))
 })
 
+# -----------------------------------------------------------------------
+# ifft() and imvfft()
+
+test_that("parameters to ifft() are correct", {
+  expect_error(ifft())
+  expect_error(ifft('invalid'))
+  expect_error(ifft(1, 2))
+})
+
+test_that("ifft() tests are correct", {
+  expect_equal(ifft(stats::fft(1:5)), 1:5)
+  expect_equal(ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))), c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))
+  expect_equal(imvfft(stats::mvfft(matrix(1:20, 4, 5))), matrix(1:20, 4, 5))
+})
+
