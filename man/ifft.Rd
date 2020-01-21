@@ -13,24 +13,32 @@ imvfft(x)
 \item{x}{Real or complex vector, array, or matrix.}
 }
 \value{
-When \code{x} is a vector, the value computed and returned by \code{ifft} is the univariate inverse discrete Fourier transform 
-of the sequence of values in \code{x}. Specifically, \code{y <- ifft(z)} is defined as 
-\code{stats::fft(x, inverse = TRUE) / length(x)}.
-The \code{stats::fft} function called with \code{inverse = TRUE} replaces \eqn{\exp{-2 * pi...}} with \eqn{\exp{2 * pi}} in
-the definition of the discrete Fourier transform (see \code{\link[stats]{fft}}).
+When \code{x} is a vector, the value computed and returned by
+  \code{ifft} is the univariate inverse discrete Fourier transform of the
+  sequence of values in \code{x}. Specifically, \code{y <- ifft(x)} is
+  defined as \code{stats::fft(x, inverse = TRUE) / length(x)}. The
+  \code{stats::fft} function called with \code{inverse = TRUE} replaces
+  \code{exp(-2 * pi...)} with \code{exp(2 * pi)} in the definition of the
+  discrete Fourier transform (see \code{\link[stats]{fft}}).
 
-When \code{z} contains an array, \code{ifft} computes and returns the normalized inverse multivariate (spatial) transform.
-By contrast, \code{imvfft} takes a real or complex matrix as argument, and returns a similar shaped matrix, but with each column
-replaced by its normalized inverse discrete Fourier transform. This is useful for analyzing vector-valued series.
+When \code{x} contains an array, \code{ifft} computes and returns the
+normalized inverse multivariate (spatial) transform. By contrast,
+\code{imvfft} takes a real or complex matrix as argument, and returns a
+similar shaped matrix, but with each column replaced by its normalized
+inverse discrete Fourier transform. This is useful for analyzing
+vector-valued series.
 }
 \description{
-Computes the inverse Fast Fourier Transform that is compatible with Matlab/Octave.
+Computes the inverse Fast Fourier Transform that is compatible with
+Matlab/Octave.
 }
 \details{
-The \code{fft} function in the \code{stats} package can compute the inverse FFT by specifying \code{inverse = TRUE}. 
-However, that function does \emph{not} divide the result by \code{length(x)}, nor does it return real values when
-appropriate. The present function does both, and is this compatible with Matlab/Octave (and differs from the
-\code{ifft} function in the \code{signal} package which does not return real values).
+The \code{fft} function in the \code{stats} package can compute the inverse
+FFT by specifying \code{inverse = TRUE}. However, that function does
+\emph{not} divide the result by \code{length(x)}, nor does it return real
+values when appropriate. The present function does both, and is this
+compatible with Matlab/Octave (and differs from the \code{ifft} function in
+the \code{signal} package which does not return real values).
 }
 \examples{
 ifft(stats::fft(1:5))

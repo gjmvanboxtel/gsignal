@@ -29,7 +29,7 @@
 #' @noRd
 
 # test if x is a scalar
-isScalar <- function(x) is.atomic(x) && length(x) == 1L
+isScalar <- function(x) ifelse(is.character(x), nchar(x) == 1L, (is.atomic(x) && length(x) == 1L))
 
 # test if x is a positive scalar    
 isPosscal <- function(x) isScalar(x) && is.numeric(x) && x >= 0

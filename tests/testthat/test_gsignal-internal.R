@@ -16,9 +16,8 @@ test_that("isScalar() returns TRUE or FALSE", {
   expect_equal(isScalar(NULL), FALSE)
   expect_equal(isScalar(matrix(c(1,2,3,4),2,2)), FALSE)
   expect_equal(isScalar("t"), TRUE)
-  expect_equal(isScalar("test"), TRUE)
+  expect_equal(isScalar("test"), FALSE)
   expect_equal(isScalar(c("test", "ing")), FALSE)
-  expect_equal(isScalar('test'), TRUE)
   expect_equal(isScalar(complex(real = 1, imaginary = 1)), TRUE)
 })
 

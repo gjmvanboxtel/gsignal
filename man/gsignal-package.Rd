@@ -6,7 +6,7 @@
 \alias{gsignal-package}
 \title{gsignal: Signal Processing}
 \description{
-I wanted to learn more about signal analysis, so I thought it would be useful to study
+I wanted to learn more about signal analysis, so I thought it would be useful to study 
     the Matlab/Octave signal package. Gsignal is my own R implementation of the Octave signal package.
     This allowed me to get a basic understanding of the algorithms and experiment with them in R.
 }
