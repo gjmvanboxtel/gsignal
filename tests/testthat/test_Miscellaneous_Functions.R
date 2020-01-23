@@ -12,7 +12,23 @@ test_that("parameters to ifft() are correct", {
   expect_error(pad(1, 2, 3, 4, 5))
   expect_error(pad(1, 2, direction = 'invalid'))
   expect_error(pad(matrix(1:6, 2, 3), 2, MARGIN = 3))
-  
+})
+
+test_that("ifft() tests are correct", {
+  expect_equal(ifft(stats::fft(1:10)), 1:10)
+  expect_equal(ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))), c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))
+  expect_equal(imvfft(stats::mvfft(matrix(1:20, 4, 5))), matrix(1:20, 4, 5))
+})
+
+
+# -----------------------------------------------------------------------
+# pad(), prepad(), postpad()
+
+test_that("parameters to pad() are correct", {
+  expect_error(pad())
+  expect_error(pad('invalid'))
+  expect_error(pad(1, -2))
+  expect_error(pad(1, 2, 3, 4, 5, 6))
 })
 
 test_that("pad() tests are correct", {
@@ -36,20 +52,5 @@ test_that("pad() tests are correct", {
   expect_equal(postpad(m, 2, MARGIN = 1), matrix(1:8, 4, 2))
   expect_equal(prepad(m, 2), matrix(c(3, 4, 7, 8, 11, 12, 15, 16, 19, 20, 23, 24), 2, 6))
   expect_equal(prepad(m, 2, MARGIN = 1), matrix(17:24, 4, 2))
-})
-
-# -----------------------------------------------------------------------
-# pad(), prepad(), postpad()
-
-test_that("parameters to pad() are correct", {
-  expect_error(pad())
-  expect_error(ifft('invalid'))
-  expect_error(ifft(1, 2))
-})
-
-test_that("ifft() tests are correct", {
-  expect_equal(ifft(stats::fft(1:5)), 1:5)
-  expect_equal(ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))), c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))
-  expect_equal(imvfft(stats::mvfft(matrix(1:20, 4, 5))), matrix(1:20, 4, 5))
 })
 
