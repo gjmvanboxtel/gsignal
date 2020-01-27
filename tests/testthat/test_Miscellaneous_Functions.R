@@ -6,12 +6,10 @@ library(testthat)
 # ifft() and imvfft()
 
 test_that("parameters to ifft() are correct", {
-  expect_error(pad())
-  expect_error(pad('invalid'))
-  expect_error(pad(1, -2))
-  expect_error(pad(1, 2, 3, 4, 5))
-  expect_error(pad(1, 2, direction = 'invalid'))
-  expect_error(pad(matrix(1:6, 2, 3), 2, MARGIN = 3))
+  expect_error(ifft())
+  expect_error(ifft('invalid'))
+  expect_error(ifft(1, -2))
+  expect_error(ifft(1, 2, 3, 4, 5))
 })
 
 test_that("ifft() tests are correct", {
@@ -19,7 +17,6 @@ test_that("ifft() tests are correct", {
   expect_equal(ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))), c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i))
   expect_equal(imvfft(stats::mvfft(matrix(1:20, 4, 5))), matrix(1:20, 4, 5))
 })
-
 
 # -----------------------------------------------------------------------
 # pad(), prepad(), postpad()
@@ -52,5 +49,47 @@ test_that("pad() tests are correct", {
   expect_equal(postpad(m, 2, MARGIN = 1), matrix(1:8, 4, 2))
   expect_equal(prepad(m, 2), matrix(c(3, 4, 7, 8, 11, 12, 15, 16, 19, 20, 23, 24), 2, 6))
   expect_equal(prepad(m, 2, MARGIN = 1), matrix(17:24, 4, 2))
+})
+
+# -----------------------------------------------------------------------
+# poly() 
+
+test_that("parameters to poly() are correct", {
+  expect_error(poly())
+  expect_error(poly('invalid'))
+  expect_error(poly(1, 2))
+  expect_error(poly(matrix(1:6, 2, 3)))
+})
+
+test_that("poly() tests are correct", {
+  expect_equal(poly(0), c(1, 0))
+  expect_equal(poly(1), c(1, -1))
+  expect_equal(poly(-1), c(1, 1))
+  expect_equal(poly(c(1, 2, 3)), c(1, -6, 11, -6))
+  expect_equal(poly(matrix(1:4, 2, 2, byrow = TRUE)), c(1, -5, -2))
+  expect_equal(poly(c(-1 + 1i)), c(1 + 0i, 1 - 1i))
+})
+
+# -----------------------------------------------------------------------
+# roots() 
+
+test_that("parameters to roots() are correct", {
+  expect_error(roots())
+  expect_error(roots('invalid'))
+  expect_error(roots(1, 2))
+})
+
+test_that("roots() tests are correct", {
+  expect_equal(roots(0), NULL)
+  expect_equal(roots(0, "eigen"), NULL)
+  expect_equal(roots(1), numeric(0))
+  expect_equal(roots(1, "eigen"), numeric(0))
+  
+  p <- c(poly(rep(3, 4)), rep(0, 4))
+  r <- sort(roots (p))
+  expect_equal(r, c(rep(0, 4), rep(3, 4)))
+  
+  expect_equal(roots(c(1e-200, -1e200, 1)), 1e-200)
+  expect_equal(roots(c(1e-200, -1e200 * 1i, 1)), 1e-200 * 1i)
 })
 
