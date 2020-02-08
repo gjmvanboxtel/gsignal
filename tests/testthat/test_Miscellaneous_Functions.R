@@ -93,3 +93,35 @@ test_that("roots() tests are correct", {
   expect_equal(roots(c(1e-200, -1e200 * 1i, 1)), 1e-200 * 1i)
 })
 
+# -----------------------------------------------------------------------
+# filter() 
+
+test_that("parameters to filter() are correct", {
+  expect_error(filter())
+  expect_error(filter(1, 2))
+  expect_warning(filter(1, 2, 'invalid'))
+  expect_error(filter(1, 1, 1:10, init.x = 1))
+})
+
+test_that("filter() tests are correct", {
+  a <- c(1, 1)
+  b <- c(1, 1)
+  x <- c(1, rep(0L, 9))
+  expect_equal(filter(b, 1, x), c(rep(1L, 2), rep(0L, 8)))
+  filt <- Ma(b)
+  expect_equal(filter(filt, x), c(rep(1L, 2), rep(0L, 8)))
+  expect_equal(filter(1, a, x), rep(c(1L, -1L), 5))
+  filt <- Arma(b, a)
+  expect_equal(filter(filt, x), c(1L, rep(0L, 9)))
+
+  # complex input  
+  r <- sqrt (1/2) * (1 + 1i)
+  a <- a * r
+  b <- b * r
+  expect_equal(suppressWarnings(filter (b, 1, x)), Re(r * c(rep(1L, 2), rep(0L, 8))))
+  expect_equal(suppressWarnings(filter (b, a, x)), c(1L, rep(0L, 9)))
+  
+  # initial conditions
+  expect_equal(filter (c(1,1,1), c(1,1), c(1,2), init.x=c(1,1), init.y=1), c(2, 2))
+})
+
