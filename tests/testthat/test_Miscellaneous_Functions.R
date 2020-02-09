@@ -125,3 +125,34 @@ test_that("filter() tests are correct", {
   expect_equal(filter (c(1,1,1), c(1,1), c(1,2), init.x=c(1,1), init.y=1), c(2, 2))
 })
 
+# -----------------------------------------------------------------------
+# conv()
+
+test_that("parameters to conv() are correct", {
+  expect_error(conv())
+  expect_error(conv(1))
+  expect_error(conv(1, 2, 3, 4))
+  expect_error(conv(1, 2, 'invalid'))
+})
+
+test_that("conv() tests are correct", {
+  x <- rep(1L, 3); b <- 2; c <- 3
+  expect_equal(conv(x, x), c(1, 2, 3, 2, 1))
+  expect_equal(conv(x, b), rep(2L, 3))
+  expect_equal(conv(b, x), rep(2L, 3))
+  expect_equal(conv(x, c), rep(3L, 3))
+  expect_equal(conv(c, x), rep(3L, 3))
+  expect_equal(conv(b, c), 6)
+
+  a <- 1:10; b <- 1:3
+  expect_equal(length(conv (a,b)), length(a) + length(b) - 1)
+  expect_equal(length(conv (b,a)), length(a) + length(b) - 1)
+  expect_equal(conv(a, b, "full"), conv (a,b))
+  expect_equal(conv(b, a, "full"), conv (b,a))
+  expect_equal(conv(a, b, "same"), c(4, 10, 16, 22, 28, 34, 40, 46, 52, 47))
+  expect_equal(conv(b, a, "same"), c(28, 34, 40))
+  expect_equal(conv(a, b, "valid"), c(10, 16, 22, 28, 34, 40, 46, 52))
+  expect_equal(conv(b, a, "valid"), NULL)
+  expect_equal(conv(a, a, "valid"), 220L)
+  expect_equal(conv(b, b, "valid"), 10L)
+})
