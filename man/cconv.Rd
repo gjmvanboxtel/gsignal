@@ -46,7 +46,7 @@ cconv(a, b, 6)
 
 }
 \seealso{
-\code{\link[gsignal]{conv}}
+\code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
 }
 \author{
 Leonardo Araujo, port to R by Geert van Boxtel

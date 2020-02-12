@@ -27,3 +27,17 @@ test_that("cconv() tests are correct", {
   
   expect_equal(cconv(x*1i, 1), c(0+1i, 0+2i, 0+3i, 0+4i, 0+5i))
 })
+
+# -----------------------------------------------------------------------
+# convmtx()
+
+test_that("parameters to convmtx() are correct", {
+  expect_error(convmtx())
+  expect_error(convmtx(1, 'invalid'))
+  expect_error(convmtx(1, -1))
+})
+
+test_that("convmtx() tests are correct", {
+  expect_equal(convmtx(c(3, 4, 5), 3), matrix(c(3,4,5,0,0,0,3,4,5,0,0,0,3,4,5), 5, 3))
+})
+

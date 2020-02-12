@@ -19,6 +19,7 @@
 #
 # Version history
 # 20200209  GvB       setup for gsignal v0.1.0
+# 20200212  GvB       use stats::nextn to ensure that the length is a highly compositite number
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Circular convolution
@@ -56,7 +57,7 @@
 #' 
 #' cconv(a, b, 6)
 #' 
-#' @seealso \code{\link[gsignal]{conv}}
+#' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
 #' 
 #' @author Leonardo Araujo, port to R by Geert van Boxtel
 #'   \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -95,6 +96,6 @@ cconv <- function (a, b, n = length(a) + length(b) -1) {
     b <- postpad(b, n)
   }
   
-  y <- ifft(stats::fft(a) * stats::fft (b))
-  y
+  y <- ifft(stats::fft(postpad(a, stats::nextn(length(a)))) * stats::fft(postpad(b, stats::nextn(length(b)))))
+  y[1:n]
 }
