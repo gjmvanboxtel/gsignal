@@ -149,3 +149,4 @@ test_that("rssq() tests are correct", {
   expect_equal(rssq(x), 14.8324, tolerance = 10e-7)
   
 })
+

@@ -156,3 +156,36 @@ test_that("conv() tests are correct", {
   expect_equal(conv(a, a, "valid"), 220L)
   expect_equal(conv(b, b, "valid"), 10L)
 })
+
+# -----------------------------------------------------------------------
+# conv2()
+
+test_that("parameters to conv2() are correct", {
+  expect_error(conv2())
+  expect_error(conv2(1))
+  expect_error(conv2(1, 2))
+  expect_error(conv2(1, 2, 3, 4))
+  expect_error(conv2(matrix(1,1), matrix(2,1), 'invalid'))
+})
+
+test_that("conv2() tests are correct", {
+  a <- matrix(1:16, 4, 4)
+  b <- matrix(1:9, 3,3)
+  ans <- matrix(c(1, 9, 36, 84, 115, 91,
+                  4, 29, 99, 207, 263, 202,
+                  10, 62, 192, 372, 446, 334,
+                  16, 83, 237, 417, 485, 358,
+                  17, 75, 198, 330, 365, 263,
+                  12, 48, 120, 192, 204, 144),
+                6, 6, byrow = TRUE)
+  expect_equal(conv2(a, b), ans)
+  expect_equal(conv2(a, b, 'same'), ans[2:5, 2:5])
+  expect_equal(conv2(a, b, 'valid'), ans[3:4, 3:4])
+
+  a <- matrix(c(1:5, 1:5), 2, 5, byrow = TRUE)
+  b <- matrix(1:2, 1, 2)
+  ans <- matrix(rep(c(1,4,7,10,13,10),2),2,6, byrow=T)
+  expect_equal(conv2(a, b), ans)
+  expect_equal(conv2(a, b, 'same'), ans[1:2, 2:6])
+  expect_equal(conv2(a, b, 'valid'), ans[1:2, 2:5])
+})
