@@ -163,7 +163,6 @@ test_that("conv() tests are correct", {
 test_that("parameters to conv2() are correct", {
   expect_error(conv2())
   expect_error(conv2(1))
-  expect_error(conv2(1, 2))
   expect_error(conv2(1, 2, 3, 4))
   expect_error(conv2(matrix(1,1), matrix(2,1), 'invalid'))
 })

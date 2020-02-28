@@ -17,7 +17,8 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 20200214  GvB       setup for gsignal v0.1.0
+# 20200227  GvB       setup for gsignal v0.1.0
+# 20200228  GvB       coerce inputs a and to to matrices instead of checking
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 2-D convolution
@@ -53,9 +54,8 @@
 
 conv2 <- function (a, b, shape = c("full", "same", "valid")) {
   
-  if (!is.matrix(a) && !is.matrix(b)) {
-    stop('a and b must be matrices')
-  }
+  a <- as.matrix(a)
+  b <- as.matrix(b)
   shape <- match.arg(shape)
   
   if(length(a) < length(b)) {
