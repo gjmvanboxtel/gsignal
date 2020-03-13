@@ -51,7 +51,7 @@ R <- xcorr2(m1, m2)
 \code{\link{conv2}}, \code{\link{xcorr}}.
 }
 \author{
-# Copyright (C) 2000 Dave Cogdell \email{cogdelld@asme.org},
+Copyright (C) 2000 Dave Cogdell \email{cogdelld@asme.org},
 Copyright (C) 2000 Paul Kienzle \email{pkienzle@users.sf.net},
 Copyright (C) 2012 Carnë Draug \email{carandraug+dev@gmail.com},
 port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.

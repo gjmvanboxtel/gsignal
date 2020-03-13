@@ -148,4 +148,44 @@ test_that("xcorr2() tests are correct", {
   expect_equal(as.vector(which(R == max(R), arr.ind = TRUE)), c(row_shift, col_shift))
 })
 
+# -----------------------------------------------------------------------
+# xcov()
 
+test_that("parameters to xcov() are correct", {
+  expect_error(xcov())
+  expect_error(xcov('invalid'))
+  expect_error(xcov(array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcov(1, 'invalid'))
+  expect_error(xcov(1, array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcov(1, -1, maglag = -1))
+  expect_error(xcov(matrix(1:9, 3, 3), 1))
+  expect_error(xcov(1, -1, scale = 'invalid'))
+  expect_error(xcov(1:10, 1:10, 2, 'none', 'extra'))
+})
+
+test_that("xcov() tests are correct", {
+  cl <- xcov(1, -1)
+  expect_equal(cl$C, 0)
+  expect_equal(cl$lags, 0)
+  
+  cl <- xcov(c(1, 2))
+  expect_equal(cl$C, c(-0.25, 0.50, -0.25))
+  expect_equal(cl$lags, c(-1, 0, 1))
+  
+  cl <- xcov(1:10, 1:10, 2, 'none')
+  expect_equal(cl$C, c(34, 57.75, 82.50, 57.75, 34))
+  expect_equal(cl$lags, -2:2)
+  
+  cl <- xcov(1:10, 1:10, 2, 'biased')
+  expect_equal(cl$C, c(3.4, 5.775, 8.25, 5.775, 3.4))
+  expect_equal(cl$lags, -2:2)
+  
+  cl <- xcov(1:10, 1:10, 2, 'unbiased')
+  expect_equal(cl$C, c(4.25, 6.4167, 8.25, 6.4167, 4.25), tolerance = 1e-5)
+  expect_equal(cl$lags, -2:2)
+  
+  cl <- xcov(1:10, 1:10, 2, 'coeff')
+  expect_equal(cl$C, c(0.4121212, 0.7, 1, 0.7, 0.4121212), tolerance = 1e-7)
+  expect_equal(cl$lags, -2:2)
+  
+})
