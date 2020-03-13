@@ -65,4 +65,46 @@ test_that("wconv() tests are correct", {
   expect_equal(wconv('r', a, c(0,1), 'same'), matrix(1:16, 4, 4))
   expect_equal(wconv('c', a, c(0,1), 'valid'), matrix(c(1:3,5:7,9:11,13:15), 3, 4))
 })
+    
+# -----------------------------------------------------------------------
+# xcorr()
+
+test_that("parameters to xcorr() are correct", {
+  expect_error(xcorr())
+  expect_error(xcorr('invalid'))
+  expect_error(xcorr(array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcorr(1, 'invalid'))
+  expect_error(xcorr(1, array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcorr(1, -1, maglag = -1))
+  expect_error(xcorr(matrix(1:9, 3, 3), 1))
+  expect_error(xcorr(1, -1, scale = 'invalid'))
+  expect_error(xcorr(1:10, 1:10, 2, 'none', 'extra'))
+})
+
+test_that("xcorr() tests are correct", {
+  rl <- xcorr(1, -1)
+  expect_equal(rl$R, -1)
+  expect_equal(rl$lags, 0)
+  
+  rl <- xcorr(c(1, 2))
+  expect_equal(rl$R, c(2, 5, 2))
+  expect_equal(rl$lags, c(-1, 0, 1))
+  
+  rl <- xcorr(1:10, 1:10, 2, 'none')
+  expect_equal(rl$R, c(276, 330, 385, 330, 276))
+  expect_equal(rl$lags, -2:2)
+
+  rl <- xcorr(1:10, 1:10, 2, 'biased')
+  expect_equal(rl$R, c(27.6, 33.0, 38.5, 33.0, 27.6))
+  expect_equal(rl$lags, -2:2)
+
+  rl <- xcorr(1:10, 1:10, 2, 'unbiased')
+  expect_equal(rl$R, c(34.5, 36.666667, 38.5, 36.666667, 34.5))
+  expect_equal(rl$lags, -2:2)
+
+  rl <- xcorr(1:10, 1:10, 2, 'coeff')
+  expect_equal(rl$R, c(0.7168831, 0.8571429, 1.0000000, 0.8571429, 0.7168831), tolerance = 1e-7)
+  expect_equal(rl$lags, -2:2)
+  
+})
 

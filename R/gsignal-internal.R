@@ -53,4 +53,4 @@ msq <- function(x) ssq(x) / length(x)
 rmsq <- function(x) sqrt(msq(x))
 
 # # compute next power of 2 
-nextpow <- function (x) 2^ceiling(log2(x))
+nextpow2 <- function (x) 2^ceiling(log2(x))
