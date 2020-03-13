@@ -108,3 +108,44 @@ test_that("xcorr() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# xcorr2()
+
+test_that("parameters to xcorr2() are correct", {
+  expect_error(xcorr2())
+  expect_error(xcorr2('invalid'))
+  expect_error(xcorr2(array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcorr2(1, 'invalid'))
+  expect_error(xcorr2(1, array(1:12, dim = c(2, 2, 3))))
+  expect_error(xcorr2(1, -1))
+  expect_error(xcorr2(matrix(1:9, 3, 3), 1))
+  expect_error(xcorr2(matrix(1:9, 3, 3), scale = 'invalid'))
+  expect_error(xcorr2(matrix(1:9, 3, 3), matrix(1:9, 3, 3), 'none', 'extra'))
+})
+
+test_that("xcorr2() tests are correct", {
+
+  a <- pracma::magic(3)
+  b <- matrix(c(6, 13, 10, 18), 2, 2)
+  R <- matrix(c(144,122,121, 78,
+                134,187,257,127,
+                102,282,253, 68,
+                 40,114, 74, 12), 4, 4, byrow = TRUE)
+  expect_equal(xcorr2(a, b, 'none'), R)
+  expect_equal(xcorr2(a, b, 'biased'), R / 4)
+  expect_equal(xcorr2(a, b, 'unbiased'), R / matrix(c(1,2,2,1,2,4,4,2,2,4,4,2,1,2,2,1), 4, 4))
+  Rc <- matrix(c(0.71771, 0.60336, 0.79316, 0.51834,
+                 0.62534, 0.74937, 0.97263, 0.54925,
+                 0.81340, 0.98240, 0.80001, 0.37243,
+                 0.39873, 0.46152, 0.32003, 0.23924), 4, 4, byrow = TRUE)
+  expect_equal(xcorr2(a, b, 'coeff'), Rc, tolerance = 1e-5)
+
+  row_shift <- 18
+  col_shift <- 20
+  a <- matrix(runif(900, 1, 255), 30, 30)
+  b <- a[(row_shift - 10):row_shift, (col_shift - 7):col_shift]
+  R <- xcorr2(a, b, "coeff")
+  expect_equal(as.vector(which(R == max(R), arr.ind = TRUE)), c(row_shift, col_shift))
+})
+
+
