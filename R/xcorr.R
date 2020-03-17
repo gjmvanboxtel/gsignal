@@ -64,8 +64,8 @@
 #'     \item{'none'}{return the unscaled correlation, R}
 #'     \item{'biased'}{return the biased average, R/N}
 #'     \item{'unbiased'}{return the unbiased average, R(k)/(N-|k|)}
-#'     \item{'coeff'}{return the correlation coefficient, R/(rms(x).rms(y)),
-#'     where \code{k} is the lag, and \code{N} is the length of \code{x}}
+#'     \item{'coeff'}{return the correlation coefficient, R/(rms(x).rms(y))},
+#'     where \code{k} is the lag, and \code{N} is the length of \code{x}
 #'   }
 #'  If omitted, the default value is \code{none}. If \code{y} is supplied but
 #'  does not have the same length as \code{x}, scale must be \code{none}.
