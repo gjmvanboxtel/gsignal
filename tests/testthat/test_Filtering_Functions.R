@@ -64,4 +64,28 @@ test_that("filtic() tests are correct", {
   expect_that(filtic(b, a, y, x), equals(c( 0.4039015, 0.1625113), tolerance = 1e-7))
   
 })
+
+# -----------------------------------------------------------------------
+# medfilt1()
+
+test_that("parameters to medfilt1() are correct", {
+  expect_error(medfilt1())
+  expect_error(medfilt1(1, 2))
+  expect_error(medfilt1(1, -1))
+  expect_error(medfilt1(cbind(1:10, 1:10), 3, 3))
+  expect_error(medfilt1('invalid'))
+  expect_error(medfilt1(1:10, endrule = 'invalid'))
+  expect_error(medfilt1(1:10, algorithm = 'invalid'))
+  expect_error(medfilt1(1:10, printy.level = 'invalid'))
+})
+
+test_that("medfilt1() tests are correct", {
+  expect_that(medfilt1(1:10), equals(1:10))
+  expect_that(medfilt1(c(1, 1, 2, 3, 3, 4, 4, 4, 5)), equals(c(1, 1, 2, 3, 3, 4, 4, 4, 4)))
+  expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5)), equals(c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = 1e-7))
+  expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5), na.omit = TRUE), equals(c(1, 1, 2, 3, 4, 4, 4, 4)))
+  expect_that(medfilt1(cbind(1:5, 1:5)), equals(cbind(1:5, 1:5)))
+  expect_that(medfilt1(cbind(1:5, 1:5), n = 1, dim = 1), equals(rbind(1:5, 1:5)))
+})
+
   

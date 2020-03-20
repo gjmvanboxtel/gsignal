@@ -24,8 +24,9 @@
 
 #' Initial conditions for filter
 #' 
-#' This function computes teh same values that would be obtained from function
-#' \code{filter} given past inputs \code{x} and outputs \code{y}
+#' This function computes the same values that would be obtained from the
+#' Matlab/Octave function \code{filter} given past inputs \code{x} and outputs
+#' \code{y}
 #' 
 #' The vectors \code{x} and \code{y} contain the most recent inputs and outputs
 #' respectively, with the newest values first:
