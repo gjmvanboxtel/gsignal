@@ -18,6 +18,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191204 Geert van Boxtel          First version for v0.1.0
+# 20200322 Geert van Boxtel          used NROW and NCOL instead to nrow and ncol to allow
+#                                    vectors; expand rc to same number of columns as ranges
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Sigmoid Train
@@ -53,7 +55,7 @@
 #' st <- sigmoid_train (t, ranges, rc)
 #' plot(t, st$y[1,], type="n", xlab = "Time(s)", ylab = "S(t)",
 #'      main = "Vectorized use of sigmoid train")
-#' for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], st$s[i], border = NA, col="pink")
+#' for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], 1, border = NA, col="pink")
 #' for (i in 1:3) lines(t, st$y[i,])
 #' # The colored regions show the limits defined in range.
 #' 
@@ -79,15 +81,20 @@ sigmoid_train <- function (t, ranges, rc) {
   t <- as.vector(t)
   
   ## number of sigmoids
-  nr <- nrow(ranges)
-  nc <- ncol(ranges)
-  if (is.null(nr) || nr <= 0) stop('ranges must be an array or matrix with at least 1 row')
-  if (is.null(nc) || nc != 2) stop('ranges must be an array or matrix with 2 columns')
+  if (is.vector(ranges)) {
+    ranges <- as.matrix(t(ranges))
+  }
+  nr <- NROW(ranges)
+  nc <- NCOL(ranges)
+  if (is.null(nr) || nr <= 0) stop('ranges must be a vector, or an array or matrix with at least 1 row')
+  if (is.null(nc) || nc != 2) stop('ranges must be a vector, or an array or matrix with 2 columns')
   
   ## Parse time constants
   if (isScalar (rc)) {
     # All sigmoids have the same time constant and are symmetric
     rc <- rc * matrix(1L, nr, 2)
+  } else if (is.vector(rc)) {
+    rc <- as.matrix(t(rc))
   } else if ((nrow(rc) == 1 || ncol(rc) == 1) && nr > 1) {
     # All sigmoids have different time constants but are symmetric
     if (nrow(rc) == 1) {

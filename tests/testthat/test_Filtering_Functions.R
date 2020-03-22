@@ -88,4 +88,29 @@ test_that("medfilt1() tests are correct", {
   expect_that(medfilt1(cbind(1:5, 1:5), n = 1, dim = 1), equals(rbind(1:5, 1:5)))
 })
 
+# -----------------------------------------------------------------------
+# movingrms()
+
+test_that("parameters to movingrms() are correct", {
+  expect_error(movingrms())
+  expect_error(movingrms(1, -1))
+  expect_error(movingrms(1, 1, -1))
+  expect_error(movingrms(1, 1, 1, -1))
+  expect_error(movingrms('invalid'))
+  expect_error(movingrms(1, 2, 3, 4, 5))
+})
+
+test_that("movingrms() tests are correct", {
+  r <- movingrms(1, 1)
+  expect_that(r$rmsx, equals(Inf))
+  expect_that(r$w, equals(1))
+
+  r <- movingrms(matrix(1:100, 50), 1)
+  expect_that(ncol(r$rmsx), equals(2))
+  expect_that(nrow(r$rmsx), equals(50))
+  expect_that(r$w, equals(c(rep(0, 23), 0.5, 1, 0.5, rep(0, 24))))
+  
+})
+
+
   
