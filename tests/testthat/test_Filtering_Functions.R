@@ -112,5 +112,5 @@ test_that("movingrms() tests are correct", {
   
 })
 
-
-  
+# tests for sgolayfilt are in test_FIR_Filter_design_functions.R
+# together with the sgolay() function
