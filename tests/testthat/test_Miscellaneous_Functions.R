@@ -188,3 +188,33 @@ test_that("conv2() tests are correct", {
   expect_equal(conv2(a, b, 'same'), ans[1:2, 2:6])
   expect_equal(conv2(a, b, 'valid'), ans[1:2, 2:5])
 })
+
+# -----------------------------------------------------------------------
+# cplxpair()
+
+test_that("parameters to cplxpair() are correct", {
+  expect_error(cplxpair())
+  expect_error(cplxpair(1, -1))
+  expect_error(cplxpair(1, 1, 3))
+  expect_error(cplxpair(1, 2, 3, 4))
+  expect_error(cplxpair(c(2000 * (1 + .Machine$double.eps) + 4i,
+                          2000 * (1 - .Machine$double.eps) - 4i), 0))
+  expect_error(cplxpair(c(2e6 + 1i, 2e6 - 1i, 1e-9 * (1 + 1i), 1e-9 * (1 - 2i))))
+})
+
+test_that("cplxpair() tests are correct", {
+  expect_equal(cplxpair(1), 1)
+  expect_equal(cplxpair(c(1 + 1i, 1-1i)), c(1 - 1i, 1 + 1i))
+  expect_equal(cplxpair(c(1 + 1i, 1 + 1i, 1, 1 - 1i, 1 - 1i, 2)), 
+               c(1 - 1i, 1 + 1i, 1 - 1i, 1 + 1i, 1, 2))
+  expect_equal(cplxpair(c(0, 1, 2)), c(0, 1, 2))
+  expect_equal(cplxpair(c(2000 * (1 + .Machine$double.eps) + 4i,
+                          2000 * (1 - .Machine$double.eps) - 4i)),
+               c(2000 - 4i, 2000 + 4i))
+  z <- c(1 + 1i, 1 + 1i, 1, 1 - 1i, 1 - 1i, 2)
+  ans <- cplxpair(z)
+  m <- cbind(z, z)
+  expect_equivalent(cplxpair(m, dim = 2), cbind(ans, ans))
+  expect_error(cplxpair(m, dim = 1))
+})
+
