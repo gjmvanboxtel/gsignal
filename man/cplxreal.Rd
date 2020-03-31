@@ -18,8 +18,9 @@ tolerance of matching. Default: 100 * .Machine$double.eps.}
 \value{
 A list containing two variables:
 \describe{
-  \item{zc}{Vector, matrix or array containg ordered complex conjugate pairs
-  by increasing real parts.}
+  \item{zc}{Vector, matrix or array containing ordered complex conjugate pairs
+  by increasing real parts. Only the positive imaginary complex numbers of each 
+  complex xonjugate pair are returned.}
   \item{zr}{Vector, matrix or array containg ordered real numbers.}
 }
 }

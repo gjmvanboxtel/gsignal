@@ -18,6 +18,7 @@
 #
 # Version history
 # 20200327  GvB       setup for gsignal v0.1.0
+# 20200331  GvB       return only positive imagine number in zc
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sort complex conjugate pairs and real
@@ -37,8 +38,9 @@
 #'
 #' @return A list containing two variables:
 #' \describe{
-#'   \item{zc}{Vector, matrix or array containg ordered complex conjugate pairs
-#'   by increasing real parts.}
+#'   \item{zc}{Vector, matrix or array containing ordered complex conjugate pairs
+#'   by increasing real parts. Only the positive imaginary complex numbers of each 
+#'   complex xonjugate pair are returned.}
 #'   \item{zr}{Vector, matrix or array containg ordered real numbers.}
 #' }
 #'
@@ -69,7 +71,13 @@ cplxreal <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     for (i in 1:lv) {
       if (abs(Im(v[i])) / abs(v[i]) > tol) ix[i] <- i
     }
-    v[which(!is.na(ix))]
+    v <- v[which(!is.na(ix))]
+    if (length(v)) {
+      v <- v[seq(2, length(v), 2)]  # only pos imag numbers
+    } else {
+      v <- NULL
+    }
+    v
   }
   
   if (is.vector(y)) {
