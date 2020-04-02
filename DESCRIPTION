@@ -2,7 +2,7 @@ Package: gsignal
 Type: Package
 Title: Signal Processing
 Version: 0.1.0
-Date: 2020-03-31
+Date: 2020-04-02
 Author: Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>
 Maintainer: Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>
 Description: I wanted to learn more about signal analysis, so I thought it would be useful to study 

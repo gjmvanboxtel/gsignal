@@ -5,6 +5,7 @@
 \alias{as.Arma}
 \alias{as.Arma.Arma}
 \alias{as.Arma.Ma}
+\alias{as.Arma.Sos}
 \alias{as.Arma.Zpg}
 \title{Autoregressive moving average (ARMA) model}
 \usage{
@@ -16,6 +17,9 @@ as.Arma(x, ...)
 as.Arma(x, ...)
 
 ## S3 method for class 'Ma'
+as.Arma(x, ...)
+
+## S3 method for class 'Sos'
 as.Arma(x, ...)
 
 ## S3 method for class 'Zpg'
@@ -31,14 +35,15 @@ as.Arma(x, ...)
 \item{...}{additional arguments (ignored).}
 }
 \value{
-A list of class Arma with the following list elements:
+A list of class \code{'Arma'} with the following list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
 }
 }
 \description{
-Create an ARMA model representing a filter or system model
+Create an ARMA model representing a filter or system model, or
+convert other forms to an ARMA model.
 }
 \details{
 The ARMA model is defined by:
@@ -65,5 +70,6 @@ See also \code{\link{Zpg}}, \code{\link{Ma}}, \code{filter}, and
   that return Arma models.
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}
+Tom Short \email{tshort@eprisolutions.com}, adapted by Geert van
+  Boxtel \email{gjmvanboxtel@gmail.com}
 }

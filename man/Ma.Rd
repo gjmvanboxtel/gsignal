@@ -10,7 +10,7 @@ Ma(b)
 \item{b}{moving average (MA) polynomial coefficients.}
 }
 \value{
-A list of class Ma with the polynomial coefficients
+A list of class \code{'Ma'} with the polynomial coefficients
 }
 \description{
 Create an MA model representing a filter or system model

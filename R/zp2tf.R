@@ -1,6 +1,6 @@
-# Ma.R
-# Copyright (C) 2006 EPRI Solutions, Inc.
-# by Tom Short, tshort@eprisolutions.com
+# zp2tf.R
+# Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
+# Original Octave version:
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,27 +18,39 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 20200127  GvB       setup for gsignal v0.1.0
+# 2020402  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
-#' Moving average (MA) model
+#' Zero-pole-gain to transfer function
 #' 
-#' Create an MA model representing a filter or system model
+#' Convert digital filter zero-pole-gain data to transfer function form
 #' 
-#' @param b moving average (MA) polynomial coefficients.
+#' @param z complex vector of the zeros of the model 
+#' @param p complex vector of the poles of the model
+#' @param k overall gain. Default: 1.
 #' 
-#' @return A list of class \code{'Ma'} with the polynomial coefficients
-#' 
-#' @seealso See also \code{\link{Arma}}
+#' @return A list with the following list elements:
+#' \describe{
+#'   \item{b}{moving average (MA) polynomial coefficients}
+#'   \item{a}{autoregressive (AR) polynomial coefficients}
+#' }
+#'  
+#' @seealso See also \code{\link{filter}}
 #' 
 #' @examples
-#' filt <- Ma(b = c(1, 2, 1)/3)
-#' #zplane(filt)
+#' k <- 1
+#' z <- c(0, 0)
+#' p <- roots(c(1, 0.01, 1))
+#' ba <- zp2tf(z, p, k)
 #' 
-#' @author Tom Short \email{tshort@@eprisolutions.com}
+#' @author Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
+#' 
 #' @export
 
-Ma <- function(b) {
-  class(b) <- "Ma"
-  b
+zp2tf <- function(z, p, k) {
+  
+  b <- Re(k * poly(z))
+  a <- Re(poly(p))
+  
+  list(b = b, a = a)
 }

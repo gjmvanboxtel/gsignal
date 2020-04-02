@@ -1,6 +1,5 @@
 # Zpg.R
-# Copyright (C) 2006 EPRI Solutions, Inc.
-# by Tom Short, tshort@eprisolutions.com
+# Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,11 +18,13 @@
 #
 # Version history
 # 20200127  GvB       setup for gsignal v0.1.0
+# 20200402  GvB       adapted to Octave filter conversion functions
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero pole gain model
 #' 
-#' Create an zero pole gain model of an ARMA filter
+#' Create an zero pole gain model of an ARMA filter, or convert other forms to a
+#' Zpg model.
 #' 
 #' \code{as.Zpg} converts from other forms, including \code{Arma} and \code{Ma}.
 #' 
@@ -31,6 +32,7 @@
 #' @param pole complex vector of the poles of the model.
 #' @param gain gain of the model.
 #' @param x model to be converted.
+#'
 #' @param ...	additional arguments (ignored).
 #' 
 #' @return A list of class Zpg with the following list elements:
@@ -46,7 +48,8 @@
 #' filt <- Zpg(c(-1, -1), -1, 1/3)
 #' #zplane(filt)
 #' 
-#' @author Tom Short \email{tshort@@eprisolutions.com}
+#' @author Tom Short \email{tshort@@eprisolutions.com}, adapted by Geert van
+#'   Boxtel \email{gjmvanboxtel@@gmail.com}
 #' @rdname Zpg
 #' @export
 
@@ -66,7 +69,8 @@ as.Zpg <- function(x, ...) UseMethod("as.Zpg")
 #' as.Zpg(x, ...)
 #' @export
 as.Zpg.Arma <- function(x, ...) {
-  Zpg(pole = roots(x$a), zero = roots(x$b), gain = x$b[1] / x$a[1])
+  zpk <- tf2zp(x$b, x$a)
+  Zpg(zpk$z, zpk$p, zpk$k)
 }
 
 #' @rdname Zpg
@@ -76,6 +80,17 @@ as.Zpg.Arma <- function(x, ...) {
 #' @export
 as.Zpg.Ma <- function(x, ...) {
   as.Zpg(as.Arma(x))
+}
+
+#' @rdname Zpg
+#' @usage
+#' ## S3 method for class 'Sos'
+#' as.Zpg(x, ...)
+#' @export
+as.Zpg.Sos <- function(x, ...) {
+  
+  zpk <- sos2zp(x$sos, x$g)
+  Zpg(zpk$z, zpk$p, zpk$k)
 }
 
 #' @rdname Zpg

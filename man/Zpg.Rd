@@ -5,6 +5,7 @@
 \alias{as.Zpg}
 \alias{as.Zpg.Arma}
 \alias{as.Zpg.Ma}
+\alias{as.Zpg.Sos}
 \alias{as.Zpg.Zpg}
 \title{Zero pole gain model}
 \usage{
@@ -16,6 +17,9 @@ as.Zpg(x, ...)
 as.Zpg(x, ...)
 
 ## S3 method for class 'Ma'
+as.Zpg(x, ...)
+
+## S3 method for class 'Sos'
 as.Zpg(x, ...)
 
 ## S3 method for class 'Zpg'
@@ -41,7 +45,8 @@ A list of class Zpg with the following list elements:
 }
 }
 \description{
-Create an zero pole gain model of an ARMA filter
+Create an zero pole gain model of an ARMA filter, or convert other forms to a
+Zpg model.
 }
 \details{
 \code{as.Zpg} converts from other forms, including \code{Arma} and \code{Ma}.
@@ -55,5 +60,6 @@ filt <- Zpg(c(-1, -1), -1, 1/3)
 See also \code{\link{Arma}}
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}
+Tom Short \email{tshort@eprisolutions.com}, adapted by Geert van
+  Boxtel \email{gjmvanboxtel@gmail.com}
 }

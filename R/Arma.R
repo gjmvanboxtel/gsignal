@@ -1,4 +1,6 @@
 # Arma.R
+# Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
+# Original Octave version:
 # Copyright (C) 2006 EPRI Solutions, Inc.
 # by Tom Short, tshort@eprisolutions.com
 #
@@ -19,11 +21,13 @@
 #
 # Version history
 # 20200127  GvB       setup for gsignal v0.1.0
+# 20200402  GvB       Adapted to Octave filter conversion functions
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Autoregressive moving average (ARMA) model
 #' 
-#' Create an ARMA model representing a filter or system model
+#' Create an ARMA model representing a filter or system model, or
+#' convert other forms to an ARMA model.
 #' 
 #' The ARMA model is defined by:
 #' \deqn{a(L)y(t) = b(L)x(t)}
@@ -43,7 +47,7 @@
 #' @param x model or filter to be converted to an ARMA representation.
 #' @param ...	additional arguments (ignored).
 #' 
-#' @return A list of class Arma with the following list elements:
+#' @return A list of class \code{'Arma'} with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
@@ -57,7 +61,9 @@
 #' filt <- Arma(b = c(1, 2, 1)/3, a = c(1, 1))
 #' #zplane(filt)
 #' 
-#' @author Tom Short \email{tshort@@eprisolutions.com}
+#' @author Tom Short \email{tshort@@eprisolutions.com}, adapted by Geert van
+#'   Boxtel \email{gjmvanboxtel@@gmail.com}
+#'   
 #' @rdname Arma
 #' @export
 
@@ -89,12 +95,21 @@ as.Arma.Ma <- function(x, ...) {
 
 #' @rdname Arma
 #' @usage
+#' ## S3 method for class 'Sos'
+#' as.Arma(x, ...)
+#' @export
+as.Arma.Sos <- function(x, ...) {
+  ba <- sos2tf(x$sos, g = 1)
+  Arma(ba$b, ba$a)
+}
+
+#' @rdname Arma
+#' @usage
 #' ## S3 method for class 'Zpg'
 #' as.Arma(x, ...)
 #' @export
 as.Arma.Zpg <- function(x, ...) {
-  b <- Re(x$gain * poly(x$zero))
-  a <- Re(poly(x$pole))
-  Arma(b = b, a = a)
+  ba <- zp2tf(x$zero, x$pole, x$gain)
+  Arma(ba$b, ba$a)
 }
 

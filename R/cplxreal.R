@@ -18,7 +18,8 @@
 #
 # Version history
 # 20200327  GvB       setup for gsignal v0.1.0
-# 20200331  GvB       return only positive imagine number in zc
+# 20200331  GvB       return only positive imaginary numbers in zc
+# 20200402  GvB       only test Im(v) against tol to determine whether complex or real
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sort complex conjugate pairs and real
@@ -61,7 +62,7 @@ cplxreal <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     lv <- length(v)
     ix <- rep(NA, lv)
     for (i in 1:lv) {
-      if (abs(Im(v[i])) / abs(v[i]) <= tol) ix[i] <- i
+      if (abs(Im(v[i])) <= tol) ix[i] <- i
     }
     Re(v[which(!is.na(ix))])
   }
@@ -69,7 +70,7 @@ cplxreal <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     lv <- length(v)
     ix <- rep(NA, lv)
     for (i in 1:lv) {
-      if (abs(Im(v[i])) / abs(v[i]) > tol) ix[i] <- i
+      if (abs(Im(v[i])) > tol) ix[i] <- i
     }
     v <- v[which(!is.na(ix))]
     if (length(v)) {
