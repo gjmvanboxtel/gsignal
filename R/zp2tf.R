@@ -1,6 +1,5 @@
 # zp2tf.R
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
-# Original Octave version:
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +17,8 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 2020402  GvB       setup for gsignal v0.1.0
+# 20200402  GvB       setup for gsignal v0.1.0
+# 20200405  GvB       Set default k = 1
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to transfer function
@@ -40,14 +40,14 @@
 #' @examples
 #' k <- 1
 #' z <- c(0, 0)
-#' p <- roots(c(1, 0.01, 1))
+#' p <- pracma::roots(c(1, 0.01, 1))
 #' ba <- zp2tf(z, p, k)
 #' 
 #' @author Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
 #' 
 #' @export
 
-zp2tf <- function(z, p, k) {
+zp2tf <- function(z, p, k = 1) {
   
   b <- Re(k * poly(z))
   a <- Re(poly(p))

@@ -4,7 +4,7 @@
 \alias{zp2tf}
 \title{Zero-pole-gain to transfer function}
 \usage{
-zp2tf(z, p, k)
+zp2tf(z, p, k = 1)
 }
 \arguments{
 \item{z}{complex vector of the zeros of the model}
@@ -26,7 +26,7 @@ Convert digital filter zero-pole-gain data to transfer function form
 \examples{
 k <- 1
 z <- c(0, 0)
-p <- roots(c(1, 0.01, 1))
+p <- pracma::roots(c(1, 0.01, 1))
 ba <- zp2tf(z, p, k)
 
 }

@@ -60,8 +60,8 @@ test_that("tf2zp() tests are correct", {
   b <- c(2, 3)
   a <- c(1, 1/sqrt(2), 1/4)
   zpk <- tf2zp(b, a)
-  expect_equal(zpk$z, roots(b))
-  expect_equal(zpk$p, roots(a))
+  expect_equal(zpk$z, pracma::roots(b))
+  expect_equal(zpk$p, pracma::roots(a))
   expect_equal(zpk$k, 2)
   
 })
@@ -77,15 +77,15 @@ test_that("parameters to zp2sos() are correct", {
 
 test_that("zp2sos() tests are correct", {
   sosg <- zp2sos(c(0+1i, 0-1i), c(0+1i, 0-1i))
-  expect_equal(sosg$sos, matrix(c(1, 0, 1, 1, 0, 1), nrow = 1))
+  expect_equal(sosg$sos, c(1, 0, 1, 1, 0, 1))
   expect_equal(sosg$g, 1)
 
   sosg <- zp2sos(c(1+1i, 1-1i), c(1+1i, 1-1i))
-  expect_equal(sosg$sos, matrix(c(1, -2, 2, 1, -2, 2), nrow = 1))
+  expect_equal(sosg$sos, c(1, -2, 2, 1, -2, 2))
   expect_equal(sosg$g, 1)
 
   sosg <- zp2sos(c(1+1i, 1-1i), c(1+1i, 1-1i), 3)
-  expect_equal(sosg$sos, matrix(c(1, -2, 2, 1, -2, 2), nrow = 1))
+  expect_equal(sosg$sos, c(1, -2, 2, 1, -2, 2))
   expect_equal(sosg$g, 3)
   
   expect_equal(as.vector(zp2sos(NULL, 0, 0)$sos), c(1, 0, 0, 1, 0, 0))
@@ -105,7 +105,7 @@ test_that("parameters to tf2sos() are correct", {
 
 test_that("tf2sos() tests are correct", {
   sosg <- tf2sos(c(0, 0), c(1,1))
-  expect_equal(sosg$sos, matrix(c(1, 0, 0, 1, 1, 0), nrow = 1))
+  expect_equal(sosg$sos, c(1, 0, 0, 1, 1, 0))
   expect_equal(sosg$g, 1)
 
 })
@@ -120,9 +120,27 @@ test_that("parameters to zp2tf() are correct", {
 })
 
 test_that("zp2tf() tests are correct", {
-  ba <- zp2tf(c(0, 0), roots(c(1, 0.01, 1)), 1)
+  ba <- zp2tf(c(0, 0), pracma::roots(c(1, 0.01, 1)), 1)
   expect_equal(ba$b, c(1, 0, 0))
   expect_equal(ba$a, c(1, 0.01, 1))
   
+  # design 2-pole notch filter at pi/4 radians = 0.5/4 = 0.125 * fs
+  w = pi/4
+  # zeroes at r = 1
+  r <- 1
+  z1 <- r * exp(1i * w)
+  z2 <- r * exp(1i * -w)
+  # poles at r = 0.9
+  r = 0.9
+  p1 <- r * exp(1i * w)
+  p2 <- r * exp(1i * -w)
+  
+  zeros <- c(z1, z2)
+  poles <- c(p1, p2)
+  ba <- zp2tf(zeros, poles, 1)
+  inv <- tf2zp(ba$b, ba$a)
+  expect_equal(inv$z, zeros)
+  expect_equal(inv$p, poles)
+  expect_equal(inv$k, 1)
 })
 

@@ -21,6 +21,7 @@
 # Version history
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       handle NULL input
+# 20200403  GvB       use 'relaxed' tolerance 1e-7 for cplxreal, flipud sos for compatibility with Matlab/Octave
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to second-order section format
@@ -56,7 +57,7 @@
 zp2sos <- function(z, p, k = 1) {
   
   if (!is.null(z)) {
-    zcr <- cplxreal(z)
+    zcr <- cplxreal(z, tol = 1e-7)
     if (is.null(zcr$zc)) {
       zc <- nzc <- 0
     } else {
@@ -75,7 +76,7 @@ zp2sos <- function(z, p, k = 1) {
   }
   
   if (!is.null(p)) {
-    pcr <- cplxreal(p)
+    pcr <- cplxreal(p, tol = 1e-7)
     if (is.null(pcr$zc)) {
       pc <- npc <- 0
     } else {
@@ -150,6 +151,6 @@ zp2sos <- function(z, p, k = 1) {
     }
   }
   
-  list(sos = sos, g = k)
+  list(sos = sos[rev(seq_len(nsecs)), ], g = k)
   
 }

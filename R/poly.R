@@ -44,7 +44,7 @@
 #' 
 #' @examples
 #' poly(c(1, -1))
-#' poly(roots(1:3))
+#' poly(pracma::roots(1:3))
 #' poly(matrix(1:9, 3, 3))
 #' 
 #' @seealso \code{\link{roots}}

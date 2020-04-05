@@ -19,6 +19,7 @@
 # Version history
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       catch k == 0
+# 20200403  GvB       compute roots with the "eigen" method, and sort them (for Matlab/Octave compatibilty)
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Transfer function to zero-pole-gain form
@@ -62,13 +63,15 @@ tf2zp <- function(b, a) {
   }
   
   if (length(b) > 0) {
-    z <- roots(b)
+    #z <- sort(roots(b, "eigen"))
+    z <- pracma::roots(b)
   } else {
     z <- NULL
   }
   
   if (length(a) > 0) {
-    p <- roots(a)
+    #p <- sort(roots(a, "eigen"))
+    p <- pracma::roots(a)
   } else {
     p <- NULL
   }

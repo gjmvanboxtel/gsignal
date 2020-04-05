@@ -19,7 +19,9 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 2020330  GvB       setup for gsignal v0.1.0
+# 20200330  GvB       setup for gsignal v0.1.0
+# 20200405  GvB       replaced roots() by pracma::roots()
+
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sos to zero-pole-gain
@@ -71,9 +73,9 @@ sos2zp <- function(sos, g = 1) {
   z <- p <- rep(0L, 2 * n)
   for (i in seq_len(n)) {
     ndx <- (2 * i - 1):(2 * i)
-    zi <- roots(sos[i, 1:3])
+    zi <- pracma::roots(sos[i, 1:3])
     z[ndx] <- zi
-    pi <- roots(sos[i, 4:6])
+    pi <- pracma::roots(sos[i, 4:6])
     p[ndx] <- pi
   }
   
