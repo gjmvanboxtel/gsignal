@@ -19,6 +19,7 @@
 # Version history
 # 20200127  GvB       setup for gsignal v0.1.0
 # 20200402  GvB       adapted to Octave filter conversion functions
+# 20200406  GvB       change parameter names to z, p, g; added extensive example
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero pole gain model
@@ -28,9 +29,9 @@
 #' 
 #' \code{as.Zpg} converts from other forms, including \code{Arma} and \code{Ma}.
 #' 
-#' @param zero complex vector of the zeros of the model.
-#' @param pole complex vector of the poles of the model.
-#' @param gain gain of the model.
+#' @param z complex vector of the zeros of the model.
+#' @param p complex vector of the poles of the model.
+#' @param g overall gain of the model.
 #' @param x model to be converted.
 #'
 #' @param ...	additional arguments (ignored).
@@ -45,16 +46,40 @@
 #' @seealso See also \code{\link{Arma}}
 #' 
 #' @examples
-#' filt <- Zpg(c(-1, -1), -1, 1/3)
-#' #zplane(filt)
+#' ## design notch filter at pi/4 radians = 0.5/4 = 0.125 * fs
+#' w = pi/4
+#' # 2 poles, 2 zeros
+#' # zeroes at r = 1
+#' r <- 1
+#' z1 <- r * exp(1i * w)
+#' z2 <- r * exp(1i * -w)
+#' # poles at r = 0.9
+#' r = 0.9
+#' p1 <- r * exp(1i * w)
+#' p2 <- r * exp(1i * -w)
+#' 
+#' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
+#' #zplane(zpg)
+#' 
+#' ba <- as.Arma(zpg)
+#' #freqz(ba)
+#' 
+#' ## Sharper edges: increase distance between zeros and poles
+#' r = 0.8
+#' p1 <- r * exp(1i * w)
+#' p2 <- r * exp(1i * -w)
+#' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
+#' #zplane(zpg)
+#' ba <- as.Arma(zpg)
+#' #freqz(ba)
 #' 
 #' @author Tom Short \email{tshort@@eprisolutions.com}, adapted by Geert van
 #'   Boxtel \email{gjmvanboxtel@@gmail.com}
 #' @rdname Zpg
 #' @export
 
-Zpg <- function(zero, pole, gain) {
-  res <- list(zero = zero, pole = pole, gain = gain)
+Zpg <- function(z, p, g) {
+  res <- list(z = z, p = p, g = g)
   class(res) <- "Zpg"
   res
 }
@@ -86,6 +111,7 @@ as.Zpg.Ma <- function(x, ...) {
 #' @usage
 #' ## S3 method for class 'Sos'
 #' as.Zpg(x, ...)
+#' 
 #' @export
 as.Zpg.Sos <- function(x, ...) {
   
@@ -99,5 +125,3 @@ as.Zpg.Sos <- function(x, ...) {
 #' as.Zpg(x, ...)
 #' @export
 as.Zpg.Zpg <- function(x, ...) x
-
-

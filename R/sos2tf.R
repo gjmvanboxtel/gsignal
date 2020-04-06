@@ -19,7 +19,8 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 2020330  GvB       setup for gsignal v0.1.0
+# 20200330  GvB       setup for gsignal v0.1.0
+# 20200406  GvB       validated
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sos to transfer function

@@ -9,7 +9,7 @@
 \alias{as.Zpg.Zpg}
 \title{Zero pole gain model}
 \usage{
-Zpg(zero, pole, gain)
+Zpg(z, p, g)
 
 as.Zpg(x, ...)
 
@@ -26,11 +26,11 @@ as.Zpg(x, ...)
 as.Zpg(x, ...)
 }
 \arguments{
-\item{zero}{complex vector of the zeros of the model.}
+\item{z}{complex vector of the zeros of the model.}
 
-\item{pole}{complex vector of the poles of the model.}
+\item{p}{complex vector of the poles of the model.}
 
-\item{gain}{gain of the model.}
+\item{g}{overall gain of the model.}
 
 \item{x}{model to be converted.}
 
@@ -52,8 +52,32 @@ Zpg model.
 \code{as.Zpg} converts from other forms, including \code{Arma} and \code{Ma}.
 }
 \examples{
-filt <- Zpg(c(-1, -1), -1, 1/3)
-#zplane(filt)
+## design notch filter at pi/4 radians = 0.5/4 = 0.125 * fs
+w = pi/4
+# 2 poles, 2 zeros
+# zeroes at r = 1
+r <- 1
+z1 <- r * exp(1i * w)
+z2 <- r * exp(1i * -w)
+# poles at r = 0.9
+r = 0.9
+p1 <- r * exp(1i * w)
+p2 <- r * exp(1i * -w)
+
+zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
+#zplane(zpg)
+
+ba <- as.Arma(zpg)
+#freqz(ba)
+
+## Sharper edges: increase distance between zeros and poles
+r = 0.8
+p1 <- r * exp(1i * w)
+p2 <- r * exp(1i * -w)
+zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
+#zplane(zpg)
+ba <- as.Arma(zpg)
+#freqz(ba)
 
 }
 \seealso{

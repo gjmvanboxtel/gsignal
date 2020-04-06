@@ -88,6 +88,8 @@ test_that("zp2sos() tests are correct", {
   expect_equal(sosg$sos, c(1, -2, 2, 1, -2, 2))
   expect_equal(sosg$g, 3)
   
+  # these are slightly different in Matlab (b[0] and b[1] swapped),
+  # and produce errors in Octave
   expect_equal(as.vector(zp2sos(NULL, 0, 0)$sos), c(1, 0, 0, 1, 0, 0))
   expect_equal(as.vector(zp2sos(NULL, 1, 0)$sos), c(1, 0, 0, 1, -1, 0))
   expect_equal(as.vector(zp2sos(NULL, -1, 1)$sos), c(1, 0, 0, 1, 1, 0))
@@ -104,6 +106,17 @@ test_that("parameters to tf2sos() are correct", {
 })
 
 test_that("tf2sos() tests are correct", {
+  
+  b <- c(1, 0, 0, 0, 0, 1)
+  a <- c(1, 0, 0, 0, 0, .9)
+  sosg <- tf2sos (b, a)
+  sec1 <- c(1, 1, 0, 1,  0.9791484, 0)
+  sec2 <- c(1, -1.618034, 1, 1, -1.5842953, 0.9587315)
+  sec3 <- c(1, 0.618034, 1, 1, 0.6051470, 0.9587315)
+  expect_equal(sosg$sos, rbind(sec1, sec2, sec3, deparse.level = 0))
+  
+  # these are slightly different in Matlab (b[0] and b[1] swapped),
+  # and produce errors in Octave
   sosg <- tf2sos(c(0, 0), c(1,1))
   expect_equal(sosg$sos, c(1, 0, 0, 1, 1, 0))
   expect_equal(sosg$g, 1)
@@ -120,6 +133,8 @@ test_that("parameters to zp2tf() are correct", {
 })
 
 test_that("zp2tf() tests are correct", {
+  # Matlab returns a = [1 0.01 1] - bug?
+  # Octave gives an error
   ba <- zp2tf(c(0, 0), pracma::roots(c(1, 0.01, 1)), 1)
   expect_equal(ba$b, c(1, 0, 0))
   expect_equal(ba$a, c(1, 0.01, 1))

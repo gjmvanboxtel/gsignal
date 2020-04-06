@@ -22,6 +22,7 @@
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       handle NULL input
 # 20200403  GvB       use 'relaxed' tolerance 1e-7 for cplxreal, flipud sos for compatibility with Matlab/Octave
+# 20200406  GvB       validated
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to second-order section format

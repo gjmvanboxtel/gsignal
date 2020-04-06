@@ -20,6 +20,7 @@
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       catch k == 0
 # 20200403  GvB       compute roots with the "eigen" method, and sort them (for Matlab/Octave compatibilty)
+# 20200406  GvB       validated
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Transfer function to zero-pole-gain form

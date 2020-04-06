@@ -19,6 +19,7 @@
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
 # 20200405  GvB       Set default k = 1
+# 20200406  GvB       validated
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to transfer function

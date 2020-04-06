@@ -21,7 +21,7 @@
 # Version history
 # 20200330  GvB       setup for gsignal v0.1.0
 # 20200405  GvB       replaced roots() by pracma::roots()
-
+# 20200406  GvB       validated
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sos to zero-pole-gain
