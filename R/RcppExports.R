@@ -13,3 +13,7 @@ conv2dv <- function(a, b) {
     .Call(`_gsignal_conv2dv`, a, b)
 }
 
+sosfilt <- function(sos, x) {
+    .Call(`_gsignal_sosfilt`, sos, x)
+}
+

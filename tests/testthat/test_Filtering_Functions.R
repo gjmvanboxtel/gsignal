@@ -114,3 +114,25 @@ test_that("movingrms() tests are correct", {
 
 # tests for sgolayfilt are in test_FIR_Filter_design_functions.R
 # together with the sgolay() function
+
+# -----------------------------------------------------------------------
+# sosfilt()
+
+test_that("parameters to sosfilt() are correct", {
+  expect_error(sosfilt())
+  expect_error(sosfilt(1, -1))
+  expect_error(sosfilt(rep(1, 6), 'invalid'))
+  expect_error(sosfilt(1, 1, 1))
+})
+
+test_that("sosfilt() tests are correct", {
+  expect_that(sosfilt(c(0,0,0,0,0,0), 1), equals(NA))
+  expect_that(sosfilt(c(0,0,0,0,0,0), c(1, 1)), equals(c(NA, NA)))
+  expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), 1), equals(0))
+  expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), c(1, 1)), equals(c(0, 0)))
+
+  sos <- rbind(c(0,1,0,1,-1,0),c(1,2,1,1,-2,1))
+  x=1:10
+  y=sosfilt(sos,x)
+  expect_that(y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
+})

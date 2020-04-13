@@ -18,6 +18,7 @@
 #
 # Version history
 # 20200208  GvB       setup for gsignal v0.1.0
+# 20200413  GvB       added S3 method for Sos
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -54,7 +55,7 @@
 #' @param init.y,init initial data for the recursive part of the filter (IIR).
 #' @param ... additional arguments (ignored).
 #' 
-#' @return The filtered signal, normally of the same length of the input signal
+#' @return The filtered signal, normally of the same length as the input signal
 #'   \code{x}, returned as a vector
 #' 
 #' @examples
@@ -145,6 +146,16 @@ filter.Arma <- function(filt, x, ...) # IIR
 #' @export
 filter.Ma <- function(filt, x, ...) # FIR
   filter(unclass(filt), 1, x, ...)
+
+#' @rdname filter
+#' @method filter Sos
+#' @export
+filter.Sos <- function(filt, x, ...) { # Second-order sections
+  if (filt$g != 1) {
+    filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
+  }
+  sosfilt(filt$sos, x, ...)
+}
 
 #' @rdname filter
 #' @method filter Zpg

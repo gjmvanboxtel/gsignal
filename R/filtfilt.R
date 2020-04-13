@@ -21,7 +21,8 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 20200217  GvB       setup for gsignal v0.1.0
+# 20200217  GvB       setup for gsignal v0.1
+# 20200413  GvB       added S3 method method for Sos
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
@@ -95,7 +96,7 @@ filtfilt.default <- function(filt, a, x, ...) {
     if (fl >= length(x)) {
       stop("filter length must be shorter than series length")
     }
-    hann <- hanning(2 * fl + 1)
+    hann <- hann(2 * fl + 1)
     x <- c((hann[1:fl] * rev(x[1:fl])), x, (hann[(fl + 2):length(hann)] * rev(x[(length(x) - fl + 1):length(x)])))
     y <- filter(filt, a, x)
     y <- rev(filter(filt, a, rev(y)))
@@ -106,7 +107,7 @@ filtfilt.default <- function(filt, a, x, ...) {
   if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
     y <- ff_single(x, filt, a)
   } else if (length(d) == 2 && d[2] > 1) {
-    y <- apply(x, 2, filtfilt, filt = filt, a = a)
+    y <- apply(x, 2, ff_single, filt = filt, a = a)
   } else {
     stop('Incorrect array dimensions')
   }
@@ -124,6 +125,35 @@ filtfilt.Arma <- function(filt, x, ...) # IIR
 #' @export
 filtfilt.Ma <- function(filt, x, ...) # FIR
   filtfilt(unclass(filt), 1, x, ...)
+
+#' @rdname filtfilt
+#' @method filtfilt Sos
+#' @export
+filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
+
+  ff_single <- function(x, sos) {
+    fl <- 3
+    hann <- hann(2 * fl + 1)
+    x <- c((hann[1:fl] * rev(x[1:fl])), x, (hann[(fl + 2):length(hann)] * rev(x[(length(x) - fl + 1):length(x)])))
+    y <- sosfilt(sos, x)
+    y <- rev(sosfilt(sos, rev(y)))
+    y[(fl + 1):(length(y) - fl)]
+  }
+  
+  if (filt$g != 1) {
+    filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
+  }
+  
+  d <- dim(x)
+  if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
+    y <- ff_single(x, filt$sos)
+  } else if (length(d) == 2 && d[2] > 1) {
+    y <- apply(x, 2, ff_single, sos = filt$sos)
+  } else {
+    stop('Incorrect array dimensions')
+  }
+  y
+}
 
 #' @rdname filtfilt
 #' @method filtfilt Zpg

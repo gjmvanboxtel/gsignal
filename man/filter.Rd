@@ -5,6 +5,7 @@
 \alias{filter.default}
 \alias{filter.Arma}
 \alias{filter.Ma}
+\alias{filter.Sos}
 \alias{filter.Zpg}
 \title{Filter a signal}
 \usage{
@@ -15,6 +16,8 @@ filter(filt, ...)
 \method{filter}{Arma}(filt, x, ...)
 
 \method{filter}{Ma}(filt, x, ...)
+
+\method{filter}{Sos}(filt, x, ...)
 
 \method{filter}{Zpg}(filt, x, ...)
 }
@@ -34,7 +37,7 @@ filter operation.}
 \item{init.y, init}{initial data for the recursive part of the filter (IIR).}
 }
 \value{
-The filtered signal, normally of the same length of the input signal
+The filtered signal, normally of the same length as the input signal
   \code{x}, returned as a vector
 }
 \description{

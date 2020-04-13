@@ -41,11 +41,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sosfilt
+NumericVector sosfilt(NumericMatrix sos, NumericVector x);
+RcppExport SEXP _gsignal_sosfilt(SEXP sosSEXP, SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type sos(sosSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sosfilt(sos, x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2df", (DL_FUNC) &_gsignal_conv2df, 2},
     {"_gsignal_conv2ds", (DL_FUNC) &_gsignal_conv2ds, 2},
     {"_gsignal_conv2dv", (DL_FUNC) &_gsignal_conv2dv, 2},
+    {"_gsignal_sosfilt", (DL_FUNC) &_gsignal_sosfilt, 2},
     {NULL, NULL, 0}
 };
 

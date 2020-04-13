@@ -17,7 +17,8 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20191209 Geert van Boxtel          First version for v0.1.0
+# 20191209 GbB            First version for v0.1.0
+# 20200413 GvB            corrected definition of hanning
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Hann window
@@ -77,4 +78,4 @@ hann <- function (n, method = c('symmetric', 'periodic')) {
 }
 
 #' @rdname hann
-hanning <- hann
+hanning <- function(n, method = c('symmetric', 'periodic')) hann(n, method)

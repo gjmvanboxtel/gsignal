@@ -5,6 +5,7 @@
 \alias{filtfilt.default}
 \alias{filtfilt.Arma}
 \alias{filtfilt.Ma}
+\alias{filtfilt.Sos}
 \alias{filtfilt.Zpg}
 \title{Zero-phase digital filtering}
 \usage{
@@ -15,6 +16,8 @@ filtfilt(filt, ...)
 \method{filtfilt}{Arma}(filt, x, ...)
 
 \method{filtfilt}{Ma}(filt, x, ...)
+
+\method{filtfilt}{Sos}(filt, x, ...)
 
 \method{filtfilt}{Zpg}(filt, x, ...)
 }
