@@ -136,3 +136,55 @@ test_that("sosfilt() tests are correct", {
   y=sosfilt(sos,x)
   expect_that(y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
 })
+
+# -----------------------------------------------------------------------
+# fftfilt()
+
+test_that("parameters to fftfilt() are correct", {
+  expect_error(fftfilt())
+  expect_error(fftfilt(1))
+  expect_error(fftfilt(1, 2, 3, 4))
+  expect_error(fftfilt(matrix(rep(1L, 4), 2), 1))
+  expect_error(fftfilt(2, array(rep(1L, 12), dim = c(2, 3, 2))))
+  expect_error(fftfilt(2, 1, matrix(rep(1L, 4), 2)))
+})
+
+test_that("fftfilt() tests are correct", {
+
+  b <- c(1, 1)
+  x <- c(1L, rep(0L, 9))
+  res <- c(rep(1L, 2), rep(0L, 8))
+  expect_that(fftfilt(b, x), equals(res))
+  expect_that(fftfilt(b, replicate(2, x)), equals(replicate(2,res)))
+  expect_that(fftfilt(b, replicate(2, x + 2 *.Machine$double.eps)), equals(replicate(2,res)))
+  
+  r <- sqrt (1/2) * (1+1i)
+  b <-  c(1, 1) * r
+  x <- c(1L, rep(0L, 9))
+  res <- c(rep(1L, 2), rep(0L, 8))
+  expect_that(fftfilt(b, x), equals(r * res))
+  expect_that(fftfilt(b, r * x), equals(r * r * res))
+
+  b  <- c(1, 1)
+  x  <- matrix(rep(0L, 30), 10, 3); x[1, 1] <--1; x[1, 2] <- 1
+  y0 <- matrix(rep(0L, 30), 10, 3); y0[1:2, 1] = -1; y0[1:2, 2] <- 1
+  y  <- fftfilt(b, x)
+  expect_that(y0, equals(y))
+  y  <- fftfilt(b * 1i, x)
+  expect_that(y0 * 1i, equals(y))
+  y  <- fftfilt(b, x * 1i)
+  expect_that(y0 * 1i, equals(y))
+  y  <- fftfilt(b * 1i, x * 1i)
+  expect_that(-y0, equals(y))
+  x  <- runif(10)
+  y  <- fftfilt(b, cbind(x, x * 1i))
+  expect_that(all(abs(Im(y[, 1])) < .Machine$double.eps), equals(TRUE))
+  expect_that(all(abs(Re(y[, 2])) < .Machine$double.eps), equals(TRUE))
+  
+  b  <- runif(10)
+  x  <- runif(10)
+  y0 <- filter(b, 1, x)
+  y  <- fftfilt(b, x)
+  expect_that(y0, equals(y))
+  
+})
