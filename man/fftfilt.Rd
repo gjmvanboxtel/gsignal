@@ -96,5 +96,6 @@ all.equal(y1, y2)                                    # same result
 }
 \author{
 Kurt Hornik \email{Kurt.Hornik@wu-wien.ac.at}, adapted by John W.
-  Eaton. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+  Eaton. Port to R by Tom Short; adapted by Geert van Boxtel
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

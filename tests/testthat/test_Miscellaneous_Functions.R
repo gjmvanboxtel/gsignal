@@ -161,6 +161,32 @@ test_that("conv() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# fftconv()
+
+test_that("parameters to fftconv() are correct", {
+  expect_error(fftconv())
+  expect_error(fftconv(1))
+  expect_error(fftconv(1, 2, 3, 4))
+})
+
+test_that("fftconv() tests are correct", {
+  x <- rep(1L, 3); b <- 2; c <- 3
+  expect_equal(fftconv(x, x), c(1, 2, 3, 2, 1))
+  expect_equal(fftconv(x, b), rep(2L, 3))
+  expect_equal(fftconv(b, x), rep(2L, 3))
+  expect_equal(fftconv(x, c), rep(3L, 3))
+  expect_equal(fftconv(c, x), rep(3L, 3))
+  expect_equal(fftconv(b, c), 6)
+  
+  a <- 1:10; b <- 1:3
+  expect_equal(length(fftconv (a,b)), length(a) + length(b) - 1)
+  expect_equal(length(fftconv (b,a)), length(a) + length(b) - 1)
+  expect_equal(fftconv(a, b, NULL), fftconv (a,b))
+  expect_equal(fftconv(b, a, NULL), fftconv (b,a))
+})
+
+
+# -----------------------------------------------------------------------
 # conv2()
 
 test_that("parameters to conv2() are correct", {

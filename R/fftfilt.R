@@ -20,6 +20,7 @@
 #
 # Version history
 # 20200417  GvB       setup for gsignal v0.1.0
+# 20200420  GvB       adapted slightly (rounding in case of whole numbers)
 #---------------------------------------------------------------------------------------------------------------------
 
 #' FFT-based FIR filtering
@@ -89,7 +90,8 @@
 #' @seealso \code{\link{filter}}, \url{https://en.wikipedia.org/wiki/Overlap-add_method}.
 #' 
 #' @author Kurt Hornik \email{Kurt.Hornik@@wu-wien.ac.at}, adapted by John W.
-#'   Eaton. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'   Eaton. Port to R by Tom Short; adapted by Geert van Boxtel
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #' 
 #' @rdname fftfilt
 #' @export
@@ -163,6 +165,15 @@ fftfilt <- function(b, x, n = NULL) {
   } else {
     y = y[1:nrx, ]
   }
+  
+  ## Final cleanups: if both x and b are real respectively integer, y
+  ## should also be
+  if (is.numeric(b) && is.numeric(x)) 
+    y = Re(y)
+  if (!any(as.logical(b - round(b)))) {
+    idx = !any(as.logical(x - round(x)))
+    y[idx] = round(y[idx])
+  } 
   y
 }
 
