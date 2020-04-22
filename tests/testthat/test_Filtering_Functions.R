@@ -188,3 +188,41 @@ test_that("fftfilt() tests are correct", {
   expect_that(y0, equals(y))
   
 })
+
+# -----------------------------------------------------------------------
+# freqz()
+
+test_that("parameters to freqz() are correct", {
+  expect_error(freqz())
+  expect_error(freqz('invalid'))
+})
+
+test_that("freqz() tests are correct", {
+  
+  # test correct values and fft-polyval consistency
+  # butterworth filter, order 2, cutoff pi/2 radians
+  b <- c(0.292893218813452, 0.585786437626905, 0.292893218813452)
+  a <- c(1, 0, 0.171572875253810)
+  hw <- freqz(b, a, 32)
+  expect_that(Re(hw$h[1]), equals(1))
+  expect_that(abs(hw$h[17])^2, equals(0.5))
+  expect_that(hw$h, equals(freqz(b, a, hw$w)$h))  # fft should be consistent with polyval
+    
+  # test whole-half consistency
+  b <- c(1, 1, 1)/3  # 3-sample average
+  hw <- freqz(b, 1, 32, whole = TRUE)
+  expect_that(hw$h[2:16], equals(Conj(hw$h[32:18])))
+  hw2 <- freqz(b, 1, 16, whole = FALSE)
+  expect_that(hw$h[1:16], equals(hw2$h))
+  expect_that(hw$w[1:16], equals(hw2$w))
+    
+  # test sampling frequency properly interpreted
+  b <- c(1, 1, 1) / 3; a <- c(1, 0.2)
+  hw <- freqz(b, a, 16, fs = 320)
+  expect_that(hw$w, equals((0:15) * 10))
+  hw2 <- freqz(b, a, (0:15) * 10, fs = 320)
+  expect_that(hw2$w, equals((0:15) * 10))
+  expect_that(hw$h, equals(hw2$h))
+  hw3 <- freqz(b, a, 32, whole = TRUE, fs = 320)
+  expect_that(hw3$w, equals((0:31) * 10))
+})
