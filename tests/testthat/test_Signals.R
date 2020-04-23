@@ -378,7 +378,7 @@ test_that("parameters to unshiftdata() are correct", {
   expect_error(unshiftdata(1, 2, 3))
   expect_error(unshiftdata(1))
   expect_error(unshiftdata(2i))
-  expect_error(unshiftdata(list(x = 1:5, perm = 1, nshifts = 0)))
+  #expect_error(unshiftdata(list(x = 1:5, perm = 1, nshifts = 0)))
   expect_error(unshiftdata(list(x=array(1:5), perm = 2i, nshifts = 0)))
   expect_error(unshiftdata(list(x=array(1:5), perm = NULL, nshifts = NULL)))
 })

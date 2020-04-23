@@ -58,9 +58,10 @@ method. For \code{freqz_plot}, additional arguments are passed through to plot.}
 
 \item{a}{the autoregressive (recursive) coefficients of an ARMA filter.}
 
-\item{n}{number of points at which to evaluate the frequency response. For
-fastest computation, \code{n} should factor into a small number of small
-primes. Default: 512.}
+\item{n}{number of points at which to evaluate the frequency response. If
+\code{n} is a vector with a length greater than 1, then evaluate the
+frequency response at these points. For fastest computation, \code{n}
+should factor into a small number of small primes. Default: 512.}
 
 \item{whole}{FALSE (the default) to evaluate around the upper half of the
 unit circle or TRUE to evaluate around the entire unit circle.}

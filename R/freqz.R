@@ -20,6 +20,7 @@
 #
 # Version history
 # 20200422  GvB       setup for gsignal v0.1.0
+# 20200423  GvB       corrected minor bug in print.summary.freqz, and print phase also in degrees
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -48,9 +49,10 @@
 #'   model or filter. Generically, filt specifies an arbitrary model or filter
 #'   operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
-#' @param n	number of points at which to evaluate the frequency response. For
-#'   fastest computation, \code{n} should factor into a small number of small
-#'   primes. Default: 512.
+#' @param n	number of points at which to evaluate the frequency response. If
+#'   \code{n} is a vector with a length greater than 1, then evaluate the
+#'   frequency response at these points. For fastest computation, \code{n}
+#'   should factor into a small number of small primes. Default: 512.
 #' @param whole	FALSE (the default) to evaluate around the upper half of the
 #'   unit circle or TRUE to evaluate around the entire unit circle.
 #' @param fs sampling frequency in Hz. If not specified (default = 2 * pi), the
@@ -202,14 +204,15 @@ print.summary.freqz <- function (x, ...) {
   pt <- ifelse(lc > 1, "points", "point")
   fr <- ifelse(lc > 1, "frequencies", "frequency")
   cat(paste0("\n-3 dB cutoff at ", fr, " ", cutoff[1]))
-  if(lc > 0) {
+  if(lc > 1) {
     for (i in 2:lc) {
       cat(paste(",", cutoff[i]))
     }
   }
   cat(paste0(" ", x$u))
   rp <- round(x$rp, 3)
-  cat(paste0("\nPhase ranging from ", rp[1], " to ", rp[2], " rad"))
+  rpd <- round(rp * 360 / (2 * pi), 3)
+  cat(paste0("\nPhase ranging from ", rp[1], " to ", rp[2], " rad (", rpd[1], " to ", rpd[2], " degrees)"))
   cat("\n")
 }
 
