@@ -27,15 +27,9 @@
 #'
 #' Compute the average delay of a filter (group delay)
 #'
-#' For fastest computation, n should factor into a small number of small primes.
-#'
 #' If the denominator of the computation becomes too small, the group delay is
 #' set to zero. (The group delay approaches infinity when there are poles or
 #' zeros very close to the unit circle in the z plane.)
-#'
-#' When results of grpdelay are printed, the group delay will be plotted. As
-#' with lattice plots, automatic printing does not work inside loops and
-#' function calls, so explicit calls to print or plot are needed there.
 #'
 #' @param filt for the default case, the moving-average coefficients of an ARMA
 #'   model or filter. Generically, filt specifies an arbitrary model or filter
@@ -76,7 +70,7 @@
 #'   \email{jos@@ccrma.stanford.edu}, port to R by Tom Short, adapted by Geert
 #'   van Boxtel \email{gjmvanboxtel@@gmail.com}
 #'
-#' @references \url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}
+#' @references \url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 #' \url{http://en.wikipedia.org/wiki/Group_delay}
 #'
 #' @rdname grpdelay

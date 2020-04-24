@@ -171,3 +171,24 @@ test_that("grpdelay() tests are correct", {
   expect_equal(dh, db + da, ttolerance = 1e-5)
 
 })
+
+# -----------------------------------------------------------------------
+# impz()
+
+test_that("parameters to impz() are correct", {
+  expect_error(impz())
+  expect_error(impz('invalid'))
+})
+
+test_that("impz() tests are correct", {
+  
+  xt <- impz(1, c(1, -1, 0.9), 100)
+  expect_equal(length(xt$t), 100L)
+  expect_equal(xt$t, 0:99)
+  
+  xt <- impz(1, c(1, -1, 0.9), 0:101)
+  expect_equal(length(xt$t), 102L)
+  expect_equal(xt$t, 0:101)
+  
+})
+

@@ -73,15 +73,9 @@ A list of class \code{grpdelay} with items:
 Compute the average delay of a filter (group delay)
 }
 \details{
-For fastest computation, n should factor into a small number of small primes.
-
 If the denominator of the computation becomes too small, the group delay is
 set to zero. (The group delay approaches infinity when there are poles or
 zeros very close to the unit circle in the z plane.)
-
-When results of grpdelay are printed, the group delay will be plotted. As
-with lattice plots, automatic printing does not work inside loops and
-function calls, so explicit calls to print or plot are needed there.
 }
 \examples{
 # Two Zeros and Two Poles
@@ -93,7 +87,7 @@ plot(gpd)
 
 }
 \references{
-\url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}
+\url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 \url{http://en.wikipedia.org/wiki/Group_delay}
 }
 \author{
