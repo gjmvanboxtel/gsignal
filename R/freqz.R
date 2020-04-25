@@ -21,6 +21,7 @@
 # Version history
 # 20200422  GvB       setup for gsignal v0.1.0
 # 20200423  GvB       corrected minor bug in print.summary.freqz, and print phase also in degrees
+# 20200425  GvB       Added S3 method for class 'Zpg'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -157,6 +158,12 @@ freqz.Ma <- function(filt, ...) # FIR
 #' @export
 
 freqz.Sos <- function(filt, ...) # second-order sections
+  freqz.Arma(as.Arma(filt), ...)
+
+#' @rdname freqz 
+#' @export
+
+freqz.Zpg <- function(filt, ...) # zero-pole-gain
   freqz.Arma(as.Arma(filt), ...)
 
 #' @rdname freqz 

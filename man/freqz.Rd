@@ -7,6 +7,7 @@
 \alias{freqz.Arma}
 \alias{freqz.Ma}
 \alias{freqz.Sos}
+\alias{freqz.Zpg}
 \alias{print.freqz}
 \alias{summary.freqz}
 \alias{print.summary.freqz}
@@ -35,6 +36,8 @@ freqz(filt, ...)
 \method{freqz}{Ma}(filt, ...)
 
 \method{freqz}{Sos}(filt, ...)
+
+\method{freqz}{Zpg}(filt, ...)
 
 \method{print}{freqz}(x, ...)
 
