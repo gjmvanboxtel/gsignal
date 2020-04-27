@@ -2,15 +2,32 @@
 % Please edit documentation in R/freqs.R
 \name{freqs}
 \alias{freqs}
+\alias{freqs.default}
+\alias{freqs.Arma}
+\alias{freqs.Ma}
+\alias{freqs.Sos}
+\alias{freqs.Zpg}
 \title{Frequency response of analog filters}
 \usage{
-freqs(b, a, w, plot = TRUE)
+freqs(filt, ...)
+
+\method{freqs}{default}(filt, a, w, plot = TRUE, ...)
+
+\method{freqs}{Arma}(filt, w, ...)
+
+\method{freqs}{Ma}(filt, w, ...)
+
+\method{freqs}{Sos}(filt, w, ...)
+
+\method{freqs}{Zpg}(filt, w, ...)
 }
 \arguments{
-\item{b}{moving average (MA) polynomial coefficients, specified as a numeric
-vector or matrix. In case of a matrix, then each row corresponds to an
-output of the system. The number of columns of \code{b} must be less than
-or equal to the length of \code{a}.}
+\item{filt}{for the default case, moving average (MA) polynomial
+coefficients, specified as a numeric vector or matrix. In case of a matrix,
+then each row corresponds to an output of the system. The number of columns
+of \code{b} must be less than or equal to the length of \code{a}.}
+
+\item{...}{additional parameters (not used)}
 
 \item{a}{autoregressive (AR) polynomial coefficients, specified as a vector.}
 

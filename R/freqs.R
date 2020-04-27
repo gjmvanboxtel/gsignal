@@ -20,6 +20,7 @@
 #
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
+# 20200427  GvB       added S3 methods
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of analog filters
@@ -30,16 +31,17 @@
 #' as \code{H = polyval(B, 1i * W) / polyval(A, 1i * W)}. If called with no
 #' output argument, a plot of magnitude and phase are displayed.
 #' 
-#' @param b moving average (MA) polynomial coefficients, specified as a numeric
-#'   vector or matrix. In case of a matrix, then each row corresponds to an
-#'   output of the system. The number of columns of \code{b} must be less than
-#'   or equal to the length of \code{a}.
+#' @param filt for the default case, moving average (MA) polynomial
+#'   coefficients, specified as a numeric vector or matrix. In case of a matrix,
+#'   then each row corresponds to an output of the system. The number of columns
+#'   of \code{b} must be less than or equal to the length of \code{a}.
 #' @param a autoregressive (AR) polynomial coefficients, specified as a vector.
 #' @param w angular frequencies, specified as a positive real vector expressed
 #'   in rad/second.
 #' @param plot logical. If \code{TRUE} (default), plots the magnitude and phase
 #'   responses as a function of angular frequency, otherwise a vector of the
 #'   frequency response is returned.
+#' @param ... additional parameters (not used)
 #' 
 #' @return Frequency response, returned as a complex vector.
 #' 
@@ -51,11 +53,17 @@
 #' @author Julius O. Smith III \email{jos@@ccrma.stanford.edu}, port to R by
 #'   Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
 #' 
+#' @rdname freqs
 #' @export
 
-freqs <- function(b, a, w, plot = TRUE) {
+freqs <- function(filt, ...) UseMethod("freqs")
+
+#' @rdname freqs
+#' @export
+
+freqs.default <- function(filt, a, w, plot = TRUE, ...) {
   
-  h <- pracma::polyval(b, 1i * w) / pracma::polyval(a, 1i * w)
+  h <- pracma::polyval(filt, 1i * w) / pracma::polyval(a, 1i * w)
   
   if (plot) {
     freqs_plot(w, h)
@@ -64,3 +72,27 @@ freqs <- function(b, a, w, plot = TRUE) {
     h
   }
 }
+
+#' @rdname freqs 
+#' @export
+
+freqs.Arma <- function(filt, w, ...) # IIR
+  freqs.default(filt$b, filt$a, w, ...)
+
+#' @rdname freqs
+#' @export
+
+freqs.Ma <- function(filt, w, ...) # FIR
+  freqs.default(filt, 1, w, ...)
+
+#' @rdname freqs 
+#' @export
+
+freqs.Sos <- function(filt, w, ...) # second-order sections
+  freqs.Arma(as.Arma(filt), w, ...)
+
+#' @rdname freqs
+#' @export
+
+freqs.Zpg <- function(filt, w, ...) # zero-pole-gain
+  freqs.Arma(as.Arma(filt), w, ...)
