@@ -18,6 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200426 Geert van Boxtel          First version for v0.1.0
+# 2020501 Geert van Boxtel          return Zpg$z = complex(0) instead of NULL
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Bessel analog lowpass filter prototype
@@ -76,6 +77,6 @@ besselap <- function (n) {
     p1 <- p1 * p1[length(p1)]^(seq(length(p1) - 1, 0, -1) / (length(p1) - 1))
     p <- pracma::roots(p1)
   }
-  Zpg(NULL, p, 1)
+  Zpg(complex(0), p, 1)
 }
 
