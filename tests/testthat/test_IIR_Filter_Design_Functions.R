@@ -39,6 +39,61 @@ test_that("besselap() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# besself()
+
+test_that("parameters to besself() are correct", {
+  expect_error(besself())
+  expect_error(besself(1))
+  expect_error(besself(1, 2, 3, 4))
+  expect_error(besself(0.5, 0.2))
+  expect_error(besself(3, -1))
+  expect_error(besself(3, 2, "invalid"))
+})
+
+test_that("besself() tests are correct", {
+  zpg <- besself(1, 1, 'low')
+  expect_equal(zpg$z, complex(0))
+  expect_equal(zpg$p, -1L)
+  expect_equal(zpg$g, 1L)
+
+  zpg <- besself(1, 1, 'high')
+  expect_equal(zpg$z, 0L)
+  expect_equal(zpg$p, -1L)
+  expect_equal(zpg$g, 1L)
+
+  zpg <- besself(1, c(1, 2), 'stop')
+  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i), tolerance = 1e-6)
+  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = 1e-6)
+  expect_equal(zpg$g, 1L)
+
+  zpg <- besself(1, c(1, 2), 'pass')
+  expect_equal(zpg$z, 0L)
+  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = 1e-6)
+  expect_equal(zpg$g, 1L)
+
+  zpg <- besself(2, 1, 'low')
+  expect_equal(zpg$z, complex(0))
+  expect_equal(zpg$p, c(-0.8660254+0.5i, -0.8660254-0.5i))
+  expect_equal(zpg$g, 1L)
+  
+  zpg <- besself(2, 1, 'high')
+  expect_equal(zpg$z, c(0L, 0L))
+  expect_equal(zpg$p, c(-0.8660254-0.5i, -0.8660254+0.5i))
+  expect_equal(zpg$g, 1L)
+  
+  zpg <- besself(2, c(1, 2), 'stop')
+  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i, 0-1.414214i, 0+1.414214i), tolerance = 1e-6)
+  expect_equal(zpg$p, c(-0.354087+1.121579i, -0.354087-1.121579i, -0.511939-1.621579i, -0.511939+1.621579i), tolerance = 1e-6)
+  expect_equal(zpg$g, 1L)
+  
+  zpg <- besself(2, c(1, 2), 'pass')
+  expect_equal(zpg$z, c(0L, 0L))
+  expect_equal(zpg$p, c( -0.354087-1.121579i, -0.354087+1.121579i, -0.511939+1.621579i, -0.511939-1.621579i), tolerance = 1e-6)
+  expect_equal(zpg$g, 1L)
+  
+})
+
+# -----------------------------------------------------------------------
 # bilinear()
 
 test_that("parameters to bilinear() are correct", {
