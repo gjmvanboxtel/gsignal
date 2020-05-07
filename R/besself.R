@@ -24,7 +24,7 @@
 
 #' Bessel analog filter design
 #' 
-#' Compute the transfer function coefficients of a lowpass analog Bessel filter
+#' Compute the transfer function coefficients of an analog Bessel filter
 #' 
 #' \code{besself} designs analog Bessel filters, which are characterized by an
 #' almost constant group delay across the entire passband, thus preserving the

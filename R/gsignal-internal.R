@@ -20,7 +20,7 @@
 # Version history
 # 20191029  GvB       Initial setup
 # 20200112  GvB       Added ssq() msq() rmsq()
-#
+# 20200507  GvB       adapted isWhole()
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Internal functions not exported to the namespace
@@ -35,7 +35,7 @@ isScalar <- function(x) ifelse(is.character(x), nchar(x) == 1L, (is.atomic(x) &&
 isPosscal <- function(x) isScalar(x) && is.numeric(x) && x >= 0
 
 # test if x is a whole number
-isWhole <- function(x, tol = .Machine$double.eps^0.5)  !(is.null(x) || is.character(x)) && abs(x - round(x)) < tol
+isWhole <- function(x, tol = .Machine$double.eps^0.5)  !(is.null(x) || is.character(x)) && any(abs(x - round(x)) < tol)
 
 # convert factor to numeric
 unfactor <- function(f) if (is.factor(f)) as.numeric(levels(f)[as.integer(f)]) else NULL

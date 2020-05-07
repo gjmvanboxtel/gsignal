@@ -20,7 +20,7 @@ list of class \code{'\link{Zpg}'} containing poles and gain of the
   filter
 }
 \description{
-Compute the transfer function coefficients of a lowpass analog Bessel filter
+Compute the transfer function coefficients of an analog Bessel filter
 }
 \details{
 \code{besself} designs analog Bessel filters, which are characterized by an

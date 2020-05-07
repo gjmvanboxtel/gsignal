@@ -18,6 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191202 Geert van Boxtel          First version for v0.1.0
+# 20200507 GvB                       Replaced length(sd$perm) > 0 && !is.na(sd$perm) by length(sd$perm) > 0 && !anyNA(sd$perm)
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Inverse of shiftdata
@@ -64,7 +65,7 @@ unshiftdata <- function (sd) {
   if (!is.list(sd) || !("x" %in% nm && "perm" %in% nm && "nshifts" %in% nm)) 
     stop('sd must be a list with elements x, perm and nshifts')
   
-  if (length(sd$perm) > 0 && !is.na(sd$perm)) {
+  if (length(sd$perm) > 0 && !anyNA(sd$perm)) {
     if (!isWhole(sd$perm)) stop(paste0(deparse(substitute(sd)), '$perm must be a vector of integers'))
     dimx = sd$perm[1]
   } else if (length(sd$nshifts) > 0) {
