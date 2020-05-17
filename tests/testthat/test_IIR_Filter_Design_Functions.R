@@ -155,3 +155,252 @@ test_that("sftrans() tests are correct", {
   expect_equal(res$g, 1)
   
 })
+
+# -----------------------------------------------------------------------
+# buttord()
+
+test_that("parameters to buttord() are correct", {
+  expect_error(buttord())
+  expect_error(buttord(.1))
+  expect_error(buttord(.1, .2))
+  expect_error(buttord(c(.1, .1), c(.2, .2), 3, 4))
+  expect_error(buttord(c(.1, .2), c(.5, .6), 3, 4))
+  expect_error(buttord(c(.1, .5), c(.2, .6), 3, 4))
+  expect_error(buttord(.1, .2, 3, 4, 5))
+  expect_error(buttord(1, 2, 3, 4, 's', 6))
+})
+
+test_that("buttord() tests are correct", {
+  
+  # Analog band-pass
+  res <- buttord(2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10436), 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), c(61903, 63775))
+  expect_equal(round(res$Wc_s), c(61575, 64114))
+    
+  # Analog band-pass
+  res <- buttord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9582, 11000), 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), c(61903, 63775))
+  expect_equal(round(res$Wc_s), c(61575, 64115))
+
+  # Analog band-pass
+  res <- buttord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10437), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61850, 63830))
+  expect_equal(round(res$Wc_s), c(61848, 63831))
+
+  # Analog band-pass
+  res <- buttord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9581, 11000), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61850, 63830))
+  expect_equal(round(res$Wc_s), c(61847, 63832))
+
+  # Analog high-pass
+  res <- buttord (2 * pi * 13583, 2 * pi * 4000, 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), 72081)
+  expect_equal(round(res$Wc_s), 53101)
+
+  # Analog high-pass
+  res <- buttord (2 * pi * 13584, 2 * pi * 4000, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 68140)
+  expect_equal(round(res$Wc_s), 68138)
+
+  # Analog low-pass
+  res <- buttord (2 * pi * 4000, 2 * pi * 13583, 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), 29757)
+  expect_equal(round(res$Wc_s), 40394)
+
+  # Analog low-pass
+  res <- buttord (2 * pi * 4000, 2 * pi * 13584, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 31481)
+  expect_equal(round(res$Wc_s), 31482)
+
+  # Analog notch (narrow band-stop)
+  res <- buttord (2 * pi * c(9000, 10436), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), c(60607, 65138))
+  expect_equal(round(res$Wc_s), c(61184, 64524))
+  
+  # Analog notch (narrow band-stop)
+  res <- buttord (2 * pi * c(9582, 11000), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 4)
+  expect_equal(round(res$Wc), c(60606, 65139))
+  expect_equal(round(res$Wc_s), c(61184, 64524))
+
+  # Analog notch (narrow band-stop)
+  res <- buttord (2 * pi * c(9000, 10437), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(60722, 65015))
+  expect_equal(round(res$Wc_s), c(60726, 65011))
+
+  # Analog notch (narrow band-stop)
+  res <- buttord (2 * pi * c(9581, 11000), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(60721, 65016))
+  expect_equal(round(res$Wc_s), c(60726, 65011))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10051), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), c(9477, 9773))
+  expect_equal(round(Wc_s), c(9425, 9826))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(9204, 10700), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), c(9477, 9773))
+  expect_equal(round(Wc_s), c(9425, 9826))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10052), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9469, 9782))
+  expect_equal(round(Wc_s), c(9468, 9782))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(9203, 10700), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9469, 9782))
+  expect_equal(round(Wc_s), c(9468, 9782))
+  
+  # Digital high-pass
+  fs <- 44100
+  res <- buttord (2 / fs * 10987, 2 / fs * 4000, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), 9808)
+  expect_equal(round(Wc_s), 7780)
+  
+  # Digital high-pass
+  fs <- 44100
+  res <- buttord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 9421)
+  expect_equal(round(Wc_s), 9421)
+  
+  # Digital low-pass
+  fs <- 44100
+  res <- buttord (2 / fs * 4000, 2 / fs * 10987, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), 4686)
+  expect_equal(round(Wc_s), 6176)
+
+  # Digital low-pass
+  fs <- 44100
+  res <- buttord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 4936)
+  expect_equal(round(Wc_s), 4936)
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- buttord (2 / fs * c(8500, 10833), 2 / fs * c(9875, 10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), c(9369, 10640))
+  expect_equal(round(Wc_s), c(9605, 10400))
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- buttord (2 / fs * c(9183, 11000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 4)
+  expect_equal(round(Wc), c(9370, 10640))
+  expect_equal(round(Wc_s), c(9605, 10400))  
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- buttord (2 / fs * c(8500, 10834), 2 / fs * c(9875, 10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9421, 10587))
+  expect_equal(round(Wc_s), c(9422, 10587))  
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- buttord (2 / fs * c(9182, 11000), 2 / fs * c(9875, 10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9421, 10587))
+  expect_equal(round(Wc_s), c(9422, 10587))  
+
+})
+
+# -----------------------------------------------------------------------
+# butter()
+
+test_that("parameters to butter() are correct", {
+  expect_error(butter())
+  expect_error(butter(1))
+  expect_error(butter(1, 2, 3, 4, 5))
+  expect_error(butter(.5, .2))
+  expect_error(butter(3, .2, "invalid"))
+  expect_error(butter(9, .6, "stop"))
+  expect_error(butter(9, .6, "pass"))
+  expect_error(butter(9, .6, "pass", "q"))
+  
+})
+
+test_that("butter() tests are correct", {
+  
+  # shared sf, sf2, off_db
+  off_db <- 0.5
+  fs <- 6000; fs2 <- fs / 2
+  sinetone <- function(f, r, s, a) a * sin(2 * pi * f * seq(0, s, length.out = r * s))
+  data <- cbind(sinetone(5,fs,10,1), sinetone(10,fs,10,1), sinetone(50,fs,10,1), sinetone(200,fs,10,1), sinetone(400,fs,10,1))
+  l <- nrow(data)
+  
+  # Test low pass order 1 with 3dB @ 50Hz
+  bf <-  butter ( 1, 50 / fs2 )
+  filtered <- NULL; for (i in 1:5) filtered <- cbind(filtered, filter(bf, data[, i]))
+  damp_db <- NULL; for (i in 1:5) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - fs):l, i])))
+  expect_equal(c(damp_db[4] - damp_db[5], damp_db[1:3]), c(6, 0, 0, -3), tolerance = off_db)
+
+  # Test low pass order 4 with 3dB @ 50Hz
+  bf <- butter(4, 50 / fs2)
+  filtered <- NULL; for (i in 1:5) filtered <- cbind(filtered, filter(bf, data[, i]))
+  damp_db <- NULL; for (i in 1:5) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - fs):l, i])))
+  expect_equal(c(damp_db[4] - damp_db[5], damp_db[1:3]), c(24, 0, 0, -3), tolerance = off_db)
+
+  # Test high pass order 1 with 3dB @ 50Hz
+  bf <- butter(1, 50 / fs2, "high")
+  filtered <- NULL; for (i in 1:5) filtered <- cbind(filtered, filter(bf, data[, i]))
+  damp_db <- NULL; for (i in 1:5) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - fs):l, i])))
+  expect_equal(c(damp_db[2] - damp_db[1], damp_db[3:5]), c(6, -3, 0, 0), tolerance = off_db)
+  
+  # Test high pass order 4 with 3dB @ 50Hz
+  bf <- butter(4, 50 / fs2, "high")
+  filtered <- NULL; for (i in 1:5) filtered <- cbind(filtered, filter(bf, data[, i]))
+  damp_db <- NULL; for (i in 1:5) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - fs):l, i])))
+  expect_equal(c(damp_db[2] - damp_db[1], damp_db[3:5]), c(24, -3, 0, 0), tolerance = off_db)
+ 
+})
+  

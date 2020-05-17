@@ -22,6 +22,7 @@
 # 20200422  GvB       setup for gsignal v0.1.0
 # 20200423  GvB       corrected minor bug in print.summary.freqz, and print phase also in degrees
 # 20200425  GvB       Added S3 method for class 'Zpg'
+# 20200515  GvB       resolve infinite ylim values in freqz.plot
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -240,8 +241,11 @@ freqz_plot.freqz <- function(w, ...)
 freqz_plot.default <- function(w, h, ...) {
   
   mag <- 20 * log10(abs(h))
-  phase <- unwrap(Arg(h))
-  maxmag <- max(mag)
+  maxmag <- max(mag, na.rm = TRUE)
+  if (is.na(maxmag) || maxmag == Inf) maxmag <- 1
+  argh <- Arg(h)
+  argh[which(is.na(argh))] <- 0
+  phase <- unwrap(argh)
   op <- graphics::par(mfrow=c(3,1), mar = c(4,4,1.5,1))
   on.exit(graphics::par(op))
   graphics::plot(w, mag, type = "l", xlab = "", ylab = "", ylim = c(-4, maxmag), ...)
@@ -250,6 +254,6 @@ freqz_plot.default <- function(w, h, ...) {
   graphics::plot(w, mag, type = "l", xlab = "", ylab = "", ...)
   graphics::title("Stop band (dB)")
   graphics::abline(h = -3, col = "red", lty = 2)
-  graphics::plot(w, phase * 360 / (2 * pi), type = "l", ..., xlab = "Frequency", ylab = "")
+  graphics::plot(w, phase * 360 / (2 * pi), type = "l", xlab = "Frequency", ylab = "", ...)
   graphics::title("Phase (degrees)")
 } 
