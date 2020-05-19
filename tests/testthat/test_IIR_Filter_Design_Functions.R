@@ -403,4 +403,253 @@ test_that("butter() tests are correct", {
   expect_equal(c(damp_db[2] - damp_db[1], damp_db[3:5]), c(24, -3, 0, 0), tolerance = off_db)
  
 })
+
+# -----------------------------------------------------------------------
+# cheb1ord()
+
+test_that("parameters to cheb1ord() are correct", {
+  expect_error(cheb1ord())
+  expect_error(cheb1ord(.1))
+  expect_error(cheb1ord(.1, .2))
+  expect_error(cheb1ord(c(.1, .1), c(.2, .2), 3, 4))
+  expect_error(cheb1ord(c(.1, .2), c(.5, .6), 3, 4))
+  expect_error(cheb1ord(c(.1, .5), c(.2, .6), 3, 4))
+  expect_error(cheb1ord(.1, .2, 3, 4, 5))
+  expect_error(cheb1ord(1, 2, 3, 4, 's', 6))
+})
+
+test_that("cheb1ord() tests are correct", {
   
+  # Analog band-pass
+  res <- cheb1ord(2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10437), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(62046, 63627))
+  expect_equal(round(res$Wc_s), c(61652, 64035))
+  
+  # Analog band-pass
+  res <- cheb1ord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9581, 12000), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(62046, 63627))
+  expect_equal(round(res$Wc_s), c(61651, 64036))
+  
+  # Analog high-pass
+  res <- cheb1ord (2 * pi * 13584, 2 * pi * 4000, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 85351)
+  expect_equal(round(res$Wc_s), 56700)
+  
+  # Analog high-pass
+  res <- cheb1ord (2 * pi * 13584, 2 * pi * 4000, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 85351)
+  expect_equal(round(res$Wc_s), 56700)
+  
+  # Analog low-pass
+  res <- cheb1ord (2 * pi * 4000, 2 * pi * 13584, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 25133)
+  expect_equal(round(res$Wc_s), 37832)
+
+  # Analog notch (narrow band-stop)
+  res <- cheb1ord (2 * pi * c(9000, 10437), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(60201, 65578))
+  expect_equal(round(res$Wc_s), c(61074, 64640))
+  
+  # Analog notch (narrow band-stop)
+  res <- cheb1ord (2 * pi * c(9581, 12000), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(60199, 65580))
+  expect_equal(round(res$Wc_s), c(61074, 64640))
+  
+  # Digital band-pass
+  fs <- 44100
+  res <- cheb1ord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10052), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9500, 9750))
+  expect_equal(round(Wc_s), c(9437, 9814))
+  
+  # Digital band-pass
+  fs <- 44100
+  res <- cheb1ord (2 / fs * c(9500, 9750), 2 / fs * c(9182, 12000), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9500, 9750))
+  expect_equal(round(Wc_s), c(9428, 9823))
+  
+  # Digital high-pass
+  fs <- 44100
+  res <- cheb1ord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 10988)
+  expect_equal(round(Wc_s), 8197)
+  
+  # Digital low-pass
+  fs <- 44100
+  res <- cheb1ord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 4000)
+  expect_equal(round(Wc_s), 5829)
+  
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- cheb1ord (2 / fs * c(8500, 10834), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9182, 10834))
+  expect_equal(round(Wc_s), c(9475, 10532))
+  
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- cheb1ord (2 / fs * c(9182, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9182, 10834))
+  expect_equal(round(Wc_s), c(9475, 10532))  
+
+})
+
+# -----------------------------------------------------------------------
+# cheby1()
+
+test_that("parameters to cheby1() are correct", {
+  expect_error(cheby1())
+  expect_error(cheby1(1))
+  expect_error(cheby1(1, 2, 3, 4, 5))
+  expect_error(cheby1(.5, .2))
+  expect_error(cheby1(3, .2, 0.5, "invalid"))
+  expect_error(cheby1(9, .6, 0.5, "stop"))
+  expect_error(cheby1(9, .6, 0.5, "pass"))
+  expect_error(cheby1(9, .6, 0.5, "pass", "q"))
+})
+
+# -----------------------------------------------------------------------
+# cheb2ord()
+
+test_that("parameters to cheb2ord() are correct", {
+  expect_error(cheb2ord())
+  expect_error(cheb2ord(.1))
+  expect_error(cheb2ord(.1, .2))
+  expect_error(cheb2ord(c(.1, .1), c(.2, .2), 3, 4))
+  expect_error(cheb2ord(c(.1, .2), c(.5, .6), 3, 4))
+  expect_error(cheb2ord(c(.1, .5), c(.2, .6), 3, 4))
+  expect_error(cheb2ord(.1, .2, 3, 4, 5))
+  expect_error(cheb2ord(1, 2, 3, 4, 's', 6))
+})
+
+test_that("cheb2ord() tests are correct", {
+  
+  # Analog band-pass
+  res <- cheb2ord(2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10437), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61074, 64640))
+  expect_equal(round(res$Wc_s), c(60201, 65578))
+  
+  # Analog band-pass
+  res <- cheb2ord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9581, 12000), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61074, 64640))
+  expect_equal(round(res$Wc_s), c(60199, 65580))
+  
+  # Analog high-pass
+  res <- cheb2ord (2 * pi * 13584, 2 * pi * 4000, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 37832)
+  expect_equal(round(res$Wc_s), 25133)
+  
+  # Analog low-pass
+  res <- cheb2ord (2 * pi * 4000, 2 * pi * 13584, 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 56700)
+  expect_equal(round(res$Wc_s), 85351)
+  
+  # Analog notch (narrow band-stop)
+  res <- cheb2ord (2 * pi * c(9000, 10437), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61652, 64035))
+  expect_equal(round(res$Wc_s), c(62046, 63627))
+  
+  # Analog notch (narrow band-stop)
+  res <- cheb2ord (2 * pi * c(9581, 12000), 2 * pi * c(9875, 10126.5823), 1, 26, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(61651, 64036))
+  expect_equal(round(res$Wc_s), c(62046, 63627))
+  
+  # Digital band-pass
+  fs <- 44100
+  res <- cheb2ord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10052), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9344, 9908))
+  expect_equal(round(Wc_s), c(9203, 10052))
+  
+  # Digital band-pass
+  fs <- 44100
+  res <- cheb2ord (2 / fs * c(9500, 9750), 2 / fs * c(9182, 12000), 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9344, 9908))
+  expect_equal(round(Wc_s), c(9182, 10073))
+  
+  # Digital high-pass
+  fs <- 44100
+  res <- cheb2ord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 5829)
+  expect_equal(round(Wc_s), 4000)
+  
+  # Digital low-pass
+  fs <- 44100
+  res <- cheb2ord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 8197)
+  expect_equal(round(Wc_s), 10988)
+  
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- cheb2ord (2 / fs * c(8500, 10834), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9804, 10198))
+  expect_equal(round(Wc_s), c(9875, 10127))
+  
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- cheb2ord (2 / fs * c(9182, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  Wc_s = res$Wc_s * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9804, 10198))
+  expect_equal(round(Wc_s), c(9875, 10127))  
+  
+})
+
+# -----------------------------------------------------------------------
+# cheby2()
+
+test_that("parameters to cheby2() are correct", {
+  expect_error(cheby2())
+  expect_error(cheby2(1))
+  expect_error(cheby2(1, 2, 3, 4, 5))
+  expect_error(cheby2(.5, .2))
+  expect_error(cheby2(3, .2, 0.5, "invalid"))
+  expect_error(cheby2(9, .6, 0.5, "stop"))
+  expect_error(cheby2(9, .6, 0.5, "pass"))
+  expect_error(cheby2(9, .6, 0.5, "pass", "q"))
+})

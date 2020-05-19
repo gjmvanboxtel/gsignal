@@ -1,10 +1,8 @@
-# butter.R
+# cheby2.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
 # Copyright (C) 1999 Paul Kienzle <pkienzle@users.sf.net>
 # Copyright (C) 2003 Doug Stewart <dastew@sympatico.ca>
-# Copyright (C) 2011 Alexander Klein <alexander.klein@math.uni-giessen.de>
-# Copyright (C) 2018 John W. Eaton
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,23 +18,22 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20200513 Geert van Boxtel           First version for v0.1.0
-# 20200519 Geert van Boxtel           Added plane parameter to butter.IIRfspec
+# 20200519 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Butterworth filter design
+#' Chebyshev Type II filter design
 #' 
-#' Compute the transfer function coefficients of a Butterworth filter
+#' Compute the transfer function coefficients of a Chebyshev Type II filter
 #' 
-#' Butterworth filters have a magnitude response that is maximally flat in the
-#' passband and monotonic overall. This smoothness comes at the price of
-#' decreased rolloff steepness. Elliptic and Chebyshev filters generally provide
-#' steeper rolloff for a given filter order.
+#' Chebyshev filters are analog or digital filters having a steeper roll-off
+#' than Butterworth filters, and have passband ripple (type I) or stopband
+#' ripple (type II).
 #' 
-#' Because butter is generic, it can be extended to accept other inputs, using
-#' "buttord" to generate filter criteria for example.
+#' Because cheby2 is generic, it can be extended to accept other inputs, using
+#' "cheb2ord" to generate filter criteria for example.
 #' 
 #' @param n filter order.
+#' @param Rs dB of stopband ripple.
 #' @param w critical frequencies of the filter. \code{w} must be a scalar for
 #'   low-pass and high-pass filters, and \code{w} must be a two-element vector
 #'   c(low, high) specifying the lower and upper bands in radians/second. For
@@ -44,7 +41,7 @@
 #'   frequency.
 #' @param type filter type, one of "low", "high", "stop", or "pass".
 #' @param plane "z" for a digital filter or "s" for an analog filter.
-#' @param ... additional arguments passed to butter, overriding those given by n
+#' @param ... additional arguments passed to cheby1, overriding those given by n
 #'   of class \code{IIRfspec}.
 #' 
 #' @return list of class \code{'\link{Arma}'} with list elements:
@@ -54,56 +51,54 @@
 #' }
 #' 
 #' @examples
-#' ## 50 Hz notch filter
-#' fs <- 256
-#' bf <- butter(4, c(48, 52) / (fs / 2), "stop")
-#' freqz(bf, fs = fs)
+#' # compare the frequency responses of 5th-order Butterworth and Chebyshev filters.
+#' bf <- butter(5, 0.1)
+#' cf <- cheby2(5, 20, 0.1)
+#' bfr <- freqz(bf)
+#' cfr <- freqz(cf)
+#' plot(bfr$w / pi, 20 * log10(abs(bfr$h)), type = "l", ylim = c(-40, 0),
+#'   xlim = c(0, .5), xlab = "Frequency", ylab = c("dB"))
+#' lines(cfr$w / pi, 20 * log10(abs(cfr$h)), col = "red")
+#'
+#' # compare type I and type II Chebyshev filters.
+#' c1fr <- freqz(cheby1(5, .5, 0.5))
+#' c2fr <- freqz(cheby2(5, 20, 0.5))
+#' plot(c1fr$w / pi, abs(c1fr$h), type = "l", ylim = c(0, 1.1),
+#'   xlab = "Frequency", ylab = c("Magnitude"))
+#' lines(c2fr$w / pi, abs(c2fr$h), col = "red")
 #' 
-#' ## EEG alpha rhythm (8 - 12 Hz) bandpass filter 
-#' fs <- 128
-#' fpass <- c(8, 12)
-#' wpass <- fpass / (fs / 2)
-#' but <- butter(5, wpass, "pass")
-#' freqz(but, fs = fs)
+#' @references \url{https://en.wikipedia.org/wiki/Chebyshev_filter}
 #' 
-#' ## filter to remove vocals from songs, 25 dB attenuation in stop band
-#' ## (not optimal with a Butterworth filter)
-#' fs <- 44100
-#' specs <- buttord(230/(fs/2), 450/(fs/2), 1, 25)
-#' bf <- butter(specs)
-#' freqz(bf, fs = fs)
-#' zplane(bf)
-#' 
-#' @references \url{https://en.wikipedia.org/wiki/Butterworth_filter}
-#' 
-#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{cheby1}, \code{ellip}, \code{\link{buttord}}
+#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{ellip}, \code{\link{cheb2ord}}
 #' 
 #' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net},
-#'   Doug Stewart \email{dastew@@sympatico.ca}, Alexander Klein
-#'   \email{alexander.klein@@math.uni-giessen.de}, John W. Eaton. Port to R Tom
-#'   Short, adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'   Doug Stewart \email{dastew@@sympatico.ca}. Port to R Tom Short, adapted by
+#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @rdname butter
+#' @rdname cheby2
 #' @export
 
-butter <- function(n, ...) UseMethod("butter")
+cheby2 <- function(n, ...) UseMethod("cheby2")
 
-#' @rdname butter
+#' @rdname cheby2
 #' @export
 
-butter.IIRfspec <- function(n, ...)
-  butter(n$n, n$Wc, n$type, n$plane, ...)
+cheby2.IIRfspec <- function(n, ...)
+  cheby2(n$n, n$Rs, n$Wc, n$type, n$plane, ...)
 
-#' @rdname butter
+#' @rdname cheby2
 #' @export
 
-butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...) {
+cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...) {
   
   # check input arguments
   type <- match.arg(type)
   plane <- match.arg(plane)
   if (!isPosscal(n) || !isWhole(n)) {
     stop("filter order n must be a positive integer")
+  }
+  if (!isPosscal(Rs) || !is.numeric(Rs)) {
+    stop("passband ripple Rs must a non-negative scalar")
   }
   stop <- type == "stop" || type == "high"
   digital <- plane == "z"
@@ -125,15 +120,29 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), plane
     wc <- 2 / T * tan (pi * w / T)
   }
   
-  ## Generate splane poles for the prototype Butterworth filter
-  ## source: Kuc
-  C <- 1                      # default cutoff frequency
-  pole <- C * exp(1i * pi * (2 * 1:n + n - 1) / (2 * n))
-  if (n %% 2 == 1){
-    pole[(n + 1) / 2] <- -1   # pure real value at exp(i*pi)
+  ## Generate splane poles and zeros for the chebyshev type 2 filter
+  ## From: Stearns, SD; David, RA; (1988). Signal Processing Algorithms. 
+  ##       New Jersey: Prentice-Hall.
+  C <- 1             # default cutoff frequency
+  lambda <- 10^(Rs / 20)
+  phi <- log(lambda + sqrt(lambda^2 - 1)) / n
+  theta <- pi * ((1:n) - 0.5) / n
+  alpha <- -sinh(phi) * sin(theta)
+  beta <- cosh(phi) * cos(theta)
+  if (n %% 2) {
+    ## drop theta==pi/2 since it results in a zero at infinity
+    zero <- 1i * C / cos(theta[c(1:((n - 1) / 2), ((n + 3) / 2):n)])
+  }else {
+    zero <- 1i * C / cos(theta)
   }
-  zero <- numeric(0)
-  gain <- C^n
+  pole <- C / (alpha^2 + beta^2) * (alpha - 1i * beta)
+  
+  ## Compensate for amplitude at s=0
+  ## Because of the vagaries of floating point computations, the
+  ## prod(pole)/prod(zero) sometimes comes out as negative and
+  ## with a small imaginary component even though analytically
+  ## the gain will always be positive, hence the abs(Re(...))
+  gain <- abs(Re(prod(pole) / prod(zero)))
   
   zpg <- Zpg(z = zero, p = pole, g = gain)
   
