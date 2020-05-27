@@ -23,7 +23,7 @@
 
 #' Chebyshev Type II filter order and cutoff
 #'
-#' Compute discrete Chebyshev type-II filter order and cutoff for the desired
+#' Compute Chebyshev type-II filter order and cutoff for the desired
 #' response characteristics.
 #' 
 #' @param Wp,Ws pass-band and stop-band edges. For a low-pass or high-pass
@@ -31,13 +31,13 @@
 #'   both are vectors of length 2. For a low-pass filter, Wp < Ws. For a
 #'   high-pass filter, Ws > Wp. For a band-pass (Ws[1] < Wp[1] < Wp[2] < Ws[2])
 #'   or band-reject (Wp[1] < Ws[1] < Ws[2] < Wp[2]) filter design, Wp gives the
-#'   edges of the pass band, and Ws gives the edges of the stop band.
-#'   Frequencies are normalized to [0,1], corresponding to the range [0, fs/2].
+#'   edges of the pass band, and Ws gives the edges of the stop band. For
+#'   digital filters, frequencies are normalized to [0,1], corresponding to the
+#'   range [0, fs/2]. In case of an analog filter, all frequencies are specified
+#'   in radians per second.
 #' @param Rp allowable decibels of ripple in the pass band.
 #' @param Rs minimum attenuation in the stop band in dB.
-#' @param plane "z" for a digital filter or "s" for an analog filter. In case of
-#'   an analog filter, all frequencies Wp and Ws are specified in radians per
-#'   second.
+#' @param plane "z" for a digital filter or "s" for an analog filter. 
 #' 
 #' @return A list of class \code{'IIRfspec'} with the following list elements:
 #' \describe{

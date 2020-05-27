@@ -1,8 +1,7 @@
-# cheb1ord.R
-# Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
+# ellipord.R
+# Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
-# Copyright (C) 2000 Paul Kienzle
-# Copyright (C) 2000 Laurent S. Mazet
+# Copyright (C) 2001 Paulo Neis
 # Copyright (C) 2018 Charles Praplan
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,12 +18,12 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20200517 Geert van Boxtel          First version for v0.1.0
+# 20200527 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Chebyshev Type I filter order and cutoff
+#' Minimum order for elliptic filters
 #'
-#' Compute Chebyshev type-I filter order and cutoff for the desired
+#' Compute elleptic filter order and cutoff for the desired
 #' response characteristics.
 #' 
 #' @param Wp,Ws pass-band and stop-band edges. For a low-pass or high-pass
@@ -44,25 +43,32 @@
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
-#'   \item{type}{filter type, normally one of "low", "high", "stop", or "pass".}
+#'   \item{type}{filter type, one of "low", "high", "stop", or "pass".}
+#'   \item{Rp}{dB of passband ripple.}
+#'   \item{Rs}{dB of stopband ripple.}
 #' }
 
 #' @examples
-#' ## low-pass 30 Hz filter
-#' fs <- 128
-#' spec <- cheb1ord(30/(fs/2), 40/(fs/2), 0.5, 40)
-#' cf <- cheby1(spec)
-#' freqz(cf, fs = fs)
+#' fs <- 10000
+#' spec <- ellipord(1000/(fs/2), 1200/(fs/2), 0.5, 29)
+#' ef <- ellip(spec)
+#' hf <- freqz(ef, fs = fs)
+#' plot(c(0, 1000, 1000, 0, 0), c(0, 0, -0.5, -0.5, 0),
+#'      type = "l", xlab = "Frequency (Hz)", ylab = "Attenuation (dB)",
+#'      col = "red", ylim = c(-35,0), xlim = c(0,2000))
+#' lines(c(5000, 1200, 1200, 5000, 5000), c(-1000, -1000, -29, -29, -1000),
+#'       col = "red")
+#' lines(hf$w, 20*log10(abs(hf$h)))
 #'
-#' @author Original Octave code by Paul Kienzle, Laurent S. Mazet, Charles
-#'   Praplan. Conversion to R by Tom Short, adapted by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Original Octave code by Paulo Neis \email{p_neis@@yahoo.com.br},
+#'   adapted by Charles Praplan. Conversion to R by Tom Short, adapted by Geert
+#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @seealso \code{\link{cheby1}}
+#' @seealso \code{\link{buttord}}, \code{\link{cheb1ord}}, \code{\link{cheb2ord}}, \code{\link{ellip}}
 #' 
 #' @export
 
-cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
+ellipord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
   
   #input validation
   plane <- match.arg(plane)
@@ -111,6 +117,8 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
     ## Band-pass filter
     if (Wpw[1] > Wsw[1]) {
       
+      type <- "pass"
+      
       ## Modify band edges if not symmetrical.  For a band-pass filter,
       ## the lower or upper stopband limit is moved, resulting in a smaller
       ## stopband than the caller requested.
@@ -120,13 +128,15 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
         Wsw[1] <- Wpw[1] * Wpw[2] / Wsw[2]
       }
 
-      w02 <- Wpw[1] * Wpw[2]
+      #w02 <- Wpw[1] * Wpw[2]
       wp <- Wpw[2] - Wpw[1]
       ws <- Wsw[2] - Wsw[1]
   
     ## Band-stop / band-reject / notch filter
     } else {
     
+      type <- "stop"
+      
       ## Modify band edges if not symmetrical.  For a band-stop filter,
       ## the lower or upper passband limit is moved, resulting in a smaller
       ## rejection band than the caller requested.
@@ -145,93 +155,33 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
   
   ## High-pass filter
   } else if (Wpw > Wsw) {
+    type <- "high"
     wp <- Wsw
     ws <- Wpw
   
     ## Low-pass filter
   } else {
+    type <- "low"
     wp <- Wpw
     ws <- Wsw
   }
   
-  Wa <- ws / wp
+  k <- wp / ws
+  k1 <- sqrt(1 - k^2)
+  q0 <- (1 / 2) * ((1 - sqrt(k1)) / (1 + sqrt(k1)))
+  q <- q0 + 2 * q0^5 + 15 * q0^9 + 150 * q0^13
+  D <- (10^(0.1 * Rs) - 1) / (10^(0.1 * Rp) - 1)
   
-  ## compute minimum n which satisfies all band edge conditions
-  stop_atten <- 10^(abs(Rs) / 10)
-  pass_atten <- 10^(abs(Rp) / 10)
-  n <- ceiling(acosh(sqrt((stop_atten - 1) / (pass_atten - 1))) / acosh (Wa))
-  
-  ## compute stopband frequency limits to make the the filter characteristic
-  ## touch either at least one stop band corner or one pass band corner.
-  epsilon <- 1 / sqrt (10^(.1 * abs(Rs)) - 1)
-  k <- cosh(1 / n * acosh(sqrt(1 / (10^(.1 * abs(Rp)) - 1)) / epsilon))
-  # or k = fstop / fpass
-  
-  ## compute -3dB cutoff given Wp, Rp and n
-  if (length(Wpw) == 2 && length(Wsw) == 2) {
-    
-    ## Band-pass filter
-    if (Wpw[1] > Wsw[1]) {
-      type <- "pass"
-      w_prime_p <- Wpw                        #   same formula as for LP
-      w_prime_s <- Wsw / k                    #           "
-      
-    ## Band-stop / band-reject / notch filter
-    } else {
-      type <- "stop"
-      w_prime_p <- Wpw                        #   same formula as for HP
-      w_prime_s <- k * Wsw                    #           "
-    }
-  
-    ## Applying LP to BP (respectively HP to notch) transformation to -3dB
-    ## angular frequency :
-    ##   s_prime/wc = Q(s/w0+w0/s)  or  w_prime/wc = Q(w/w0-w0/w)
-    ## Here we need to inverse above equation:
-    ##   w = abs(w_prime+-sqrt(w_prime^2+4*Q^2))/(2*Q/w0);
-  
-    ## freq to be returned to match pass band
-    w0 <- sqrt(prod(Wpw))
-    Q <- w0 / diff(Wpw)                             # BW at -Rp dB not at -3dB
-    wc <- Wpw
-    W_prime <- w_prime_p[1] / wc[1]                 # same with w_prime(2)/wc(2)
-    wa <- abs(W_prime + sqrt(W_prime^2 + 4 * Q ^ 2)) / (2 * Q / w0)
-    wb <- abs(W_prime - sqrt(W_prime^2 + 4 * Q ^ 2)) / (2 * Q / w0)
-    Wcw_p <- c(wb, wa)
-  
-    ## freq to be returned to match stop band
-    w0 <- sqrt(prod(Wsw))
-    Q <- w0 / diff(Wsw)                             # BW at -Rs dB not at -3dB
-    wc <- Wsw
-    W_prime <- w_prime_s[1] / wc[1]                 # same with w_prime(2)/wc(2)
-    wa <- abs(W_prime + sqrt(W_prime^2 + 4 * Q ^ 2)) / (2 * Q / w0)
-    wb <- abs(W_prime - sqrt(W_prime^2 + 4 * Q ^ 2)) / (2 * Q / w0)
-    Wcw_s <- c(wb, wa)
-  
-  ## High-pass filter
-  } else if (Wpw > Wsw) {
-    
-    type <- "high"
-    Wcw_p <- Wpw                              #   to match pass band
-    Wcw_s <- Wsw * k                          #   to match stop band
-    
-  ## Low-pass filter
-  } else {
-    
-    type <- "low"
-    Wcw_p <- Wpw                              #   to match pass band
-    Wcw_s <- Wsw / k                          #   to match stop band
-  }
+  n <- ceiling(log10(16 * D) / log10(1 / q))
   
   if (plane == "s"){
     # No prewarp in case of analog filter
-    Wc_p <- Wcw_p
-    Wc_s <- Wcw_s
+    Wc <- Wpw
   } else {
     # Inverse frequency warping for discrete-time filter
-    Wc_p <- atan(Wcw_p * (T / 2)) * (T / pi)
-    Wc_s <- atan(Wcw_s * (T / 2)) * (T / pi)
+    Wc <- atan(Wpw * (T / 2)) * (T / pi)
   }
   
-  IIRfspec(n = n, Wc = Wc_p, type = type, Wc_s = Wc_s, plane = plane, Rp = Rp)
+  IIRfspec(n = n, Wc = Wc, type = type, plane = plane, Rp = Rp, Rs = Rs)
 }
 

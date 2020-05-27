@@ -1,4 +1,4 @@
-# cheb1ap.R
+# ellipap.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
 # Copyright (C) 2013 Carnë Draug <carandraug+dev@gmail.com>
@@ -17,24 +17,27 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20200519 Geert van Boxtel          First version for v0.1.0
+# 20200527 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Chebyshev Type I filter prototype
+#' Lowpass analog elliptic filter
 #' 
-#' Return the poles and gain of an analog Chebyshev Type I lowpass filter prototype.
+#' Return the zeros, poles and gain of an analog elliptic lowpass filter
+#' prototype.
 #' 
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
-#' to \code{cheby1(n, Rp, 1, "low", "s")}.
+#' to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
 #' 
 #' @param n Order of the filter.
 #' @param Rp dB of passband ripple.
+#' @param Rs dB of stopband ripple.
 #' 
-#' @return list of class \code{'\link{Zpg}'} containg poles and gain of the filter
+#' @return list of class \code{'\link{Zpg}'} containg zeros, poles and gain of
+#'   the filter
 #' 
 #' @examples
-#' ## 9th order Chebyshev type I low-pass analog filter
-#' zp <- cheb1ap(9, .1)
+#' ## 9th order elliptic low-pass analog filter
+#' zp <- ellipap(9, .1, 40)
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
@@ -44,14 +47,17 @@
 #
 #' @export
 
-cheb1ap <- function (n, Rp) {
+ellipap <- function (n, Rp, Rs) {
   
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
   if (!isPosscal(Rp) || !is.numeric(Rp)) {
     stop("passband ripple Rp must a non-negative scalar")
   }
+  if (!isPosscal(Rs) || !is.numeric(Rs)) {
+    stop("stopband ripple Rs must a non-negative scalar")
+  }
   
-  as.Zpg(cheby1(n, Rp, 1, "low", "s"))
+  as.Zpg(ellip(n, Rp, Rs, 1, "low", "s"))
   
 }
 

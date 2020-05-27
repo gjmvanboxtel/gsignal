@@ -653,3 +653,179 @@ test_that("parameters to cheby2() are correct", {
   expect_error(cheby2(9, .6, 0.5, "pass"))
   expect_error(cheby2(9, .6, 0.5, "pass", "q"))
 })
+
+# -----------------------------------------------------------------------
+# ellipord()
+
+test_that("parameters to ellipord() are correct", {
+  expect_error(ellipord())
+  expect_error(ellipord(.1))
+  expect_error(ellipord(.1, .2))
+  expect_error(ellipord(c(.1, .1), c(.2, .2), 3, 4))
+  expect_error(ellipord(c(.1, .2), c(.5, .6), 3, 4))
+  expect_error(ellipord(c(.1, .5), c(.2, .6), 3, 4))
+  expect_error(ellipord(.1, .2, 3, 4, 5))
+  expect_error(ellipord(1, 2, 3, 4, 's', 6))
+})
+
+test_that("ellipord() tests are correct", {
+  
+  # Analog band-pass
+  res <- ellipord(2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10657), 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), c(62046, 63627))
+
+  # Analog band-pass
+  res <- ellipord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9384, 12000), 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), c(62046, 63627))
+
+  # Analog band-pass
+  res <- ellipord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9000, 10656), 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(62046, 63627))
+
+  # Analog band-pass
+  res <- ellipord (2 * pi * c(9875, 10126.5823), 2 * pi * c(9385, 12000), 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(62046, 63627))
+  
+  # Analog high-pass
+  res <- ellipord (2 * pi * 20224, 2 * pi * 4000, 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), 127071)
+
+  # Analog high-pass
+  res <- ellipord (2 * pi * 20223, 2 * pi * 4000, 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 127065)
+  
+  # Analog low-pass
+  res <- ellipord (2 * pi * 4000, 2 * pi * 20224, 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), 25133)
+
+  # Analog low-pass
+  res <- ellipord (2 * pi * 4000, 2 * pi * 20223, 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), 25133)
+  
+  # Analog notch (narrow band-stop)
+  res <- ellipord (2 * pi * c(9000, 10657), 2 * pi * c(9875, 10126.5823), 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), c(58958, 66960))
+
+  # Analog notch (narrow band-stop)
+  res <- ellipord (2 * pi * c(9384, 12000), 2 * pi * c(9875, 10126.5823), 3, 40, "s")
+  expect_equal(res$n, 2)
+  expect_equal(round(res$Wc), c(58961 , 66956))
+
+  # Analog notch (narrow band-stop)
+  res <- ellipord (2 * pi * c(9000, 10656), 2 * pi * c(9875, 10126.5823), 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(58964, 66954))
+
+  # Analog notch (narrow band-stop)
+  res <- ellipord (2 * pi * c(9385, 12000), 2 * pi * c(9875, 10126.5823), 3, 40, "s")
+  expect_equal(res$n, 3)
+  expect_equal(round(res$Wc), c(58968, 66949))
+  
+  # Digital band-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10261), 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), c(9500, 9750))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * c(9500, 9750), 2 / fs * c(9000, 10700), 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), c(9500, 9750))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10260), 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9500, 9750))
+
+  # Digital band-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * c(9500, 9750), 2 / fs * c(9001, 10700), 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(9500, 9750))
+  
+  # Digital high-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * 13713, 2 / fs * 4000, 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), 13713)
+
+  # Digital high-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * 13712, 2 / fs * 4000, 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 13712)
+  
+  # Digital low-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * 4000, 2 / fs * 13713, 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), 4000)
+
+  # Digital low-pass
+  fs <- 44100
+  res <- ellipord (2 / fs * 4000, 2 / fs * 13712, 3, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), 4000)
+  
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- ellipord (2 / fs * c(8500, 11073), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), c(8952, 11073))
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- ellipord (2 / fs * c(8952, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 2)
+  expect_equal(round(Wc), c(8952, 11073))
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- ellipord (2 / fs * c(8500, 11072), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(8953, 11072))
+
+  # Digital notch (narrow band-stop)
+  fs <- 44100
+  res <- ellipord (2 / fs * c(8953, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
+  Wc <- res$Wc * fs / 2
+  expect_equal(res$n, 3)
+  expect_equal(round(Wc), c(8953, 11072))
+  
+})
+
+# -----------------------------------------------------------------------
+# ellip()
+
+test_that("parameters to ellip() are correct", {
+  expect_error(ellip())
+  expect_error(ellip(1))
+  expect_error(ellip(1, 2))
+  expect_error(ellip(1, 2, 3))
+  expect_error(ellip(1, 2, 3, 4, 5, 6, 7))
+  expect_error(ellip(0.5, 2, 40, .2))
+  expect_error(ellip(3, 2, 40, .2, "invalid"))
+  expect_error(ellip(3, 2, 40, .2, "low", "invalid"))
+})
