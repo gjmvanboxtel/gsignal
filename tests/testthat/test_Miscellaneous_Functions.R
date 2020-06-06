@@ -292,3 +292,26 @@ test_that("unwrap() tests are correct", {
   expect_that(unwrap(A, pi), equals(as.vector(t(unwrap(t(A), pi, 1)))))
 
 })
+
+# -----------------------------------------------------------------------
+# mpoles()
+
+test_that("parameters to mpoles() are correct", {
+  expect_error(mpoles())
+  expect_error(mpoles(1, 2, 3, 4, 5))
+  expect_error(mpoles(1, 'invalid', TRUE, TRUE))
+  expect_error(mpoles(1, 0.001, 'invalid', TRUE))
+  expect_error(mpoles(1, 0.001, TRUE, 'invalid'))
+})
+
+test_that("mpoles() tests are correct", {
+  res <- mpoles(c(0, 0), 0.01)
+  expect_equal(res, c(1, 2))
+  
+  p <- c(2, 3, 1, 1, 2)
+  res <- mpoles (p, index.return = TRUE)
+  expect_equal(res$m, c(1, 1, 2, 1, 2))
+  expect_equal(res$n, c(2, 5, 1, 4, 3))
+  expect_equal(p[res$n], c(3, 2, 2, 1, 1))
+})
+
