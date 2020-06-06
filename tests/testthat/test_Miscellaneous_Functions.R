@@ -315,3 +315,18 @@ test_that("mpoles() tests are correct", {
   expect_equal(p[res$n], c(3, 2, 2, 1, 1))
 })
 
+# -----------------------------------------------------------------------
+# polyreduce() 
+
+test_that("parameters to polyreduce() are correct", {
+  expect_error(polyreduce())
+  expect_error(polyreduce(NULL))
+  expect_error(polyreduce(1, 2))
+})
+
+test_that("polyreduce() tests are correct", {
+  expect_equal(polyreduce(c(0, 0, 1, 2, 3)), c(1, 2, 3))
+  expect_equal(polyreduce(c(1, 2, 3, 0, 0)), c(1, 2, 3, 0, 0))
+  expect_equal(polyreduce(c(1, 0, 3)), c(1, 0, 3))
+  expect_equal(polyreduce(c(0, 0, 0)), 0)
+})
