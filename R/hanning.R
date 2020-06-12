@@ -19,6 +19,7 @@
 #
 # 20191209 GbB            First version for v0.1.0
 # 20200413 GvB            corrected definition of hanning
+# 20200606 GvB            exported hanning from namespace
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Hann window
@@ -52,8 +53,8 @@
 #' @author Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
 #' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
+#' @rdname hann
 #' @export
-#' @name hann
 
 hann <- function (n, method = c('symmetric', 'periodic')) {
   
@@ -78,4 +79,5 @@ hann <- function (n, method = c('symmetric', 'periodic')) {
 }
 
 #' @rdname hann
+#' @export
 hanning <- function(n, method = c('symmetric', 'periodic')) hann(n, method)

@@ -330,3 +330,58 @@ test_that("polyreduce() tests are correct", {
   expect_equal(polyreduce(c(1, 0, 3)), c(1, 0, 3))
   expect_equal(polyreduce(c(0, 0, 0)), 0)
 })
+
+# -----------------------------------------------------------------------
+# residue() and rresidue() 
+
+test_that("parameters to residue() are correct", {
+  expect_error(residue())
+  expect_error(residue(NULL))
+  expect_error(residue(1, 2, 3, 4))
+  expect_error(rresidue())
+  expect_error(rresidue(NULL))
+  expect_error(rresidue(1, 2, 3, 4, 5))
+})
+
+test_that("residue() tests are correct", {
+  b <- c(1, 1, 1)
+  a <- c(1, -5, 8, -4)
+  rpk <- residue (b, a)
+  expect_equal(rpk$r, c(-2, 7, 3))
+  expect_equal(rpk$p, c(2, 2, 1))
+  expect_null(rpk$k)
+  ba <- rresidue (rpk$r, rpk$p, rpk$k)
+  expect_equal(ba$b, b)
+  expect_equal(ba$a, a)
+
+  b <- c(1, 0, 1)
+  a <- c(1, 0, 18, 0, 81)
+  rpk <- residue (b, a)
+  expect_equal(rpk$r, c(-5i, 12, +5i, 12) / 54)
+  expect_equal(rpk$p, c(+3i, +3i, -3i, -3i))
+  expect_null(rpk$k)
+  ba <- rresidue (rpk$r, rpk$p, rpk$k)
+  expect_equal(ba$b, c(0, b))
+  expect_equal(ba$a, a)
+  
+  r <- c(7, 3, -2)
+  p <- c(2, 1, 2)
+  k <- c(1, 0)
+  ba <- rresidue(r, p, k)
+  expect_equal(ba$b, c(1, -5, 18, -39, 28))
+  expect_equal(ba$a, c(1, -5, 8, -4))
+  rpk <- residue(ba$b, ba$a)
+  mn <- mpoles(p, index.return = TRUE)
+  expect_equal(sort(rpk$r), sort(r[mn$n]))
+  
+  b <- 1
+  a <- c(1, 10, 25)
+  rpk <- residue (b, a)
+  expect_equal(rpk$r, c(0, 1))
+  expect_equal(rpk$p, c(-5, -5))
+  expect_null(rpk$k)
+  ba <- rresidue (rpk$r, rpk$p, rpk$k)
+  expect_equal(ba$b, b)
+  expect_equal(ba$a, a)
+  
+})
