@@ -29,15 +29,25 @@ freqz(filt, ...)
 
 \method{freqz}{freqz}(filt, ...)
 
-\method{freqz}{freqz}(filt, ...)
+\method{freqz}{Arma}(
+  filt,
+  n = 512,
+  whole = ifelse((is.numeric(filt$b) && is.numeric(filt$a)), FALSE, TRUE),
+  fs = 2 * pi,
+  ...
+)
 
-\method{freqz}{Arma}(filt, ...)
+\method{freqz}{Ma}(
+  filt,
+  n = 512,
+  whole = ifelse(is.numeric(filt$b), FALSE, TRUE),
+  fs = 2 * pi,
+  ...
+)
 
-\method{freqz}{Ma}(filt, ...)
+\method{freqz}{Sos}(filt, n = 512, whole = FALSE, fs = 2 * pi, ...)
 
-\method{freqz}{Sos}(filt, ...)
-
-\method{freqz}{Zpg}(filt, ...)
+\method{freqz}{Zpg}(filt, n = 512, whole = FALSE, fs = 2 * pi, ...)
 
 \method{print}{freqz}(x, ...)
 

@@ -23,6 +23,7 @@
 # 20200423  GvB       corrected minor bug in print.summary.freqz, and print phase also in degrees
 # 20200425  GvB       Added S3 method for class 'Zpg'
 # 20200515  GvB       resolve infinite ylim values in freqz.plot
+# 20200616  GvB       pass default parameters to methods
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -139,33 +140,33 @@ freqz.default <- function(filt, a = 1, n = 512,
 #' @export
 freqz.freqz <- function(filt, ...) filt
 
-#' @rdname freqz
+#' @rdname freqz 
 #' @export
-freqz.freqz <- function(filt, ...) filt
+
+freqz.Arma <- function(filt, n = 512, 
+                       whole = ifelse((is.numeric(filt$b) && is.numeric(filt$a)), FALSE, TRUE),
+                       fs = 2 * pi, ...) # IIR
+  freqz.default(filt$b, filt$a, n, whole, fs, ...)
 
 #' @rdname freqz 
 #' @export
 
-freqz.Arma <- function(filt, ...) # IIR
-  freqz(filt$b, filt$a, ...)
+freqz.Ma <- function(filt, n = 512, 
+                     whole = ifelse(is.numeric(filt$b), FALSE, TRUE),
+                     fs = 2 * pi, ...) # FIR
+  freqz.default(filt, 1, n, whole, fs, ...)
 
 #' @rdname freqz 
 #' @export
 
-freqz.Ma <- function(filt, ...) # FIR
-  freqz.default(filt, 1, ...)
+freqz.Sos <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) # second-order sections
+  freqz.Arma(as.Arma(filt), n, whole, fs, ...)
 
 #' @rdname freqz 
 #' @export
 
-freqz.Sos <- function(filt, ...) # second-order sections
-  freqz.Arma(as.Arma(filt), ...)
-
-#' @rdname freqz 
-#' @export
-
-freqz.Zpg <- function(filt, ...) # zero-pole-gain
-  freqz.Arma(as.Arma(filt), ...)
+freqz.Zpg <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) # zero-pole-gain
+  freqz.Arma(as.Arma(filt), n, whole, fs, ...)
 
 #' @rdname freqz 
 #' @export
