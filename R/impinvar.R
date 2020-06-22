@@ -97,7 +97,7 @@ impinvar.default <- function(b, a, fs = 1, tol = 0.0001, ...) {
       i <- i + 1          # Next residue
       m <- m + 1          # Next multiplicity
     }
-    rpk_out <- z_res(rpk_in$r[(i - m + 1):i], first_pole, ts);  # Find z-domain residues
+    rpk_out <- z_res(rpk_in$r[(i - m + 1):i], first_pole, ts)   # Find z-domain residues
     k_out                <- k_out + rpk_out$k                   # Add direct term to output
     p_out[(i - m + 1):i] <- rpk_out$p                           # Copy z-domain pole(s) to output
     r_out[(i - m + 1):i] <- rpk_out$r                           # Copy z-domain residue(s) to output
@@ -105,7 +105,7 @@ impinvar.default <- function(b, a, fs = 1, tol = 0.0001, ...) {
     i <- i + 1       # Next s-domain residue/pole
   }
   
-  ba      <- rresidue(r_out, p_out, k_out, tol)
+  ba      <- inv_residue(r_out, p_out, k_out, tol)
   a    <- zapIm(ba$a)                                        # Get rid of spurious imaginary part
   b    <- zapIm(ba$b)
   
@@ -178,4 +178,42 @@ h1_z_deriv <- function (n, p, ts) {
   b <- b * p^seq(n + 1, 1, -1)
 
   b
+}
+
+inv_residue <- function(r_in, p_in, k_in, tol) {
+
+  n <- length(r_in) # Number of poles/residues
+
+  k <- 0 # Capture constant term
+  if (length(k_in) == 1) {         # A single direct term (order N = order D)
+    k <- k_in[1]                   # Capture constant term
+  } else if (length(k_in) > 1) {   # Greater than one means non-physical system
+    stop("Order numerator > order denominator")
+  }
+
+  a_out <- poly(p_in)
+
+  b_out  <- rep(0L, n + 1)
+  b_out <- b_out + k * a_out       # Constant term: add k times denominator to numerator
+  i <- 1
+  while (i <= n) {
+    term   <- c(1, -p_in[i])                          # Term to be factored out
+    p      <- r_in[i] * pracma::deconv(a_out, term)$q # Residue times resulting polynomial
+    p      <- prepad(p, n + 1, 0, 2)                  # Pad for proper length
+    b_out <- b_out + p
+
+    m          <- 1
+    mterm      <- term
+    first_pole <- p_in[i]
+    while (i < n && abs(first_pole - p_in[i+1]) < tol){  # Multiple poles at p(i)
+      i <- i + 1 # Next residue
+      m <- m + 1
+      mterm  <- conv(mterm, term)                        # Next multiplicity to be factored out
+      p      <- r_in[i] * pracma::deconv(a_out, mterm)$q # Resulting polynomial
+      p      <- prepad(p, n + 1, 0, 2)                   # Pad for proper length
+      b_out  <- b_out + p
+    }
+    i <- i + 1
+  }
+  Arma(b_out, a_out)
 }

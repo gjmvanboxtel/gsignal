@@ -56,4 +56,4 @@ rmsq <- function(x) sqrt(msq(x))
 nextpow2 <- function (x) 2^ceiling(log2(x))
 
 # convert complex number to real if imaginary part is zero
-zapIm <- function (x) if (all(Im(z <- zapsmall(x)) == 0)) as.numeric(z) else x
+zapIm <- function (x) if (all(Im(zapsmall(x)) == 0)) Re(x) else x
