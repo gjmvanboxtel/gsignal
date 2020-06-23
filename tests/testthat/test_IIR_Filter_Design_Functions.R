@@ -829,3 +829,44 @@ test_that("parameters to ellip() are correct", {
   expect_error(ellip(3, 2, 40, .2, "invalid"))
   expect_error(ellip(3, 2, 40, .2, "low", "invalid"))
 })
+
+# -----------------------------------------------------------------------
+# pei_tseng_notch()
+
+test_that("parameters to pei_tseng_notch() are correct", {
+  expect_error(pei_tseng_notch())
+  expect_error(pei_tseng_notch(1))
+  expect_error(pei_tseng_notch(1, 2, 3))
+  expect_error(pei_tseng_notch(c(1, 2), 3))
+  expect_error(pei_tseng_notch(-1, 1))
+  expect_error(pei_tseng_notch(1, -1))
+  expect_error(pei_tseng_notch(3, "invalid"))
+  expect_error(pei_tseng_notch("invalid", 2))
+  expect_error(pei_tseng_notch(matrix(0, 2, 2), 2))
+  expect_error(pei_tseng_notch(1, matrix(0L, 2, 2)))
+  
+})
+
+test_that("pei_tseng_notch() tests are correct", {
+  
+  sinetone <- function(f, r, s, a) a * sin(2 * pi * f * seq(0, s, length.out = r * s))
+  
+  ## 2Hz bandwidth
+  
+  fs <- 800; nyq <- fs / 2
+  data <- cbind(sinetone(49, fs, 10, 1), sinetone(50, fs, 10, 1), sinetone(51, fs, 10, 1))
+  l <- nrow(data)
+  ba <-  pei_tseng_notch( 50 / nyq, 2 / nyq)
+  filtered <- NULL; for (i in 1:3) filtered <- cbind(filtered, filter(ba, data[, i]))
+  damp_db <- NULL; for (i in 1:3) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - 1000):l, i])))
+  expect_equal(as.vector(damp_db), c(-3.037382, -44.16588, -3.065681), tolerance = 1e-7)
+
+  ## 1Hz bandwidth
+  data <- cbind(sinetone(49.5, fs, 10, 1), sinetone(50, fs, 10, 1), sinetone(50.5, fs, 10, 1))
+  l <- nrow(data)
+  ba <-  pei_tseng_notch( 50 / nyq, 1 / nyq)
+  filtered <- NULL; for (i in 1:3) filtered <- cbind(filtered, filter(ba, data[, i]))
+  damp_db <- NULL; for (i in 1:3) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - 1000):l, i])))
+  expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = 1e-7)
+})
+  
