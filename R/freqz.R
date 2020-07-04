@@ -24,6 +24,7 @@
 # 20200425  GvB       Added S3 method for class 'Zpg'
 # 20200515  GvB       resolve infinite ylim values in freqz.plot
 # 20200616  GvB       pass default parameters to methods
+# 20200629  GvB       bug in parameter passing for class 'Ma'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -152,9 +153,9 @@ freqz.Arma <- function(filt, n = 512,
 #' @export
 
 freqz.Ma <- function(filt, n = 512, 
-                     whole = ifelse(is.numeric(filt$b), FALSE, TRUE),
+                     whole = ifelse(is.numeric(filt), FALSE, TRUE),
                      fs = 2 * pi, ...) # FIR
-  freqz.default(filt, 1, n, whole, fs, ...)
+  freqz.default(unclass(filt), 1, n, whole, fs, ...)
 
 #' @rdname freqz 
 #' @export

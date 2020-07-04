@@ -40,7 +40,7 @@ freqz(filt, ...)
 \method{freqz}{Ma}(
   filt,
   n = 512,
-  whole = ifelse(is.numeric(filt$b), FALSE, TRUE),
+  whole = ifelse(is.numeric(filt), FALSE, TRUE),
   fs = 2 * pi,
   ...
 )

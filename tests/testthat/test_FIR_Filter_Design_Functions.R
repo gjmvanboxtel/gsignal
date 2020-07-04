@@ -45,3 +45,98 @@ test_that("sgolay() tests are correct", {
   y <- sgolayfilt(x, sgolay(8, 41, 3, dt))
   expect_that(norm(y - d3x, '2') / norm(d3x, '2'), equals(0, tolerance = 1e-4))
 })
+
+# -----------------------------------------------------------------------
+# fir2()
+
+test_that("parameters to fir2() are correct", {
+  expect_error(fir2())
+  expect_error(fir2(-1))
+  expect_error(fir2(0.5))
+  expect_error(fir2(1))
+  expect_error(fir2(1, -1))
+  expect_error(fir2(1, 0.5))
+  expect_error(fir2(1, 2))
+  expect_error(fir2(1, c(0,1), c(1,0), 4, 5, hamming(-1)))
+  expect_error(fir2(1, c(0,1), c(1,0), 4, 5, hamming(1), 7))
+})
+
+test_that("fir2() tests are correct", {
+
+  # Test that the grid size is rounded up to the next power of 2
+  f <- c(0, 0.6, 0.6, 1); m <- c(1, 1, 0, 0)
+  b9  <- fir2 (30, f, m, 9)
+  b16 <- fir2 (30, f, m, 16)
+  b17 <- fir2 (30, f, m, 17)
+  b32 <- fir2 (30, f, m, 32)
+  expect_equal(b9,  b16)
+  expect_equal(b17, b32)
+  expect_false(isTRUE(all.equal(b16, b17)))
+  
+  # Test expected magnitudes of passbands, stopbands, and cutoff frequencies
+  f <- c(0, 0.7, 0.7, 1); m <- c(0, 0, 1, 1)
+  b <- fir2 (50, f, m)
+  h <- abs(freqz (b, c(0, 0.7, 1), fs = 2)$h)
+  expect_lte(h[1], 3e-3)
+  expect_lte(h[2], 1 / sqrt(2))
+  expect_equal(h[3], 1, tolerance = 2e-3)
+  
+  f <- c(0, 0.25, 0.25, 0.75, 0.75, 1); m <- c(0, 0, 1, 1, 0, 0)
+  b <- fir2 (50, f, m)
+  h <- abs (freqz (b, c(0, 0.25, 0.5, 0.75, 1), fs = 2)$h)
+  expect_lte(h[1], 3e-3)
+  expect_lte(h[2], 1 / sqrt(2))
+  expect_equal(h[3], 1, tolerance = 2e-3)
+  expect_lte(h[4], 1 / sqrt (2))
+  expect_lte(h[5], 3e-3)
+  
+  f <- c(0, 0.45, 0.45, 0.55, 0.55, 1); m <- c(1, 1, 0, 0, 1, 1)
+  b <- fir2 (50, f, m)
+  h <- abs (freqz (b, c(0, 0.45, 0.5, 0.55, 1), fs = 2)$h)
+  expect_equal(h[1], 1, tolerance = 2e-3)
+  expect_lte(h[2], 1 / sqrt(2))
+  expect_equal(h[3], 1e-1, tolerance = 2e-2)
+  expect_lte(h[4], 1 / sqrt (2))
+  expect_equal(h[5], 1, tolerance = 2e-3)
+  
+})
+
+# -----------------------------------------------------------------------
+# fir1()
+
+test_that("parameters to fir1() are correct", {
+  expect_error(fir1())
+  expect_error(fir1(-1))
+  expect_error(fir1(0.5))
+  expect_error(fir1(1))
+  expect_error(fir1(1, -1))
+  expect_error(fir1(1, 2))
+  expect_error(fir1(1, 0.5, 'invalid'))
+  expect_error(fir1(1, 0.5, "low", 'invalid(1)'))
+  expect_error(fir1(1, 0.5, "low", hamming(2), 'invalid'))
+  expect_error(fir1(1, 0.5, "low", hamming(2), 'scale', 6))
+})
+
+test_that("fir1() tests are correct", {
+  
+  b <- fir1(30, 0.3)
+  h <- abs (freqz (b, c(0, 0.3, 1), fs = 2)$h)
+  expect_equal(h[1], 1, tolerance = 1e-2)
+  expect_true(all(h[2:3] <= 1 / sqrt(2)))
+  
+  b <- fir1(30, 0.7, "high")
+  h <- abs (freqz (b, c(0, 0.7, 1), fs = 2)$h)
+  expect_equal(h[3], 1, tolerance = 1e-2)
+  expect_true(all(h[1:2] <= c(3e-3, 1 / sqrt(2))))
+  
+  b <- fir1 (30, c(0.3, 0.7), 'pass')
+  h <- abs (freqz (b, c(0, 0.3, 0.5, 0.7, 1), fs = 2)$h)
+  expect_equal(h[3], 1, tolerance = 1e-3)
+  expect_true(all(h[-3] <= c(3e-3, 1 / sqrt(2), 1 / sqrt(2), 3e-3)))
+  
+  b <- fir1(50, c(0.3, 0.7), "stop")
+  h <- abs (freqz (b, c(0, 0.3, 0.5, 0.7, 1), fs = 2)$h)
+  expect_equal(h[c(1, 5)], c(1, 1), tolerance = 1e-3)
+  expect_true(all(h[2:4] <= c(1 / sqrt(2), 3e-3, 1 / sqrt(2))))
+})
+
