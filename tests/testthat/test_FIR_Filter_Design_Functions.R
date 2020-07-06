@@ -140,3 +140,18 @@ test_that("fir1() tests are correct", {
   expect_true(all(h[2:4] <= c(1 / sqrt(2), 3e-3, 1 / sqrt(2))))
 })
 
+# -----------------------------------------------------------------------
+# firls()
+
+test_that("parameters to firls() are correct", {
+  expect_error(firls())
+  expect_error(firls(-1))
+  expect_error(firls(0.5))
+  expect_error(firls(1))
+  expect_error(firls(1, 2))
+  expect_error(firls(1, 2, 3))
+  expect_error(firls(1, 0.5, c(1, 1)))
+  expect_error(firls(1, c(0.1, 0.5), c(1, 0), c(3, 3)))
+  expect_error(firls(1, 2, 3, 4, 5))
+})
+
