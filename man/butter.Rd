@@ -2,13 +2,13 @@
 % Please edit documentation in R/butter.R
 \name{butter}
 \alias{butter}
-\alias{butter.IIRfspec}
+\alias{butter.FilterSpecs}
 \alias{butter.default}
 \title{Butterworth filter design}
 \usage{
 butter(n, ...)
 
-\method{butter}{IIRfspec}(n, ...)
+\method{butter}{FilterSpecs}(n, ...)
 
 \method{butter}{default}(n, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...)
 }
@@ -16,7 +16,7 @@ butter(n, ...)
 \item{n}{filter order.}
 
 \item{...}{additional arguments passed to butter, overriding those given by n
-of class \code{IIRfspec}.}
+of class \code{FilterSpecs}.}
 
 \item{w}{critical frequencies of the filter. \code{w} must be a scalar for
 low-pass and high-pass filters, and \code{w} must be a two-element vector

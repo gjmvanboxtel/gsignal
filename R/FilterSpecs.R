@@ -1,4 +1,4 @@
-# IIRfspec.R
+# FilterSpecs.R
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
@@ -18,11 +18,12 @@
 #
 # Version history
 # 20200507  GvB       setup for gsignal v0.1.0
+# 20200708  GvB       renamed IIRfspec to FilterSpecs
 #---------------------------------------------------------------------------------------------------------------------
 
-#' IIR filter specifications
+#' Filter specifications
 #' 
-#' IIR filter specifications, including order, frequency cutoff, type, and
+#' Filter specifications, including order, frequency cutoff, type, and
 #' possibly others.
 #' 
 #' @param n filter order.
@@ -32,8 +33,8 @@
 #'   for dB of pass band ripple or Rs for dB of stop band ripple, depending on
 #'   filter type (Butterworth, Chebyshev, etc.).
 #' 
-#' @return A list of class \code{'IIRfspec'} with the following list elements
-#'   (repeats of the input arguments:
+#' @return A list of class \code{'FilterSpecs'} with the following list elements
+#'   (repeats of the input arguments):
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
@@ -46,15 +47,15 @@
 #' @seealso \code{\link{filter}}, butter and buttord, cheby1 and cheb1ord, ellip and ellipord.
 #' 
 #' @examples
-#' filt <- IIRfspec(3, 0.1, "low")
+#' filt <- FilterSpecs(3, 0.1, "low")
 #' 
-#' @author Tom Short \email{tshort@@eprisolutions.com}, adapted by Geert van
-#'   Boxtel \email{gjmvanboxtel@@gmail.com}
+#' @author Tom Short \email{tshort@@eprisolutions.com}, renamed and adapted by
+#'   Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
 #'
 #' @export
 
-IIRfspec <- function(n, Wc, type, ...) {
+FilterSpecs <- function(n, Wc, type, ...) {
   res = list(n = n, Wc = Wc, type = type, ...)
-  class(res) = "IIRfspec"
+  class(res) = "FilterSpecs"
   res
 }

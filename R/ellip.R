@@ -19,6 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200527 Geert van Boxtel          First version for v0.1.0
+# 20200708 GvB                       renamed IIRfspec to FilterSpecs
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Elliptic filter design
@@ -50,7 +51,7 @@
 #' @param type filter type, one of "low", "high", "stop", or "pass".
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param ... additional arguments passed to ellip, overriding those given by n
-#'   of class \code{IIRfspec}.
+#'   of class \code{FilterSpecs}.
 #' 
 #' @return list of class \code{'\link{Arma}'} with list elements:
 #' \describe{
@@ -84,7 +85,7 @@ ellip <- function(n, ...) UseMethod("ellip")
 #' @rdname ellip
 #' @export
 
-ellip.IIRfspec <- function(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, plane = n$plane, ...)
+ellip.FilterSpecs <- function(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, plane = n$plane, ...)
   ellip(n$n, Rp, Rs, w, type, plane, ...)
 
 #' @rdname ellip

@@ -19,6 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200519 Geert van Boxtel          First version for v0.1.0
+# 20200708 GvB                       renamed IIRfspec to FilterSpecs
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev Type II filter design
@@ -42,7 +43,7 @@
 #' @param type filter type, one of "low", "high", "stop", or "pass".
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param ... additional arguments passed to cheby1, overriding those given by n
-#'   of class \code{IIRfspec}.
+#'   of class \code{FilterSpecs}.
 #' 
 #' @return list of class \code{'\link{Arma}'} with list elements:
 #' \describe{
@@ -83,7 +84,7 @@ cheby2 <- function(n, ...) UseMethod("cheby2")
 #' @rdname cheby2
 #' @export
 
-cheby2.IIRfspec <- function(n, ...)
+cheby2.FilterSpecs <- function(n, ...)
   cheby2(n$n, n$Rs, n$Wc, n$type, n$plane, ...)
 
 #' @rdname cheby2

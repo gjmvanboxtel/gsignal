@@ -2,13 +2,13 @@
 % Please edit documentation in R/ellip.R
 \name{ellip}
 \alias{ellip}
-\alias{ellip.IIRfspec}
+\alias{ellip.FilterSpecs}
 \alias{ellip.default}
 \title{Elliptic filter design}
 \usage{
 ellip(n, ...)
 
-\method{ellip}{IIRfspec}(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, plane = n$plane, ...)
+\method{ellip}{FilterSpecs}(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, plane = n$plane, ...)
 
 \method{ellip}{default}(
   n,
@@ -24,7 +24,7 @@ ellip(n, ...)
 \item{n}{filter order.}
 
 \item{...}{additional arguments passed to ellip, overriding those given by n
-of class \code{IIRfspec}.}
+of class \code{FilterSpecs}.}
 
 \item{Rp}{dB of passband ripple.}
 

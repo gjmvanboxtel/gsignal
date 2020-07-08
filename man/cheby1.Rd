@@ -2,13 +2,13 @@
 % Please edit documentation in R/cheby1.R
 \name{cheby1}
 \alias{cheby1}
-\alias{cheby1.IIRfspec}
+\alias{cheby1.FilterSpecs}
 \alias{cheby1.default}
 \title{Chebyshev Type I filter design}
 \usage{
 cheby1(n, ...)
 
-\method{cheby1}{IIRfspec}(n, ...)
+\method{cheby1}{FilterSpecs}(n, ...)
 
 \method{cheby1}{default}(
   n,
@@ -23,7 +23,7 @@ cheby1(n, ...)
 \item{n}{filter order.}
 
 \item{...}{additional arguments passed to cheby1, overriding those given by n
-of class \code{IIRfspec}.}
+of class \code{FilterSpecs}.}
 
 \item{Rp}{dB of passband ripple.}
 

@@ -19,6 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200513 Geert van Boxtel          First version for v0.1.0
+# 20200708 GvB                       renamed IIRfspec to FilterSpecs
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Butterworth filter order and cutoff frequency
@@ -49,7 +50,7 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' 
-#' @return A list of class \code{'IIRfspec'} with the following list elements:
+#' @return A list of class \code{'FilterSpecs'} with the following list elements:
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
@@ -237,6 +238,6 @@ buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
     Wc_s <- atan(Wcw_s * (T / 2)) * (T / pi)
   }
   
-  IIRfspec(n = n, Wc = Wc_p, type = type, Wc_s = Wc_s, plane = plane)
+  FilterSpecs(n = n, Wc = Wc_p, type = type, Wc_s = Wc_s, plane = plane)
 }
 
