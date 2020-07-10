@@ -20,7 +20,7 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 20200708  GvB       setup for gsignal v0.1.0
+# 20200709  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Hilbert transform
@@ -54,12 +54,12 @@
 #' lines (t, Im(z), col = "red")
 #' legend('topright', lty = 1, legend = c("Real", "Imag"), col = c("blue", "red"))
 #' 
-#'  ## the magnitude of the hilbert transform eliminates the carrier
-#'  t <- seq(0, 10, length = 1024)
-#'  x <- 5 * cos(0.2 * t) * sin(100 * t)
-#'  plot(t, x, type = "l", col = "green")
-#'  lines (t, abs(hilbert(x)), col = "blue")
-#'  legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"), col = c("green", "blue"))
+#' ## the magnitude of the hilbert transform eliminates the carrier
+#' t <- seq(0, 10, length = 1024)
+#' x <- 5 * cos(0.2 * t) * sin(100 * t)
+#' plot(t, x, type = "l", col = "green")
+#' lines (t, abs(hilbert(x)), col = "blue")
+#' legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"), col = c("green", "blue"))
 #' 
 #' @author Paul Kienzle \email{pkienzle@@users.sf.net}, Peter L. Soendergaard.
 #'   Port to R by Geert van Boxtel \email{gjmvanboxtel@@gmail.com}

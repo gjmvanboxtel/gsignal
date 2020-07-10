@@ -87,5 +87,5 @@ test_that("parameters to sinc() are correct", {
 
 test_that("sinc() returns correct values", {
   expect_equal(sinc(0), 1L)
-  expect_equal(round(sum(sinc(1:1e6)), 4), round((pi - 1)/2, 4))
+  expect_equal(round(sum(sinc(1:1e6)), 4), 0)
 })

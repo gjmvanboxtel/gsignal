@@ -328,8 +328,8 @@ test_that("parameters to shanwavf() are correct", {
 })
 
 test_that("shanwavf() works correctly", {
-  expect_that(round(mean(Re(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
-  expect_that(round(mean(Im(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 4), equals(0))
+  expect_equal(mean(Re(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 0, tolerance = 1e-3)
+  expect_equal(mean(Im(shanwavf(-20, 20, 1000, 1.5, 1)$psi)), 0, tolerance = 1e-3)
 })
 
 # -----------------------------------------------------------------------

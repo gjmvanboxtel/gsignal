@@ -21,6 +21,7 @@
 # 20191029  GvB       Initial setup
 # 20200112  GvB       Added ssq() msq() rmsq()
 # 20200507  GvB       adapted isWhole()
+# 20200709  GvB       normalized sinc function
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Internal functions not exported to the namespace
@@ -41,7 +42,7 @@ isWhole <- function(x, tol = .Machine$double.eps^0.5)  !(is.null(x) || is.charac
 unfactor <- function(f) if (is.factor(f)) as.numeric(levels(f)[as.integer(f)]) else NULL
 
 # sinc function
-sinc <- function(x) ifelse(x == 0, 1, sin(x) / x)
+sinc <- function(x) ifelse(x == 0, 1, sin(pi * x) / (pi * x))
 
 # sum of squares (assume input is a vector)
 ssq <- function(x) ifelse(is.complex(x), sum(Re(x * Conj(x))), sum(x * x))
