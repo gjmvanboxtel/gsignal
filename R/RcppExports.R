@@ -13,6 +13,10 @@ conv2dv <- function(a, b) {
     .Call(`_gsignal_conv2dv`, a, b)
 }
 
+remez <- function(h, numtaps, numband, bands, des, weight, type, griddensity) {
+    .Call(`_gsignal_remez`, h, numtaps, numband, bands, des, weight, type, griddensity)
+}
+
 sosfilt <- function(sos, x) {
     .Call(`_gsignal_sosfilt`, sos, x)
 }
