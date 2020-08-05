@@ -159,3 +159,159 @@ test_that("zp2tf() tests are correct", {
   expect_equal(inv$k, 1)
 })
 
+# -----------------------------------------------------------------------
+# residuez()
+
+test_that("parameters to residuez() are correct", {
+  expect_error(residuez())
+  expect_error(residuez(1, 2, 3))
+  expect_error(residuez('invalid', 'invalid'))
+})
+
+test_that("residuez() tests are correct", {
+
+  b <- c(1, -2, 1); a <- c(1, -1)
+  rpk <-  residuez(b, a)
+  expect_equal(rpk$r, 0)
+  expect_equal(rpk$p, 1)
+  expect_equal(rpk$k, c(1, -1))
+
+  b <- 1; a <- c(1, -1i)
+  rpk <-  residuez(b, a)
+  expect_equal(rpk$r, 1)
+  expect_equal(rpk$p, 1i)
+  expect_null(rpk$k)
+  
+  b <- 1; a <- c(1, -1, 0.25)
+  rpk <-  residuez(b, a)
+  s <- sort(rpk$r, index.return = TRUE)
+  expect_equal(s$x, c(0, 1))
+  expect_equal(rpk$p[s$ix], c(0.5, 0.5))
+  expect_null(rpk$k)
+
+  b <- 1; a <- c(1, -0.75, 0.125)
+  rpk <-  residuez(b, a)
+  s <- sort(rpk$r, index.return = TRUE)
+  expect_equal(s$x, c(-1, 2))
+  expect_equal(rpk$p[s$ix], c(0.25, 0.5))
+  expect_null(rpk$k)
+
+  b <- c(1, 6, 2); a <- c(1, -2, 1)
+  rpk <-  residuez(b, a)
+  s <- sort(rpk$r, index.return = TRUE)
+  expect_equal(s$x, c(-10, 9))
+  expect_equal(rpk$p[s$ix], c(1, 1))
+  expect_equal(rpk$k, 2)
+
+  b <- c(6, 2); a <- c(1, -2, 1)
+  rpk <-  residuez(b, a)
+  s <- sort(rpk$r, index.return = TRUE)
+  expect_equal(s$x, c(-2, 8))
+  expect_equal(rpk$p[s$ix], c(1, 1))
+  expect_null(rpk$k)
+  
+  b <- c(1, 6, 6, 2); a <- c(1, -2, 1)
+  rpk <-  residuez(b, a)
+  s <- sort(rpk$r, index.return = TRUE)
+  expect_equal(s$x, c(-24, 15))
+  expect_equal(rpk$p[s$ix], c(1, 1))
+  expect_equal(rpk$k, c(10, 2))
+  
+  b <- c(1, 6, 6, 2); a <- c(1, -(2+1i), (1+2i), -1i)
+  rpk <-  residuez(b, a)
+  s <- sort(Mod(rpk$r), index.return = TRUE)
+  expect_equal(rpk$r[s$ix], c(-2+2.5i, 7.5+7.5i, -4.5-12i))
+  expect_equal(rpk$p[s$ix], c(1i, 1, 1))
+  expect_equal(rpk$k, -2i)
+  
+  b <- c(1, 0, 1); a <- c(1, 0, 0, 0, 0, -1)
+  rpk <-  residuez(b, a)
+  s <- sort(Arg(rpk$p), index.return = TRUE)
+  rise <- c(0.26180339887499 - 0.19021130325903i,
+            0.03819660112501 + 0.11755705045849i,
+            0.4,
+            0.03819660112501 - 0.11755705045849i,
+            0.26180339887499 + 0.19021130325903i)
+  pise <- c(-0.80901699437495 - 0.58778525229247i,
+            0.30901699437495 - 0.95105651629515i,
+            1,
+            0.30901699437495 + 0.95105651629515i,
+            -0.80901699437495 + 0.58778525229247i)
+  expect_equal(rpk$r[s$ix], rise)
+  expect_equal(rpk$p[s$ix], pise)
+  expect_null(rpk$k)
+  
+})
+
+# -----------------------------------------------------------------------
+# residued()
+
+test_that("parameters to residued() are correct", {
+  expect_error(residued())
+  expect_error(residued(1, 2, 3))
+  expect_error(residued('invalid', 'invalid'))
+})
+
+test_that("residued() tests are correct", {
+  
+  b <- 1; a <- c(1, -1)
+  rpk <-  residued(b, a)
+  expect_equal(rpk, list(r = 1, p = 1, k = NULL))
+  rpk2 <-  residuez(b, a)
+  expect_equal(rpk, rpk2)
+  #residuez and residued should be identical when length(b) < length(a)
+  
+  b <- c(1, -2, 1); a <- c(1, -1)
+  rpk <-  residued(b, a)
+  expect_equal(rpk, list(r = 0, p = 1, k = c(1, -1)))
+  
+  b <- c(1, -2, 1); a <- c(1, -0.5)
+  rpk <-  residued(b, a)
+  expect_equal(rpk, list(r = 0.25, p = 0.5, k = c(1, -1.5)))
+
+  b <- 1; a <- c(1, -0.75, 0.125)
+  rpk <-  residued(b, a)
+  rpk2 <-  residuez(b, a)
+  expect_equal(rpk, rpk2)
+  #residuez and residued should be identical when length(b) < length(a)
+  
+  b <- 1; a <- c(1, -2, 1)
+  rpk <-  residued(b, a)
+  rpk2 <-  residuez(b, a)
+  expect_equal(rpk, rpk2)
+  #residuez and residued should be identical when length(b) < length(a)
+  
+  b <- c(6, 2); a <- c(1, -2, 1)
+  rpk <-  residued(b, a)
+  rpk2 <-  residuez(b, a)
+  expect_equal(rpk, rpk2)
+  #residuez and residued should be identical when length(b) < length(a)
+
+  b <- c(1, 1, 1); a <- c(1, -2, 1)
+  rpk <-  residued(b, a)
+  expect_equal(rpk$r, c(0, 3))
+  expect_equal(rpk$p, c(1, 1))
+  expect_equal(rpk$k, 1)
+  
+  b <- c(2, 6, 6, 2); a <- c(1, -2, 1)
+  rpk <-  residued(b, a)
+  expect_equal(rpk$r, c(8, 16))
+  expect_equal(rpk$p, c(1, 1))
+  expect_equal(rpk$k, c(2, 10))
+  
+  b <- c(1, 6, 2); a <- c(1, -2, 1)
+  rpk <-  residued(b, a)
+  expect_equal(rpk$r, c(-1, 9))
+  expect_equal(rpk$p, c(1, 1))
+  expect_equal(rpk$k, 1)
+
+  b <- c(1, 0, 0, 0, 1); a <- c(1, 0, 0, 0, -1)
+  rpk <-  residued(b, a)
+  s <- sort(Arg(rpk$p), index.return = TRUE)
+  expect_equal(rpk$r[s$ix], c(-1 / 2, -1i / 2, 1 / 2, 1i / 2))
+  expect_equal(rpk$p[s$ix], c(-1, -1i, 1, 1i))
+  expect_equal(rpk$k, 1)
+  
+})
+
+

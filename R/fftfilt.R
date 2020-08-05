@@ -177,7 +177,7 @@ fftfilt <- function(b, x, n = NULL) {
   y
 }
 
-#' @rdname filter
+#' @rdname fftfilter
 #' @method filter FFTfilter
 #' @export
 
