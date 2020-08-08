@@ -2,6 +2,7 @@
 % Please edit documentation in R/fftfilt.R
 \name{fftfilt}
 \alias{fftfilt}
+\alias{filter.FFTfilter}
 \alias{FFTfilter}
 \alias{as.FFTfilter}
 \alias{as.FFTfilter.FFTfilter}
@@ -9,6 +10,8 @@
 \title{FFT-based FIR filtering}
 \usage{
 fftfilt(b, x, n = NULL)
+
+\method{filter}{FFTfilter}(filt, x, ...)
 
 FFTfilter(b, n = NULL)
 

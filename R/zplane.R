@@ -75,7 +75,7 @@ zplane.Arma <- function(filt, ...) # IIR
 #' @export
 
 zplane.Ma <- function(filt, ...) # FIR
-  zplane(filt$b, 1, ...)
+  zplane(filt, 1, ...)
 
 #' @rdname zplane
 #' @export
