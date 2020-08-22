@@ -22,6 +22,7 @@
 # 20200112  GvB       Added ssq() msq() rmsq()
 # 20200507  GvB       adapted isWhole()
 # 20200709  GvB       normalized sinc function
+# 20200820  GvB       added strReverse() function
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Internal functions not exported to the namespace
@@ -58,3 +59,13 @@ nextpow2 <- function (x) 2^ceiling(log2(x))
 
 # convert complex number to real if imaginary part is zero
 zapIm <- function (x) if (all(Im(zapsmall(x)) == 0)) Re(x) else x
+
+# reverse string (taken from strsplit examples)
+strReverse <- function(x) sapply(lapply(strsplit(x, NULL), rev), paste, collapse="")
+
+# convert decimal to binary string
+# Joshua Ulrich, https://stackoverflow.com/questions/6614283/converting-decimal-to-binary-in-r
+dec2bin <- function(x) paste(as.integer(rev(intToBits(x))), collapse = "")
+
+# convert binary string to decimal
+bin2dec <- function(x) strtoi(x, 2)
