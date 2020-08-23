@@ -68,3 +68,78 @@ test_that("bitrevorder() tests are correct", {
   expect_equal(bitrevorder(0:15), c(0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15))
 })
 
+# -----------------------------------------------------------------------
+# fftshift()
+
+test_that("parameters to fftshift() are correct", {
+  expect_error(fftshift())
+  expect_error(fftshift(1, 2, 3))
+  #expect_error(fftshift(matrix(1:4, 2, 2), -1))
+  expect_error(fftshift(NULL))
+  expect_error(fftshift(array(1:8, c(2, 2, 2))))
+})
+
+test_that("fftshift() tests are correct", {
+  
+  expect_equal(fftshift(1), 1)
+  
+  x <- 0:7
+  y <- fftshift(x)
+  expect_equal(y, c(4, 5, 6, 7, 0, 1, 2, 3))
+  expect_equal(fftshift(y), x)
+
+  x <- 0:6
+  y <- fftshift(x)
+  expect_equal(y, c(4, 5, 6, 0, 1, 2, 3))
+  expect_equal(fftshift(y), c(1, 2, 3, 4, 5, 6, 0))
+  
+  x <- 0:3
+  x <- matrix(c(x, 2 * x, 3 * x + 1, 4 * x + 1), 4, byrow = TRUE)
+  y = fftshift(x, 1)
+  expect_equal(y, matrix(c(1, 4, 7, 10, 1, 5, 9, 13, 0, 1, 2, 3, 0, 2, 4, 6), 4, byrow = TRUE))
+  y = fftshift(x, 2)
+  expect_equal(y, matrix(c(2, 3, 0, 1, 4, 6, 0, 2, 7, 10, 1, 4, 9, 13, 1, 5), 4, byrow = TRUE))
+  y = fftshift(x, c(1, 2))
+  expect_equal(y, matrix(c(7, 10, 1, 4, 9, 13, 1, 5, 2, 3, 0, 1, 4, 6, 0, 2), 4, byrow = TRUE))
+  
+})
+
+# -----------------------------------------------------------------------
+# ifftshift()
+
+test_that("parameters to ifftshift() are correct", {
+  expect_error(ifftshift())
+  expect_error(ifftshift(1, 2, 3))
+  #expect_error(ifftshift(matrix(1:4, 2, 2), -1))
+  expect_error(ifftshift(NULL))
+  expect_error(ifftshift(array(1:8, c(2, 2, 2))))
+})
+
+test_that("ifftshift() tests are correct", {
+  
+  expect_equal(ifftshift(1), 1)
+  
+  x <- 0:7
+  y <- ifftshift(x)
+  expect_equal(y, c(4, 5, 6, 7, 0, 1, 2, 3))
+  expect_equal(ifftshift(y), x)
+  
+  x <- 0:6
+  y <- ifftshift(x)
+  expect_equal(y, c(3, 4, 5, 6, 0, 1, 2))
+  expect_equal(ifftshift(y), c(6, 0, 1, 2, 3, 4, 5))
+  
+  x <- 0:3
+  x <- matrix(c(x, 2 * x, 3 * x + 1, 4 * x + 1), 4, byrow = TRUE)
+  y = ifftshift(x, 1)
+  expect_equal(y, matrix(c(1, 4, 7, 10, 1, 5, 9, 13, 0, 1, 2, 3, 0, 2, 4, 6), 4, byrow = TRUE))
+  expect_equal(ifftshift(y, 1), x)
+  y = ifftshift(x, 2)
+  expect_equal(y, matrix(c(2, 3, 0, 1, 4, 6, 0, 2, 7, 10, 1, 4, 9, 13, 1, 5), 4, byrow = TRUE))
+  expect_equal(ifftshift(y, 2), x)
+  y = ifftshift(x, c(1, 2))
+  expect_equal(y, matrix(c(7, 10, 1, 4, 9, 13, 1, 5, 2, 3, 0, 1, 4, 6, 0, 2), 4, byrow = TRUE))
+  expect_equal(ifftshift(y, c(1, 2)), x)
+  
+})
+
