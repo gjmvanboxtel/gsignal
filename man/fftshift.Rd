@@ -21,13 +21,13 @@ Perform a shift in order to move the frequency 0 to the center of the input.
 }
 \details{
 If \code{x} is a vector of \code{N} elements corresponding to \code{N} time
-samples spaced by \code{dt}, then \code{fftshift(fft (x))} corresponds to
-frequencies 
+samples spaced by \code{dt}, then \code{fftshift(x)} corresponds to
+frequencies
 \deqn{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2))) * df},
 where \code{df = 1 / (N * dt)}. In other words, the left and right halves of
 \code{x} are swapped.
 
-If \code{x} is a matrix, then \code{shiftfft} operates on the rows or
+If \code{x} is a matrix, then \code{fftshift} operates on the rows or
 columns of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the
 the upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
 right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN = c(1, 2)}

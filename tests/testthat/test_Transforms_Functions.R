@@ -143,3 +143,46 @@ test_that("ifftshift() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# cceps()
+
+test_that("parameters to cceps() are correct", {
+  expect_error(cceps())
+  expect_error(cceps(1, 2))
+  expect_error(cceps(matrix(1:4, 2, 2)))
+  expect_error(cceps(TRUE))
+  expect_error(cceps(1:10 * 1i))
+})
+
+test_that("cceps() tests are correct", {
+
+  expect_error(cceps(rep(1L, 4)))
+  expect_error(cceps(0))
+  
+  x <- runif (256)
+  cps <- cceps(x)
+  expect_equal(length(x), length(cps))
+  
+})
+
+# -----------------------------------------------------------------------
+# rceps()
+
+test_that("parameters to rceps() are correct", {
+  expect_error(rceps())
+  expect_error(rceps(1, 2))
+  expect_error(rceps(1, TRUE, 3))
+  expect_error(rceps(matrix(1:4, 2, 2)))
+  expect_error(rceps(TRUE))
+  expect_error(rceps(1:10 * 1i))
+})
+
+test_that("rceps() tests are correct", {
+  
+  # Test that an odd-length input produces an odd-length output
+  x <- runif(33)
+  rc <- rceps(x, TRUE)
+  expect_equal(length(rc$y), length(x))
+  expect_equal(length(rc$ym), length(x))
+})
+
