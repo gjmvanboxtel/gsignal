@@ -42,7 +42,7 @@
 #'   signal.
 #' @param h Impulse response of the FIR filter specified as a numeric vector or
 #'   matrix. If it is a vector, then it represents one FIR filter to may be
-#'   applied to jultiple signals in \code{x}; if it is a matrix, then each
+#'   applied to multiple signals in \code{x}; if it is a matrix, then each
 #'   column is a separate FIR impulse response.
 #' @param p Upsampling factor, specified as a positive integer (default: 1).
 #' @param q downsamppling factor, specified as a positive integer (default: 1).
@@ -119,6 +119,7 @@ upfirdn <- function (x, h, p = 1, q = 1) {
       stop("h must be a numeric matrix")
     }
     lh <- nrow(h)
+    vec <- FALSE
   } else {
     stop ('x and h must be numeric vectors or matrices')
   }

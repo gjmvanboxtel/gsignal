@@ -13,7 +13,7 @@ signal.}
 
 \item{h}{Impulse response of the FIR filter specified as a numeric vector or
 matrix. If it is a vector, then it represents one FIR filter to may be
-applied to jultiple signals in \code{x}; if it is a matrix, then each
+applied to multiple signals in \code{x}; if it is a matrix, then each
 column is a separate FIR impulse response.}
 
 \item{p}{Upsampling factor, specified as a positive integer (default: 1).}
