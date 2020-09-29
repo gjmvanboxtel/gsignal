@@ -71,6 +71,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// upfirdn
+NumericMatrix upfirdn(NumericMatrix x, NumericMatrix h, int p, int q);
+RcppExport SEXP _gsignal_upfirdn(SEXP xSEXP, SEXP hSEXP, SEXP pSEXP, SEXP qSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type h(hSEXP);
+    Rcpp::traits::input_parameter< int >::type p(pSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    rcpp_result_gen = Rcpp::wrap(upfirdn(x, h, p, q));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2df", (DL_FUNC) &_gsignal_conv2df, 2},
@@ -78,6 +92,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2dv", (DL_FUNC) &_gsignal_conv2dv, 2},
     {"_gsignal_remez", (DL_FUNC) &_gsignal_remez, 8},
     {"_gsignal_sosfilt", (DL_FUNC) &_gsignal_sosfilt, 2},
+    {"_gsignal_upfirdn", (DL_FUNC) &_gsignal_upfirdn, 4},
     {NULL, NULL, 0}
 };
 

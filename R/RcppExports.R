@@ -21,3 +21,7 @@ sosfilt <- function(sos, x) {
     .Call(`_gsignal_sosfilt`, sos, x)
 }
 
+upfirdn <- function(x, h, p, q) {
+    .Call(`_gsignal_upfirdn`, x, h, p, q)
+}
+
