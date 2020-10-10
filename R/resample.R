@@ -26,6 +26,11 @@
 #' Change sampling rate
 #' 
 #' Resample using a polyphase algorithm.
+#' 
+#' If \code{h} is not specified, this function will design an optimal FIR filter
+#' using a Kaiser-Bessel window. The filter length and the parameter \eqn{\beta} are
+#' computed based on ref [2], Chapter 7, Eq. 7.63 (p. 476), and Eq. 7.62 (p.
+#' 474), respectively.
 #'   
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
@@ -35,21 +40,34 @@
 #' @param h Impulse response of the FIR filter specified as a numeric vector or
 #'   matrix. If it is a vector, then it represents one FIR filter to may be
 #'   applied to multiple signals in \code{x}; if it is a matrix, then each
-#'   column is a separate FIR impulse response.
+#'   column is a separate FIR impulse response. If not specified, a FIR filter
+#'   based on a Kaiser window is designed.
 #' 
 #' @return output signal, returned as a vector or matrix. Each column has length
 #'   \code{ceiling(((length(x) - 1) * p + length(h)) / q)}..
 #' 
 #' @examples
-#' tx <- seq(0, 360 - 3, 6)
+#' lx <- 60
+#' tx <- seq(0, 360, length.out = lx)
 #' x <- sin(2 * pi * tx / 120)
-#' ty <- seq(0, 360 - 2, 4)
-#' y <- resample(x, 3, 2)
-#' tz <- seq(0, 360 - 4, 9)
-#' z <- resample(x, 2, 3)
-#' plot(tx, x, type = "b", pch = 1)
-#' points(ty, y, col="red")
-#' points(tz, z, col = "blue")
+#' 
+#' # upsample
+#' p <- 3; q <- 2
+#' ty <- seq(0, 360, length.out = lx * p / q)
+#' y <- resample(x, p, q)
+#' 
+#' # downsample
+#' p <- 2; q <- 3
+#' tz <- seq(0, 360, length.out = lx * p / q)
+#' z <- resample(x, p, q)
+#' 
+#' # plot
+#' plot(tx, x, type = "b", col = 1, pch = 1,
+#'  xlab = "", ylab = "")
+#' points(ty, y, col = 2, pch = 2)
+#' points(tz, z, col = 3, pch = 3)
+#' legend("bottomleft", legend = c("original", "upsampled", "downsampled"),
+#'   lty = 1, pch = 1:3, col = 1:3)
 #' 
 #' @references [1] Proakis, J.G., and Manolakis, D.G. (2007).
 #' Digital Signal Processing: Principles, Algorithms, and Applications,
@@ -57,6 +75,8 @@
 #' [2] Oppenheim, A.V., Schafer, R.W., and Buck, J.R. (1999).
 #' Discrete-time signal processing, Signal processing series,
 #' Prentice-Hall.
+#' 
+#' @seealso \code{\link{kaiser}}
 #'
 #' @author Original Octave code by Eric Chassande-Mottin
 #'   \email{ecm@@apc.univ-paris7.fr}, port to R by Geert van Boxtel
