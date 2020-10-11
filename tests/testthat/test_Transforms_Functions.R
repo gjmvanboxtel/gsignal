@@ -186,3 +186,20 @@ test_that("rceps() tests are correct", {
   expect_equal(length(rc$ym), length(x))
 })
 
+# -----------------------------------------------------------------------
+# czt()
+
+test_that("parameters to czt() are correct", {
+  expect_error(czt())
+  expect_error(czt('a'))
+  expect_error(czt(1, -1))
+  expect_error(czt(1, 1, 'a'))
+  expect_error(czt(1, 1, 1, 'a'))
+  expect_error(czt(1, 2, 3, 4, 5))
+})
+
+test_that("czt() tests are correct", {
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  expect_equal(stats::fft(x), czt(x))
+  expect_equal(stats::mvfft(cbind(x, x)), czt(cbind(x, x)))
+})
