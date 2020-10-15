@@ -203,3 +203,29 @@ test_that("czt() tests are correct", {
   expect_equal(stats::fft(x), czt(x))
   expect_equal(stats::mvfft(cbind(x, x)), czt(cbind(x, x)))
 })
+
+# -----------------------------------------------------------------------
+# dct() and idct
+
+test_that("parameters to dct() and idct() are correct", {
+  expect_error(dct())
+  expect_error(dct('a'))
+  expect_error(dct(1, -1))
+  expect_error(dct(1, 1, 1))
+  expect_error(idct())
+  expect_error(idct('a'))
+  expect_error(idct(1, -1))
+  expect_error(idct(1, 1, 1))
+})
+
+test_that("dct() and idct() tests are correct", {
+  # even-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  expect_equal(x, idct(dct(x)))
+  expect_equal(cbind(x, x), idct(dct(cbind(x, x))))
+  #uneven-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  expect_equal(x, idct(dct(x)))
+  expect_equal(cbind(x, x), idct(dct(cbind(x, x))))
+  
+})
