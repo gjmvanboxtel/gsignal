@@ -222,10 +222,37 @@ test_that("dct() and idct() tests are correct", {
   # even-length series
   x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
   expect_equal(x, idct(dct(x)))
-  expect_equal(cbind(x, x), idct(dct(cbind(x, x))))
+  expect_equal(unname(cbind(x, x)), idct(dct(cbind(x, x))))
   #uneven-length series
   x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
   expect_equal(x, idct(dct(x)))
-  expect_equal(cbind(x, x), idct(dct(cbind(x, x))))
+  expect_equal(unname(cbind(x, x)), idct(dct(unname(cbind(x, x)))))
   
 })
+
+# -----------------------------------------------------------------------
+# dct2() and idct2
+
+test_that("parameters to dct2() and idct2() are correct", {
+  expect_error(dct2())
+  expect_error(dct2('a'))
+  expect_error(dct2(matrix(1:4, 2, 2), -1))
+  expect_error(dct2(matrix(1:4, 2, 2), 1, -1))
+  expect_error(dct2(1, 1, 1, 1))
+  expect_error(idct2())
+  expect_error(idct2('a'))
+  expect_error(idct2(matrix(1:4, 2, 2), -1))
+  expect_error(idct2(matrix(1:4, 2, 2), 1, -1))
+  expect_error(idct2(1, 1, 1, 1))
+})
+
+test_that("dct2() and idct2() tests are correct", {
+  # even-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  expect_equal(unname(cbind(x, x)), idct2(dct2(cbind(x, x))))
+  #uneven-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  expect_equal(unname(cbind(x, x)), idct2(dct2(cbind(x, x))))
+  
+})
+

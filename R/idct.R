@@ -103,7 +103,7 @@ idct <- function (x, n = NROW(x)) {
     y = x * w
     ## 2. reconstruct fft result and invert it
     w <- exp(-1i * pi * seq(n - 1, 1, -1) / n) %o% rep(1, ns)
-    y <- imvfft(rbind(y, rep(0, ns), as.matrix(y[seq(n, 2, -1), ]) * w))
+    y <- imvfft(rbind(y, rep(0, ns), matrix(y[seq(n, 2, -1), ], ncol = ns) * w))
     ## 3. keep only the original data; toss the reversed copy
     y <- y[1:n, ]
   }  

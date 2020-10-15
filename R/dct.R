@@ -81,10 +81,10 @@
   }
   
   if (is.vector(x)) {
-    vec = TRUE
+    vec <- TRUE
     x <- as.matrix(x, ncol = 1)
   } else {
-    vec = FALSE
+    vec <- FALSE
   }
   nr <- nrow(x)
   ns <- ncol(x)
@@ -93,24 +93,26 @@
     stop("n must be a positive integer")
   }
   
-
   if (n != nr) {
     x <- postpad(x, n)
   }
 
   if (n == 1) {
-    w <- 1/2
+    w <- 1 / 2
   } else {
     w <- c(sqrt(1 / 4 / n), sqrt(1 / 2 / n) * exp((-1i * pi / 2 / n) * seq_len(n - 1))) %o% rep(1, ns)
   }
   if (realx && n%%2 == 0) {
-    y <- stats::mvfft(rbind(as.matrix(x[seq(1, n, 2), ]), as.matrix(x[seq(n, 1, -2), ])))
+    y <- stats::mvfft(rbind(matrix(x[seq(1, n, 2), ], ncol = ns), matrix(x[seq(n, 1, -2), ], ncol = ns)))
     y <- 2 * Re(w * y)
   } else {
-    y <- stats::mvfft(rbind(x, as.matrix(pracma::flipud(x))))
+    y <- stats::mvfft(rbind(x, matrix(pracma::flipud(x), ncol = ns)))
     y <- w * y[1:n, ]
   }
   
+  if (realx) {
+    y <- Re(y)
+  }
   if (vec) {
     y <- as.vector(y)
   }
