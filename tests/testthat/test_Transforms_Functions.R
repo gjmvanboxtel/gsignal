@@ -256,3 +256,28 @@ test_that("dct2() and idct2() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# dst() and idst
+
+test_that("parameters to dst() and idst() are correct", {
+  expect_error(dst())
+  expect_error(dst('a'))
+  expect_error(dst(1, -1))
+  expect_error(dst(1, 1, 1))
+  expect_error(idst())
+  expect_error(idst('a'))
+  expect_error(idst(1, -1))
+  expect_error(idst(1, 1, 1))
+})
+
+test_that("dst() and idst() tests are correct", {
+  # even-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  expect_equal(x, idst(dst(x)))
+  expect_equal(cbind(x, x), idst(dst(cbind(x, x))))
+  #uneven-length series
+  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  expect_equal(x, idst(dst(x)))
+  expect_equal(cbind(x, x), idst(dst(cbind(x, x))))
+  
+})
