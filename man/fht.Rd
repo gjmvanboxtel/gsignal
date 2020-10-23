@@ -2,9 +2,12 @@
 % Please edit documentation in R/fht.R
 \name{fht}
 \alias{fht}
+\alias{ifht}
 \title{Fast Hartley Transform}
 \usage{
 fht(x, n = NROW(x))
+
+ifht(x, n = NROW(x))
 }
 \arguments{
 \item{x}{input data, specified as a numeric vector or matrix. In case of a
@@ -15,10 +18,10 @@ signal.}
 \code{NROW(x)}.}
 }
 \value{
-Hartley transform, returned as a vector or matrix.
+(inverse) Hartley transform, returned as a vector or matrix.
 }
 \description{
-Compute the Hartley transform of a signal using FFT
+Compute the (inverse) Hartley transform of a signal using FFT
 }
 \details{
 The Hartley transform is an integral transform closely related to the Fourier
@@ -28,7 +31,10 @@ the advantages of transforming real functions to real functions (as opposed
 to requiring complex numbers) and of being its own inverse [1].
 
 This function implements the Hartley transform by calculating the difference
-between the real- and imaginary-valued parts of the Fourier-transformed signal [1].
+between the real- and imaginary-valued parts of the Fourier-transformed
+signal [1]. The forward and inverse Hartley transforms are the same (except
+for a scale factor of 1/N for the inverse Hartley transform), but implemented
+using different functions.
 }
 \examples{
 # FHT of a 2.5 Hz signal with offset
@@ -45,12 +51,17 @@ to <- which(f >= 5)[1]
 plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "", main = "Hartley Transform")
 par(op)
 
+x <- 1:10
+X <- fht(x)
+all.equal(x, ifht(X))
+# [1] TRUE
+
 }
 \references{
 [1] \url{https://en.wikipedia.org/wiki/Hartley_transform}
 }
 \seealso{
-\code{\link{ifht}}, \code{\link{fft}}
+\code{\link{fft}}
 }
 \author{
 Muthiah Annamalai, \email{muthiah.annamalai@uta.edu}; port to R by
