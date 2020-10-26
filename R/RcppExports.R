@@ -13,6 +13,10 @@ conv2dv <- function(a, b) {
     .Call(`_gsignal_conv2dv`, a, b)
 }
 
+fwht <- function(x) {
+    .Call(`_gsignal_fwht`, x)
+}
+
 remez <- function(h, numtaps, numband, bands, des, weight, type, griddensity) {
     .Call(`_gsignal_remez`, h, numtaps, numband, bands, des, weight, type, griddensity)
 }

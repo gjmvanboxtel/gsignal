@@ -41,6 +41,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fwht
+NumericMatrix fwht(NumericMatrix x);
+RcppExport SEXP _gsignal_fwht(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(fwht(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // remez
 NumericVector remez(NumericVector h, int numtaps, int numband, const NumericVector bands, const NumericVector des, const NumericVector weight, int type, int griddensity);
 RcppExport SEXP _gsignal_remez(SEXP hSEXP, SEXP numtapsSEXP, SEXP numbandSEXP, SEXP bandsSEXP, SEXP desSEXP, SEXP weightSEXP, SEXP typeSEXP, SEXP griddensitySEXP) {
@@ -90,6 +101,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2df", (DL_FUNC) &_gsignal_conv2df, 2},
     {"_gsignal_conv2ds", (DL_FUNC) &_gsignal_conv2ds, 2},
     {"_gsignal_conv2dv", (DL_FUNC) &_gsignal_conv2dv, 2},
+    {"_gsignal_fwht", (DL_FUNC) &_gsignal_fwht, 1},
     {"_gsignal_remez", (DL_FUNC) &_gsignal_remez, 8},
     {"_gsignal_sosfilt", (DL_FUNC) &_gsignal_sosfilt, 2},
     {"_gsignal_upfirdn", (DL_FUNC) &_gsignal_upfirdn, 4},

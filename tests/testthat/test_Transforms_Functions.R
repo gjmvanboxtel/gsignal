@@ -281,3 +281,37 @@ test_that("dst() and idst() tests are correct", {
   expect_equal(cbind(x, x), idst(dst(cbind(x, x))))
   
 })
+
+# -----------------------------------------------------------------------
+# fwht() and ifwht
+
+test_that("parameters to fwht() and ifwht() are correct", {
+  expect_error(fwht())
+  expect_error(fwht('a'))
+  expect_error(fwht(1, -1))
+  expect_error(fwht(1, 1, 1))
+  expect_error(fwht(1, 1, 'invalid'))
+  expect_error(ifwht())
+  expect_error(ifwht('a'))
+  expect_error(ifwht(1, -1))
+  expect_error(ifwht(1, 1, 1))
+  expect_error(ifwht(1, 1, 'invalid'))
+})
+
+test_that("fwht() and ifwht() tests are correct", {
+  expect_equal(fwht(rep(0L, 16)), rep(0L, 16))
+  expect_equal(fwht(rep(1L, 16)), c(1L, rep(0L, 15)))
+  expect_equal(fwht(rep(0L, 17)), rep(0L, 32))
+  expect_equal(fwht(c(1, -1, 1, -1, 1, -1, 1, -1)), c(0, 0, 0, 0, 0, 0, 0, 1))
+  
+  expect_equal(ifwht(rep(0L, 16)), rep(0L, 16))
+  expect_equal(ifwht(c(1L, rep(0L, 15))), rep(1L, 16))
+  expect_equal(ifwht(rep(0L, 17)), rep(0L, 32))
+  expect_equal(ifwht(c(0, 0, 0, 0, 0, 0, 0, 1)), c(1, -1, 1, -1, 1, -1, 1, -1))
+  
+  x <- matrix(round(runif(256) * 100), ncol = 16)
+  expect_equal(ifwht(fwht(x)), x)
+  expect_equal(ifwht(fwht(x, ordering = "sequency"), ordering = "sequency"), x)
+  expect_equal(ifwht(fwht(x, ordering = "hadamard"), ordering = "hadamard"), x)
+  expect_equal(ifwht(fwht(x, ordering = "dyadic"), ordering = "dyadic"), x)
+})

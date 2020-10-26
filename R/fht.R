@@ -20,6 +20,7 @@
 #
 # Version history
 # 20201020  GvB       setup for gsignal v0.1.0
+# 20201023  GvB       corrected padding
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Fast Hartley Transform
@@ -96,6 +97,10 @@
     stop("n must be a positive integer")
   }
   
+  if (n != nr) {
+    x <- postpad(x, n)
+  }
+  
   Y <- stats::mvfft(x)
   y <- Re(Y) - Im(Y)
   
@@ -126,6 +131,9 @@
    
    if(!isPosscal(n) || !isWhole(n)) {
      stop("n must be a positive integer")
+   }
+   if (n != nr) {
+     x <- postpad(x, n)
    }
    
    Y <- imvfft(x)
