@@ -65,3 +65,41 @@ test_that("pwelch() tests are correct", {
 
 })
 
+# -----------------------------------------------------------------------
+# ar_psd()
+
+test_that("parameters to ar_psd() are correct", {
+  expect_error(ar_psd())
+  expect_error(ar_psd('a'))
+  expect_error(ar_psd(c(0,0)))
+  expect_error(ar_psd(1:10, -1))
+  expect_error(ar_psd(1:10, 4, -1))
+  expect_error(ar_psd(1:10, 4, 2, -1))
+  expect_error(ar_psd(1:10, 4, 2, 1, 'invalid'))
+  expect_error(ar_psd(1:10, 4, 2, 1, 'whole', 'invalid'))
+  expect_error(ar_psd(1:10, 4, 2, 1, 'whole', 'fft', 7))
+})
+
+test_that("ar_psd() tests are correct", {
+  
+  psd <- ar_psd(c(1,0), 1)
+  expect_equal(psd$freq, (1 / 2 / 256) * seq(0, 255))
+  expect_equal(psd$psd, rep(2L, 256))
+
+  n <- 64
+  psd <- ar_psd(c(1,0, 0), 1, n)
+  expect_equal(psd$freq, (1 / 2 / n) * seq(0, n - 1))
+  expect_equal(psd$psd, rep(2L, n))
+
+  psd <- ar_psd(c(1,0, 1), 1, n)
+  expect_equal(which.max(psd$psd), (n / 2) + 1)
+
+  psd <- ar_psd(c(1,0, 1), 1, n, range = "whole")
+  expect_equal(which.max(psd$psd), (n / 4) + 1)
+
+  psd <- ar_psd(c(1,0, 1), 1, n, range = "centerdc")
+  expect_equal(which(is.infinite(psd$psd)), c(17, 49))
+  
+})
+
+
