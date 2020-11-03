@@ -25,6 +25,7 @@
 # 20200515  GvB       resolve infinite ylim values in freqz.plot
 # 20200616  GvB       pass default parameters to methods
 # 20200629  GvB       bug in parameter passing for class 'Ma'
+# 20201103  GvB       changed the S3 method handling
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -102,7 +103,7 @@ freqz.default <- function(filt, a = 1, n = 512,
     stop("'filt' and 'a' must be vectors")
   }
   b <- filt
-  if (!is.logical(whole)){
+  if (!is.logical(whole)) {
     whole <- FALSE
   }
   if (fs == 2 * pi) {
@@ -135,11 +136,7 @@ freqz.default <- function(filt, a = 1, n = 512,
   res <- list(h = h, w = w, u = u)
   class(res) <- "freqz"
   res
-} 
-
-#' @rdname freqz
-#' @export
-freqz.freqz <- function(filt, ...) filt
+}
 
 #' @rdname freqz 
 #' @export
@@ -173,7 +170,7 @@ freqz.Zpg <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) # zero-pol
 #' @export
 
 print.freqz <- plot.freqz <- function(x, ...)
-  freqz_plot(x$w, x$h)
+  freqz_plot(x$w, x$h, ...)
 
 #' @rdname freqz 
 #' @export
@@ -226,22 +223,11 @@ print.summary.freqz <- function (x, ...) {
   cat("\n")
 }
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
-freqz_plot <- function(w, ...) UseMethod("freqz_plot")
+freqz_plot <- function(w, h, ...) {
 
-#' @rdname freqz 
-#' @export
-
-freqz_plot.freqz <- function(w, ...) 
-  freqz(w$w, w$h, ...)  # print it
-
-#' @rdname freqz 
-#' @export
-
-freqz_plot.default <- function(w, h, ...) {
-  
   mag <- 20 * log10(abs(h))
   maxmag <- max(mag, na.rm = TRUE)
   if (is.na(maxmag) || maxmag == Inf) maxmag <- 1

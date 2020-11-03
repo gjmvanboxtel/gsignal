@@ -3,7 +3,6 @@
 \name{freqz}
 \alias{freqz}
 \alias{freqz.default}
-\alias{freqz.freqz}
 \alias{freqz.Arma}
 \alias{freqz.Ma}
 \alias{freqz.Sos}
@@ -12,8 +11,6 @@
 \alias{summary.freqz}
 \alias{print.summary.freqz}
 \alias{freqz_plot}
-\alias{freqz_plot.freqz}
-\alias{freqz_plot.default}
 \title{Frequency response of digital filter}
 \usage{
 freqz(filt, ...)
@@ -26,8 +23,6 @@ freqz(filt, ...)
   fs = 2 * pi,
   ...
 )
-
-\method{freqz}{freqz}(filt, ...)
 
 \method{freqz}{Arma}(
   filt,
@@ -55,11 +50,7 @@ freqz(filt, ...)
 
 \method{print}{summary.freqz}(x, ...)
 
-freqz_plot(w, ...)
-
-\method{freqz_plot}{freqz}(w, ...)
-
-\method{freqz_plot}{default}(w, h, ...)
+freqz_plot(w, h, ...)
 }
 \arguments{
 \item{filt}{for the default case, the moving-average coefficients of an ARMA
