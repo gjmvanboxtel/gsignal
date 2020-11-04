@@ -1,4 +1,4 @@
-# mscohere.R
+# cpsd.R
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Original Octave code:
 # Copyright (C) 2006 Peter V. Lanspeary <pvl@mecheng.adelaide.edu.au>
@@ -22,11 +22,11 @@
 # 20201104  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
-#' Magnitude-squared coherence
+#' Cross power spectral density
 #' 
-#' Compute the magnitide-squared coherence estimates of input signals.
+#' Estimates the cross power spectral density (CPSD) of discrete-time signals.
 #' 
-#' \code{mscohere} estimates the magnitude-squared coherence function using
+#' \code{cpsd} estimates the cross power spectral density function using
 #' Welch’s overlapped averaged periodogram method [1]
 #' 
 #' @param x input data, specified as a numeric vector or matrix. In case of a
@@ -68,7 +68,7 @@
 #'     added to the positive side of the spectrum, but not at zero or Nyquist
 #'     (fs/2) frequencies. This keeps power equal in time and spectral domains.
 #'     If \code{x} is complex, then the whole frequency range is returned.}
-#'     \item{\code{coh}}{NULL for univariate series. For multivariate series, a
+#'     \item{\code{cross}}{NULL for univariate series. For multivariate series, a
 #'     matrix containing the squared coherence between different series. Column
 #'     \eqn{i + (j - 1) * (j - 2)/2 } of \code{coh} contains the cross-spectral
 #'     estimates between columns \eqn{i} and \eqn{j} of \eqn{x}, where \eqn{i <
@@ -81,10 +81,11 @@
 #' t <- seq(0, 1 - 1/fs, 1/fs)
 #' s1 <- sin(2 * pi * f * t) + runif(length(t))
 #' s2 <- sin(2 * pi * f * t - pi / 3) + runif(length(t))
-#' rv <- mscohere(cbind(s1, s2), fs = fs)
-#' plot(rv$freq, rv$coh, type="l", xlab = "Frequency", ylab = "Coherence")
+#' rv <- cpsd(cbind(s1, s2), fs = fs)
+#' plot(rv$freq, 10 * log10(rv$cross), type="l", xlab = "Frequency",
+#'      ylab = "Cross Spectral Density (dB)")
 #' 
-#' @note The function \code{mscohere} (and its deprecated alias \code{cohere})
+#' @note The function \code{cpsd} (and its deprecated alias \code{csd})
 #'   is a wrapper for the function \code{pwelch}, which is more complete and
 #'   more flexible.
 #' 
@@ -96,20 +97,20 @@
 #'   short, modified periodograms. IEEE Transactions on Audio and
 #'   Electroacoustics, AU-15 (2): 70–73.\cr
 #'
-#' @rdname mscohere
+#' @rdname cpsd
 #' @export
 
-mscohere <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
-                      nfft = ifelse(isScalar(window), window, length(window)),
-                      fs = 1,
-                      detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
+cpsd <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
+                  nfft = ifelse(isScalar(window), window, length(window)),
+                  fs = 1,
+                  detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
 
   pw <- pwelch(x, window, overlap, nfft, fs, detrend)
-  rv <- list(freq = pw$freq, coh = pw$coh)
+  rv <- list(freq = pw$freq, cross = pw$cross)
   rv
 }
 
-#' @rdname mscohere
+#' @rdname cpsd
 #' @export
 
-cohere <- mscohere
+csd <- cpsd
