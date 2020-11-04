@@ -22,9 +22,9 @@
 # 20201104  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
-#' Autoregressive model coefficients - Burg's mmethod
+#' Autoregressive model coefficients - Burg's method
 #'
-#' Calculate the coefficients of an autoregressive using Burg’s method
+#' Calculate the coefficients of an autoregressive model using Burg’s method
 #' 
 #' This function calculates the coefficients of an autoregressive (AR) model of
 #' complex data \code{x} using the whitening lattice-filter method of Burg
@@ -69,7 +69,7 @@
 #'   }
 #'   The default is to NOT use a model-selection criterion (NULL)
 #'   
-#' @return A \code{list} containng the following elements:
+#' @return A \code{list} containing the following elements:
 #'   \describe{
 #'     \item{a}{vector or matrix containing \code{(p+1)} autoregression
 #'     coefficients. If \code{x} is a matrix, then each row of a corresponds to

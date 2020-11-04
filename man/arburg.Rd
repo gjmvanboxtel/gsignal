@@ -2,7 +2,7 @@
 % Please edit documentation in R/arburg.R
 \name{arburg}
 \alias{arburg}
-\title{Autoregressive model coefficients - Burg's mmethod}
+\title{Autoregressive model coefficients - Burg's method}
 \usage{
 arburg(x, p, criterion = NULL)
 }
@@ -28,7 +28,7 @@ information in it. Recognized values are:
 The default is to NOT use a model-selection criterion (NULL)}
 }
 \value{
-A \code{list} containng the following elements:
+A \code{list} containing the following elements:
   \describe{
     \item{a}{vector or matrix containing \code{(p+1)} autoregression
     coefficients. If \code{x} is a matrix, then each row of a corresponds to
@@ -42,7 +42,7 @@ A \code{list} containng the following elements:
   }
 }
 \description{
-Calculate the coefficients of an autoregressive using Burg’s method
+Calculate the coefficients of an autoregressive model using Burg’s method
 }
 \details{
 This function calculates the coefficients of an autoregressive (AR) model of
