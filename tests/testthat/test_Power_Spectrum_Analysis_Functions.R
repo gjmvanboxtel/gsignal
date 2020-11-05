@@ -102,4 +102,41 @@ test_that("ar_psd() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# pow2db()
+
+test_that("parameters to pow2db() and db2pow() are correct", {
+  expect_error(pow2db())
+  expect_error(pow2db('a'))
+  expect_error(pow2db(1, 2))
+  expect_error(pow2db(-1))
+  expect_error(pow2db(c(-1, 2)))
+  
+
+  expect_error(db2pow())
+  expect_error(db2pow('a'))
+  expect_error(db2pow(1, 2))
+})
+
+test_that("pow2db() tests are correct", {
+
+  expect_equal(pow2db(0), -Inf)
+  expect_equal(pow2db(-1 + 0i), 0 + 13.64376i, tolerance = 1e-4)
+  
+  expect_equal(db2pow(0), 1)
+  expect_equal(db2pow(-1 + 0i), 0.7943 + 0i, tolerance = 1e-4)
+  
+  pow <- c(0, 10, 20, 60, 100)
+  expect_equal(pow2db(pow), c(-Inf, 10, 13.01, 17.782, 20), tolerance = 1e-4)
+  expect_equal(db2pow(pow2db(pow)), pow)
+  
+  db = c(-10, 0, 10, 20, 25)
+  expect_equal(db2pow(db), c(0.1, 1, 10, 100, 316.22777), tolerance = 1--4)
+  expect_equal(pow2db(db2pow(db)), db)
+  
+})
+
+
+
+
 
