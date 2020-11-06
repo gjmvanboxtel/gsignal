@@ -136,7 +136,3 @@ test_that("pow2db() tests are correct", {
   
 })
 
-
-
-
-
