@@ -20,6 +20,7 @@
 #
 # Version history
 # 20201001  GvB       setup for gsignal v0.1.0
+# 20201112  GvB       bug in assigning colnames when ns > 1
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
@@ -309,16 +310,17 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   if (ns > 1) {
     cross <- Mod(Pxy) / scale
     coh <- phase <- trans <- matrix(0, nrow = psd_len, ncol = ns * (ns - 1) / 2)
+    cn <- NULL
     for (i in seq_len(ns - 1)) {
       for (j in seq(i + 1, ns)) {
         ptr <- i + (j - 1) * (j - 2) / 2
         coh[, ptr] <- Mod(Pxy[, ptr])^2 / Pxx[, i] / Pxx[, j]
         phase[, ptr] <- Arg(Pxy[, ptr])
         trans[, ptr] <- Pxy[, ptr] / Pxx[, i]
-        colnames(coh)[ptr] <- paste(snames[i], snames[j], sep = '-')
+        cn <- c(cn, paste(snames[i], snames[j], sep = '-'))
       }
     }
-    colnames(phase) <- colnames(cross)  <- colnames(trans) <- colnames(coh)
+    colnames(phase) <- colnames(cross)  <- colnames(trans) <- colnames(coh) <- cn
   } else {
     cross <- coh <- phase <- trans <- NULL
   }

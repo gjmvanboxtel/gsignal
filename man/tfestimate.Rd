@@ -96,6 +96,13 @@ s2 <- sin(2 * pi * f * t - pi / 3) + runif(length(t))
 rv <- tfestimate(cbind(s1, s2), fs = fs)
 plot(rv$freq, 10*log10(abs(rv$trans)), type="l", xlab = "Frequency",
  ylab = "Tranfer Function Estimate (dB)", main = colnames((rv$trans)))
+ 
+h <- fir1(30, 0.2, window = rectwin(31))
+x <- rnorm(16384)
+y <- filter(h, x)
+tfe <- tfestimate(cbind(x, y), 1024, fs = 500)
+plot(tfe$freq, 10*log10(abs(tfe$trans)), type="l", xlab = "Frequency",
+  ylab = "Tranfer Function Estimate (dB)", main = colnames((tfe$trans)))
 
 }
 \seealso{
