@@ -34,3 +34,24 @@ test_that("resample() tests are correct", {
   expect_equal(length(resample(1:100, 1, 2)), 50)
   expect_equal(length(resample(1:100, 2, 1)), 200)
 })
+
+# -----------------------------------------------------------------------
+# downsample()
+
+test_that("parameters to downsample() are correct", {
+  expect_error(downsample())
+  expect_error(downsample(1))
+  expect_error(downsample(1, -1))
+  expect_error(downsample(1, 1, -1))
+  expect_error(downsample(1, 1, 1))
+  expect_error(downsample(1, 2, 3, 4))
+})
+
+test_that("downsample() tests are correct", {
+  expect_equal(downsample(1:5, 2), c(1, 3, 5))
+  expect_equal(downsample(matrix(1:10, 5, byrow = TRUE), 2),
+               matrix(c(1, 2, 5, 6, 9, 10), 3, byrow = TRUE))
+  expect_equal(downsample(1:5, 2, 1), c(2, 4))
+  expect_equal(downsample(matrix(1:10, 5, byrow = TRUE), 2, 1),
+               matrix(c(3, 4, 7, 8), 2, byrow = TRUE))
+})

@@ -23,8 +23,7 @@ length \code{n} designed with the function \code{\link{fir1}}, or
 the function \code{\link{cheby1}}.}
 }
 \value{
-output signal, returned as a vector or matrix. Each column has length
-  \code{ceiling(((length(x) - 1) * p + length(h)) / q)}..
+downsampled signal, returned as a vector or matrix.
 }
 \description{
 Downsample a signal by an integer factor.
