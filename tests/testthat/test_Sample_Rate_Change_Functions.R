@@ -55,3 +55,24 @@ test_that("downsample() tests are correct", {
   expect_equal(downsample(matrix(1:10, 5, byrow = TRUE), 2, 1),
                matrix(c(3, 4, 7, 8), 2, byrow = TRUE))
 })
+
+# -----------------------------------------------------------------------
+# upsample()
+
+test_that("parameters to upsample() are correct", {
+  expect_error(upsample())
+  expect_error(upsample(1))
+  expect_error(upsample(1, -1))
+  expect_error(upsample(1, 1, -1))
+  expect_error(upsample(1, 1, 1))
+  expect_error(upsample(1, 2, 3, 4))
+})
+
+test_that("upsample() tests are correct", {
+  expect_equal(upsample(c(1, 3, 5), 2), c(1, 0, 3, 0, 5, 0))
+  expect_equal(upsample(matrix(c(1, 2, 5, 6, 9, 10), 3, byrow = TRUE), 2),
+               matrix(c(1, 2, 0, 0, 5, 6, 0, 0, 9, 10, 0, 0), 6, byrow = TRUE))
+  expect_equal(upsample(c(2, 4), 2, 1), c(0, 2, 0, 4))
+  expect_equal(upsample(matrix(c(3, 4, 7, 8), 2, byrow = TRUE), 2, 1),
+               matrix(c(0, 0, 3, 4, 0, 0, 7, 8), 4, byrow = TRUE))
+})
