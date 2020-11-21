@@ -21,6 +21,7 @@
 # Version history
 # 20200417  GvB       setup for gsignal v0.1.0
 # 20200420  GvB       adapted slightly (rounding in case of whole numbers)
+# 20201121  GvB       done away with FFTfilt, only method for Ma()
 #---------------------------------------------------------------------------------------------------------------------
 
 #' FFT-based FIR filtering
@@ -62,8 +63,6 @@
 #'   \code{filt}. If the specified \code{n} does not meet these criteria, it is
 #'   automatically adjusted to the nearest value that does. If \code{n = NULL}
 #'   (default), then the overlap-add method is not used at all.
-#' @param filt filter coefficients of FIR filter
-#' @param ... additional arguments (ignored).
 #' 
 #' @return The filtered signal, returned as a vector or matrix with the same
 #'   dimensions as \code{x}.
@@ -82,9 +81,8 @@
 #' t <- seq(0, 1, len = 10000)                          # 1 second sample
 #' x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 #' ma <- Ma(rep(0.1, 10))                               # filter kernel class 'Ma' object
-#' ff <- as.FFTfilter(ma)                               # filter kernel class 'FFTfilter' object
 #' y1 <- filter(ma, x)                                  # convulution filter
-#' y2 <- filter(ff, x)                                  # FFT filter
+#' y2 <- fftfilt(ma, x)                                 # FFT filter
 #' all.equal(y1, y2)                                    # same result
 #' 
 #' @seealso \code{\link{filter}}, \url{https://en.wikipedia.org/wiki/Overlap-add_method}.
@@ -96,7 +94,13 @@
 #' @rdname fftfilt
 #' @export
 
-fftfilt <- function(b, x, n = NULL) {
+fftfilt <- function(b, x, n = NULL) UseMethod("fftfilt")
+
+#' @rdname fftfilt
+#' @method fftfilt default
+#' @export
+
+fftfilt.default <- function(b, x, n = NULL) {
   
   if (!is.vector(b)) {
     stop("'b' must be a vector")
@@ -178,34 +182,9 @@ fftfilt <- function(b, x, n = NULL) {
 }
 
 #' @rdname fftfilt
-#' @method filter FFTfilter
+#' @method fftfilt Ma
 #' @export
 
-filter.FFTfilter <- function(filt, x, ...) 
-  fftfilt(filt$b, x, filt$n)
-
-#' @rdname fftfilt
-#' @export
-
-FFTfilter <- function (b, n = NULL)
-  structure(list(b = b, n = n), class = "FFTfilter")
-
-#' @rdname  fftfilt 
-#' @export
-as.FFTfilter <- function(filt, ...) UseMethod("as.FFTfilter")
-
-#' @rdname fftfilt
-#' @usage
-#' ## S3 method for class 'FFTfilter'
-#' as.FFTfilter(filt, ...)
-#' @export
-as.FFTfilter.FFTfilter <- function(filt, ...) filt
-
-#' @rdname  fftfilt 
-#' @usage
-#' ## S3 method for class 'Ma'
-#' as.FFTfilter(filt, ...)
-#' @export
-
-as.FFTfilter.Ma <- function(filt, n = NULL, ...) # FIR
-  FFTfilter(unclass(filt), n, ...)
+fftfilt.Ma <- function(b, x, n = NULL) {
+  fftfilt.default(unclass(b), x, n)
+}

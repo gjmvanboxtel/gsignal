@@ -2,26 +2,15 @@
 % Please edit documentation in R/fftfilt.R
 \name{fftfilt}
 \alias{fftfilt}
-\alias{filter.FFTfilter}
-\alias{FFTfilter}
-\alias{as.FFTfilter}
-\alias{as.FFTfilter.FFTfilter}
-\alias{as.FFTfilter.Ma}
+\alias{fftfilt.default}
+\alias{fftfilt.Ma}
 \title{FFT-based FIR filtering}
 \usage{
 fftfilt(b, x, n = NULL)
 
-\method{filter}{FFTfilter}(filt, x, ...)
+\method{fftfilt}{default}(b, x, n = NULL)
 
-FFTfilter(b, n = NULL)
-
-as.FFTfilter(filt, ...)
-
-## S3 method for class 'FFTfilter'
-as.FFTfilter(filt, ...)
-
-## S3 method for class 'Ma'
-as.FFTfilter(filt, ...)
+\method{fftfilt}{Ma}(b, x, n = NULL)
 }
 \arguments{
 \item{b}{moving average (Ma) coefficients of a FIR filter, specified as a
@@ -35,10 +24,6 @@ even power of 2 and must be greater than or equal to the length of
 \code{filt}. If the specified \code{n} does not meet these criteria, it is
 automatically adjusted to the nearest value that does. If \code{n = NULL}
 (default), then the overlap-add method is not used at all.}
-
-\item{filt}{filter coefficients of FIR filter}
-
-\item{...}{additional arguments (ignored).}
 }
 \value{
 The filtered signal, returned as a vector or matrix with the same
@@ -88,9 +73,8 @@ lines(t, y2, col = "blue")
 t <- seq(0, 1, len = 10000)                          # 1 second sample
 x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 ma <- Ma(rep(0.1, 10))                               # filter kernel class 'Ma' object
-ff <- as.FFTfilter(ma)                               # filter kernel class 'FFTfilter' object
 y1 <- filter(ma, x)                                  # convulution filter
-y2 <- filter(ff, x)                                  # FFT filter
+y2 <- fftfilt(ma, x)                                 # FFT filter
 all.equal(y1, y2)                                    # same result
 
 }
