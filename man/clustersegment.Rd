@@ -7,7 +7,7 @@
 clustersegment(x)
 }
 \arguments{
-\item{x}{input data, specified as a numeric matrix.}
+\item{x}{input data, specified as a numeric vector or matrix.}
 }
 \value{
 a \code{\link{list}} of matrices size \code{nr}, where \code{nr} is

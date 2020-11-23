@@ -19,7 +19,7 @@
 # See also: http://www.gnu.org/licenses/gpl-2.0.txt
 #
 # Version history
-# 20201121  GvB       setup for gsignal v0.1.0
+# 20201122  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Cluster Segments
@@ -31,7 +31,7 @@
 #' \code{x}. The function works by finding the indexes of jumps between
 #' consecutive values in the rows of \code{x}.
 #'   
-#' @param x input data, specified as a numeric matrix.
+#' @param x input data, specified as a numeric vector or matrix.
 #' 
 #' @return a \code{\link{list}} of matrices size \code{nr}, where \code{nr} is
 #'   the number of rows in \code{x}. Each element of the list contains a matrix
