@@ -20,24 +20,26 @@
 #
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
+# 20201127  GvB       adated algorithm because of indexing bug (also in Octave)
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Cluster Segments
 #' 
 #' Calculate boundary indexes of clusters of 1’s.
 #' 
-#' The function calculates the initial index and end index of the sequences of
-#' 1’s in the rows of \code{x}. The clusters are sought in the rows of the array
-#' \code{x}. The function works by finding the indexes of jumps between
-#' consecutive values in the rows of \code{x}.
+#' The function calculates the initial index and end index of sequences of 1's
+#' rising and falling phases of the signal in \code{x}. The clusters are sought
+#' in the rows of the array \code{x}. The function works by finding the indexes
+#' of jumps between consecutive values in the rows of \code{x}.
 #'   
-#' @param x input data, specified as a numeric vector or matrix.
+#' @param x input data, specified as a numeric vector or matrix, coerced to 
+#'   contain only 0's and 1's, i.e., every nonzero element in \code{x} will 
+#'   be replaced by 1.
 #' 
-#' @return a \code{\link{list}} of matrices size \code{nr}, where \code{nr} is
-#'   the number of rows in \code{x}. Each element of the list contains a matrix
-#'   with two rows. The first row is the initial index of a sequence of 1’s and
-#'   the second row is the end index of that sequence. If \code{nr == 1} the
-#'   output is a matrix with two rows.
+#' @return a \code{\link{list}} of size \code{nr}, where \code{nr} is the number
+#'   of rows in \code{x}. Each element of the list contains a matrix with two
+#'   rows. The first row is the initial index of a sequence of 1’s and the
+#'   second row is the end index of that sequence.
 #' 
 #' @examples
 #' (x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1))
@@ -52,6 +54,9 @@
 #' 
 #' x <- matrix(as.numeric(runif(30) > 0.4), 3, 10)
 #' ranges <- clustersegment(x)
+#' 
+#' x <- c(0, 1.2, 3, -8, 0)
+#' ranges <- clustersegment(x)
 #'
 #' @author Juan Pablo Carbajal \email{carbajal@@ifi.uzh.ch}; port to R by Geert
 #'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -59,54 +64,63 @@
 #' @export
 
 clustersegment <- function (x) {
+  
+  if(!(is.numeric(x) || is.logical(x) || is.complex(x)) ) {
+    stop("x must be numeric, logical or complex")
+  }
 
   if (is.vector(x)) {
-    nr <- 1
-    nc <- length(x)
     x <- matrix(x, nrow = 1)
     vec <- TRUE
   } else if (is.matrix(x)) {
-    nc <- ncol(x)
-    nr <- nrow(x)
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop ('x must be a vector or matrix')
   }
+  nc <- ncol(x)
+  nr <- nrow(x)
   
-  bool_discon <- t(apply(x, 1, diff))
+  # coerce to 0's and 1's
+  x <- apply(x, c(1, 2), function(x) as.integer(as.logical(x)))
+  
   y <- list()
   for (i in seq_len(nr)) {
-    idxUp <- which(bool_discon[i, ] > 0) + 1
-    idxDwn <- which(bool_discon[i, ] < 0)
+    bool_discon <- diff(x[i, ])
+    idxUp <- which(bool_discon > 0) + 1L
+    idxDwn <- which(bool_discon < 0)
     tLen <- length(idxUp) + length(idxDwn)
     
-    contRange <- matrix(0, nrow = 1, ncol = tLen)
-    if (x[i, 1] == 1) {
-      ## first event was down
-      contRange <- c(contRange, 0)
-      contRange[1] <- 1
-      contRange[seq(2, tLen + 1, 2)] <- idxDwn
-      contRange[seq(3, tLen + 1, 2)] <- idxUp
-    } else {
-      ## first event was up
-      contRange[seq(1, tLen, 2)] <- idxUp
-      contRange[seq(2, tLen, 2)] <- idxDwn
-    }
+    if (tLen <= 0) {
+      y[[i]] <- matrix(NA, 1, 1)
+    } else  {
+      contRange <- rep(0, tLen)
+      if (x[i, 1] == 1) {
+        ## first event was down
+        contRange <- c(contRange, 0)
+        contRange[1] <- 1
+        if (tLen >= 1) contRange[seq(2, tLen + 1, 2)] <- idxDwn
+        if (tLen >= 2) contRange[seq(3, tLen + 1, 2)] <- idxUp
+      } else {
+        ## first event was up
+        contRange[seq(1, tLen, 2)] <- idxUp
+        if (tLen >= 2) contRange[seq(2, tLen, 2)] <- idxDwn
+      }
+
+      if (x[i, nc] == 1) {
+        ## last event was up
+        contRange <- c(contRange, nc)
+      }
     
-    if (x[i, nc] == 1) {
-      ## last event was up
-      contRange <- c(contRange, nc)
-    }
-    
-    tLen <- length(contRange)
-    if (tLen != 0) {
-      dim(contRange) <- c(2, tLen / 2)
-      y[[i]] <- contRange
+      tLen <- length(contRange)
+      if (tLen != 0) {
+        dim(contRange) <- c(2, tLen / 2)
+        y[[i]] <- contRange
+      }
     }
   }
   
-  if (nr == 1) {
+  if (nr == 1 && length(y) > 0) {
     y <- as.matrix(y[[1]])
   }
-  y  
+  y
 }

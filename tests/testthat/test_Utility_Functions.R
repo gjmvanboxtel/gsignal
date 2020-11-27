@@ -49,3 +49,70 @@ test_that("fracshift() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# clustersegment()
+
+test_that("parameters to clustersegment() are correct", {
+  expect_error(clustersegment())
+  expect_error(clustersegment('invalid'))
+  expect_error(clustersegment(array()))
+  expect_error(clustersegment(1, 2))
+})
+
+test_that("clustersegment() tests are correct", {
+  
+  x <- rep(0L, 5)
+  rng <- clustersegment(x)
+  expect_equal(rng, matrix(NA, 1))
+  
+  x <- rep(10L, 5)
+  rng <- clustersegment(x)
+  expect_equal(rng, matrix(NA, 1))
+  
+  x <- c(rep(0L, 5), 2)
+  rng <- clustersegment(x)
+  expect_equal(rng, matrix(c(6, 6), nrow = 2))
+  
+  x <- c(2, rep(0L, 5))
+  rng <- clustersegment(x)
+  expect_equal(rng, matrix(c(1, 1), nrow = 2))
+  
+  x <- matrix(c(1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
+                1, 1, 1, 0, 1, 0, 0, 1, 1, 1,
+                1, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+              nrow = 3, byrow = TRUE)
+  rng <- clustersegment(x)
+  expect_equal(rng[[1]], matrix(c(1, 3, 6, 10), nrow = 2))
+  expect_equal(rng[[2]], matrix(c(1, 3, 5, 5, 8, 10), nrow = 2))
+  expect_equal(rng[[3]], matrix(c(1, 1, 9, 9), nrow = 2))
+  
+})
+
+# -----------------------------------------------------------------------
+# schtrig()
+
+test_that("parameters to schtrig() are correct", {
+  expect_error(schtrig())
+  expect_error(schtrig('invalid'))
+  expect_error(schtrig(array()))
+  expect_error(schtrig(1, 2, 3, 4))
+})
+
+test_that("schtrig() tests are correct", {
+  
+  x <- c(0, 0.5, 1, 1.5, 2, 1.5, 1.5, 1.2, 1, 0, 0)
+  y <- schtrig(x, c(1.3, 1.6))
+  expect_equal(y$v, c(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0))
+  expect_equal(y$rng, matrix(c(4, 4, 6, 7), nrow = 2))
+  expect_equal(y$st, 0)
+
+  x <- c(0, 0.5, 1, 1.5, 2, 1.5, 1.5, 1.2, 1, 0, 0)
+  y <- schtrig(x, c(1.3, 1.6, 1.8))
+  expect_equal(y$v, c(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0))
+  expect_equal(y$rng, matrix(NA, nrow = 1))
+  expect_equal(y$st, 0)
+  
+  expect_equal(schtrig(x, c(1.3, 1.6)), schtrig(x, c(1.3, 1.6, 1.3)))
+})
+
+
