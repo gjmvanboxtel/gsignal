@@ -115,4 +115,25 @@ test_that("schtrig() tests are correct", {
   expect_equal(schtrig(x, c(1.3, 1.6)), schtrig(x, c(1.3, 1.6, 1.3)))
 })
 
+# -----------------------------------------------------------------------
+# upsamplefill()
+
+test_that("parameters to upsamplefill() are correct", {
+  expect_error(upsamplefill())
+  expect_error(upsamplefill('invalid'))
+  expect_error(upsamplefill(array()))
+  expect_error(upsamplefill(1, 'invalid'))
+  expect_error(upsamplefill(1, -1, 'invalid'))
+  expect_error(upsamplefill(1, -1, TRUE))
+  
+  expect_error(upsamplefill(1, 2, 3, 4))
+})
+
+test_that("upsamplefill() tests are correct", {
+  expect_equal(upsamplefill(c(1, 3, 5), 2), c(1, 2, 3, 2, 5, 2))
+  expect_equal(upsamplefill(c(1, 2, 5), c(2, -2)), c(1, 2, -2, 2, 2, -2, 5, 2, -2))
+  expect_equal(upsamplefill(diag(2), 2, TRUE), matrix(c(rep(1, 3), rep(0, 6), rep(1, 3)), ncol = 2))
+  expect_equal(upsamplefill(c(1, 3, 5), 2, TRUE), c(1, 1, 1, 3, 3, 3, 5, 5, 5))
+})
+
 
