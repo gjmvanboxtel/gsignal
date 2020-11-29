@@ -163,3 +163,25 @@ test_that("wkeep() tests are correct", {
   expect_equal(wkeep(m, c(2, 4), c(3, 1)), matrix(c(4, 10, 6, 12, 13, 19, 20, 21), 2))
 })
 
+# -----------------------------------------------------------------------
+# zerocrossing()
+
+test_that("parameters to zerocrossing() are correct", {
+  expect_error(zerocrossing())
+  expect_error(zerocrossing(1))
+  expect_error(zerocrossing('invalid', 1))
+  expect_error(zerocrossing(1, 'invalid'))
+  expect_error(zerocrossing(1:2, 1:3))
+  expect_error(zerocrossing(1, 1, 3))
+})
+
+test_that("zerocrossing() tests are correct", {
+  x <- 1:10
+  y <- sawtooth(x)
+  expect_equal(floor(zerocrossing(x, y)), c(3, 6, 9))
+  y <- sin(x)
+  expect_equal(floor(zerocrossing(x, y)), c(3, 6, 9))
+  y <- cos(x)
+  expect_equal(floor(zerocrossing(x, y)), c(1, 4, 7))
+})
+
