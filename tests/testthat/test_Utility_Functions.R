@@ -136,4 +136,30 @@ test_that("upsamplefill() tests are correct", {
   expect_equal(upsamplefill(c(1, 3, 5), 2, TRUE), c(1, 1, 1, 3, 3, 3, 5, 5, 5))
 })
 
+# -----------------------------------------------------------------------
+# wkeep()
+
+test_that("parameters to wkeep() are correct", {
+  expect_error(wkeep())
+  expect_error(wkeep('invalid'))
+  expect_error(wkeep(1, 'invalid'))
+  expect_error(wkeep(1, 1, 'invalid'))
+  expect_error(wkeep(1, -1, 'invalid'))
+  expect_error(wkeep(1:10, 11))
+  expect_error(wkeep(1:10, 6, 7))
+  expect_error(wkeep(1:10, 6, -1))
+  expect_error(wkeep(matrix(1:10), 1))
+  expect_error(wkeep(matrix(1:10), c(1,2), 1))
+  expect_error(wkeep(1, 2, 3, 4))
+})
+
+test_that("wkeep() tests are correct", {
+  expect_equal(wkeep(1:10, 2), c(5, 6))
+  expect_equal(wkeep(1:10, 2, "l"), c(1, 2))
+  expect_equal(wkeep(1:10, 2, "r"), c(9, 10))
+  m <- matrix(c(17, 23, 4, 10, 11, 24, 5, 6, 12, 18, 1, 7, 13,
+                19, 25, 8, 14, 20, 21, 2, 15, 16, 22, 3, 9 ), 5, 5)
+  expect_equal(wkeep(m, c(3, 2)), matrix(c(5, 6, 12, 7, 13, 19), 3))
+  expect_equal(wkeep(m, c(2, 4), c(3, 1)), matrix(c(4, 10, 6, 12, 13, 19, 20, 21), 2))
+})
 
