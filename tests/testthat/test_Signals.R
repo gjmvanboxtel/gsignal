@@ -492,3 +492,48 @@ test_that("udecode() works correctly", {
   expect_that(udecode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
               equals(matrix(complex(real = c(-0.5, 0.0, rep(0.5, 7)), imaginary = c(rep(-0.5, 3), rep(0, 3), rep(0.5,3))), 3, 3)))
 })
+
+# -----------------------------------------------------------------------
+# sinetone()
+
+test_that("parameters to sinetone() are correct", {
+  expect_error(sinetone())
+  expect_error(sinetone('invalid'))
+  expect_error(sinetone(-1))
+  expect_error(sinetone(1, 'invalid'))
+  expect_error(sinetone(1, 0))
+  expect_error(sinetone(1, 1, 'invalid'))
+  expect_error(sinetone(1, 1, 0))
+  expect_error(sinetone(1, 1, 1, 'invalid'))
+  expect_error(sinetone(1, 1, 1, 1, 1))
+  
+})
+
+test_that("sinetone() works correctly", {
+  y <- sinetone(0)
+  expect_equal(length(y), 8000)
+  expect_equal(y, rep(0, 8000))
+  y <-sinetone (18e6, 150e6, 19550/150e6, 1)
+  expect_equal(length(y), 19550)
+})
+
+# -----------------------------------------------------------------------
+# sinewave()
+
+test_that("parameters to sinewave() are correct", {
+  expect_error(sinewave())
+  expect_error(sinewave(1, 'invalid'))
+  expect_error(sinewave(1, 1, 'invalid'))
+  expect_error(sinewave(1, 2, 3, 4))
+})
+
+test_that("sinetone() works correctly", {
+  expect_equal(sinewave(1), 0)
+  expect_equal(sinewave(1, 4, 1), 1)
+  expect_equal(sinewave(1, 12, 1), 1 / 2)
+  expect_equal(sinewave(1, 12, 2), sqrt(3) / 2)
+  expect_equal(sinewave(1, 20, 1), (sqrt(5) - 1) / 4)
+  expect_equal(sinewave(1), sinewave(1, 1, 0))
+  expect_equal(sinewave(3, 4), sinewave(3, 4, 0))
+})
+
