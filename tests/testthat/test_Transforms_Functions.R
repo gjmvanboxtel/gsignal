@@ -315,3 +315,4 @@ test_that("fwht() and ifwht() tests are correct", {
   expect_equal(ifwht(fwht(x, ordering = "hadamard"), ordering = "hadamard"), x)
   expect_equal(ifwht(fwht(x, ordering = "dyadic"), ordering = "dyadic"), x)
 })
+
