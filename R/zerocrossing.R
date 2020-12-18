@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,23 +14,21 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero Crossing
-#' 
-#' Estimate zero crossing points of waveform
+#'
+#' Estimate zero crossing points of waveform.
 #'
 #' @param x the x-coordinates of points in the function.
 #' @param y the y-coordinates of points in the function.
-#' 
-#' @return zero-crossing points
-#' 
+#'
+#' @return Zero-crossing points
+#'
 #' @examples
 #' x <- seq(0, 1, length.out = 100)
 #' y <- runif(100) - 0.5
@@ -38,8 +36,8 @@
 #' plot(x, y, type ="l", xlab = "", ylab = "")
 #' points(x0, rep(0, length(x0)), col = "red")
 #'
-#' @author Carlo de Falco \email{carlo.defalco@@gmail.com}; port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Carlo de Falco, \email{carlo.defalco@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
@@ -66,7 +64,7 @@ zerocrossing <- function (x, y) {
   right_vals         <- right_vals[!right_vals %in% zero_intervals]
   retval2            <- left_ends - (right_ends - left_ends) * left_vals / (right_vals - left_vals)
   retval             <- union(retval1, retval2)
-  
+
   retval
 }
 

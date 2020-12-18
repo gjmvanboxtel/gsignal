@@ -21,27 +21,27 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Sine wave
-#' 
-#' Generate discrete sine wave
-#' 
+#'
+#' Generate a discrete sine wave.
+#'
 #' @param m desired length of the generated series, specified as a positive
 #'   integer.
 #' @param n rate, of the generated series, specified as a positive integer.
 #'   Default: \code{m}.
 #' @param d delay, specified as a positive integer. Default: 0.
-#' 
-#' @return sine wave, returned as a vector of length \code{m}.
-#' 
+#'
+#' @return Sine wave, returned as a vector of length \code{m}.
+#'
 #' @examples
 #' plot(sinewave(100, 10), type = "l")
-#' 
-#' @author Friedrich Leisch; port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Friedrich Leisch.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 sinewave <- function (m, n = m, d = 0) {
-  
+
   if (!isPosscal(m) || !isPosscal(n) || !isPosscal(d)) {
     stop("m, n, and d must be positive scalars")
   }

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,23 +14,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201127  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Schmitt Trigger
-#' 
+#'
 #' Multisignal Schmitt trigger with levels.
-#' 
-#' The trigger works compares each column in \code{x} to the levels in \code{lvl}, when
-#' the value is higher than \code{max(lvl)}, the output \code{v} is high (i.e. 1); when the
-#' value is below \code{min(lvl)} the output is low (i.e. 0); and when
-#' the value is between the two levels the output retains its value.
-#'   
+#'
+#' The trigger works compares each column in \code{x} to the levels in
+#' \code{lvl}, when the value is higher than \code{max(lvl)}, the output
+#' \code{v} is high (i.e. 1); when the value is below \code{min(lvl)} the output
+#' is low (i.e. 0); and when the value is between the two levels the output
+#' retains its value.
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
@@ -51,13 +50,13 @@
 #'   \item{st}{trigger state, returned as a vector with a length of the number
 #'   of columns in \code{x}.}
 #' }
-#' 
+#'
 #' @examples
 #' t <- seq(0, 1, length.out = 100)
 #' x <- sin(2 * pi * 2 * t) + sin(2 * pi * 5 * t) %*% matrix(c(0.8, 0.3), 1, 2)
 #' lvl <- c(0.8, 0.25)
 #' trig  <- schtrig (x, lvl)
-#' 
+#'
 #' op <- par(mfrow = c(2, 1))
 #' plot(t, x[, 1], type = "l", xlab = "", ylab = "")
 #' abline(h = lvl, col = "blue")
@@ -66,11 +65,11 @@
 #' abline(h = lvl, col = "blue")
 #' lines(t, trig$v[, 2], col = "red", lwd = 2)
 #' par(op)
-#' 
+#'
 #' @seealso \code{\link{clustersegment}}
 #'
-#' @author Juan Pablo Carbajal \email{carbajal@@ifi.uzh.ch}; port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
@@ -79,7 +78,7 @@ schtrig <- function (x, lvl, st = NULL) {
   if (!is.numeric(x)) {
     stop('x must be a numeric vector or matrix')
   }
-  
+
   if (is.vector(x)) {
     x <- matrix(x, ncol = 1)
     vec <- TRUE
@@ -90,7 +89,7 @@ schtrig <- function (x, lvl, st = NULL) {
   }
   nc <- ncol(x)
   nr <- nrow(x)
-  
+
   if (!is.numeric(lvl) || !is.vector(lvl)) {
     stop('lvl must be a numeric vector')
   }
@@ -99,24 +98,24 @@ schtrig <- function (x, lvl, st = NULL) {
   } else {
     lvl = sort(lvl, decreasing = TRUE)
   }
-  
+
   if (is.null(st)) {
     st <- rep(0, nc)
   } else if (!is.vector(st) || length(st) != nc) {
     stop(paste("st must be NULL a vector of length", nc))
   }
-  
+
   v      <- matrix(NA, nr, nc)
   v[1, ] <- st
-  
+
   ## Signal is above up level
   up    <- x > lvl[1]
   v[up] <- 1
-  
+
   ## Signal is below down level
   dw    <- x < lvl[2]
   v[dw] <- 0
-  
+
   ## Resolve intermediate states
   ## Find data between the levels
   idx    <- is.na(v)
@@ -148,7 +147,7 @@ schtrig <- function (x, lvl, st = NULL) {
   if (vec) {
     v <- as.vector(v)
   }
-  
-  list(v = v, rng = rng, st = st)  
+
+  list(v = v, rng = rng, st = st)
 }
 

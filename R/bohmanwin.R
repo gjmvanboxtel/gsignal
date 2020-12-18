@@ -21,34 +21,34 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Bohman window
-#' 
-#' Return the filter coefficients of a Bohman window of length \code{n}
-#' 
-#' A Bohman window is the convolution of two half-duration cosine lobes. In the time domain, it is the product of
-#' a triangular window and a single cycle of a cosine with a term added to set the first derivative to zero at the boundary. 
-#'  
-#' If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
-#' 
+#'
+#' Return the filter coefficients of a Bohman window.
+#'
+#' A Bohman window is the convolution of two half-duration cosine lobes. In the
+#' time domain, it is the product of a triangular window and a single cycle of a
+#' cosine with a term added to set the first derivative to zero at the boundary.
+#'
 #' @param n Window length, specified as a positive integer.
-#' 
-#' @return Bohman window, returned as a vector.
-#' 
+#'
+#' @return Bohman window, returned as a vector. If you specify a one-point
+#'   window \code{(n = 1)}, the value 1 is returned.
+#'
 #' @examples
-#' 
+#'
 #' b <- bohmanwin(64)
 #' plot (b, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' @seealso \code{\link{triang}}
-#' 
-#' @author Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@@gmail.com}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 bohmanwin <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  
+
   if (n == 1) {
     w <- 1
   } else {

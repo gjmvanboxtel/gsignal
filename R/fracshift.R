@@ -6,7 +6,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,34 +15,32 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Fractional shift
-#' 
+#'
 #' Shift a signal by a (possibly fractional) number of samples.
-#' 
+#'
 #' The function calculates the initial index and end index of the sequences of
 #' 1’s in the rows of \code{x}. The clusters are sought in the rows of the array
 #' \code{x}. The function works by finding the indexes of jumps between
 #' consecutive values in the rows of \code{x}.
-#'   
+#'
 #' @param x input data, specified as a numeric vector.
 #' @param d number of samples to shift \code{x} by, specified as a numeric value
 #' @param h interpolator impulse response, specified as a numeric vector. If
 #'   NULL (default), the interpolator is designed by a Kaiser-windowed sinecard.
-#' 
-#' @return a \code{\link{list}} of matrices size \code{nr}, where \code{nr} is
-#'   the number of rows in \code{x}. Each element of the list contains a matrix
-#'   with two rows. The first row is the initial index of a sequence of 1’s and
-#'   the second row is the end index of that sequence. If \code{nr == 1} the
-#'   output is a matrix with two rows.
-#' 
+#'
+#' @return A list of matrices size \code{nr}, where \code{nr} is the number of
+#'   rows in \code{x}. Each element of the list contains a matrix with two rows.
+#'   The first row is the initial index of a sequence of 1’s and the second row
+#'   is the end index of that sequence. If \code{nr == 1} the output is a matrix
+#'   with two rows.
+#'
 #' @examples
 #' N = 1024
 #' t <- seq(0, 1, length.out = N)
@@ -54,11 +52,10 @@
 #' lines (t, y, col = "red")
 #' legend("topright", legend = c("original", "shifted"), lty = 1, col = 1:2)
 #'
-#' @author Eric Chassande-Mottin, CNRS (France),
-#'   \email{ecm@@apc.univ-paris7.fr}; Juan Pablo Carbajal.
-#'   \email{carbajal@@ifi.uzh.ch}; port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
-#'   
+#' @author Eric Chassande-Mottin, \email{ecm@@apc.univ-paris7.fr},\cr
+#'  Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch},\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @references [1] A. V. Oppenheim, R. W. Schafer and J. R. Buck,
 #' Discrete-time signal processing, Signal processing series,
 #' Prentice-Hall, 1999.\cr
@@ -82,30 +79,30 @@ fracshift <- function (x, d, h = NULL) {
     }
   } else {
     h <- design_filter (d)
-  
+
     Lx <- length(x)
     Lh <- length(h)
     L  <- (Lh - 1) / 2.0
     Ly <- Lx
-  
+
     ## pre and postpad filter response
     hpad   <- prepad(h, Lh)
     offset <- floor(L)
     hpad   <- postpad(hpad, Ly + offset)
-  
+
     ## filtering
     xfilt <- upfirdn(x, hpad, 1, 1)
     x     <- xfilt[(offset + 1):(offset + Ly)]
   }
-  
+
   y <- pracma::circshift(x, trunc(d))
-  
-  
-  y  
+
+
+  y
 }
 
 design_filter <- function (d) {
-  
+
   ## properties of the interpolation filter
   log10_rejection <- -3.0
   ## use empirical formula from [1] Chap 7, Eq. (7.63) p 476
@@ -123,7 +120,7 @@ design_filter <- function (d) {
   ## properties of the interpolation filter
   stopband_cutoff_f <- 0.5
   roll_off_width    <- stopband_cutoff_f / 10
-  
+
   ## ideal sinc filter
   ## determine filter length
   L <- ceiling((rejection_dB - 8.0) / (28.714 * roll_off_width))

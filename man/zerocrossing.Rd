@@ -12,10 +12,10 @@ zerocrossing(x, y)
 \item{y}{the y-coordinates of points in the function.}
 }
 \value{
-zero-crossing points
+Zero-crossing points
 }
 \description{
-Estimate zero crossing points of waveform
+Estimate zero crossing points of waveform.
 }
 \examples{
 x <- seq(0, 1, length.out = 100)
@@ -26,6 +26,6 @@ points(x0, rep(0, length(x0)), col = "red")
 
 }
 \author{
-Carlo de Falco \email{carlo.defalco@gmail.com}; port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Carlo de Falco, \email{carlo.defalco@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

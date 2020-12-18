@@ -21,25 +21,31 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Complex Shannon Wavelet
-#' 
-#' Compute the Complex Shannon wavelet
-#' 
-#' The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the complex Shannon wavelet.
-#' The complex Shannon wavelet is defined by a bandwidth parameter \code{fb}, a wavelet center frequency
-#' \code{fc}, and the expression
+#'
+#' Compute the Complex Shannon wavelet.
+#'
+#' The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the
+#' complex Shannon wavelet. The complex Shannon wavelet is defined by a
+#' bandwidth parameter \code{fb}, a wavelet center frequency \code{fc}, and the
+#' expression
 #' \deqn{\psi(x) = (fb^{0.5} * (sinc(fb * x) * e^{2 * 1i * pi * fc * x}))}
-#' on an \code{n}-point regular grid in the interval of \code{lb} to \code{ub}
-#' 
-#' @param lb,ub Lower and upper bounds of the interval to evaluate the waveform on. Default: -8 to 8.
-#' @param n Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.
-#' @param fb Time-decay parameter of the wavelet (bandwidth in the frequency domain). Must be a positive scalar. Default: 5.
-#' @param fc Center frequency of the wavelet. Must be a positive scalar. Default: 1.
-#' 
-#' @return A list containing 2 variables; \code{x}, the grid on which the complex Shannon wavelet was evaluated, and \code{psi}
-#' (\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
-#' 
+#' on an \code{n}-point regular grid in the interval of \code{lb} to \code{ub}.
+#'
+#' @param lb,ub Lower and upper bounds of the interval to evaluate the waveform
+#'   on. Default: -8 to 8.
+#' @param n Number of points on the grid between \code{lb} and \code{ub} (length
+#'   of the wavelet). Default: 1000.
+#' @param fb Time-decay parameter of the wavelet (bandwidth in the frequency
+#'   domain). Must be a positive scalar. Default: 5.
+#' @param fc Center frequency of the wavelet. Must be a positive scalar.
+#'   Default: 1.
+#'
+#' @return A list containing 2 variables; \code{x}, the grid on which the
+#'   complex Shannon wavelet was evaluated, and \code{psi} (\eqn{\Psi}), the
+#'   evaluated wavelet on the grid \code{x}.
+#'
 #' @examples
-#' 
+#'
 #' fb <- 1
 #' fc <- 1.5
 #' lb <- -20
@@ -50,20 +56,20 @@
 #' plot (sw$x, Re(sw$psi), type="l", main = "Complex Shannon Wavelet", xlab = "real part", ylab = "")
 #' plot (sw$x, Im(sw$psi), type="l", xlab = "imaginary part", ylab = "")
 #' par(op)
-#' 
-#' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@@gmail.com}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @export
 
 shanwavf <- function (lb = -8, ub = 8, n = 1000, fb = 5, fc = 1) {
-  
+
   if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
   if (!isPosscal(fb) || fb <= 0) stop('fb must be a positive scalar > 0')
   if (!isPosscal(fc) || fc <= 0) stop('fc must be a positive scalar > 0')
-  
+
   x <- seq(lb, ub, length.out = n)
   psi <- (fb^0.5) * (sinc(fb * x) * exp(2 * 1i * pi * fc * x))
-  
+
   list(x = x, psi = psi)
 }

@@ -38,17 +38,19 @@ discarding phase, i.e.,
 The real cepstrum is related to the power spectrum by the relation \eqn{pceps
 = 4 * rceps^2}.
 
-The function \code{rceps()} can also return a minimum-phase reconstruction of the original signal. The concept of minimum phase originates
-from filtering theory, and denotes a filter transfer function with all of its poles and zeroes in the Z-transform domain lie inside the unit circle
- on the complex plane. Such a transfer function represents a stable filter.
- 
- A minimum-phase *signal* is a signal that has its energy concentrated near
- the front of the signal (near time 0). Such signals have many applications,
- e.g. in seismology and speech analysis.
+The function \code{rceps()} can also return a minimum-phase reconstruction of
+the original signal. The concept of minimum phase originates from filtering
+theory, and denotes a filter transfer function with all of its poles and
+zeroes in the Z-transform domain lie inside the unit circle on the complex
+plane. Such a transfer function represents a stable filter.
+
+ A minimum-phase *signal* is a signal that has its energy concentrated
+ near the front of the signal (near time 0). Such signals have many
+ applications, e.g. in seismology and speech analysis.
 }
 \examples{
 ## Simulate a speech signal with a 70 Hz glottal wave
-f0 <- 70; fs = 10000                 # 100 Hz fundamental, 10 kHz sampling rate
+f0 <- 70; fs = 10000           # 100 Hz fundamental, 10 kHz sampling rate
 a <- Re(poly(0.985 * exp(1i * pi * c(0.1, -0.1, 0.3, -0.3))))
 s <- 0.05 * runif(1024)
 s[floor(seq(1, length(s), fs / f0))] <- 1
@@ -68,7 +70,7 @@ plot(time, x[1:len], type = "l", ylim = c(-10, 10),
 lines(time, cep$ym[1:len], col = "red")
 legend("topright", legend = c("original", "reconstructed"),
   lty = 1, col = c(1, 2))
-  
+
 plot(time, cep$y[1:len], type = "l",
   xlab = "Quefrency (ms)", ylab = "Amplitude",
   main = "Real cepstrum")
@@ -103,7 +105,7 @@ par(op)
 \code{\link{cceps}}
 }
 \author{
-Original Octave code Paul Kienzle, \email{pkienzle@users.sf.net},
-  Mike Miller; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Mike Miller.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

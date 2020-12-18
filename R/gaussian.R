@@ -21,40 +21,42 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Gaussian convolution window
-#' 
-#' Return a Gaussian convolution window of length \code{n}
-#' 
-#' The width of the window is inversely proportional to the parameter \code{a}. Use larger \code{a} for a narrower window.
-#' Use larger \code{m} for longer tails.
+#'
+#' Return a Gaussian convolution window of length \code{n}.
+#'
+#' The width of the window is inversely proportional to the parameter \code{a}.
+#' Use larger \code{a} for a narrower window. Use larger \code{m} for longer
+#' tails.
 #' \deqn{w = e^{(-(a*x)^{2}/2 )}}
-#' for \code{x} <- seq(-(n - 1) / 2, (n - 1) / 2, by = n).
-#' 
-#' Width a is measured in frequency units (sample rate/num samples). It should be f when multiplying in the time domain,
-#' but 1/f when multiplying in the frequency domain (for use in convolutions). 
-#' 
+#' for \code{x <- seq(-(n - 1) / 2, (n - 1) / 2, by = n)}.
+#'
+#' Width a is measured in frequency units (sample rate/num samples). It should
+#' be f when multiplying in the time domain, but 1/f when multiplying in the
+#' frequency domain (for use in convolutions).
+#'
 #' @param n Window length, specified as a positive integer.
-#' @param a Width factor, specified as a positive real scalar. \code{a} is inversely proportional to the width of the window.
-#' Default: 1.
-#' 
-#' @return gaussian convolution window, returned as a vector.
-#' 
+#' @param a Width factor, specified as a positive real scalar. \code{a} is
+#'   inversely proportional to the width of the window. Default: 1.
+#'
+#' @return Gaussian convolution window, returned as a vector.
+#'
 #' @examples
-#' 
+#'
 #' g1 <- gaussian(128, 1)
 #' g2 <- gaussian(128, 0.5)
 #' plot (g1, type = "l", xlab = "Samples", ylab =" Amplitude", ylim = c(0, 1))
 #' lines(g2, col = "red")
-#' 
-#' @author Original Octave code Copyright (C) 1999 Paul Kienzle \email{pkienzle@@users.sf.net}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 gaussian <- function (n, a = 1) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   if (!isScalar(a)) stop ("a must be a scalar")
-  
+
   w <- exp(-0.5 * ((0:(n-1) - (n-1) / 2) * a)^2)
   w
 }

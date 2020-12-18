@@ -29,7 +29,7 @@ inverse discrete Fourier transform. This is useful for analyzing
 vector-valued series.
 }
 \description{
-Computes the inverse Fast Fourier Transform that is compatible with
+Compute the inverse Fast Fourier Transform that is compatible with
 Matlab/Octave.
 }
 \details{
@@ -38,7 +38,7 @@ FFT by specifying \code{inverse = TRUE}. However, that function does
 \emph{not} divide the result by \code{length(x)}, nor does it return real
 values when appropriate. The present function does both, and is this
 compatible with Matlab/Octave (and differs from the \code{ifft} function in
-the \code{signal} package which does not return real values).
+the \code{signal} package, which does not return real values).
 }
 \examples{
 ifft(stats::fft(1:5))
@@ -50,5 +50,5 @@ imvfft(stats::mvfft(matrix(1:20, 4, 5)))
 \code{\link[stats]{fft}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

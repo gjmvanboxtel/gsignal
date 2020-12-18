@@ -55,11 +55,15 @@ A list containing the following elements:
   }
 }
 \description{
-Compute the short-term Fourier transform of a vector or matrix
+Compute the short-term Fourier transform of a vector or matrix.
 }
 \examples{
 y <- chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic")
 ft <- stft (y)
 filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
 
+}
+\author{
+Andreas Weingessel, \email{Andreas.Weingessel@ci.tuwien.ac.at}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -42,7 +42,7 @@ frequency response is returned.}
 Frequency response, returned as a complex vector.
 }
 \description{
-Compute the s-plane frequency response of an IIR filter
+Compute the s-plane frequency response of an IIR filter.
 }
 \details{
 The s-plane frequency response of the IIR filter \code{B(s)/A(s)} is computed
@@ -56,6 +56,6 @@ freqs (b, a, w)
 
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by Geert van Boxtel \email{gjmvanboxtel@gmail.com}
 }

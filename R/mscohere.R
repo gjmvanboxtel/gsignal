@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,21 +14,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Magnitude-squared coherence
-#' 
+#'
 #' Compute the magnitide-squared coherence estimates of input signals.
-#' 
+#'
 #' \code{mscohere} estimates the magnitude-squared coherence function using
 #' Welch’s overlapped averaged periodogram method [1]
-#' 
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
@@ -60,7 +58,7 @@
 #'     \item{\code{short-linear}}{remove linear trend from each segment}
 #'     \item{\code{none}}{no detrending}
 #'  }
-#'  
+#'
 #' @return A list containing the following elements:
 #'   \describe{
 #'     \item{\code{freq}}{vector of frequencies at which the spectral variables
@@ -74,7 +72,7 @@
 #'     estimates between columns \eqn{i} and \eqn{j} of \eqn{x}, where \eqn{i <
 #'     j}.}
 #'   }
-#' 
+#'
 #' @examples
 #' fs <- 1000
 #' f <- 250
@@ -83,14 +81,14 @@
 #' s2 <- sin(2 * pi * f * t - pi / 3) + runif(length(t))
 #' rv <- mscohere(cbind(s1, s2), fs = fs)
 #' plot(rv$freq, rv$coh, type="l", xlab = "Frequency", ylab = "Coherence")
-#' 
+#'
 #' @note The function \code{mscohere} (and its deprecated alias \code{cohere})
 #'   is a wrapper for the function \code{pwelch}, which is more complete and
 #'   more flexible.
-#' 
-#' @author Peter V. Lanspeary \email{pvl@@mecheng.adelaide.edu.au}; port to R by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @references [1] Welch, P.D. (1967). The use of Fast Fourier Transform for
 #'   the estimation of power spectra: A method based on time averaging over
 #'   short, modified periodograms. IEEE Transactions on Audio and

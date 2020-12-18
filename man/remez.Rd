@@ -28,8 +28,8 @@ number.}
 length of \code{w} is half the length of \code{f} and \code{a}, so there is
 exactly one weight per band. Default: 1.}
 
-\item{ftype}{filter type, matched to one of "bandpass" (default),
-"differentiatior", or "hilbert".}
+\item{ftype}{filter type, matched to one of \code{"bandpass"} (default),
+\code{"differentiatior"}, or \code{"hilbert"}.}
 
 \item{density}{determines how accurately the filter will be constructed. The
 minimum value is 16 (default), but higher numbers are slower to compute.}
@@ -39,7 +39,7 @@ The FIR filter coefficients, a vector of length \code{n + 1}, of
   class \code{Ma}
 }
 \description{
-Parks-McClellan optimal FIR filter design using the Remez exchange algorithm
+Parks-McClellan optimal FIR filter design using the Remez exchange algorithm.
 }
 \examples{
 ## low pass filter
@@ -51,12 +51,12 @@ f <- c(0, 0.3, 0.4, 0.6, 0.7, 1)
 a <- c(0, 0, 1, 1, 0, 0)
 b <- remez(17, f, a)
 hw <- freqz(b, 512)
-plot(f, a, type = "l", xlab = "Radian Frequency (w / pi)", 
+plot(f, a, type = "l", xlab = "Radian Frequency (w / pi)",
      ylab = "Magnitude")
 lines(hw$w/pi, abs(hw$h), col = "red")
 legend("topright", legend = c("Ideal", "Remez"), lty = 1,
        col = c("black", "red"))
-  
+
 }
 \references{
 \url{http://en.wikipedia.org/wiki/Fir_filter}
@@ -71,8 +71,9 @@ Rabiner, L.R., McClellan, J.H., and Parks, T.W. (1975). FIR Digital
   \code{\link{fir1}}
 }
 \author{
-Original Octave code by Jake Janovetz \email{janovetz@uiuc.edu},
-  Paul Kienzle \email{pkienzle@users.sf.net}, Kai Habel
-  \email{kahacjde@linux.zrz.tu-berlin.de}. Port to R Tom Short, slightly
-  adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Jake Janovetz, \email{janovetz@uiuc.edu},\cr
+  Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Kai Habel, \email{kahacjde@linux.zrz.tu-berlin.de}.\cr
+  Conversion to R Tom Short\cr
+  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -30,10 +30,10 @@ smoothing window. Default: \code{hamming(n + 1)}.}
 }
 \value{
 The FIR filter coefficients, a vector of length \code{n + 1}, of
-  class \code{Ma}
+  class \code{Ma}.
 }
 \description{
-Produce a FIR filter with arbitrary frequency response over frequency bands
+Produce a FIR filter with arbitrary frequency response over frequency bands.
 }
 \details{
 The function linearly interpolates the desired frequency response onto a
@@ -51,13 +51,14 @@ lines(fh$w / pi, abs(fh$h), col = "blue")
 plot(f, 20*log10(m+1e-5), type = "b", ylab = "dB", xlab = "Frequency")
 lines(fh$w / pi, 20*log10(abs(fh$h)), col = "blue")
 par(op)
- 
+
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
   \code{\link{fir1}}
 }
 \author{
-Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net}, Port to R Tom
-  Short, slightly adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+ Conversion to R Tom Short,\cr
+ adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

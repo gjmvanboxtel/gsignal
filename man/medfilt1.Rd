@@ -31,7 +31,7 @@ Apply a running median of odd span to the input \code{x}
 This function computes a running median over the input \code{x}, using the
 \code{\link[stats]{runmed}} function. Because of that, it works a little
 differently than the Matlab/Octave version (i.e., it does not produce exactly
-the same values). 
+the same values).
 
 \describe{
 \item{missing values}{The Mablab/Octave function has a \code{'nanflag'}
@@ -64,5 +64,5 @@ legend("topright", c("Original", "Filtered"), lty = 1, col = 1:2)
 \code{\link[stats]{runmed}}, \code{\link[stats]{splinefun}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -9,8 +9,10 @@ detrend(x, p = 1)
 \arguments{
 \item{x}{Input vector, array, or matrix}
 
-\item{p}{Order of the polynomial. Default: 1. The order of the polynomial can also be given as a string, in which case
-\code{p} must be either \code{"constant"} (corresponds to \code{p = 0}) or \code{"linear"} (corresponds to \code{p = 1}).}
+\item{p}{Order of the polynomial. Default: 1. The order of the polynomial can
+also be given as a string, in which case \code{p} must be either
+\code{"constant"} (corresponds to \code{p = 0}) or \code{"linear"}
+(corresponds to \code{p = 1}).}
 }
 \value{
 The detrended data, of same type and dimnsions as \code{x}
@@ -19,8 +21,9 @@ The detrended data, of same type and dimnsions as \code{x}
 \code{detrend} removes the polynomial trend of order \code{p} from the data \code{x}.
 }
 \details{
-If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a polynomial of order \code{p}
-from the data \code{x}. If \code{x} is a matrix, \code{detrend(x, p)} does the same for each column in \code{x}.
+If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a
+polynomial of order \code{p} from the data \code{x}. If \code{x} is a matrix,
+\code{detrend(x, p)} does the same for each column in \code{x}.
 }
 \examples{
 t <- 0:20
@@ -30,10 +33,10 @@ plot(t, x, type = "l", ylim = c(-5, 25), xlab = "", ylab = "")
 lines(t, y, col = "red")
 lines(t, x - y, lty = 2)
 legend('topleft', legend = c('Input Data', 'Detrended Data', 'Trend'),
- col = c(1, 2 ,1), lty = c(1, 1, 2)) 
+ col = c(1, 2 ,1), lty = c(1, 1, 2))
 
 }
 \author{
-Original Octave code Copyright (C) 1995-2017 Kurt Hornik \email{Kurt.Hornik@wu-wien.ac.at}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Kurt Hornik, \email{Kurt.Hornik@wu-wien.ac.at}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

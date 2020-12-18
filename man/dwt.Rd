@@ -20,15 +20,15 @@ lengths 6, 12, 18, 24, and 30. The wavelet name \code{'haar'} is
 the equivalent of \code{'d2'}. Default: d8.}
 
 \item{lo}{scaling (low-pass) filter, specified as an even-length numeric
-vector. \code{g} must be the same length as \code{h}. Ignored when
+vector. \code{lo} must be the same length as \code{hi}. Ignored when
 \code{wname != NULL}.}
 
 \item{hi}{wavelet (high-pass) filter, specified as an even-length numeric
-vector. \code{h} must be the same length as \code{g}, Ignored when
+vector. \code{hi} must be the same length as \code{lo}, Ignored when
 \code{wname != NULL}.}
 }
 \value{
-A \code{\link{list}} containng two numeric vectors:
+A list containng two numeric vectors:
 \describe{
   \item{a}{approximation (average) coefficients, obtained from convolving
     \code{x} with the scaling (low-pass) filter \code{lo}, and then
@@ -89,7 +89,7 @@ plot(x2, wt$a, type = "h", xlab = "Time", ylab = "",
 plot(x2, wt$d, type = "h", xlab = "Time", ylab = "",
      main = "Detail coefficients")
 par (op)
-        
+
 }
 \references{
 [1] \url{https://cran.r-project.org/web/packages/wavelets/index.html}
@@ -101,6 +101,6 @@ par (op)
 [4] \url{https://en.wikipedia.org/wiki/Discrete_wavelet_transform}
 }
 \author{
-Lukas F. Reichlin; port to R by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Lukas F. Reichlin.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

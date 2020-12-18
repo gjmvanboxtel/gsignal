@@ -14,7 +14,7 @@ db2pow(x)
 multidimensional array. Must be non-negative for numeric \code{x}.}
 }
 \value{
-converted data, same type and dimensions as \code{x}.
+Converted data, same type and dimensions as \code{x}.
 }
 \description{
 Convert power to decibel and decibel to power.
@@ -25,6 +25,6 @@ db2pow(c(-10, 0, 10))
 
 }
 \author{
-P Sudeepam; port to R by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}.
+P. Sudeepam\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

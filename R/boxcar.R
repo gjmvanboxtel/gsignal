@@ -21,33 +21,35 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Rectangular window
-#' 
-#' Return the filter coefficients of a boxcar (rectangular) window of length \code{n}
-#' 
-#' The rectangular window (sometimes known as the boxcar or Dirichlet window) is the simplest window, equivalent to
-#' replacing all but \code{n} values of a data sequence by zeros, making it appear as though the waveform suddenly turns on and off.
-#' Other windows are designed to moderate these sudden changes, which reduces scalloping loss and improves dynamic range.
-#'  
+#'
+#' Return the filter coefficients of a boxcar (rectangular) window.
+#'
+#' The rectangular window (sometimes known as the boxcar or Dirichlet window) is
+#' the simplest window, equivalent to replacing all but \code{n} values of a
+#' data sequence by zeros, making it appear as though the waveform suddenly
+#' turns on and off. Other windows are designed to moderate these sudden
+#' changes, which reduces scalloping loss and improves dynamic range.
+#'
 #' @param n Window length, specified as a positive integer.
-#' 
+#'
 #' @return rectangular window, returned as a vector.
-#' 
+#'
 #' @examples
-#' 
+#'
 #' b <- boxcar(64)
 #' plot (b, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' @seealso \code{\link{triang}}
-#' 
-#' @author Original Octave code Copyright (C) 2000 Paul Kienzle \email{pkienzle@@users.sf.net}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 boxcar <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  
+
   w <- rep(1L, n)
   w
 }

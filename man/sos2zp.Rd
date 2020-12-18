@@ -25,7 +25,7 @@ A list of class Zpg with the following list elements:
 }
 }
 \description{
-Convert digital filter second-order section data to zero-pole-gain form
+Convert digital filter second-order section data to zero-pole-gain form.
 }
 \examples{
 sos <- rbind(c(1, 0, 1, 1, 0, -0.81), c(1, 0, 0, 1, 0, 0.49))
@@ -36,6 +36,6 @@ zpk <- sos2zp(sos)
 See also \code{\link{filter}}
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by, Geert van Boxtel \email{gjmvanboxtel@gmail.com}
 }

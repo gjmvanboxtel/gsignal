@@ -14,7 +14,7 @@ Specifying \code{MARGIN = c(1, 2)} centers along both rows and columns.
 Ignored when \code{x} is a vector.}
 }
 \value{
-vector or matrix with centered frequency 0.
+vector or matrix with centered frequency.
 }
 \description{
 Perform a shift in order to move the frequency 0 to the center of the input.
@@ -22,10 +22,9 @@ Perform a shift in order to move the frequency 0 to the center of the input.
 \details{
 If \code{x} is a vector of \code{N} elements corresponding to \code{N} time
 samples spaced by \code{dt}, then \code{fftshift(x)} corresponds to
-frequencies
-\deqn{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2))) * df},
-where \code{df = 1 / (N * dt)}. In other words, the left and right halves of
-\code{x} are swapped.
+frequencies \code{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2)))
+* df}, where \code{df = 1 / (N * dt)}. In other words, the left and right
+halves of \code{x} are swapped.
 
 If \code{x} is a matrix, then \code{fftshift} operates on the rows or
 columns of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the
@@ -59,7 +58,7 @@ plot(fsh, powersh, type = "l")
 \code{ifftshift}
 }
 \author{
-Vincent Cautaerts \email{vincent@comf5.comm.eng.osaka-u.ac.jp},
-  adapted by John W. Eaton, port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Vincent Cautaerts, \email{vincent@comf5.comm.eng.osaka-u.ac.jp},\cr
+  adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

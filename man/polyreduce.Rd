@@ -10,7 +10,7 @@ polyreduce(pc)
 \item{pc}{vector of polynomial coefficients}
 }
 \value{
-Vector of reducd polynimial coefficients.
+Vector of reduced polynomial coefficients.
 }
 \description{
 Reduce a polynomial coefficient vector to a minimum number of terms by
@@ -21,7 +21,7 @@ polyreduce(c(0, 0, 1, 2, 3))
 
 }
 \author{
-Original Octave version by Tony Richardson
-  \email{arichard@stark.cc.oh.us}, adapted by John W. Eaton. Conversion to R
-  by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}
+Tony Richardson, \email{arichard@stark.cc.oh.us},\cr
+ adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

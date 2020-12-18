@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200805  GvB       setup for gsignal v0.1.0
@@ -53,14 +51,13 @@
 #' resd <- residued(b, a)
 #' resz <- residuez(b, a)
 #'
-#' @author Original Octave version by Julius O. Smith III
-#'   \email{jos@@ccrma.stanford.edu}. Conversion to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}
+#' @author Julius O. Smith III, \email{jos@@ccrma.stanford.edu}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
 #'
 #' @export
 
 residued <- function(b, a) {
-  
+
   ## RESIDUED - return residues, poles, and FIR part of B(z)/A(z)
   ##
   ## Let nb = length(b), na = length(a), and N=na-1 = no. of poles.
@@ -85,7 +82,7 @@ residued <- function(b, a) {
   ## so its impulse response starts at time 0 in parallel with f(n).
   ##
   ## J.O. Smith, 9/19/05
-  
+
   num <- Conj(b)
   den <- Conj(a)
   nb <- length(num)
@@ -100,7 +97,7 @@ residued <- function(b, a) {
   if (!is.null(rpk$k)) {
     stop('rpk$f not empty as expected')
   }
-  
+
   r <- zapIm(rpk$r)
   p <- zapIm(rpk$p)
   list(r = r, p = p, k = k)

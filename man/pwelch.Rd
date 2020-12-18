@@ -63,7 +63,7 @@ Default: 1.}
 }}
 
 \item{plot.type}{character string specifying which plot to produce; one of
-\code{"spectrum"}, \code{"cross-spectrum"}, \code{"phase"}, 
+\code{"spectrum"}, \code{"cross-spectrum"}, \code{"phase"},
 \code{"coherence"}, \code{"transfer"}}
 
 \item{yscale}{character string specifying scaling of Y-axis; one of
@@ -112,7 +112,7 @@ An object of class \code{"pwelch"}, which is a list containing the
   }
 }
 \description{
-Compute power spectral density (PSD) using Welch's method
+Compute power spectral density (PSD) using Welch's method.
 }
 \details{
 The Welch method [1] reduces the variance of the periodogram estimate to the
@@ -182,6 +182,6 @@ par(op)
 [2] \url{https://en.wikipedia.org/wiki/Welch\%27s_method}
 }
 \author{
-Peter V. Lanspeary \email{pvl@mecheng.adelaide.edu.au}; port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Peter V. Lanspeary \email{pvl@mecheng.adelaide.edu.au}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

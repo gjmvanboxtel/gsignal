@@ -28,7 +28,7 @@ sgolayfilt(x, p = 3, n = p + 3 - p\%\%2, m = 0, ts = 1)
 The filtered signal, returned as a vector.
 }
 \description{
-Filter a signal with a Savitzky-Golay FIR filter
+Filter a signal with a Savitzky-Golay FIR filter.
 }
 \details{
 Savitzky-Golay smoothing filters are typically used to "smooth out" a noisy
@@ -46,10 +46,7 @@ least-squares error in fitting a polynomial to frames of noisy data.
 # Compare a 5 sample averager, an order-5 butterworth lowpass
 # filter (cutoff 1/3) and sgolayfilt(x, 3, 5), the best cubic
 # estimated from 5 points.
-#bf <- butter(5, 1/3)
-b <- c(0.01061191, 0.05305957, 0.10611913, 0.10611913, 0.05305957, 0.01061191)
-a <- c(1.00000000, -1.64484891,  1.58661518, -0.80488189,  0.22994912, -0.02725227)
-bf <- Arma(b, a)
+bf <- butter(5, 1/3)
 x <- c(rep(0, 15), rep(10, 10), rep(0, 15))
 sg <- sgolayfilt(x)
 plot(sg, type="l", xlab = "", ylab = "")
@@ -65,6 +62,7 @@ pch = c(NA, NA, NA, "x"), col = c(1, "red", "blue", 1))
 \code{\link{sgolay}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, port to R Tom Short.
-  Minor changes by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R Tom Short,\cr
+adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

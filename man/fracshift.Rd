@@ -15,11 +15,11 @@ fracshift(x, d, h = NULL)
 NULL (default), the interpolator is designed by a Kaiser-windowed sinecard.}
 }
 \value{
-a \code{\link{list}} of matrices size \code{nr}, where \code{nr} is
-  the number of rows in \code{x}. Each element of the list contains a matrix
-  with two rows. The first row is the initial index of a sequence of 1’s and
-  the second row is the end index of that sequence. If \code{nr == 1} the
-  output is a matrix with two rows.
+A list of matrices size \code{nr}, where \code{nr} is the number of
+  rows in \code{x}. Each element of the list contains a matrix with two rows.
+  The first row is the initial index of a sequence of 1’s and the second row
+  is the end index of that sequence. If \code{nr == 1} the output is a matrix
+  with two rows.
 }
 \description{
 Shift a signal by a (possibly fractional) number of samples.
@@ -51,8 +51,7 @@ Splitting the unit delay, IEEE Signal Processing Magazine,
 vol. 13, no. 1, pp 30--59 Jan 1996.
 }
 \author{
-Eric Chassande-Mottin, CNRS (France),
-  \email{ecm@apc.univ-paris7.fr}; Juan Pablo Carbajal.
-  \email{carbajal@ifi.uzh.ch}; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Eric Chassande-Mottin, \email{ecm@apc.univ-paris7.fr},\cr
+ Juan Pablo Carbajal, \email{carbajal@ifi.uzh.ch},\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

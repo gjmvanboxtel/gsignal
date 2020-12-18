@@ -61,7 +61,7 @@ z <- czt(h, m, w, a)
 fn <- seq(0, m - 1, 1) / m
 fy <- fs * fn
 fz = (f2 - f1) * fn + f1
-plot(fy, 10 * log10(abs(y)), type = "l", xlim = c(50, 200), 
+plot(fy, 10 * log10(abs(y)), type = "l", xlim = c(50, 200),
   xlab = "Frequency", ylab = "Magnitude (dB")
 lines(fz, 10 * log10(abs(z)), col = "red")
 legend("topright", legend = c("FFT", "CZT"), col=1:2, lty = 1)
@@ -73,6 +73,6 @@ legend("topright", legend = c("FFT", "CZT"), col=1:2, lty = 1)
   Signal Processing, 2nd edition. Prentice-Hall.
 }
 \author{
-Daniel Gunyan; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Daniel Gunyan.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

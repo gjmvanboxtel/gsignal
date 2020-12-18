@@ -21,10 +21,10 @@ filter have the same deviation, only the minimum deviation is used. In this
 version, a single scalar will work just as well.}
 
 \item{fs}{sampling rate. Used to convert the frequency specification into the
-[0, 1] range, where 1 corresponds to the Nyquist frequency, \code{fs / 2}.}
+c(0, 1) range, where 1 corresponds to the Nyquist frequency, \code{fs / 2}.}
 }
 \value{
-A list of class \code{'FilterSpecs'} with the following list elements:
+A list of class \code{\link{FilterSpecs}} with the following list elements:
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}
@@ -55,9 +55,10 @@ FIR filter design are
 \deqn{0.5842(\alpha -21)^{0.4} + 0.07886(\alpha - 21), 21 \le \alpha \le 50}
 \deqn{0, \alpha < 21}
 
-where \eqn{\alpha = -20log_{10}(\delta)} is the stopband attenuation expressed in
-decibels, \eqn{n=(\alpha - 8) / 2.285(\Delta\omega)}, where \eqn{n} is the filter order and
-\eqn{\Delta\omega} is the width of the smallest transition region.
+where \eqn{\alpha = -20log_{10}(\delta)} is the stopband attenuation
+expressed in decibels, \eqn{n=(\alpha - 8) / 2.285(\Delta\omega)}, where
+\eqn{n} is the filter order and \eqn{\Delta\omega} is the width of the
+smallest transition region.
 }
 \examples{
 fs <- 11025
@@ -91,10 +92,10 @@ for (i in 1:4) {
       d <<- d + 1
     f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta), scale = FALSE), fs = fs)
     f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta), scale = FALSE), fs = fs)
-  })                                                               
+  })
   plot(f1$w, abs(f1$h), col = "blue", type = "l",  xlab = "", ylab = "")
   lines(f2$w, abs(f2$h), col = "red")
-  legend("right", paste("order", c(kaisprm$n-d, kaisprm$n)), 
+  legend("right", paste("order", c(kaisprm$n-d, kaisprm$n)),
          col = c("red", "blue"), lty = 1, bty = "n")
   b <- c(0, bands, fs/2)
   for (i in seq(2, length(b), by=2)) {
@@ -110,6 +111,7 @@ par(op)
 \code{\link{hamming}}, \code{\link{kaiser}}
 }
 \author{
-Original Octave code by Paul Kienzle; Conversion to R by Tom Short,
-  adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle.\cr
+ Conversion to R by Tom Short,\cr
+  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

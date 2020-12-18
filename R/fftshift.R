@@ -7,7 +7,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,46 +16,43 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200823  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-frequency shift
-#' 
+#'
 #' Perform a shift in order to move the frequency 0 to the center of the input.
 #'
 #' If \code{x} is a vector of \code{N} elements corresponding to \code{N} time
 #' samples spaced by \code{dt}, then \code{fftshift(x)} corresponds to
-#' frequencies
-#' \deqn{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2))) * df},
-#' where \code{df = 1 / (N * dt)}. In other words, the left and right halves of
-#' \code{x} are swapped.
-#' 
+#' frequencies \code{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2)))
+#' * df}, where \code{df = 1 / (N * dt)}. In other words, the left and right
+#' halves of \code{x} are swapped.
+#'
 #' If \code{x} is a matrix, then \code{fftshift} operates on the rows or
 #' columns of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the
 #' the upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
 #' right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN = c(1, 2)}
 #' swaps along both dimensions, i.e., swaps the first quadrant with the fourth,
 #' and the second with the third.
-#' 
+#'
 #' @param x input data, specified as a vector or matrix.
 #' @param MARGIN dimension to operate along, 1 = row, 2 = columns (default).
 #'   Specifying \code{MARGIN = c(1, 2)} centers along both rows and columns.
 #'   Ignored when \code{x} is a vector.
-#' 
-#' @return vector or matrix with centered frequency 0.
-#' 
+#'
+#' @return vector or matrix with centered frequency.
+#'
 #' @examples
 #' Xeven <- 1:6
 #' fftshift(Xeven)
-#' 
+#'
 #' Xodd <- 1:7
 #' fftshift(Xodd)
-#' 
+#'
 #' fs <- 100                      # sampling frequency
 #' t <- seq(0, 10 - 1/fs, 1/fs)   # time vector
 #' S <- cos(2 * pi * 15 * t)
@@ -68,17 +65,17 @@
 #' fsh <- ((-n/2):(n/2-1)) * (fs / n)  # zero-centered frequency range
 #' powersh <- abs(Y)^2 / n             # zero-centered power
 #' plot(fsh, powersh, type = "l")
-#' 
+#'
 #' @seealso \code{ifftshift}
-#' 
-#' @author Vincent Cautaerts \email{vincent@@comf5.comm.eng.osaka-u.ac.jp},
-#'   adapted by John W. Eaton, port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Vincent Cautaerts, \email{vincent@@comf5.comm.eng.osaka-u.ac.jp},\cr
+#'   adapted by John W. Eaton.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 fftshift <- function (x, MARGIN = 2) {
-  
+
   y <- x
   if (is.vector(y)) {
     xl <- length (y)

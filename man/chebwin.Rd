@@ -9,26 +9,38 @@ chebwin(n, at = 100)
 \arguments{
 \item{n}{Window length, specified as a positive integer.}
 
-\item{at}{Stop-band attenuation in dB. Default: 100}
+\item{at}{Stop-band attenuation in dB. Default: 100.}
 }
 \value{
-triangular window, returned as a vector.
+Chebyshev window, returned as a vector. If you specify a one-point
+  window \code{(n = 1)}, the value 1 is returned.
 }
 \description{
-Return the filter coefficients of a Dolph-Chebyshev window of length \code{n}
+Return the filter coefficients of a Dolph-Chebyshev window.
 }
 \details{
 The window is described in frequency domain by the expression:
-
-\deqn{W(k) = \frac{Cheb(m-1, \beta * cos(pi * k/m))}{Cheb(m-1, \beta)}}
+\if{latex}{
+  \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1, \beta)}}
+}
+\if{html}{\preformatted{
+                Cheb(m-1, Beta * cos(\pi * k/m))
+         W(k) = ---------------------------------
+                      Cheb(m-1, Beta)
+}}
 with
-\deqn{\beta = cosh(1/(m-1) * acosh(10^{(at/20)})}
-and and Cheb(m,x) denoting the m-th order Chebyshev polynomial calculated at the point x.
+\if{latex}{
+  \deqn{\beta = cosh(1/(m-1) \cdot acosh(10^{(at/20)})}
+}
+\if{html}{\preformatted{
+  Beta = cosh(1/(m-1) * acosh(10^(at/20))
+}}
+and and \eqn{Cheb(m,x)} denoting the \eqn{m}-th order Chebyshev polynomial
+calculated at the point \eqn{x}.
 
-Note that the denominator in W(k) above is not computed, and after the inverse Fourier transform the window is scaled
-by making its maximum value unitary.
-
-If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
+Note that the denominator in W(k) above is not computed, and after the
+inverse Fourier transform the window is scaled by making its maximum value
+unitary.
 }
 \examples{
 
@@ -38,6 +50,6 @@ plot (cw, type = "l", xlab = "Samples", ylab =" Amplitude")
 
 }
 \author{
-Original Octave code Copyright (C) 2002 André Carezia \email{acarezia@uol.com.br}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+André Carezia, \email{acarezia@uol.com.br}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -9,27 +9,32 @@ sawtooth(t, width = 1)
 \arguments{
 \item{t}{Sample times of unit sawtooth wave specified by a vector.}
 
-\item{width}{Real number between 0 and 1 which specifies the point between 0 and \eqn{2 \pi} where the maximum is.
-The function increases linearly from -1 to 1 in the interval from 0 to \eqn{ 2 * \pi * width}, and decreases linearly
-from 1 to -1 in the interval from \eqn{2 * \pi * width} to \eqn{2 * \pi}. Default: 1 (standard sawtooth).}
+\item{width}{Real number between 0 and 1 which specifies the point between 0
+and \eqn{2 \pi} where the maximum is. The function increases linearly from
+-1 to 1 in the interval from 0 to \eqn{ 2 * \pi * width}, and decreases
+linearly from 1 to -1 in the interval from \eqn{2 * \pi * width} to \eqn{2
+* \pi}. Default: 1 (standard sawtooth).}
 }
 \value{
 Sawtooth wave, returned as a vector.
 }
 \description{
-Returns samples of the sawtooth function at the times indicated by \code{t}
+Returns samples of the sawtooth function at the times indicated by \code{t}.
 }
 \details{
-The code \code{y <- sawtooth(t)} generates a sawtooth wave with period \eqn{2\pi} for the elements of the time array
-\code{t}. \code{sawtooth()} is similar to the sine function but creates a sawtooth wave with peaks of –1 and 1.
-The sawtooth wave is defined to be –1 at multiples of \eqn{2\pi} and to increase linearly with time with a slope of \eqn{1/\pi}
-at all other times.
+The code \code{y <- sawtooth(t)} generates a sawtooth wave with period
+\eqn{2\pi} for the elements of the time array \code{t}. \code{sawtooth()} is
+similar to the sine function but creates a sawtooth wave with peaks of –1 and
+1. The sawtooth wave is defined to be –1 at multiples of \eqn{2\pi} and to
+increase linearly with time with a slope of \eqn{1/\pi} at all other times.
 
-\code{y <- sawtooth(t, width)} generates a modified triangle wave with the maximum location at each period controlled by \code{width}.
-Set \code{width} to 0.5 to generate a standard triangle wave.
+\code{y <- sawtooth(t, width)} generates a modified triangle wave with the
+maximum location at each period controlled by \code{width}. Set \code{width}
+to 0.5 to generate a standard triangle wave.
 }
 \note{
-The input argument \code{width} is called \code{xmax} in the Matlab signal package
+The input argument \code{width} is called \code{xmax} in the Matlab
+  signal package.
 }
 \examples{
 
@@ -47,6 +52,6 @@ plot(t, y, type="l", xlab = "", ylab = "", main = "50 Hz triangle wave")
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Juan Aguado.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Juan Aguado.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

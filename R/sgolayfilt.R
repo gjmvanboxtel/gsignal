@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Savitzky-Golay filtering
-#' 
-#' Filter a signal with a Savitzky-Golay FIR filter
-#' 
+#'
+#' Filter a signal with a Savitzky-Golay FIR filter.
+#'
 #' Savitzky-Golay smoothing filters are typically used to "smooth out" a noisy
 #' signal whose frequency span (without noise) is large. They are also called
 #' digital smoothing polynomial filters or least-squares smoothing filters.
@@ -33,10 +31,10 @@
 #' averaging FIR filters, which tend to filter high-frequency content along with
 #' the noise. Savitzky-Golay filters are more effective at preserving high
 #' frequency signal components but less successful at rejecting noise.
-#' 
+#'
 #' Savitzky-Golay filters are optimal in the sense that they minimize the
 #' least-squares error in fitting a polynomial to frames of noisy data.
-#' 
+#'
 #' @param x Polynomial filter order; must be smaller than \code{n}.
 #' @param p Polynomial filter order; must be smaller than \code{n}.
 #' @param n Filter length; must a an odd positive integer.
@@ -44,17 +42,14 @@
 #' @param ts Scaling factor. Default: 1
 #' @param filt Filter characteristics, usually the result of a call to \code{sgolay}
 #' @param ... Additional arguments (ignored)
-#' 
+#'
 #' @return The filtered signal, returned as a vector.
-#' 
+#'
 #' @examples
 #' # Compare a 5 sample averager, an order-5 butterworth lowpass
 #' # filter (cutoff 1/3) and sgolayfilt(x, 3, 5), the best cubic
 #' # estimated from 5 points.
-#' #bf <- butter(5, 1/3)
-#' b <- c(0.01061191, 0.05305957, 0.10611913, 0.10611913, 0.05305957, 0.01061191)
-#' a <- c(1.00000000, -1.64484891,  1.58661518, -0.80488189,  0.22994912, -0.02725227)
-#' bf <- Arma(b, a)
+#' bf <- butter(5, 1/3)
 #' x <- c(rep(0, 15), rep(10, 10), rep(0, 15))
 #' sg <- sgolayfilt(x)
 #' plot(sg, type="l", xlab = "", ylab = "")
@@ -64,12 +59,13 @@
 #' legend("topleft", c("sgolay (3,5)", "5 sample average", "order 5
 #' Butterworth", "original data"), lty=c(1, 1, 1, NA),
 #' pch = c(NA, NA, NA, "x"), col = c(1, "red", "blue", 1))
-#' 
+#'
 #' @seealso \code{\link{sgolay}}
-#' 
-#' @author Paul Kienzle \email{pkienzle@@users.sf.net}, port to R Tom Short.
-#'   Minor changes by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#' Conversion to R Tom Short,\cr
+#' adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @rdname sgolayfilt
 #' @export
 
@@ -81,7 +77,7 @@ filter.sgolayFilter <- function(filt, x, ...) {
 #' @export
 
 sgolayfilt <- function(x, p = 3, n = p + 3 - p%%2, m = 0, ts = 1) {
-  
+
   ## The first k rows of F are used to filter the first k points
   ## of the data set based on the first n points of the data set.
   ## The last k rows of F are used to filter the last k points

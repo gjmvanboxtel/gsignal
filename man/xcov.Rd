@@ -37,7 +37,7 @@ If omitted, the default value is \code{none}. If \code{y} is supplied but
 does not have the same length as \code{x}, scale must be \code{none}.}
 }
 \value{
-A \code{\link{list}} containing the following variables:
+A list containing the following variables:
 \describe{
   \item{C}{array of covariance estimates}
   \item{lags}{vector of covariance lags \code{[-maxlag:maxlag]}}
@@ -67,6 +67,6 @@ abline(h = 0)
 \code{\link{xcorr}}.
 }
 \author{
-Copyright (C) 1999-2001 Paul Kienzle \email{pkienzle@users.sf.net},
-  port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

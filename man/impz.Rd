@@ -23,8 +23,8 @@ impz(filt, ...)
 }
 \arguments{
 \item{filt}{for the default case, the moving-average coefficients of an ARMA
-model or filter. Generically, filt specifies an arbitrary model or filter
-operation.}
+model or filter. Generically, \code{filt} specifies an arbitrary model or
+filter operation.}
 
 \item{...}{for methods of \code{freqz}, arguments are passed to the default
 method. For \code{plot.impz}, additional arguments are passed through to plot.}
@@ -42,7 +42,7 @@ should factor into a small number of small primes. Default: 512.}
 frequencies are in radians.}
 }
 \value{
-For \code{impz}, a list of class \code{'impz'} with items:
+For \code{impz}, a list of class \code{impz} with items:
 \describe{
   \item{x}{impulse response signal.}
   \item{t}{time.}
@@ -50,7 +50,7 @@ For \code{impz}, a list of class \code{'impz'} with items:
 }
 \description{
 Compute the z-plane impulse response of an ARMA model or rational IIR
-filter. A plot of the impulse and step responses are generated.
+filter. A plot of the impulse and step responses is generated.
 }
 \note{
 When results of \code{impz} are printed, \code{plot} will be called to
@@ -60,9 +60,7 @@ When results of \code{impz} are printed, \code{plot} will be called to
 }
 \examples{
 ## elliptic low-pass filter
-#elp <- ellip(4, 0.5, 20, 0.4)
-elp <- Arma(b = c(0.1810488, 0.1048651, 0.3111133, 0.1048651, 0.1810488),
-            a = c(1.0000000, -1.1463305, 1.5092587, -0.6975320,  0.2698624))
+elp <- ellip(4, 0.5, 20, 0.4)
 impz(elp)
 
 ## or:
@@ -71,6 +69,7 @@ impz(elp)
 
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}. Port to R
-  by Tom Short; adapted by Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Tom Short;\cr
+ adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

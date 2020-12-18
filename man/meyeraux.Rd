@@ -7,19 +7,22 @@
 meyeraux(x)
 }
 \arguments{
-\item{x}{Input array, specified as a real scalar, vector, matrix, or multidimensional array.}
+\item{x}{Input array, specified as a real scalar, vector, matrix, or
+multidimensional array.}
 }
 \value{
-Output array, returned as a real-valued scalar, vector, matrix, or multidimensional array of the same size as x.
+Output array, returned as a real-valued scalar, vector, matrix, or
+  multidimensional array of the same size as x.
 }
 \description{
 Compute the Meyer wavelet auxiliary function.
 }
 \details{
-the code \code{y = meyeraux(x)} returns values of the auxiliary function used for Meyer wavelet generation evaluated
-at the elements of \code{x}. The input \code{x} is a vector or matrix of real values. The function is
-\deqn{y = 35x^{4} - 84x^{5} + 70x^{6} - 20x^{7}.}
-\code{x} and \code{y} have the same dimensions. The range of meyeraux is the closed interval [0, 1].
+The code \code{y = meyeraux(x)} returns values of the auxiliary function used
+for Meyer wavelet generation evaluated at the elements of \code{x}. The input
+\code{x} is a vector or matrix of real values. The function is \deqn{y =
+35x^{4} - 84x^{5} + 70x^{6} - 20x^{7}.} \code{x} and \code{y} have the same
+dimensions. The range of \code{meyeraux} is the closed interval c(0, 1).
 }
 \examples{
 
@@ -29,6 +32,6 @@ plot(x, y, type="l", main = "Meyer wavelet auxiliary function", xlab = "", ylab 
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -54,8 +54,8 @@ freqz_plot(w, h, ...)
 }
 \arguments{
 \item{filt}{for the default case, the moving-average coefficients of an ARMA
-model or filter. Generically, filt specifies an arbitrary model or filter
-operation.}
+model or filter. Generically, \code{filt} specifies an arbitrary model or
+filter operation.}
 
 \item{...}{for methods of \code{freqz}, arguments are passed to the default
 method. For \code{freqz_plot}, additional arguments are passed through to plot.}
@@ -123,6 +123,7 @@ summary(hw)
 
 }
 \author{
-John W. Eaton, Paul Kienzle \email{pkienzle@users.sf.net}. Port to R
-  by Tom Short; adapted by Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+John W. Eaton, Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+ Port to R by Tom Short,\cr
+ adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

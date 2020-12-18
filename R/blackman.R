@@ -21,11 +21,11 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Blackman window
-#' 
-#' Return the filter coefficients of a Blackman window of length \code{n}
-#' 
-#' The Blackman window is a member of the family of cosine sum windows. 
-#' 
+#'
+#' Return the filter coefficients of a Blackman window.
+#'
+#' The Blackman window is a member of the family of cosine sum windows.
+#'
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
 #' \itemize{
@@ -34,29 +34,29 @@
 #'    periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
 #'    window of length \code{n + 1} and returns the first \code{n} points.
 #' }
-#' 
+#'
 #' @return Blackman window, returned as a vector.
-#' 
+#'
 #' @examples
-#' 
+#'
 #' h <- blackman(64)
 #' plot (h, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' bs = blackman(64,'symmetric')
 #' bp = blackman(63,'periodic')
 #' plot (bs, type = "l", xlab = "Samples", ylab =" Amplitude")
 #' lines(bp, col="red")
-#' 
-#' @author Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 blackman <- function (n, method = c('symmetric', 'periodic')) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   method <- match.arg(method)
-  
+
   if (method == "periodic") {
     N <- n
   } else if (method == 'symmetric') {
@@ -64,7 +64,7 @@ blackman <- function (n, method = c('symmetric', 'periodic')) {
   } else {
     stop ("method must be either 'periodic' or 'symmetric'")
   }
-  
+
   if (n == 1) {
     w <- 1
   } else {

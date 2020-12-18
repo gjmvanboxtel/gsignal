@@ -21,9 +21,9 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' IIR lowpass filter to IIR multiband
-#' 
+#'
 #' Transform an IIR lowpass filter prototype to an IIR multiband filter.
-#' 
+#'
 #' The utility of a prototype filter comes from the property that all other
 #' filters can be derived from it by applying a scaling factor to the components
 #' of the prototype. The filter design need thus only be carried out once in
@@ -37,12 +37,12 @@
 #' be a type of multiple passband filter having two passbands. Most commonly,
 #' the prototype filter is expressed as a lowpass filter, but other techniques
 #' are possible[1].
-#' 
+#'
 #' Filters with multiple passbands may be obtained by applying the general
 #' transformation described in [2].
-#' 
+#'
 #' Because \code{iirlp2mb} is generic, it can be extended to accept other inputs.
-#' 
+#'
 #' @param b numerator polynomial of prototype low pass filter
 #' @param a denominator polynomial of prototype low pass filter
 #' @param Wo (normalized angular frequency)/pi to be transformed
@@ -50,10 +50,10 @@
 #' @param type one of "pass" or "stop". Specifies to filter to produce: bandpass
 #'   (default) or bandstop.
 #' @param ... additional arguments (not used)
-#' 
-#' @return list of class \code{'\link{Arma}'} numerator and denominator
-#'   polynomials of the resulting filter
-#' 
+#'
+#' @return List of class \code{\link{Arma}} numerator and denominator
+#'   polynomials of the resulting filter.
+#'
 #' @examples
 #' ## Design a prototype real IIR lowpass elliptic filter with a gain of about
 #' ## –3 dB at 0.5pi rad/sample.
@@ -76,10 +76,10 @@
 #'
 #' @references [1] \url{https://en.wikipedia.org/wiki/Prototype_filter}\cr
 #' [2] \url{https://en.wikipedia.org/wiki/Prototype_filter#Lowpass_to_multi-band}
-#' 
-#' @author Original Octave code by Alan J. Greenberger \email{alanjg@@ptd.net}.
-#'   Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#'   
+#'
+#' @author Alan J. Greenberger, \email{alanjg@@ptd.net}.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @rdname iirlp2mb
 #' @export
 
@@ -178,15 +178,15 @@ iirlp2mb.default <- function (b, a, Wo, Wt, type = c("pass", "stop"), ...) {
   ## going in the opposite direction can be obtained by a sign reversal of the
   ## second coefficient, K(2), of the vector K (the index 2 not to be confused
   ## with a value of z, which is implicit).
-  
+
   ## The first stage allpass denominator computation
   K <- apd(pi * Wo)
-  
+
   ## The second stage allpass computation
   phi <- pi * Wt                                # vector of normalized angular frequencies between 0 and pi
   P <- apd(phi)                                 # calculate denominator of allpass for this target vector
   PP <- rev(P)                                  # numerator of allpass has reversed coefficients of P
-  
+
   ## The total allpass filter from the two consecutive stages can be written as
   ##          PP
   ## K(2) -  ---
@@ -201,8 +201,6 @@ iirlp2mb.default <- function (b, a, Wo, Wt, type = c("pass", "stop"), ...) {
   ba <- transform(b, a, AllpassNum, AllpassDen, pass_stop)
   ba
 }
-
-
 ######################################################################################
 # Helper functions for iirlp2mb, not exported from the namespace
 
@@ -252,8 +250,6 @@ pk <- function (Pkm1, k, phik){
   Pk <- Pk / Pk[1]
   Pk
 }
-
-
 # Regenerate ith power of P from stored PPower
 ppower <- function (Ppower, i, powcols) {
 
@@ -340,7 +336,7 @@ transform <- function (B, A, PP, P, pass_stop) {
       pp_powim1 <- 1
     } else{
       pp_powim1 <- rev(ppower(Ppower, i-1, powcols))
-    } 
+    }
     if(i <= nb) {
       Bterm <- (pass_stop^(i - 1)) * B[i] * conv(pp_powim1, p_pownmi)
       Num <- polysum(Num, Bterm)

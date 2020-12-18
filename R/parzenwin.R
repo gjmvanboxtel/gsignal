@@ -21,29 +21,29 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Parzen (de la Vallée Poussin) window
-#' 
-#' Return the filter coefficients of a Parzen window of length \code{n}
-#' 
+#'
+#' Return the filter coefficients of a Parzen window of length \code{n}.
+#'
 #' Parzen windows are piecewise-cubic approximations of Gaussian windows.
-#' 
+#'
 #' @param n Window length, specified as a positive integer.
-#' 
+#'
 #' @return Parzen window, returned as a vector.
-#' 
+#'
 #' @examples
-#' 
+#'
 #' p <- parzenwin(64)
 #' g <- gausswin(64)
 #' plot (p, type = "l", xlab = "Samples", ylab =" Amplitude", ylim = c(0, 1))
 #' lines(g, col = "red")
-#' 
-#' @author Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@@gmail.com}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 parzenwin <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
 
   N <- n - 1
@@ -51,7 +51,7 @@ parzenwin <- function (n) {
   k1 <- k[which(abs(k) <= (N / 4))]
   k2 <- k[which(k > (N / 4))]
   k3 <- k[which(k < (-N / 4))]
-  
+
   w1 <- 1 - 6 * (abs(k1) / (n / 2))^2 + 6 * (abs(k1) / (n/2))^3
   w2 <- 2 * (1 - abs(k2) / (n / 2))^3
   w3 <- 2 * (1 - abs(k3) / (n / 2))^3

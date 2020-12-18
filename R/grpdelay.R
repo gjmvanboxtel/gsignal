@@ -6,7 +6,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,9 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200422  GvB       setup for gsignal v0.1.0
@@ -25,7 +23,7 @@
 
 #' Group delay
 #'
-#' Compute the average delay of a filter (group delay)
+#' Compute the average delay of a filter (group delay).
 #'
 #' If the denominator of the computation becomes too small, the group delay is
 #' set to zero. (The group delay approaches infinity when there are poles or
@@ -66,9 +64,10 @@
 #' print(gpd)
 #' plot(gpd)
 #'
-#' @author Paul Kienzle \email{pkienzle@@users.sf.net}, Julius O. Smith III
-#'   \email{jos@@ccrma.stanford.edu}, port to R by Tom Short, adapted by Geert
-#'   van Boxtel \email{gjmvanboxtel@@gmail.com}
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'  Julius O. Smith III, \email{jos@@ccrma.stanford.edu}.\cr
+#'  Conversion to R by Tom Short,\cr
+#'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @references \url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 #' \url{http://en.wikipedia.org/wiki/Group_delay}
@@ -82,7 +81,7 @@ grpdelay <- function(filt, ...) UseMethod("grpdelay")
 #' @export
 
 print.grpdelay <- function(x, ...){
-  
+
   cat("- Group delay (gd) calculated at", x$ns, "points.\n")
   cat("- Frequencies (w) given in", if(x$HzFlag) "*Hz*." else "*radians*.", "\n")
   temp <- data.frame(do.call("cbind", x[c("gd", "w")]))
@@ -96,7 +95,7 @@ print.grpdelay <- function(x, ...){
 #' @rdname grpdelay
 #' @export
 
-plot.grpdelay <- function(x, 
+plot.grpdelay <- function(x,
                           xlab = if(x$HzFlag) 'Frequency (Hz)' else 'Frequency (rad/sample)',
                           ylab = 'Group delay (samples)', type = "l", ...) {
   graphics::plot(x$w[1:x$ns], x$gd[1:x$ns],
@@ -107,11 +106,11 @@ plot.grpdelay <- function(x,
 #' @export
 
 grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...)   {
-  
+
   b <- as.vector(filt)
   a <- as.vector(a)
   n <- as.vector(n)
-  
+
   if (whole == "whole" || whole) {
     whole <- TRUE
   } else {
@@ -124,7 +123,7 @@ grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...
   } else {
     HzFlag <- TRUE
   }
-  
+
   if (length(n) == 1) {
     nfft <- n
     if (!whole) {
@@ -141,7 +140,7 @@ grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...
   } else {
     stop('n be a vector with a length >= 1')
   }
-  
+
   oa <- length(a) - 1             # order of a(z)
   if (oa < 0) {
     a <- 1

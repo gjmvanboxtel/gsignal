@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,22 +14,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Moving Root Mean Square
-#' 
-#' Compute the moving root mean square (RMS) of the input signal
-#' 
+#'
+#' Compute the moving root mean square (RMS) of the input signal.
+#'
 #' The signal is convoluted against a sigmoid window of width \code{w} and
 #' risetime \code{rc}. The units of these parameters are relative to the value
 #' of the sampling frequency given in \code{fs}.
-#' 
+#'
 #' @param x Input signal, specified as a numeric vector or matrix. In case of a
 #'   matrix, the function operates along the columns
 #' @param width width of the sigmoid window, in units relative to \code{fs}.
@@ -37,13 +35,13 @@
 #' @param rc Rise time (time constant) of the sigmoid window, in units relative
 #'   to \code{fs}. Default: 1e-3
 #' @param fs Sampling frequency. Deafult: 1
-#' 
+#'
 #' @return A \code{\link{list}} containg 2 variables:
 #' \describe{
 #'   \item{rmsx}{Output signal with the same dimensions as \code{x}}
 #'   \item{w}{Window, returned as a vector}
 #' }
-#' 
+#'
 #' @examples
 #' N <- 128
 #' t <- seq(0, 1, length.out = N)
@@ -56,18 +54,18 @@
 #' lines(t, ret$rmsx, lwd = 4, col = "black")
 #' polygon(c(0, t, length(t)), c(0, ret$rmsx, 0), col = "blue")
 #' lines (t, ret$w, lwd = 2, col = "green")
-#' legend("topleft", c("data", "window", "movingrms"), lty = 1, 
+#' legend("topleft", c("data", "window", "movingrms"), lty = 1,
 #' col = c("red", "green", "blue"))
-#' 
+#'
 #' @seealso \code{\link{sigmoid_train}}
-#' 
-#' @author Juan Pablo Carbajal \email{carbajal@@ifi.uzh.ch}, port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @export
 
 movingrms <- function(x, width = 0.1, rc = 1e-3, fs = 1) {
-  
+
   if (is.vector(x)) {
     N <- length(x)
   } else if (is.matrix(x)) {
@@ -84,7 +82,7 @@ movingrms <- function(x, width = 0.1, rc = 1e-3, fs = 1) {
   if(!isPosscal(fs)) {
     stop('fs must be a positive scalar')
   }
-  
+
   if (width * fs > N / 2) {
     idx <- c(1, N)
     w <- rep(1L, N)
@@ -106,6 +104,6 @@ movingrms <- function(x, width = 0.1, rc = 1e-3, fs = 1) {
   } else {
     rmsx <- apply(x, 2, rmsx_singleChan, w, N, idx)
   }
-  
+
   list(rmsx = rmsx, w = w)
 }

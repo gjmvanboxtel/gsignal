@@ -12,7 +12,7 @@ cheb2ap(n, Rs)
 \item{Rs}{dB of stopband ripple.}
 }
 \value{
-list of class \code{'\link{Zpg}'} containg poles and gain of the filter
+list of class \code{\link{Zpg}} containing poles and gain of the filter
 }
 \description{
 Return the poles and gain of an analog Chebyshev Type II lowpass filter prototype.
@@ -29,7 +29,6 @@ freqs(zp, w)
 
 }
 \author{
-Original Octave code by Carnë Draug
-  \email{carandraug+dev@gmail.com}. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

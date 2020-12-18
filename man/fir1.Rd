@@ -15,36 +15,38 @@ fir1(
 \arguments{
 \item{n}{filter order (1 less than the length of the filter).}
 
-\item{w}{band edges, strictly increasing vector in the range [0, 1], where 1
+\item{w}{band edges, strictly increasing vector in the range c(0, 1), where 1
 is the Nyquist frequency. A scalar for highpass or lowpass filters, a
 vector pair for bandpass or bandstop, or a vector for an alternating
 pass/stop filter.}
 
-\item{type}{character specifying filter type, one of "low" for a low-pass
-filter, "high" for a high-pass filter, "stop" for a stop-band (band-reject)
-filter, "pass" for a pass-band filter, "DC-0" for a bandpass as the first
-band of a multiband filter, or "DC-1" for a bandstop as the first band of a
-multiband filter. Default: "low".}
+\item{type}{character specifying filter type, one of \code{"low"} for a
+low-pass filter, \code{"high"} for a high-pass filter, \code{"stop"} for a
+stop-band (band-reject) filter, \code{"pass"} for a pass-band filter,
+\code{"DC-0"} for a bandpass as the first band of a multiband filter, or
+\code{"DC-1"} for a bandstop as the first band of a multiband filter.
+Default: \code{"low"}.}
 
 \item{window}{smoothing window. The returned filter is the same shape as the
 smoothing window. Default: \code{hamming(n + 1)}.}
 
-\item{scale}{whether to normalize or not. Use TRUE (default) or 'scale' to
-set the magnitude of the center of the first passband to 1, and FALSE or
-'noscale' to not normalize.}
+\item{scale}{whether to normalize or not. Use \code{TRUE} (default) or
+\code{'scale'} to set the magnitude of the center of the first passband to
+1, and \code{FALSE} or \code{'noscale'} to not normalize.}
 }
 \value{
 The FIR filter coefficients, a vector of length \code{n + 1}, of
-  class \code{Ma}
+  class \code{Ma}.
 }
 \description{
-FIR filter coefficients for a filter with the given order and frequency cutoff
+FIR filter coefficients for a filter with the given order and frequency
+cutoff.
 }
 \examples{
 freqz(fir1(40, 0.3))
 freqz(fir1(10, c(0.3, 0.5), "stop"))
 freqz(fir1(10, c(0.3, 0.5), "pass"))
- 
+
 }
 \references{
 \url{http://en.wikipedia.org/wiki/Fir_filter}
@@ -54,6 +56,7 @@ freqz(fir1(10, c(0.3, 0.5), "pass"))
   \code{\link{fir2}}
 }
 \author{
-Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net}, Port to R Tom
-  Short, slightly adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},
+ Conversion to R Tom Short,\cr
+ adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -7,29 +7,29 @@
 gauspuls(t, fc = 1000, bw = 0.5)
 }
 \arguments{
-\item{t}{Vector of time values at which the unit-amplitude Gaussian RF pulse is calculated.}
+\item{t}{Vector of time values at which the unit-amplitude Gaussian RF pulse
+is calculated.}
 
-\item{fc}{Center frequency of the Gaussian-modulated sinusoidal pulses, specified as a real positive scalar expressed in Hz.
-Default: 1000}
+\item{fc}{Center frequency of the Gaussian-modulated sinusoidal pulses,
+specified as a real positive scalar expressed in Hz. Default: 1000}
 
-\item{bw}{Fractional bandwidth of the Gaussian-modulated sinusoidal pulses, specified as a real positive scalar.}
+\item{bw}{Fractional bandwidth of the Gaussian-modulated sinusoidal pulses,
+specified as a real positive scalar.}
 }
 \value{
-Inphase Gaussian-modulated sinusoidal pulse, returned as a vector of unit amplitude at the times
-indicated by the time vector t.
+Inphase Gaussian-modulated sinusoidal pulse, returned as a vector of
+  unit amplitude at the times indicated by the time vector t.
 }
 \description{
 Generate a Gaussian modulated sinusoidal pulse sampled at times \code{t}.
 }
-\details{
-\code{yi = gauspuls(t,fc,bw)} returns a unit-amplitude Gaussian-modulated sinusoidal RF pulse at the times indicated in array t,
-with a center frequency fc in hertz and a fractional bandwidth bw
-}
 \note{
-The Octave \code{gauspuls} function differs from the function in the Matlab signal package. The Octave function
-does not use the \code{bwr} (fractional bandwidth reference level), the \code{tpe} (trailing pulse envelope level), and
-the \code{'cutoff'} input arguments. In addition, it only returns the inphase Gaussian pulse, not the quadrature pulse nor
-the signal envelope and cutoff time.
+The Octave \code{gauspuls} function differs from the function in the
+  Matlab signal package. The Octave function does not use the \code{bwr}
+  (fractional bandwidth reference level), the \code{tpe} (trailing pulse
+  envelope level), and the \code{'cutoff'} input arguments. In addition, it
+  only returns the inphase Gaussian pulse, not the quadrature pulse nor the
+  signal envelope and cutoff time.
 }
 \examples{
 
@@ -49,6 +49,6 @@ plot (0:(length(x)-1) * 1000/fs, x, type="l",
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, 
-Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, Mike Miller.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

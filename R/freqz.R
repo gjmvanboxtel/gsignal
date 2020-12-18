@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200422  GvB       setup for gsignal v0.1.0
@@ -35,7 +33,7 @@
 #'
 #' The frequency response of a digital filter can be interpreted as the transfer
 #' function evaluated at \eqn{z = e^{j\omega}}.
-#' 
+#'
 #' The Matlab and Octave versions of \code{freqz} produce magnitude and phase
 #' plots. The \code{freqz} version in the \code{signal} package produces
 #' separate plots of magnitude in the pass band (max - 3 dB to max) and stop
@@ -44,15 +42,15 @@
 #' but the pass band plot has an absolute lower limit of -3 dB instead of max -
 #' 3 dB. In addition a \code{summary} method was added that prints out the most
 #' important information about the frequency response of the filter.
-#' 
+#'
 #' @note When results of \code{freqz} are printed, \code{freqz_plot} will be
 #'   called to display frequency plots of magnitude and phase. As with lattice
 #'   plots, automatic printing does not work inside loops and function calls, so
 #'   explicit calls to print or plot are needed there.
 #'
 #' @param filt for the default case, the moving-average coefficients of an ARMA
-#'   model or filter. Generically, filt specifies an arbitrary model or filter
-#'   operation.
+#'   model or filter. Generically, \code{filt} specifies an arbitrary model or
+#'   filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
 #' @param n	number of points at which to evaluate the frequency response. If
 #'   \code{n} is a vector with a length greater than 1, then evaluate the
@@ -81,12 +79,13 @@
 #' b <- c(1, 0, -1)
 #' a <- c(1, 0, 0, 0, 0.25)
 #' freqz(b, a)
-#' 
+#'
 #' hw <- freqz(b, a)
 #' summary(hw)
 #'
-#' @author John W. Eaton, Paul Kienzle \email{pkienzle@@users.sf.net}. Port to R
-#'   by Tom Short; adapted by Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
+#' @author John W. Eaton, Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#'  Port to R by Tom Short,\cr
+#'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @rdname freqz
 #' @export
@@ -95,10 +94,10 @@ freqz <- function(filt, ...) UseMethod("freqz")
 
 #' @rdname freqz
 #' @export
-freqz.default <- function(filt, a = 1, n = 512, 
+freqz.default <- function(filt, a = 1, n = 512,
                           whole = ifelse((is.numeric(filt) && is.numeric(a)), FALSE, TRUE),
                           fs = 2 * pi, ...)  {
-  
+
   if (!(is.vector(filt) && is.vector(a))) {
     stop("'filt' and 'a' must be vectors")
   }
@@ -111,7 +110,7 @@ freqz.default <- function(filt, a = 1, n = 512,
   } else {
     u <- 'Hz'
   }
-  
+
   if (length(n) > 1) { ## Explicit frequency vector given
     w <- 2 * pi * n / fs
     hb <- pracma::polyval(rev(b), exp(-1i * w))
@@ -119,8 +118,8 @@ freqz.default <- function(filt, a = 1, n = 512,
     w <- n
   } else if (whole) {
     w <- fs * (0:(n - 1)) / n
-    ## polyval(fliplr(P),exp(-jw)) is O(p n) and fft(x) is O(n log(n)), where p is the 
-    ## order of the the polynomial P.  For small p it would be faster to use polyval  
+    ## polyval(fliplr(P),exp(-jw)) is O(p n) and fft(x) is O(n log(n)), where p is the
+    ## order of the the polynomial P.  For small p it would be faster to use polyval
     ## but in practice the overhead for polyval is much higher and the little bit of
     ## time saved isn't worth the extra code.
     hb <- stats::fft(postpad(b, n))
@@ -130,49 +129,49 @@ freqz.default <- function(filt, a = 1, n = 512,
     hb <- stats::fft(postpad(b, 2 * n))[1:n]
     ha <- stats::fft(postpad(a, 2 * n))[1:n]
   }
-  
+
   h <- hb / ha
-  
+
   res <- list(h = h, w = w, u = u)
   class(res) <- "freqz"
   res
 }
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
-freqz.Arma <- function(filt, n = 512, 
+freqz.Arma <- function(filt, n = 512,
                        whole = ifelse((is.numeric(filt$b) && is.numeric(filt$a)), FALSE, TRUE),
                        fs = 2 * pi, ...) # IIR
   freqz.default(filt$b, filt$a, n, whole, fs, ...)
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
-freqz.Ma <- function(filt, n = 512, 
+freqz.Ma <- function(filt, n = 512,
                      whole = ifelse(is.numeric(filt), FALSE, TRUE),
                      fs = 2 * pi, ...) # FIR
   freqz.default(unclass(filt), 1, n, whole, fs, ...)
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
 freqz.Sos <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) # second-order sections
   freqz.Arma(as.Arma(filt), n, whole, fs, ...)
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
 freqz.Zpg <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) # zero-pole-gain
   freqz.Arma(as.Arma(filt), n, whole, fs, ...)
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
 print.freqz <- plot.freqz <- function(x, ...)
   freqz_plot(x$w, x$h, ...)
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
 summary.freqz <- function(object, ...) {
@@ -180,9 +179,9 @@ summary.freqz <- function(object, ...) {
   nm <- deparse(substitute(object))
   h <- object$h
   w <- object$w
-  
+
   rw <- range(w)
-  
+
   mag <- 20 * log10(abs(h))
   mmag <- max(mag)
   wmag <- w[which.max(mag)]
@@ -190,12 +189,12 @@ summary.freqz <- function(object, ...) {
 
   phase <- unwrap(Arg(h))
   rp <- range(phase)
-  
+
   structure(list(nm = nm, rw = rw, mmag = mmag, wmag = wmag, cutoff = cutoff, rp = rp, u = object$u),
             class = c("summary.freqz", "list"))
 }
 
-#' @rdname freqz 
+#' @rdname freqz
 #' @export
 
 print.summary.freqz <- function (x, ...) {
@@ -244,4 +243,4 @@ freqz_plot <- function(w, h, ...) {
   graphics::abline(h = -3, col = "red", lty = 2)
   graphics::plot(w, phase * 360 / (2 * pi), type = "l", xlab = "Frequency", ylab = "", ...)
   graphics::title("Phase (degrees)")
-} 
+}

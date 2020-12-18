@@ -6,7 +6,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,69 +15,67 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200612  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Partial fraction expansion
-#' 
+#'
 #' Finds the residues, poles, and direct term of a Partial Fraction Expansion of
 #' the ratio of two polynomials.
-#' 
+#'
 #' The call \code{res <- residue(b, a)} computes the partial fraction expansion
-#' for the quotient of the polynomials, \code{b} and \code{a}. 
-#' 
+#' for the quotient of the polynomials, \code{b} and \code{a}.
+#'
 #' The call \code{res <- rresidue(r, p, k)} performs the inverse operation and
 #' computes the reconstituted quotient of polynomials, b(s)/a(s), from the
 #' partial fraction expansion; represented by the residues, poles, and a direct
 #' polynomial specified by \code{r}, \code{p} and \code{k}, and the pole
 #' multiplicity \code{e}.
-#'  
+#'
 #' @param b coefficients of numerator polynomial
 #' @param a coefficients of denominator polynomial
 #' @param r residues of partial fraction expansion
 #' @param p poles of partial fraction expansion
 #' @param k direct term
 #' @param tol tolerance. Default: 0.001
-#' 
+#'
 #' @return For \code{residue}, a list containing \code{r}, \code{p} and
 #'   \code{k}. For \code{rresidue}, a list containing \code{b} and \code{a}.
-#' 
+#'
 #' @examples
 #' b <- c(-4, 8)
 #' a <- c(1, 6, 8)
 #' rpk <- residue(b, a)
-#' ba <- rresidue(rpk$r, rpk$p, rpk$k) 
-#'  
-#' @author Original Octave version by Tony Richardson
-#'   \email{arichard@@stark.cc.oh.us}, Ben Abbott \email{bpabbott@@mac.com},
-#'   adapted by John W. Eaton. Conversion to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}
+#' ba <- rresidue(rpk$r, rpk$p, rpk$k)
+#'
+#' @author Tony Richardson, \email{arichard@@stark.cc.oh.us},\cr
+#'  Ben Abbott, \email{bpabbott@@mac.com},\cr
+#'  adapted by John W. Eaton.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
 #'
 #' @rdname residue
 #' @export
 
 residue <- function(b, a, tol = 0.001) {
-  
+
   if(!is.vector(b) || !is.vector(a)) {
     stop('b and a must be vectors')
   }
   tol <- abs(tol[1])
-  
+
   ## Make sure both polynomials are in reduced form.
   a <- polyreduce(a)
   b <- polyreduce (b)
-  
+
   b <- b / a[1]
   a <- a / a[1]
-  
+
   la <- length(a)
   lb <- length(b)
-  
+
   ## Handle special cases here.
   if (la == 0 || lb == 0) {
     return(list(r = NULL, p = NULL, k = NULL))
@@ -85,11 +83,11 @@ residue <- function(b, a, tol = 0.001) {
     k <- b / a
     return(list(r = NULL, p = NULL, k = k))
   }
-  
+
   ## Find the poles.
   p <- pracma::roots(a)
   lp <- length(p)
-  
+
   ## Sort poles so that multiplicity loop will work.
   mn <- mpoles(p, tol = tol, reorder = TRUE, index.return = TRUE)
   p <- p[mn$n]
@@ -102,7 +100,7 @@ residue <- function(b, a, tol = 0.001) {
     m = which(p_group == ng)
     p[m] = mean(p[m])
   }
-  
+
   ## Find the direct term if there is one.
   if (lb >= la) {
     ## Also return the reduced numerator.
@@ -113,12 +111,12 @@ residue <- function(b, a, tol = 0.001) {
   } else {
     k = NULL
   }
-  
+
   ## Determine if the poles are (effectively) zero.
   small <- max(abs(p))
   small <- max(small, 1) * .Machine$double.eps * 1e4 * (1 + length(p))^2
   p[abs(p) < small] <- 0
-  
+
   ## Determine if the poles are (effectively) real, or imaginary.
   index <- (abs(Im(p)) < small)
   if (any(index)) {
@@ -128,19 +126,19 @@ residue <- function(b, a, tol = 0.001) {
   if (any(index)) {
     p[index] = 1i * Im(p[index])
   }
-  
+
   ## The remainder determines the residues.  The case of one pole
   ## is trivial.
   if (lp == 1) {
     r <- pracma::polyval (b, p)
   } else {
-  
+
     ## Determine the order of the denominator and remaining numerator.
     ## With the direct term removed the potential order of the numerator
     ## is one less than the order of the denominator.
     aorder <- length(a) - 1
     border <- aorder - 1
-  
+
     ## Construct a system of equations relating the individual
     ## contributions from each residue to the complete numerator.
     A <- matrix(0L, nrow = border + 1, ncol = border + 1)
@@ -169,7 +167,7 @@ rresidue <- function (r, p, k, tol = 0.001) {
     stop('r and p must be vectors')
   }
   tol <- abs(tol[1])
-  
+
   mn <- mpoles (p, tol, reorder = FALSE, index.return = TRUE)
   indx <- mn$n
   p <- p[indx]
@@ -184,7 +182,7 @@ rresidue <- function (r, p, k, tol = 0.001) {
       pden <- fftconv (pden, pn)
     }
   }
-  
+
   ## D is the order of the denominator
   ## K is the order of the direct polynomial
   ## N is the order of the resulting numerator
@@ -192,7 +190,7 @@ rresidue <- function (r, p, k, tol = 0.001) {
   ## pden(1:(D+1)) is the denominator's polynomial
   ## pm is the multible pole for the nth residue
   ## pn is the numerator contribution for the nth residue
-  
+
   D <- length(pden) - 1
   K <- length(k) - 1
   N <- K + D
@@ -218,14 +216,14 @@ rresidue <- function (r, p, k, tol = 0.001) {
     pn <- r[n] * pn
     pnum <- pnum + prepad(pn, N + 1, 0, 2)
   }
-  
+
   ## Add the direct term.
   if (length(k)){
     pnum <- pnum + fftconv(pden, k)
   }
-  
+
   pnum <- polyreduce(pnum)
   pden <- polyreduce(pden)
-  
+
   list(b = zapIm(pnum), a = zapIm(pden))
 }

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201129  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Decrease sample rate
-#' 
+#'
 #' Downsample a signal by an integer factor.
-#'   
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
@@ -37,9 +35,9 @@
 #'   length \code{n} designed with the function \code{\link{fir1}}, or
 #'   \code{"iir"} (default), specifying an IIR Chebyshev filter of order 8 using
 #'   the function \code{\link{cheby1}}.
-#' 
+#'
 #' @return downsampled signal, returned as a vector or matrix.
-#' 
+#'
 #' @examples
 #' t <- seq(0, 2, 0.01)
 #' x <- chirp(t, 2, .5, 10, 'quadratic') + sin(2 * pi * t * 0.4)
@@ -49,11 +47,11 @@
 #' y = decimate(x, 4)
 #' lines(t[seq(1, 121, 4)] * 1000, y[1:31], type = "h", col = "red")
 #' points(t[seq(1, 121, 4)] * 1000, y[1:31], col = "red")
-#' 
+#'
 #' @seealso \code{\link{cheby1}}, \code{\link{fir1}}
 #'
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}; port to R by Geert van
-#'   Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
@@ -62,7 +60,7 @@ decimate <- function (x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
   if (!is.numeric(x)) {
     stop('x must be numeric')
   }
-  
+
   if (is.vector(x)) {
     ns <- 1
     lx <- length(x)
@@ -75,7 +73,7 @@ decimate <- function (x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
   } else {
     stop ('x must be a numeric vector or matrix')
   }
-  
+
   if (!(isPosscal(q) && isWhole(q))) {
     stop('q must be a positive integer')
   }
@@ -83,7 +81,7 @@ decimate <- function (x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
     stop('n must be a positive integer')
   }
   ftype <- match.arg(ftype)
-  
+
   if (ftype == "fir") {
     b <- fir1 (n, 1 / q)
     y <- fftfilt(b, x)
@@ -95,5 +93,5 @@ decimate <- function (x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
   if (vec) {
     y <- as.vector(y)
   }
-  y  
+  y
 }

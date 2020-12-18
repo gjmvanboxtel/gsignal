@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201101  GvB       setup for gsignal v0.1.0
@@ -25,15 +23,18 @@
 #' Power spectrum of AR model
 #'
 #' Compute the power spectral density of an autoregressive model.
-#' 
+#'
 #' This function calculates the power spectrum of the autoregressive model
-#' \preformatted{
+#' \if{latex}{
+#'   \deqn{x(n) = \sqrt{v} \cdot e(n) + \sum_{k=1}^{M} a(k) \cdot x(n-k)}
+#' }
+#' \if{html}{\preformatted{
 #'                        M
 #' x(n) = sqrt(v).e(n) + SUM a(k).x(n-k)
 #'                       k=1
-#' }
-#' where x(n) is the output of the model and e(n) is white noise.
-#' 
+#' }}
+#' where \code{x(n)} is the output of the model and \code{e(n)} is white noise.
+#'
 #' @param a numeric vector of autoregressive model coefficients. The first
 #'   element is the zero-lag coefficient, which always has a value of 1.
 #' @param v square of the moving average coefficient, specified as a positive
@@ -54,7 +55,7 @@
 #'   -0.2. -0.1.}
 #'   \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
 #'   the first half of the spectrum swapped with second half to put the
-#'   zero-frequency value in the middle. If \code{freq} is vector,
+#'   zero-frequency value in the middle. If \code{freq} is a vector,
 #'   \code{'shift'} is ignored.}
 #' }
 #'   Default: If model coefficients \code{a} are real, the default range is
@@ -69,8 +70,8 @@
 #'   \code{"linear"}, \code{"log"}, \code{"dB"}
 #' @param xlab,ylab,main labels passed to plotting function. Default: NULL
 #' @param ... additional arguments passed to functions
-#'   
-#' @return An object of class "ar_psd" , which is a list containing two
+#'
+#' @return An object of class \code{"ar_psd"} , which is a list containing two
 #'   elements, \code{freq} and \code{psd} containing the frequency values and
 #'   the estimates of power-spectral density, respectively.
 #'
@@ -78,8 +79,8 @@
 #' a <- c(1, -2.7607, 3.8106, -2.6535, 0.9238)
 #' ar_psd(a)
 #'
-#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}. Port to R
-#'   by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @rdname ar_psd
 #' @export
@@ -87,14 +88,14 @@
 ar_psd <- function(a, v = 1, freq = 256, fs = 1,
                    range = ifelse(is.numeric(a), "half", "whole"),
                    method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly"))  {
-  
+
   # parameter checking
   if (!is.vector(a) || length(a) < 2 || a[1] != 1) {
     stop("a must be a vector of length >= 2 with the first element equal to 1")
   } else {
     real_model <- ifelse(is.numeric(a), 1L, 0L)
   }
-  
+
   if(!isPosscal(v) || v <= 0) {
     stop("v must be a positive scalar > 0")
   }
@@ -109,11 +110,11 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
       stop('freq vector must be numeric')
     }
   }
-  
+
   if(!isPosscal(fs) || fs <= 0) {
     stop("fs must be a positive scalar > 0")
   }
-  
+
   range <- match.arg(range, c("half", "onesided", "whole", "twosided", "shift", "centerdc"))
   if (range == "half" || range == "onesided") {
     pad_fact <- 2L    # FT zero-padding factor (pad FFT to double length)
@@ -125,7 +126,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     pad_fact <- 1L
     do_shift <- TRUE
   }
-  
+
   method <- match.arg(method, c("fft", "poly"))
   if (method == "fft") {
     force_FFT  <- TRUE
@@ -135,7 +136,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     force_poly <- TRUE
   }
   # end of parameter checking
-  
+
   # frequencies at which to determine psd
   if (user_freqs) {
     # user provides vector of frequencies
@@ -174,14 +175,14 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     }
     fft_out <- pracma::polyval(a[seq(len_coeffs, 1, -1)], exp((-1i * 2 * pi / fs) * freq))
   }
-  
+
   # The power spectrum (PSD) is the scaled squared reciprocal of amplitude
   # of the FFT/polynomial. This is NOT the reciprocal of the periodogram.
   # The PSD is a continuous function of frequency.  For uniformly
   # distributed frequency values, the FFT algorithm might be the most
   # efficient way of calculating it.
   psd <- (v / fs) / (fft_out * Conj(fft_out))
-  
+
   # range='half' or 'onesided',
   #   add PSD at -ve frequencies to PSD at +ve frequencies
   # N.B. unlike periodogram, PSD at zero frequency _is_ doubled.
@@ -198,7 +199,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
       # user-defined and internally-generated frequencies
       psd <- psd[1:freq_len] + psd[seq(fft_len, freq_len + 1, -1)]
     }
-    
+
   # range='shift'
   #   disabled for user-supplied frequencies
   #   Shift zero-frequency to the middle (pad_fact==1)
@@ -207,25 +208,25 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     psd  <- c(psd[(len2 + 1):fft_len], psd[1:len2])
     freq <- c(freq[(len2 + 1):fft_len] - fs, freq[1:len2])
   }
-  
+
   if (real_model == 1L) {
     psd <- Re(psd)
   }
-  
+
   structure(list(freq = freq, psd = psd, fs = fs), class = "ar_psd")
 }
 
 #' @rdname ar_psd
 #' @export
 
-plot.ar_psd <- print.ar_psd <- function (x, yscale = c("linear", "log", "dB"), 
+plot.ar_psd <- print.ar_psd <- function (x, yscale = c("linear", "log", "dB"),
                                          xlab = NULL, ylab = NULL, main = NULL, ...) {
-  
+
   if(class(x) != 'ar_psd') {
     stop('invalid object type')
   }
   yscale <- match.arg(yscale)
-  
+
   if (is.null(xlab)) {
     if (x$fs == 1) {
       xlab <- expression(paste("Normalized frequency (\u00D7 ", pi, " rad/sample)"))
@@ -236,7 +237,7 @@ plot.ar_psd <- print.ar_psd <- function (x, yscale = c("linear", "log", "dB"),
     }
   }
   sub <- paste("Resolution:", format(x$fs / length(x$freq), digits = 6, nsmall = 6))
-  
+
   if(is.null(ylab)) {
     ylab <- switch(yscale,
                    "linear" = "PSD/Frequency",

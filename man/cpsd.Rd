@@ -81,7 +81,7 @@ Estimates the cross power spectral density (CPSD) of discrete-time signals.
 }
 \details{
 \code{cpsd} estimates the cross power spectral density function using
-Welch’s overlapped averaged periodogram method [1]
+Welch’s overlapped averaged periodogram method [1].
 }
 \note{
 The function \code{cpsd} (and its deprecated alias \code{csd})
@@ -106,6 +106,6 @@ plot(rv$freq, 10 * log10(rv$cross), type="l", xlab = "Frequency",
   Electroacoustics, AU-15 (2): 70–73.\cr
 }
 \author{
-Peter V. Lanspeary \email{pvl@mecheng.adelaide.edu.au}; port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

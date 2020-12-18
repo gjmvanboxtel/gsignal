@@ -18,29 +18,44 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200426 Geert van Boxtel          First version for v0.1.0
-# 2020501 Geert van Boxtel          return Zpg$z = complex(0) instead of NULL
+# 20205001 Geert van Boxtel          return Zpg$z = complex(0) instead of NULL
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Bessel analog lowpass filter prototype
-#' 
-#' Return the poles and gain of a Bessel analog lowpass filter prototype.
-#' 
+#' Bessel analog low-pass filter prototype
+#'
+#' Return the poles and gain of a Bessel analog low-pass filter prototype.
+#'
 #' The transfer function is
-#' \deqn{H(s) = \frac{k}{(s-p(1))(s-p(2))...(s-p(n))}}
+#' \if{latex}{
+#'   \deqn{H(s) = \frac{k}{(s-p(1))(s-p(2))...(s-p(n))}}
+#' }
+#' \if{html}{\preformatted{
+#'                      k
+#'  H(s) = -----------------------------
+#'          (s-p(1))(s-p(2))...(s-p(n))
+#'
+#' }}
 #' \code{besselap} normalizes the poles and gain so that at low frequency and
 #' high frequency the Bessel prototype is asymptotically equivalent to the
 #' Butterworth prototype of the same order. The magnitude of the filter is less
 #' than \eqn{1/\sqrt{2}} at the unity cutoff frequency \eqn{\Omega_c = 1}.
-#' 
+#'
 #' Analog Bessel filters are characterized by a group delay that is maximally
 #' flat at zero frequency and almost constant throughout the passband. The group
 #' delay at zero frequency is
-#' \deqn{\left( \frac{(2n)!}{2^{n}n!} \right) ^{1/n}}
-#' 
-#' @param n Order of the filter; must be < 25.
-#' 
-#' @return list of class \code{'\link{Zpg}'} containg poles and gain of the filter
-#' 
+#' \if{latex}{
+#'   \deqn{\left( \frac{(2n)!}{2^{n}n!} \right) ^{1/n}}
+#' }
+#' \if{html}{\preformatted{
+#'    /  (2n!) \ 2
+#'    | ------ |
+#'    \ 2^n n! /
+#' }}
+#'
+#' @param n order of the filter; must be < 25.
+#'
+#' @return List of class \code{\link{Zpg}} containing poles and gain of the filter
+#'
 #' @examples
 #' ## 6th order Bessel low-pass analog filter
 #' zp <- besselap(6)
@@ -48,16 +63,16 @@
 #' freqs(zp, w)
 #'
 #' @references \url{http://en.wikipedia.org/wiki/Bessel_polynomials}
-#' 
-#' @author Original Octave code by Thomas Sailer. Port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Thomas Sailer, email{<t.sailer@@alumni.ethz.ch>}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 besselap <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
-  
+
   if (n == 1) {
     p <- -1
   } else {
@@ -72,7 +87,7 @@ besselap <- function (n) {
       p1 <- px + py
     }
     ## p1 now contains the reverse bessel polynomial for n
-    
+
     ## scale it by replacing s->s/w0 so that the gain becomes 1
     p1 <- p1 * p1[length(p1)]^(seq(length(p1) - 1, 0, -1) / (length(p1) - 1))
     p <- pracma::roots(p1)

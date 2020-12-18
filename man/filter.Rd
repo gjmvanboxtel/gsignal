@@ -47,12 +47,28 @@ Matlab/Octave.
 \details{
 \code{filter(b, a, x)} returns the solution to the following linear,
 time-invariant difference equation:
-\deqn{\sum_{k=0}^{N} a(k+1) y(n-k) + \sum_{k=0}^{M} b(k+1) x(n-k) = 0, 1 \le n \le length(x)}{\sum k=0:N a(k+1) y(n-k) + \sum k=0:M b(k+1) x(n-k) = 0, 1 \le n \le length(x)}
+\if{latex}{
+  \deqn{\sum_{k=0}^{N} a(k+1) y(n-k) + \sum_{k=0}^{M} b(k+1) x(n-k) = 0; 1
+  \le n \le length(x)}
+}
+\if{html}{\preformatted{
+  N                  M
+ SUM a(k+1)y(n-k) + SUM b(k+1)x(n-k) = 0;   1 <= n <= length(x)
+ k=0                k=0
+}}
 where \code{N = length(a) - 1} and \code{M = length(b) - 1}.
 
 An equivalent form of this equation is:
-\deqn{y(n) = \sum_{k=1}^{N} c(k+1) y(n-k) + \sum_{k=0}^{M} d(k+1) x(n-k), 1 \le n \le length(x)}{y(n) = \sum k=1:N c(k+1) y(n-k) + \sum k=0:M d(k+1) x(n-k), 1 \le n \le length(x)}
-where \code{c = a/a(1) and d = b/a(1)}.
+\if{latex}{
+  \deqn{y(n) = \sum_{k=1}^{N} c(k+1) y(n-k) + \sum_{k=0}^{M} d(k+1) x(n-k); 1
+  \le n \le length(x)}
+}
+\if{html}{\preformatted{
+          N                  M
+  y(n) = SUM c(k+1)y(n+k) + SUM d(k+1)x(n-k);   1 <=n <= length(x)
+         k=1                k=1
+}}
+where \code{c = a/a(1)} and \code{d = b/a(1)}.
 
 Specifying \code{init.x}, \code{init.y}, or \code{init} (alias of
 \code{init.y}) allows filtering very large time series in pieces in case of
@@ -66,9 +82,7 @@ of class \code{\link{ts}}. However, the output of \code{filter} is converted
 to a vector before the result is returned.
 }
 \examples{
-#bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
-bf <- Arma(c(0.002898195, 0.008694584, 0.008694584, 0.002898195),
- c(1.0000000, -2.3740947,  1.9293557, -0.5320754))   # change later
+bf <- butter(3, 0.1)                                 # 10 Hz low-pass filter
 t <- seq(0, 1, len = 100)                            # 1 second sample
 x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 z <- filter(bf, x)                                   # apply filter
@@ -100,6 +114,6 @@ all.equal(as.numeric(y), c(y1,y2))
 \code{\link[stats]{filter}} in the \code{stats} package
 }
 \author{
-Tom Short, EPRI Solutions, Inc., (\email{tshort@eprisolutions.com}), slightly
-adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Tom Short, \email{tshort@eprisolutions.com},\cr
+ adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

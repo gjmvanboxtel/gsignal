@@ -22,12 +22,12 @@ values. The length of \code{ampl} should equal the length of the
 vector. Default: 64.}
 }
 \value{
-sine tone, returned as a vector of length \code{rate * sec}, or as a
+Sine tone, returned as a vector of length \code{rate * sec}, or as a
   matrix with \code{rate * sec} columns and  \code{max(length(freq),
   length(ampl))} columns.
 }
 \description{
-Generate discrete sine tone
+Generate discrete sine tone.
 }
 \examples{
 fs <- 1000
@@ -40,6 +40,6 @@ matplot(seq(0, sec, length.out = sec * fs), y, type = "l", xlab = "", ylab = "")
 
 }
 \author{
-Friedrich Leisch; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Friedrich Leisch.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -18,7 +18,7 @@ signal.}
 Discrete sine transform, returned as a vector or matrix.
 }
 \description{
-Compute the discrete sine transform of a signal
+Compute the discrete sine transform of a signal.
 }
 \details{
 The discrete sine transform (DST) is closely related to the discrete Fourier
@@ -48,7 +48,7 @@ provided by Douglas Bagnall on Stackoverflow.
 x <- as.matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
 ct <- dct(x)
 st <- dst(x)
-        
+
 }
 \references{
 [1] \url{https://en.wikipedia.org/wiki/Discrete_sine_transform}
@@ -57,6 +57,6 @@ st <- dst(x)
 \code{\link{idst}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

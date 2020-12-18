@@ -4,7 +4,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -13,32 +13,30 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 2020209  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Convolution and polynomial multiplication
-#' 
+#'
 #' Convolve two vectors \code{a} and \code{b}.
-#' 
+#'
 #' The convolution of two vectors, \code{a} and \code{b}, represents the area of
 #' overlap under the points as \code{B} slides across \code{a}. Algebraically,
 #' convolution is the same operation as multiplying polynomials whose
 #' coefficients are the elements of \code{a} and \code{b}.
-#' 
+#'
 #' The function \code{conv} uses the \code{\link[gsignal]{filter}} function, NOT
 #' \code{fft}, which may be faster for large vectors.
-#' 
+#'
 #' @param a,b Input, coerced to vectors, can be different lengths or data types.
 #' @param shape Subsection of convolution, partially matched to \code{'full'}
 #'   (full convolution - default), \code{'same'} (central part of the
 #'   convolution of the same size as \code{a}), or \code{'valid'} (only those
 #'   parts of the convolution that are computed without the zero-padded edges)
-#' 
+#'
 #' @return Output vector with length equal to \code{length (a) + length (b) -
 #'   1}. When the parameter \code{shape} is set to \code{'valid'}, the length of
 #'   the output is \code{max(length(a) - length(b) + 1, 0)}, except when
@@ -48,12 +46,12 @@
 #'   When \code{a} and \code{b} are the coefficient vectors of two polynomials,
 #'   the convolution represents the coefficient vector of the product
 #'   polynomial.
-#' 
+#'
 #' @examples
 #' u <- rep(1L, 3)
 #' v <- c(1, 1, 0, 0, 0, 1, 1)
 #' w <- conv(u, v)
-#' 
+#'
 #' ## Create vectors u and v containing the coefficients of the polynomials
 #' ## x^2 + 1 and 2x + 7.
 #' u <- c(1, 0, 1)
@@ -62,14 +60,15 @@
 #' w <- conv(u, v)
 #' ## [1] 2 7 2 7
 #' ## w contains the polynomial coefficients for 2x^3 + 7x^2 + 2x + 7.
-#' 
+#'
 #' ## Central part of convolution
 #' u <- c(-1, 2, 3, -2, 0, 1, 2)
 #' v <- c(2, 4, -1, 1)
 #' w <- conv(u, v, 'same')
-#' 
-#' @author Tony Richardson \email{arichard@@stark.cc.oh.us}, adapted by John W.
-#'   Eaton. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Tony Richardson, \email{arichard@@stark.cc.oh.us},
+#'   adapted by John W. Eaton.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 

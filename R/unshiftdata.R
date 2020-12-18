@@ -22,28 +22,33 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Inverse of shiftdata
-#' 
-#' Reverse what has been done by \code{shiftdata()}
-#' 
-#' \code{unshiftdata} restores the orientation of the data that was shifted with shiftdata. The permutation vector is given by
-#' \code{perm}, and \code{nshifts} is the number of shifts that was returned from \code{shiftdata()}.
-#' 
-#' \code{unshiftdata} is meant to be used in tandem with \code{shiftdata}. These functions are useful for creating functions that work along a certain dimension, like filter, goertzel, sgolayfilt, and sosfilt.
-#' These functions are useful for creating functions that work along a certain dimension, like \code{\link{filter}},
-#' sgolayfilt, and sosfilt.
-#' 
-#' @param sd A list of objects named \code{x}, \code{perm}, and \code{nshifts}, as returned by \code{shiftdata()}
-#' 
-#' @return Array with the same values and dimensions as passed to a previous call to \code{shiftdata}.
-#' 
+#'
+#' Reverse what has been done by \code{shiftdata()}.
+#'
+#' \code{unshiftdata} restores the orientation of the data that was shifted with
+#' shiftdata. The permutation vector is given by \code{perm}, and \code{nshifts}
+#' is the number of shifts that was returned from \code{shiftdata()}.
+#'
+#' \code{unshiftdata} is meant to be used in tandem with \code{shiftdata}. These
+#' functions are useful for creating functions that work along a certain
+#' dimension, like filter, goertzel, sgolayfilt, and sosfilt. These functions
+#' are useful for creating functions that work along a certain dimension, like
+#' \code{\link{filter}}, \code{\link{sgolayfilt}}, and \code{\link{sosfilt}}.
+#'
+#' @param sd A list of objects named \code{x}, \code{perm}, and \code{nshifts},
+#'   as returned by \code{shiftdata()}
+#'
+#' @return Array with the same values and dimensions as passed to a previous
+#'   call to \code{shiftdata}.
+#'
 #' @examples
-#' 
+#'
 #' ## create a 3x3 magic square
 #' x <- pracma::magic(3)
 #' ## Shift the matrix x to work along the second dimension. The permutation vector,
 #' ## perm, and the number of shifts, nshifts, are returned along with the shifted matrix.
 #' sd <- shiftdata(x, 2)
-#' 
+#'
 #' ## Shift the matrix back to its original shape.
 #' y <- unshiftdata(sd)
 #'
@@ -51,20 +56,20 @@
 #' x <- 1:5
 #' sd <- shiftdata(x)
 #' y <- unshiftdata(sd)
-#' 
-#' @author Original Matlab/Octave code Copyright (C) 2014 Georgios Ouzounis \email{ouzounis_georgios@@hotmail.com}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Georgios Ouzounis, \email{ouzounis_georgios@@hotmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{shiftdata}}
-#' 
+#'
 #' @export
 
 unshiftdata <- function (sd) {
-  
+
   nm <- names(sd)
-  if (!is.list(sd) || !("x" %in% nm && "perm" %in% nm && "nshifts" %in% nm)) 
+  if (!is.list(sd) || !("x" %in% nm && "perm" %in% nm && "nshifts" %in% nm))
     stop('sd must be a list with elements x, perm and nshifts')
-  
+
   if (length(sd$perm) > 0 && !anyNA(sd$perm)) {
     if (!isWhole(sd$perm)) stop(paste0(deparse(substitute(sd)), '$perm must be a vector of integers'))
     dimx = sd$perm[1]
@@ -74,7 +79,7 @@ unshiftdata <- function (sd) {
   } else {
     stop (paste0('Either perm or nshifts must not be empty'))
   }
-  
+
   perm <- dimx
   if (dimx - 1 >= 1) {
     perm <- c(dimx, 1:(dimx - 1))

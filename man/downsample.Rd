@@ -17,7 +17,7 @@ signal.}
 - 1}. Default: 0.}
 }
 \value{
-downsampled signal, returned as a vector or matrix.
+Downsampled signal, returned as a vector or matrix.
 }
 \description{
 Downsample a signal by an integer factor.
@@ -38,8 +38,9 @@ downsample(x, 3)
 }
 \seealso{
 \code{\link{decimate}}, \code{\link{resample}}
+s
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

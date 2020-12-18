@@ -5,7 +5,7 @@
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
+// as published by the Free Software Foundation; either version 3
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-// See also: http://www.gnu.org/licenses/gpl-2.0.txt
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // Version history
 // 20201116  GvB       setup for gsignal v0.1.0
@@ -190,17 +188,17 @@ double *
                         double *xmu_)
   {
     double * w = 0, xmu = 0, * divs = 0, last_extremum_pos = 0;
-    
+
     if (n > 0 && fabs(mu) <= (8*(1+EPSILON))) switch (type) {
     case uswpt_Beta:
       xmu = mu == 1 && par == 1? 1 : par < .5 || par > BETA_MAX? 0 :
       find_zero(n-1, mu, 1, 0, 0, 0, DIVS) / cos(M_PI * par / n);
       break;
-      
+
     case uswpt_AttFirst:
       if (par < 0) break;
       ATTR_FALLTHROUGH;
-      
+
     case uswpt_AttLast:
       if (type == uswpt_AttLast && mu >= 0 && par < 0);
       else if (!EQ(mu,0)) {
@@ -219,16 +217,16 @@ double *
       }
       else xmu = cosh(acosh(pow(10, par/20))/(n-1)); /* Cheby 1st kind */
       break;
-      
+
     default: case uswpt_Xmu: xmu = par; break;
     }
 #if DEBUG_ULTRWIN
     fprintf(stderr, "n=%i mu=%.3f xmu=%.16g\n", n, mu, xmu);
 #endif
-    
+
     if (xmu > 0)
       w = ultraspherical_win(n, mu, xmu);
-    
+
     if (w && (~n & !!even_norm) && n > 2 && !(mu == 1 && xmu == 1)) {
       int i = n / 2 - 1, j = 1;
       double * d = DIVS, t = 0, s = -1, x = even_norm == 1? 0 : last_extremum_pos?
@@ -254,15 +252,15 @@ Nullable<NumericVector> ultrwin (int m, double mu, double par, int par_type, int
 {
     double xmu;
     double *w = ultraspherical_window (m, mu, par, static_cast<uswpt_t>(par_type), even_norm, &xmu);
-    
+
     if (!w)
     {
       return R_NilValue;
     }
-    
+
     NumericVector ww (m);
     for (int i = 0; i < m; i++)
       ww(i) = w[i];
-    
+
     return ww;
 }

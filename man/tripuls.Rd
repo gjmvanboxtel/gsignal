@@ -11,27 +11,28 @@ tripuls(t, w = 1, skew = 0)
 
 \item{w}{Width of the triangular pulse to be generated. Default: 1.}
 
-\item{skew}{Skew, a value between -1 and 1, indicating the relative placement of the peak within the width.
--1 indicates that the peak should be at \code{-w/2}, and 1 indicates that the peak should be at \code{w/2}.
+\item{skew}{Skew, a value between -1 and 1, indicating the relative placement
+of the peak within the width. -1 indicates that the peak should be at
+\code{-w/2}, and 1 indicates that the peak should be at \code{w/2}.
 Default: 0 (no skew).}
 }
 \value{
-triangular pulse, returned as a vector.
+Triangular pulse, returned as a vector.
 }
 \description{
-Generate a triangular pulse over the interval \code{-w/2} to \code{w/2}, sampled at times \code{t}.
+Generate a triangular pulse over the interval \code{-w/2} to \code{w/2},
+sampled at times \code{t}.
 }
 \details{
-\code{y <- tripuls(t)} returns a continuous, aperiodic, symmetric, unity-height triangular pulse at the times indicated in
-array \code{t}, centered about \code{t = 0} and with a default width of 1.
+\code{y <- tripuls(t)} returns a continuous, aperiodic, symmetric,
+unity-height triangular pulse at the times indicated in array \code{t},
+centered about \code{t = 0} and with a default width of 1.
 
 \code{y <- tripuls(t, w)} generates a triangular pulse of width \code{w}.
 
-\code{y <- tripuls(t, w, skew)} generates a triangular pulse with skew \code{skew}, where \eqn{-1 \le skew \le 1}.
-When \code{skew} is 0, a symmetric triangular pulse is generated.
-}
-\note{
-The input argument \code{skew} is called \code{s} in the Matlab signal package
+\code{y <- tripuls(t, w, skew)} generates a triangular pulse with skew
+\code{skew}, where \eqn{-1 \le skew \le 1}. When \code{skew} is 0, a
+symmetric triangular pulse is generated.
 }
 \examples{
 
@@ -54,6 +55,6 @@ lines(t, yfutr, col = "blue")
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2001 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, Mike Miller.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

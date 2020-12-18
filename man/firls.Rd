@@ -18,11 +18,12 @@ frequencies, so the vector must have an even length. .}
 amplitude at each of the points specified in \code{f}.}
 
 \item{w}{weighting function that contains one value for each band that
-weights the mean squared error in that band. \code{w} must be half the length of \code{f}.}
+weights the mean squared error in that band. \code{w} must be half the
+length of \code{f}.}
 }
 \value{
 The FIR filter coefficients, a vector of length \code{n + 1}, of
-  class \code{Ma}
+  class \code{Ma}.
 }
 \description{
 Produce a linear phase filter such that the integral of the weighted mean
@@ -38,13 +39,13 @@ freqz(firls(255, c(0, 0.25, 0.3, 1), c(1, 1, 0, 0)))
 }
 \references{
 [1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
-  Squares" \url{http://cnx.org/content/m10577}
+  Squares", \url{http://cnx.org/content/m10577}
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
   \code{\link{fir1}}
 }
 \author{
-Original Octave code by Quentin Spencer \email{qspencer@ieee.org},
-  Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Quentin Spencer, \email{qspencer@ieee.org}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -10,22 +10,24 @@ hamming(n, method = c("symmetric", "periodic"))
 \item{n}{Window length, specified as a positive integer.}
 
 \item{method}{Character string. Window sampling method, specified as:
-\itemize{
-  \item 'symmetric' (Default). Use this option when using windows for filter design.
-  \item 'periodic'. This option is useful for spectral analysis because it enables a windowed signal to have the perfect
-   periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
-   window of length \code{n + 1} and returns the first \code{n} points.
+\describe{
+  \item{'symmetric'}{(Default). Use this option when using windows for filter design.}
+  \item{'periodic'}{This option is useful for spectral analysis because it
+  enables a windowed signal to have the perfect periodic extension implicit
+  in the discrete Fourier transform. When 'periodic' is specified, the
+  function computes a window of length \code{n + 1} and returns the first
+  \code{n} points.}
 }}
 }
 \value{
-Hamming window, returned as a vector.
+Hamming window, returned as a vector. If you specify a one-point
+  window \code{(n = 1)}, the value 1 is returned.
 }
 \description{
-Return the filter coefficients of a Hamming window of length \code{n}
+Return the filter coefficients of a Hamming window of length \code{n}.
 }
 \details{
-The Hamming window is a member of the family of cosine sum windows. If you specify a one-point window \code{(n = 1)},
-the value 1 is returned.
+The Hamming window is a member of the family of cosine sum windows.
 }
 \examples{
 
@@ -39,6 +41,6 @@ lines(hp, col="red")
 
 }
 \author{
-Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@ci.tuwien.ac.at}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Andreas Weingessel, \email{Andreas.Weingessel@ci.tuwien.ac.at}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

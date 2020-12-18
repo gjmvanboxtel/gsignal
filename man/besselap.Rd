@@ -2,22 +2,30 @@
 % Please edit documentation in R/besselap.R
 \name{besselap}
 \alias{besselap}
-\title{Bessel analog lowpass filter prototype}
+\title{Bessel analog low-pass filter prototype}
 \usage{
 besselap(n)
 }
 \arguments{
-\item{n}{Order of the filter; must be < 25.}
+\item{n}{order of the filter; must be < 25.}
 }
 \value{
-list of class \code{'\link{Zpg}'} containg poles and gain of the filter
+List of class \code{\link{Zpg}} containing poles and gain of the filter
 }
 \description{
-Return the poles and gain of a Bessel analog lowpass filter prototype.
+Return the poles and gain of a Bessel analog low-pass filter prototype.
 }
 \details{
 The transfer function is
-\deqn{H(s) = \frac{k}{(s-p(1))(s-p(2))...(s-p(n))}}
+\if{latex}{
+  \deqn{H(s) = \frac{k}{(s-p(1))(s-p(2))...(s-p(n))}}
+}
+\if{html}{\preformatted{
+                     k
+ H(s) = -----------------------------
+         (s-p(1))(s-p(2))...(s-p(n))
+
+}}
 \code{besselap} normalizes the poles and gain so that at low frequency and
 high frequency the Bessel prototype is asymptotically equivalent to the
 Butterworth prototype of the same order. The magnitude of the filter is less
@@ -26,7 +34,14 @@ than \eqn{1/\sqrt{2}} at the unity cutoff frequency \eqn{\Omega_c = 1}.
 Analog Bessel filters are characterized by a group delay that is maximally
 flat at zero frequency and almost constant throughout the passband. The group
 delay at zero frequency is
-\deqn{\left( \frac{(2n)!}{2^{n}n!} \right) ^{1/n}}
+\if{latex}{
+  \deqn{\left( \frac{(2n)!}{2^{n}n!} \right) ^{1/n}}
+}
+\if{html}{\preformatted{
+   /  (2n!) \ 2
+   | ------ |
+   \ 2^n n! /
+}}
 }
 \examples{
 ## 6th order Bessel low-pass analog filter
@@ -39,6 +54,6 @@ freqs(zp, w)
 \url{http://en.wikipedia.org/wiki/Bessel_polynomials}
 }
 \author{
-Original Octave code by Thomas Sailer. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Thomas Sailer, email{<t.sailer@alumni.ethz.ch>}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -43,6 +43,6 @@ plot(t, q, type ="l")
 
 }
 \author{
-Bill Lash, port to R by Geert van Boxtel
-  \email{gjmvanboxtel@gmail.com}
+Bill Lash.\cr
+Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

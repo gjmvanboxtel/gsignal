@@ -50,6 +50,6 @@ y <- wkeep(x, c(2, 4), c(3, 1))
 
 }
 \author{
-Sylvain Pelissier \email{sylvain.pelissier@gmail.com} port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

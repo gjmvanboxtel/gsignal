@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Cross-covariance
-#' 
-#' Compute covariance at various lags (= correlation(x-mean(x), y-mean(y))). 
-#' 
+#'
+#' Compute covariance at various lags (= correlation(x-mean(x), y-mean(y))).
+#'
 #' @param x Input, numeric or complex vector or matrix. Must not be missing.
 #' @param y Input, numeric or complex vector data.  If \code{x} is a matrix (not
 #'   a vector), \code{y} must be omitted. \code{y} may be omitted if \code{x} is
@@ -46,8 +44,8 @@
 #'   }
 #'  If omitted, the default value is \code{none}. If \code{y} is supplied but
 #'  does not have the same length as \code{x}, scale must be \code{none}.
-#' 
-#' @return A \code{\link{list}} containing the following variables:
+#'
+#' @return A list containing the following variables:
 #' \describe{
 #'   \item{C}{array of covariance estimates}
 #'   \item{lags}{vector of covariance lags \code{[-maxlag:maxlag]}}
@@ -62,16 +60,16 @@
 #'   and \eqn{P^2} columns where \code{P} is the number of columns in \code{x}.
 #' }
 #' @seealso \code{\link{xcorr}}.
-#'  
+#'
 #' @examples
 #' x <- rnorm(1000)
 #' cl <- xcov(x, maxlag = 10, scale = 'coeff')
 #' plot (cl$lags, cl$C, type = "h", xlab = "", ylab = "")
 #' points (cl$lags, cl$C)
 #' abline(h = 0)
-#' 
-#' @author Copyright (C) 1999-2001 Paul Kienzle \email{pkienzle@@users.sf.net},
-#'   port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 

@@ -9,31 +9,42 @@ rssq(x, MARGIN = 2)
 \arguments{
 \item{x}{the data, expected to be a vector, a matrix, an array.}
 
-\item{MARGIN}{a vector giving the subscripts which the function will be applied over. E.g., for a matrix 1 indicates rows,
-2 indicates columns, c(1, 2) indicates rows and columns. Where \code{x} has named dimnames, it can be a character vector
-selecting dimension names. Default: 2 (usually columns)}
+\item{MARGIN}{a vector giving the subscripts which the function will be
+applied over. E.g., for a matrix 1 indicates rows, 2 indicates columns,
+c(1, 2) indicates rows and columns. Where \code{x} has named dimnames, it
+can be a character vector selecting dimension names. Default: 2 (usually
+columns)}
 }
 \value{
-vector or array of values containing the root-sum-of-squares of the specified \code{MARGIN} of \code{x}.
+Vector or array of values containing the root-sum-of-squares of the
+  specified \code{MARGIN} of \code{x}.
 }
 \description{
 Compute the root-sum-of-squares (SSQ) of the object \code{x}.
 }
 \details{
-The input \code{x} can be a vector, a matrix or an array. If the input is a vector, a single value is returned representing
-the root-sum-of-squares of the vector. If the input is a matrix or an array, a vector or an array of values is returned
-representing the root-sum-of-squares of the dimensions of \code{x} indicated by the \code{MARGIN} argument.
+The input \code{x} can be a vector, a matrix or an array. If the input is a
+vector, a single value is returned representing the root-sum-of-squares of
+the vector. If the input is a matrix or an array, a vector or an array of
+values is returned representing the root-sum-of-squares of the dimensions of
+\code{x} indicated by the \code{MARGIN} argument.
 
-Support for complex valued input is provided. The sum of squares of complex numbers is defined by \code{sum(x * Conj(x))}
+Support for complex valued input is provided. The sum of squares of complex
+numbers is defined by \code{sum(x * Conj(x))}
 }
 \note{
-This R implementation of the \code{rssq} function differs from the implementation of the \code{signal} package in Octave
-in that he parameter \code{dim} in the Octave function is replaced here by the \code{MARGIN} argument, which is interpreted
-as in the \code{apply} family of functions. That is, given a \code{r} by \code{c} matrix as input, specifying \code{MARGIN = 1}
-will result in a vector of length \code{r} containing the root-sum-of-squares of the  \code{r} rows, and
-specifying \code{MARGIN = 2} will result in a vector of length \code{c} containing the root-sum-of-squares of 
-the \code{c} columns. In Octave, by contrast, \code{dim = 1} will give a row vector containing the ratios over columns,
-and  \code{dim = 2} will give a column vector containing the ratios over rows.
+This R implementation of the \code{rssq} function differs from the
+  implementation of the \code{signal} package in Octave in that he parameter
+  \code{dim} in the Octave function is replaced here by the \code{MARGIN}
+  argument, which is interpreted as in the \code{apply} family of functions.
+  That is, given a \code{r} by \code{c} matrix as input, specifying
+  \code{MARGIN = 1} will result in a vector of length \code{r} containing the
+  root-sum-of-squares of the  \code{r} rows, and specifying \code{MARGIN = 2}
+  will result in a vector of length \code{c} containing the
+  root-sum-of-squares of the \code{c} columns. In Octave, by contrast,
+  \code{dim = 1} will give a row vector containing the ratios over columns,
+  and  \code{dim = 2} will give a column vector containing the ratios over
+  rows.
 }
 \examples{
 ## numeric vector
@@ -54,6 +65,6 @@ rssq(x)
 
 }
 \author{
-Original Octave code Copyright (C) 2018-2019 Mike Miller.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Mike Miller.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

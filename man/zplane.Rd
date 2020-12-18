@@ -46,9 +46,7 @@ When results of \code{zplane} are printed, \code{plot} will be called.
 }
 \examples{
 ## elliptic low-pass filter
-#elp <- ellip(4, 0.5, 20, 0.4)
-elp <- Arma(b = c(0.1810488, 0.1048651, 0.3111133, 0.1048651, 0.1810488),
-            a = c(1.0000000, -1.1463305, 1.5092587, -0.6975320,  0.2698624))
+elp <- ellip(4, 0.5, 20, 0.4)
 zplane(elp)
 
 }
@@ -59,7 +57,9 @@ zplane(elp)
 \code{\link{freqz}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, Stefan van der Walt
-  \email{stefan@sun.ac.za}, Mike Miller. Port to R by Tom Short; adapted by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Stefan van der Walt \email{stefan@sun.ac.za},\cr
+ Mike Miller.\cr
+  Conversion to R by Tom Short,\cr
+   adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

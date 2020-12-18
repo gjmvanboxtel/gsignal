@@ -13,19 +13,20 @@ and 1 where 1 is the Nyquist frequency.}
 \item{bw}{vector of bandwidths. Bw should be of the same length as \code{w}.}
 }
 \value{
-list of class \code{'\link{Arma}'} with list elements:
+List of class \code{\link{Arma}} with list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
 }
 }
 \description{
-Compute the transfer function coefficients of an IIR narrow-band notch filter
+Compute the transfer function coefficients of an IIR narrow-band notch
+filter.
 }
 \details{
 The filter construction is based on an allpass which performs a reversal of
-phase at the filter frequencies. Thus, the mean of the phase-distorted and the
-original signal has the respective frequencies removed.
+phase at the filter frequencies. Thus, the mean of the phase-distorted and
+the original signal has the respective frequencies removed.
 }
 \examples{
 ## 50 Hz notch filter
@@ -43,7 +44,6 @@ Pei, Soo-Chang, and Tseng, Chien-Cheng "IIR Multiple Notch Filter
 \code{\link{Arma}}, \code{\link{filter}}
 }
 \author{
-# Copyright (C) 2011 Alexander Klein
-  \email{alexander.klein@math.uni-giessen.de}. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Alexander Klein, \email{alexander.klein@math.uni-giessen.de}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

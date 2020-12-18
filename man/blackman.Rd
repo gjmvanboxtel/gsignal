@@ -21,7 +21,7 @@ blackman(n, method = c("symmetric", "periodic"))
 Blackman window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a Blackman window of length \code{n}
+Return the filter coefficients of a Blackman window.
 }
 \details{
 The Blackman window is a member of the family of cosine sum windows.
@@ -38,6 +38,6 @@ lines(bp, col="red")
 
 }
 \author{
-Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@ci.tuwien.ac.at}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Andreas Weingessel, \email{Andreas.Weingessel@ci.tuwien.ac.at}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

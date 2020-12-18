@@ -28,7 +28,7 @@ A list of class \code{\link{Arma}} containing numerator and
   denominator polynomial filter coefficients of the A/D converted filter.
 }
 \description{
-Converts analog filter with coefficients b and a to digital, conserving
+Convert analog filter with coefficients b and a to digital, conserving
 impulse response.
 }
 \details{
@@ -40,15 +40,15 @@ f <- 2
 fs <- 10
 but <- butter(6, 2 * pi * f, 'low', 's')
 zbut <- impinvar(but, fs)
-freqz(zbut, n = 1024, fs = fs) 
- 
+freqz(zbut, n = 1024, fs = fs)
+
 }
 \seealso{
-\code{invimpinvar}
+\code{\link{invimpinvar}}
 }
 \author{
-Original Octave version by Tony Richardson
-  \email{arichard@stark.cc.oh.us}, Ben Abbott \email{bpabbott@mac.com},
-  adapted by John W. Eaton. Conversion to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}
+Tony Richardson, \email{arichard@stark.cc.oh.us},\cr
+ Ben Abbott, \email{bpabbott@mac.com},\cr
+  adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

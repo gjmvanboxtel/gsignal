@@ -15,41 +15,50 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; see the file COPYING. If not, see
-# <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # 20191215 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Kaiser window
-#' 
-#' Return the filter coefficients of a kaiser window of length \code{n}
-#' 
-#' The Kaiser, or Kaiser-Bessel, window is a simple approximation of the DPSS window using Bessel functions, discovered
-#' by James Kaiser.
-#' \deqn{w(x) = frac{besselI(0, \beta * \sqrt{(1 - (2*x/m)^{2}))}}{besseli(0, \beta)} , m/2 <= x <= m/2}
-#' Variable parameter \eqn{\beta} determines the tradeoff between main lobe width and side lobe levels of the spectral
-#' leakage pattern. Increasing \eqn{\beta} widens the mainlobe and decreases the amplitude of the sidelobes
+#'
+#' Return the filter coefficients of a kaiser window of length \code{n}.
+#'
+#' The Kaiser, or Kaiser-Bessel, window is a simple approximation of the DPSS
+#' window using Bessel functions, discovered by James Kaiser.
+#' \if{latex}{
+#'   \deqn{w(x) = \frac{besselI(0, \beta \cdot \sqrt{(1 - (2*x/m)^{2}))}}{besselI(0, \beta)}; -m/2 <= x <= m/2}
+#' }
+#' \if{html}{\preformatted{
+#'         besselI(0, Beta * sqrt(1-(2*x/m)^2))
+#' k(x) =  -------------------------------------,  -m/2 <= x <= m/2
+#'         besselO(0, Beta)
+#' }}
+#' The variable parameter \eqn{\beta} determines the tradeoff between main lobe
+#' width and side lobe levels of the spectral leakage pattern. Increasing
+#' \eqn{\beta} widens the mainlobe and decreases the amplitude of the sidelobes
 #' (i.e., increases the attenuation).
-#' 
+#'
 #' @param n Window length, specified as a positive integer.
-#' @param beta Shape factor, specified as a positive real scalar. The parameter \code{beta} affects the sidelobe attenuation
-#' of the Fourier transform of the window. Default: 0.5
-#' 
-#' @return kaiser window, returned as a vector.
-#' 
+#' @param beta Shape factor, specified as a positive real scalar. The parameter
+#'   \code{beta} affects the sidelobe attenuation of the Fourier transform of
+#'   the window. Default: 0.5
+#'
+#' @return Kaiser window, returned as a vector.
+#'
 #' @examples
-#' 
+#'
 #' k <- kaiser(200, 2.5)
 #' plot (k, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
-#' @author Original Octave code Copyright (C) 1995, 1996, 1997 Kurt Hornik \email{Kurt.Hornik@@ci.tuwien.ac.at},
-#' Copyright (C) 2000 Paul Kienzle \email{pkienzle@@users.sf.net}. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Kurt Hornik, \email{Kurt.Hornik@@ci.tuwien.ac.at},\cr
+#' Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#'  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 kaiser <- function (n, beta = 0.5) {
-  
+
   if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   if (!isScalar(beta) || !is.double(beta)) stop ("beta must be a real scalar")
 

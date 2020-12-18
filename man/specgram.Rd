@@ -21,8 +21,9 @@ specgram(
 
 \item{fs}{Sample rate in Hz. Default: 2}
 
-\item{window}{Either an integer indicating the length of a Hanning window, or a vector of values representing
-the shape of the FFT tapering window. Default: hanning(n)}
+\item{window}{Either an integer indicating the length of a Hanning window, or
+a vector of values representing the shape of the FFT tapering window.
+Default: hanning(n)}
 
 \item{overlap}{Overlap with previous window. Default: half the window length}
 
@@ -42,59 +43,84 @@ A list of class \code{specgram} consisting of the following elements:
 Spectrogram using short-time Fourier transform.
 }
 \details{
-Generate a spectrogram for the signal \code{x}. The signal is chopped into overlapping segments of length \code{n},
-and each segment is windowed and transformed into the frequency domain using the FFT. The default segment size is 256.
-If \code{fs} is given, it specifies the sampling rate of the input signal. The argument \code{window} specifies an
-alternate window to apply rather than the default of \code{hanning (n)}. The argument overlap specifies the number of
-samples overlap between successive segments of the input signal. The default overlap is \code{length (window)/2}.
+Generate a spectrogram for the signal \code{x}. The signal is chopped into
+overlapping segments of length \code{n}, and each segment is windowed and
+transformed into the frequency domain using the FFT. The default segment size
+is 256. If \code{fs} is given, it specifies the sampling rate of the input
+signal. The argument \code{window} specifies an alternate window to apply
+rather than the default of \code{hanning (n)}. The argument overlap specifies
+the number of samples overlap between successive segments of the input
+signal. The default overlap is \code{length (window)/2}.
 
-When results of \code{specgram} are printed, a spectrogram will be plotted. As with \code{lattice} plots, automatic
-printing does not work inside loops and function calls, so explicit calls to \code{print} or \code{plot} are needed there.
+When results of \code{specgram} are printed, a spectrogram will be plotted.
+As with \code{lattice} plots, automatic printing does not work inside loops
+and function calls, so explicit calls to \code{print} or \code{plot} are
+needed there.
 
-The choice of window defines the time-frequency resolution. In speech for example, a wide window shows more harmonic detail
-while a narrow window averages over the harmonic detail and shows more formant structure. The shape of the window is not so
-critical so long as it goes gradually to zero on the ends.
+The choice of window defines the time-frequency resolution. In speech for
+example, a wide window shows more harmonic detail while a narrow window
+averages over the harmonic detail and shows more formant structure. The shape
+of the window is not so critical so long as it goes gradually to zero on the
+ends.
 
-Step size (which is window length minus overlap) controls the horizontal scale of the spectrogram. Decrease it to stretch,
-or increase it to compress. Increasing step size will reduce time resolution, but decreasing it will not improve it much
-beyond the limits imposed by the window size (you do gain a little bit, depending on the shape of your window, as the peak
-of the window slides over peaks in the signal energy). The range 1-5 msec is good for speech.
+Step size (which is window length minus overlap) controls the horizontal
+scale of the spectrogram. Decrease it to stretch, or increase it to compress.
+Increasing step size will reduce time resolution, but decreasing it will not
+improve it much beyond the limits imposed by the window size (you do gain a
+little bit, depending on the shape of your window, as the peak of the window
+slides over peaks in the signal energy). The range 1-5 msec is good for
+speech.
 
-FFT length controls the vertical scale. Selecting an FFT length greater than the window length does not add any information
-to the spectrum, but it is a good way to interpolate between frequency points which can make for prettier spectrograms.
+FFT length controls the vertical scale. Selecting an FFT length greater than
+the window length does not add any information to the spectrum, but it is a
+good way to interpolate between frequency points which can make for prettier
+spectrograms.
 
-AFTER you have generated the spectral slices, there are a number of decisions for displaying them. First the phase information
-is discarded and the energy normalized:
+AFTER you have generated the spectral slices, there are a number of decisions
+for displaying them. First the phase information is discarded and the energy
+normalized:
 
 \code{S <- abs(S); S <- S / max(S)}
- 
-Then the dynamic range of the signal is chosen. Since information in speech is well above the noise floor, it makes sense
-to eliminate any dynamic range at the bottom end. This is done by taking the max of the magnitude and some minimum energy
-such as minE = -40dB. Similarly, there is not much information in the very top of the range, so clipping to a maximum energy
-such as maxE = -3dB makes sense:
+
+Then the dynamic range of the signal is chosen. Since information in speech
+is well above the noise floor, it makes sense to eliminate any dynamic range
+at the bottom end. This is done by taking the max of the magnitude and some
+minimum energy such as minE = -40dB. Similarly, there is not much information
+in the very top of the range, so clipping to a maximum energy such as maxE =
+-3dB makes sense:
 
 \code{S <- max(S, 10^(minE / 10)); S <- min(S, 10^(maxE / 10))}
 
-The frequency range of the FFT is from 0 to the Nyquist frequency of one half the sampling rate. If the signal of interest
-is band limited, you do not need to display the entire frequency range. In speech for example, most of the signal is below 4 kHz,
-so there is no reason to display up to the Nyquist frequency of 10 kHz for a 20 kHz sampling rate. In this case you will want
-to keep only the first 40% of the rows of the returned \code{S} and \code{f}. More generally, to display the frequency range from
-minF to maxF, you could use the following row index:
+The frequency range of the FFT is from 0 to the Nyquist frequency of one half
+the sampling rate. If the signal of interest is band limited, you do not need
+to display the entire frequency range. In speech for example, most of the
+signal is below 4 kHz, so there is no reason to display up to the Nyquist
+frequency of 10 kHz for a 20 kHz sampling rate. In this case you will want to
+keep only the first 40% of the rows of the returned \code{S} and \code{f}.
+More generally, to display the frequency range from minF to maxF, you could
+use the following row index:
 
 \code{idx <- (f >= minF & f <= maxF)}
 
-Then there is the choice of colormap. A brightness varying colormap such as copper or bone gives good shape to the ridges
-and valleys. A hue varying colormap such as jet or hsv gives an indication of the steepness of the slopes. In the field that 
-I am working in (neuroscience / electrophysiology) rainbow color palettes such as jet are very often used. This is an unfortunate
-choice mainly because (a) colors do not have a natural order, and (b) rainbow palettes are not perceptually linear. It would be
-better to use a grayscale palette or the 'cool-to-warm' scheme. The examples show how to do this in R.
+Then there is the choice of colormap. A brightness varying colormap such as
+copper or bone gives good shape to the ridges and valleys. A hue varying
+colormap such as jet or hsv gives an indication of the steepness of the
+slopes. In the field that I am working in (neuroscience / electrophysiology)
+rainbow color palettes such as jet are very often used. This is an
+unfortunate choice mainly because (a) colors do not have a natural order, and
+(b) rainbow palettes are not perceptually linear. It would be better to use a
+grayscale palette or the 'cool-to-warm' scheme. The examples show how to do
+this in R.
 
-The final spectrogram is displayed in log energy scale and by convention has low frequencies on the bottom of the image.
+The final spectrogram is displayed in log energy scale and by convention has
+low frequencies on the bottom of the image.
 }
 \note{
-The Port to R by Tom Short used S3 methods to produce the plot. This version does not do that.
-Perhaps this needs to change later, but for now I just implemented a plot argument and additional arguments
-that are passed to the \code{image} function. The results of the \code{specgram} function are returned invisibly.
+The Conversion to R by Tom Short used S3 methods to produce the plot.
+  This version does not do that. Perhaps this needs to change later, but for
+  now I just implemented a plot argument and additional arguments that are
+  passed to the \code{image} function. The results of the \code{specgram}
+  function are returned invisibly.
 }
 \examples{
 
@@ -111,6 +137,7 @@ specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000, c
 
 }
 \author{
-Original Octave code Copyright (C) 1999-2001 Paul Kienzle \email{pkienzle@users.sf.net}.
-Original conversion to R by Tom Short. This port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Tom Short\cr
+This conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -46,11 +46,6 @@ recursion (particularly split Levinson recursion) tends to be faster
 computationally, but more sensitive to computational inaccuracies like
 round-off errors.
 }
-\note{
-The function \code{mscohere} (and its deprecated alias \code{cohere})
-  is a wrapper for the function \code{pwelch}, which is more complete and
-  more flexible.
-}
 \examples{
 ## Estimate the coefficients of an autoregressive process given by
 ## x(n) = 0.1x(n-1) - 0.8x(n-2) - 0.27x(n-3) + w(n).
@@ -61,16 +56,16 @@ x <- filter(1, a, w)
 xc <- xcorr(x, scale = 'biased')
 acf <- xc$R[-which(xc$lags < 0)]
 lev <- levinson(acf, length(a) - 1)
- 
+
 }
 \references{
-[1] Steven M. Kay and Stanley Lawrence Marple Jr.: "Spectrum
-  analysis – a modern perspective", Proceedings of the IEEE, Vol 69, pp
-  1380-1419, Nov., 1981.\cr
+[1] Steven M. Kay and Stanley Lawrence Marple Jr. (1981).
+  Spectrum analysis – a modern perspective. Proceedings of the IEEE, Vol 69,
+  1380-1419.\cr
   [2] \url{https://en.wikipedia.org/wiki/Levinson_recursion}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}, Peter V. Lanspeary
-  \email{pvl@mecheng.adelaide.edu.au}; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

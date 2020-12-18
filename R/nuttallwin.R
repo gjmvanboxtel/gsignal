@@ -21,40 +21,46 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Nuttall-defined minimum 4-term Blackman-Harris window
-#' 
-#' Return the filter coefficients of a Blackman-Harris window defined by Nuttall of length \code{n}
-#' 
-#' The window is minimum in the sense that its maximum sidelobes are minimized. The coefficients for this window
-#' differ from the Blackman-Harris window coefficients computed with \code{blackmanharris} and produce slightly lower sidelobes.
-#' 
+#'
+#' Return the filter coefficients of a Blackman-Harris window defined by Nuttall
+#' of length \code{n}.
+#'
+#' The window is minimum in the sense that its maximum sidelobes are minimized.
+#' The coefficients for this window differ from the Blackman-Harris window
+#' coefficients computed with \code{blackmanharris} and produce slightly lower
+#' sidelobes.
+#'
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
-#' \itemize{
-#'   \item 'symmetric' (Default). Use this option when using windows for filter design.
-#'   \item 'periodic'. This option is useful for spectral analysis because it enables a windowed signal to have the perfect
-#'    periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
-#'    window of length \code{n + 1} and returns the first \code{n} points.
+#' \describe{
+#'   \item{'symmetric'}{(Default). Use this option when using windows for filter
+#'   design.}
+#'   \item{'periodic'}{This option is useful for spectral analysis because it
+#'   enables a windowed signal to have the perfect periodic extension implicit
+#'   in the discrete Fourier transform. When 'periodic' is specified, the
+#'   function computes a window of length \code{n + 1} and returns the first
+#'   \code{n} points.}
 #' }
-#' 
+#'
 #' @return Nuttall-defined Blackman-Harris window, returned as a vector.
-#' 
+#'
 #' @examples
-#' 
+#'
 #' n <- nuttallwin(64)
 #' plot (n, type = "l", xlab = "Samples", ylab =" Amplitude")
 #'
-#' @seealso \code{link{blackman}}, \code{\link{blackmanharris}} 
+#' @seealso \code{\link{blackman}}, \code{\link{blackmanharris}}
 
-#' @author Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{<sylvain.pelissier@@gmail.com>}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Sylvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 nuttallwin <- function (n, method = c('symmetric', 'periodic')) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   method <- match.arg(method)
-  
+
   if (method == "periodic") {
     N <- n
   } else if (method == 'symmetric') {
@@ -62,7 +68,7 @@ nuttallwin <- function (n, method = c('symmetric', 'periodic')) {
   } else {
     stop ("method must be either 'periodic' or 'symmetric'")
   }
-  
+
   if (n == 1) {
     w <- 1
   } else {

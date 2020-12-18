@@ -16,10 +16,10 @@ a positive scalar value. Default: 1}
 vector relatove to \code{x[0]} (not real time).}
 }
 \value{
-reconstructed signal x(t), returned as a vector
+Reconstructed signal x(t), returned as a vector.
 }
 \description{
-Analog signal reconstruction from discrete samples
+Analog signal reconstruction from discrete samples.
 }
 \details{
 Given a discrete signal x[n] sampled with a frequency of \code{fs} Hz, this
@@ -52,6 +52,6 @@ legend("topright", legend = c("original", "aliased", "non-aliased"),
 
 }
 \author{
-Muthiah Annamalai \email{muthiah.annamalai@uta.edu}; port to R by
-  Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
+Muthiah Annamalai, \email{muthiah.annamalai@uta.edu}.
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -21,56 +21,68 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev window
-#' 
-#' Return the filter coefficients of a Dolph-Chebyshev window of length \code{n}
-#' 
+#'
+#' Return the filter coefficients of a Dolph-Chebyshev window.
+#'
 #' The window is described in frequency domain by the expression:
-#' 
-#' \deqn{W(k) = \frac{Cheb(m-1, \beta * cos(pi * k/m))}{Cheb(m-1, \beta)}}
+#' \if{latex}{
+#'   \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1, \beta)}}
+#' }
+#' \if{html}{\preformatted{
+#'                 Cheb(m-1, Beta * cos(\pi * k/m))
+#'          W(k) = ---------------------------------
+#'                       Cheb(m-1, Beta)
+#' }}
 #' with
-#' \deqn{\beta = cosh(1/(m-1) * acosh(10^{(at/20)})}
-#' and and Cheb(m,x) denoting the m-th order Chebyshev polynomial calculated at the point x.
-#' 
-#' Note that the denominator in W(k) above is not computed, and after the inverse Fourier transform the window is scaled
-#' by making its maximum value unitary.
-#' 
-#' If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
-#' 
+#' \if{latex}{
+#'   \deqn{\beta = cosh(1/(m-1) \cdot acosh(10^{(at/20)})}
+#' }
+#' \if{html}{\preformatted{
+#'   Beta = cosh(1/(m-1) * acosh(10^(at/20))
+#' }}
+#' and and \eqn{Cheb(m,x)} denoting the \eqn{m}-th order Chebyshev polynomial
+#' calculated at the point \eqn{x}.
+#'
+#' Note that the denominator in W(k) above is not computed, and after the
+#' inverse Fourier transform the window is scaled by making its maximum value
+#' unitary.
+#'
 #' @param n Window length, specified as a positive integer.
-#' @param at Stop-band attenuation in dB. Default: 100
-#' 
-#' @return triangular window, returned as a vector.
-#' 
+#' @param at Stop-band attenuation in dB. Default: 100.
+#'
+#' @return Chebyshev window, returned as a vector. If you specify a one-point
+#'   window \code{(n = 1)}, the value 1 is returned.
+#'
 #' @examples
-#' 
+#'
 #' cw <- chebwin(64)
 #' plot (cw, type = "l", xlab = "Samples", ylab =" Amplitude")
 #'
-#' 
-#' @author Original Octave code Copyright (C) 2002 André Carezia \email{acarezia@@uol.com.br}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author André Carezia, \email{acarezia@@uol.com.br}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 chebwin <- function (n, at = 100) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   if (!isScalar(at) || ! is.double(at) || n <= 0) stop ("at must be a real scalar")
-  
+
   if (n == 1) {
     w <- 1
   } else {
     ## beta calculation
     gamma <- 10^(-at / 20)
     beta <- cosh(1 / (n - 1) * acosh(1 / gamma))
-    
+
     ## freq. scale
     k <- 0:(n - 1)
     x <- beta * cos(pi * k / n)
-    
+
     ## Chebyshev window (freq. domain)
     p <- cheb(n - 1, x)
-    
+
     ## inverse Fourier transform
     if (n %% 2) {
       w <- Re(stats::fft(p))
@@ -86,7 +98,7 @@ chebwin <- function (n, at = 100) {
       w <- c(w[M:2], w[2:M])
     }
   }
-  
+
   w <- w / max(w)
   w
 }

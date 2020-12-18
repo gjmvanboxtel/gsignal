@@ -25,7 +25,7 @@ output signal, returned as a vector or matrix. Each column has length
   \code{ceiling(((length(x) - 1) * p + length(h)) / q)}.
 }
 \description{
-Filter and resample a signal using polyphase interpolation
+Filter and resample a signal using polyphase interpolation.
 }
 \details{
 upfirdn performs a cascade of three operations:
@@ -80,5 +80,5 @@ points(ty, y, col = "red", pch = 2)
 \code{\link{fir1}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

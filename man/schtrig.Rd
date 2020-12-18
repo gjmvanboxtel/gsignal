@@ -35,10 +35,11 @@ a \code{\link{list}} containing the following variables:
 Multisignal Schmitt trigger with levels.
 }
 \details{
-The trigger works compares each column in \code{x} to the levels in \code{lvl}, when
-the value is higher than \code{max(lvl)}, the output \code{v} is high (i.e. 1); when the
-value is below \code{min(lvl)} the output is low (i.e. 0); and when
-the value is between the two levels the output retains its value.
+The trigger works compares each column in \code{x} to the levels in
+\code{lvl}, when the value is higher than \code{max(lvl)}, the output
+\code{v} is high (i.e. 1); when the value is below \code{min(lvl)} the output
+is low (i.e. 0); and when the value is between the two levels the output
+retains its value.
 }
 \examples{
 t <- seq(0, 1, length.out = 100)
@@ -60,6 +61,6 @@ par(op)
 \code{\link{clustersegment}}
 }
 \author{
-Juan Pablo Carbajal \email{carbajal@ifi.uzh.ch}; port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Juan Pablo Carbajal, \email{carbajal@ifi.uzh.ch}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

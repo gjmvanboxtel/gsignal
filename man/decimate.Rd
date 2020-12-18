@@ -43,6 +43,6 @@ points(t[seq(1, 121, 4)] * 1000, y[1:31], col = "red")
 \code{\link{cheby1}}, \code{\link{fir1}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

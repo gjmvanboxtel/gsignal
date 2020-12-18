@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201023  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Fast Walsh-Hadamard Transform
-#' 
-#' Compute the (inverse) Fast Walsh-Hadamard transform of a signal
-#' 
+#'
+#' Compute the (inverse) Fast Walsh-Hadamard transform of a signal.
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal. \code{fwht} operates only on signals with length equal to a power
@@ -33,31 +31,32 @@
 #'   padded with zeros to the next greater power of two before processing.
 #' @param n transform length, specified as a positive integer scalar. Default:
 #'   \code{NROW(x)}.
-#' @param ordering order of the Walsh Hadamard transform coefficients, one of:
+#' @param ordering order of the Walsh-Hadamard transform coefficients, one of:
 #' \describe{
 #'   \item{sequency}{(Default) Coefficients in order of increasing sequency
 #'     value, where each row has an additional zero crossing.}
 #'   \item{hadamard}{Coefficients in normal Hadamard order}
-#'   \item{dyadic}{Coefficients in Gray code order, where a single bit change occurs from one coefficient to the next}
+#'   \item{dyadic}{Coefficients in Gray code order, where a single bit change
+#'   occurs from one coefficient to the next}
 #' }
-#'  
-#' @return (inverse) Fast Walsh Hadamard transform, returned as a vector or
+#'
+#' @return (Inverse) Fast Walsh Hadamard transform, returned as a vector or
 #'   matrix.
-#'  
+#'
 #' @examples
 #' x <- c(19, -1, 11, -9, -7, 13, -15, 5)
 #' X <- fwht(x)
-#'  
+#'
 #' all.equal(x, ifwht(X))
 #' # [1] TRUE
-#' 
-#' @author Mike Miller; port to R by Geert van Boxtel,
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Mike Miller.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @references \url{https://en.wikipedia.org/wiki/Hadamard_transform}
 #' @references \url{https://en.wikipedia.org/wiki/Fast_Walsh-Hadamard_transform}
 #'
-#' @rdname fwht 
+#' @rdname fwht
 #' @export
 
 ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic")) {
@@ -66,7 +65,7 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
     stop('x must be a numeric or vector or matrix')
   }
-  
+
   if (is.vector(x)) {
     vec <- TRUE
     x <- as.matrix(x, ncol = 1)
@@ -75,7 +74,7 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
   }
   nr <- nrow(x)
   nc <- ncol(x)
-  
+
   if(!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
@@ -84,13 +83,13 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
   if (n != nr) {
     x <- postpad(x, n)
   }
-  
+
   ordering <- match.arg(ordering)
-  
+
   # Zero-based index for normal Hadamard ordering
   idx = seq(0, n - 1)
   nbits = floor(log2(max(idx))) + 1   # number of significant bits
-  
+
   # Gray code permutation of index for alternate orderings
   idx_bin <- matrix(0, n, nbits)
   if (ordering == "dyadic") {
@@ -109,17 +108,17 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
   } else {
     idx <- idx + 1
   }
-  
+
   # do the transform
   if (n < 2) {
     y <- x
   } else {
     y <- .Call("_gsignal_fwht", PACKAGE = "gsignal", x)
   }
-  
+
   # apply ordering
   y <- y[idx, ]
-  
+
   # cleanup and exit
   if (vec) {
     y <- as.vector(y)
@@ -129,9 +128,9 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
 
 #' @rdname fwht
 #' @export
- 
+
  fwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic")) {
-   
+
    if(!isPosscal(n) || !isWhole(n)) {
      stop("n must be a positive integer")
    }
@@ -140,4 +139,3 @@ ifwht <- function (x, n = NROW(x), ordering = c("sequency", "hadamard", "dyadic"
    y <- y / n
    y
  }
- 

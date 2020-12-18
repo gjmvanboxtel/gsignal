@@ -11,7 +11,8 @@ FilterSpecs(n, Wc, type, ...)
 
 \item{Wc}{cutoff frequency.}
 
-\item{type}{filter type, normally one of "low", "high", "stop", or "pass".}
+\item{type}{filter type, normally one of \code{"low"}, \code{"high"},
+\code{"stop"}, or \code{"pass"}.}
 
 \item{...}{other filter description characteristics, possibly including Rp
 for dB of pass band ripple or Rs for dB of stop band ripple, depending on
@@ -23,7 +24,8 @@ A list of class \code{'FilterSpecs'} with the following list elements
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}
-  \item{type}{filter type, normally one of "low", "high", "stop", or "pass".}
+  \item{type}{filter type, normally one of \code{"low"}, \code{"high"},
+  \code{"stop"}, or \code{"pass"}.}
   \item{...}{other filter description characteristics, possibly including Rp
   for dB of pass band ripple or Rs for dB of stop band ripple, depending on
   filter type (Butterworth, Chebyshev, etc.).}
@@ -38,9 +40,11 @@ filt <- FilterSpecs(3, 0.1, "low")
 
 }
 \seealso{
-\code{\link{filter}}, butter and buttord, cheby1 and cheb1ord, ellip and ellipord.
+\code{\link{filter}}, \code{\link{butter}} and
+  \code{\link{buttord}}, \code{\link{cheby1}} and \code{\link{cheb1ord}},
+  \code{\link{ellip}} and \code{\link{ellipord}}.
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}, renamed and adapted by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Tom Short, \email{tshort@eprisolutions.com},\cr
+ renamed and adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

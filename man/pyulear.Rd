@@ -2,7 +2,7 @@
 % Please edit documentation in R/pyulear.R
 \name{pyulear}
 \alias{pyulear}
-\title{Autoregressive PSD estimate - Yule-Walter method}
+\title{Autoregressive PSD estimate - Yule-Walker method}
 \usage{
 pyulear(
   x,
@@ -72,6 +72,6 @@ pyulear(y, 4)
 \code{\link{ar_psd}}, \code{\link{arburg}}
 }
 \author{
-Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au>}. Port to R
-  by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au>}.\cr
+Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

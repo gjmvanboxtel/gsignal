@@ -63,5 +63,5 @@ plot(t, cep, type="l")
 \code{\link{rceps}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

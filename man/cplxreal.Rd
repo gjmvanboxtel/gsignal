@@ -10,7 +10,7 @@ cplxreal(z, tol = 100 * .Machine$double.eps, dim = 2)
 \item{z}{Vector, matrix, or array of complex numbers.}
 
 \item{tol}{Weighting factor \code{0 < tol < 1}, which determines the
-tolerance of matching. Default: 100 * .Machine$double.eps.}
+tolerance of matching. Default: \code{100 * .Machine$double.eps}.}
 
 \item{dim}{Dimension along which to sort the complex pairs. Default: 2
 (columns).}
@@ -19,8 +19,8 @@ tolerance of matching. Default: 100 * .Machine$double.eps.}
 A list containing two variables:
 \describe{
   \item{zc}{Vector, matrix or array containing ordered complex conjugate pairs
-  by increasing real parts. Only the positive imaginary complex numbers of each 
-  complex xonjugate pair are returned.}
+  by increasing real parts. Only the positive imaginary complex numbers of each
+  complex conjugate pair are returned.}
   \item{zr}{Vector, matrix or array containg ordered real numbers.}
 }
 }
@@ -28,7 +28,7 @@ A list containing two variables:
 Sort numbers into into complex-conjugate-valued and real-valued elements.
 }
 \details{
-An error is signalled if some complex numbers could not be paired and if all
+An error is signaled if some complex numbers could not be paired and if all
 complex numbers are not exact conjugates (to within tol). Note that here is
 no defined order for pairs with identical real parts but differing imaginary
 parts.

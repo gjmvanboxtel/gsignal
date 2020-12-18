@@ -22,9 +22,10 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Full width at half maximum
-#' 
-#' Compute peak full-width at half maximum or at another level of peak maximum for vector or matrix
-#' 
+#'
+#' Compute peak full-width at half maximum or at another level of peak maximum
+#' for a vector or matrix.
+#'
 #' @param x samples at which \code{y} is measured, specified as a vector. I.e.,
 #'   \code{y} is sampled as \code{y[x]}. Default: \code{seq_len(length(y))}.
 #' @param y signal to find the width of. If \code{y} is a matrix, widths of all
@@ -35,11 +36,11 @@
 #'   \item{\code{'middle' | 'min'}}{\code{min(y) + max(y)}}
 #'   \item{\code{'absolute'}}{an absolute level of \code{y}}
 #' }
-#' @param level the level at which to compute the width. Deafault: 0.5.
-#' 
-#' @return full width at half maximum, returned as a vector with a length equal
+#' @param level the level at which to compute the width. Default: 0.5.
+#'
+#' @return Full width at half maximum, returned as a vector with a length equal
 #'   to the number of columns in \code{y}, or 1 in case of a vector.
-#' 
+#'
 #' @examples
 #' x <- seq(-pi, pi, 0.001)
 #' y <- cos(x)
@@ -53,9 +54,9 @@
 #'        rect(f, usr[3], t, usr[4], col = rgb(0, 1, 0, 0.4), border = NA)
 #'      })
 #' abline(h = max(y) / 2, lty = 2, col = "gray")
-#' 
-#' @author Original Octave code Petr Mikulik (2009). Port to R by Geert van
-#'   Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Petr Mikulik.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

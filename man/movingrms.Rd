@@ -26,7 +26,7 @@ A \code{\link{list}} containg 2 variables:
 }
 }
 \description{
-Compute the moving root mean square (RMS) of the input signal
+Compute the moving root mean square (RMS) of the input signal.
 }
 \details{
 The signal is convoluted against a sigmoid window of width \code{w} and
@@ -45,7 +45,7 @@ plot(t, x, type = "l", col = "red", xlab = "", ylab = "")
 lines(t, ret$rmsx, lwd = 4, col = "black")
 polygon(c(0, t, length(t)), c(0, ret$rmsx, 0), col = "blue")
 lines (t, ret$w, lwd = 2, col = "green")
-legend("topleft", c("data", "window", "movingrms"), lty = 1, 
+legend("topleft", c("data", "window", "movingrms"), lty = 1,
 col = c("red", "green", "blue"))
 
 }
@@ -53,6 +53,6 @@ col = c("red", "green", "blue"))
 \code{\link{sigmoid_train}}
 }
 \author{
-Juan Pablo Carbajal \email{carbajal@ifi.uzh.ch}, port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Juan Pablo Carbajal, \email{carbajal@ifi.uzh.ch}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

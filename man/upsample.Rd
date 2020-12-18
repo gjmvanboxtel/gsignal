@@ -18,7 +18,7 @@ upsampled by inserting \code{n - 1} zeros between samples.}
 - 1}. Default: 0.}
 }
 \value{
-upsampled signal, returned as a vector or matrix.
+Upsampled signal, returned as a vector or matrix.
 }
 \description{
 Upsample a signal by an integer factor.
@@ -37,6 +37,6 @@ upsample(x, 3)
   \code{\link{decimate}}, \code{\link{resample}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

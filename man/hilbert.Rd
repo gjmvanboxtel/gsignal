@@ -53,6 +53,7 @@ legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"), col = c("green", "b
   \url{https://en.wikipedia.org/wiki/Analytic_signal}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, Peter L. Soendergaard.
-  Port to R by Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Peter L. Soendergaard.\cr
+ Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

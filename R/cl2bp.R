@@ -21,33 +21,33 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Constrained L2 bandpass FIR filter design
-#' 
-#' Constrained least squars bandpass FIR filter design without specified
+#'
+#' Constrained least square bandpass FIR filter design without specified
 #' transition bands.
-#' 
+#'
 #' This is a fast implementation of the algorithm cited below. Compared to
 #' \code{remez}, it offers implicit specification of transition bands, a higher
 #' likelihood of convergence, and an error criterion combining features of both
 #' L2 and Chebyshev approaches
-#' 
-#' @param m  degree of cosine polynomial, resulting in a filter of length 2 * m
-#'   + 1. Must be an even number. Default: 30
-#' @param w1,w2 bandpass filter cutoffs in the range 0 <= w1 < w2 <= pi, where
-#'   pi is the Nyquist frequency.
-#' @param up vector of 3 upper bounds for [stopband1, passband, stopband2].
-#' @param lo vector of 3 lower bounds for [stopband1, passband, stopband2].
+#'
+#' @param m  degree of cosine polynomial, resulting in a filter of length
+#'   \code{2 * m + 1}. Must be an even number. Default: 30.
+#' @param w1,w2 bandpass filter cutoffs in the range \code{0 <= w1 < w2 <= pi},
+#'   where pi is the Nyquist frequency.
+#' @param up vector of 3 upper bounds for c(stopband1, passband, stopband2).
+#' @param lo vector of 3 lower bounds for c(stopband1, passband, stopband2).
 #' @param L search grid size; larger values may improve accuracy, but greatly
-#'   increase calculation time. Default: 2048, maximum: 1000000.
-#' 
+#'   increase calculation time. Default: 2048, maximum: 1e6.
+#'
 #' @return The FIR filter coefficients, a vector of length \code{2 * m + 1}, of
-#'   class \code{Ma}
-#'   
+#'   class \code{Ma}.
+#'
 #' @references Selesnick, I.W., Lang, M., and Burrus, C.S. (1998) A modified algorithm
 #'   for constrained least square design of multiband FIR filters without
 #'   specified transition bands. IEEE Trans. on Signal Processing,
 #'   46(2), 497-501. \cr
 #'   \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}
-#' 
+#'
 #' @examples
 #' w1 <- 0.3 * pi
 #' w2 <- 0.6 * pi
@@ -55,12 +55,12 @@
 #' lo <- c(-0.02, 0.98, -0.02)
 #' h  <- cl2bp(30, w1, w2, up, lo, 2^11)
 #' freqz(h)
-#' 
+#'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{remez}}
-#' 
-#' @author Original Matlab code by Ivan Selesnick, Rice University, 1995,
-#'   downloaded from \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}.
-#'   Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Ivan Selesnick, Rice University, 1995,
+#'   downloaded from \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
@@ -85,7 +85,7 @@ cl2bp <- function(m = 30, w1, w2, up, lo, L = 2048) {
 
   # ----- calculate Fourier coefficients and upper ---
   # ----- and lower bound functions ------------------
-    
+
   q1 <- round(L * w1 / pi)
   q2 <- round(L * (w2 - w1) / pi)
   q3 <- L + 1 - q1 - q2
@@ -141,7 +141,7 @@ cl2bp <- function(m = 30, w1, w2, up, lo, L = 2048) {
       d <- d[-K]
       mu <- pracma::mldivide(G %*% t(G), G %*% c - d, pinv = FALSE)
       if (K > n1) {
-        kmin <- kmin[-(K-n1)]; n2 <- n2 - 1; 
+        kmin <- kmin[-(K-n1)]; n2 <- n2 - 1;
       } else {
         kmax <- kmax[-K]; n1 <- n1 - 1;
       }

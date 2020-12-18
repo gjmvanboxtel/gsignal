@@ -28,7 +28,7 @@ If \code{index.return = TRUE}, a list consisting of two vectors:
 If \code{index.return = FALSE}, only \code{m} is returned (as a vector).
 }
 \description{
-Identify unique poles and their associated multiplicity
+Identify unique poles and their associated multiplicity.
 }
 \examples{
 p <- c(2, 3, 1, 1, 2)
@@ -39,9 +39,9 @@ p[ret$n]      # returns 3 2 2 1 1
 
 }
 \seealso{
-\code{\link{poly}}, \code{residue}
+\code{\link{poly}}, \code{\link{residue}}
 }
 \author{
-Original Octave version by Ben Abbott \email{bpabbott@mac.com}.
-  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}
+Ben Abbott, \email{bpabbott@mac.com}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

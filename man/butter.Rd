@@ -24,19 +24,20 @@ c(low, high) specifying the lower and upper bands in radians/second. For
 digital filters, W must be between 0 and 1 where 1 is the Nyquist
 frequency.}
 
-\item{type}{filter type, one of "low", "high", "stop", or "pass".}
+\item{type}{filter type, one of \code{"low"}, (default) \code{"high"},
+\code{"stop"}, or \code{"pass"}.}
 
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-list of class \code{'\link{Arma}'} with list elements:
+List of class \code{'\link{Arma}'} with list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
 }
 }
 \description{
-Compute the transfer function coefficients of a Butterworth filter
+Compute the transfer function coefficients of a Butterworth filter.
 }
 \details{
 Butterworth filters have a magnitude response that is maximally flat in the
@@ -45,7 +46,7 @@ decreased rolloff steepness. Elliptic and Chebyshev filters generally provide
 steeper rolloff for a given filter order.
 
 Because butter is generic, it can be extended to accept other inputs, using
-"buttord" to generate filter criteria for example.
+\code{buttord} to generate filter criteria for example.
 }
 \examples{
 ## 50 Hz notch filter
@@ -53,7 +54,7 @@ fs <- 256
 bf <- butter(4, c(48, 52) / (fs / 2), "stop")
 freqz(bf, fs = fs)
 
-## EEG alpha rhythm (8 - 12 Hz) bandpass filter 
+## EEG alpha rhythm (8 - 12 Hz) bandpass filter
 fs <- 128
 fpass <- c(8, 12)
 wpass <- fpass / (fs / 2)
@@ -73,11 +74,14 @@ zplane(bf)
 \url{https://en.wikipedia.org/wiki/Butterworth_filter}
 }
 \seealso{
-\code{\link{Arma}}, \code{\link{filter}}, \code{cheby1}, \code{ellip}, \code{\link{buttord}}
+\code{\link{Arma}}, \code{\link{filter}}, \code{\link{cheby1}},
+  \code{\link{ellip}}, \code{\link{buttord}}.
 }
 \author{
-Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net},
-  Doug Stewart \email{dastew@sympatico.ca}, Alexander Klein
-  \email{alexander.klein@math.uni-giessen.de}, John W. Eaton. Port to R Tom
-  Short, adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Doug Stewart, \email{dastew@sympatico.ca},\cr
+  Alexander Klein, \email{alexander.klein@math.uni-giessen.de},\cr
+  John W. Eaton.\cr
+  Conversion to R by Tom Short,\cr
+  adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

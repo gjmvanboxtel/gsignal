@@ -10,16 +10,16 @@ bohmanwin(n)
 \item{n}{Window length, specified as a positive integer.}
 }
 \value{
-Bohman window, returned as a vector.
+Bohman window, returned as a vector. If you specify a one-point
+  window \code{(n = 1)}, the value 1 is returned.
 }
 \description{
-Return the filter coefficients of a Bohman window of length \code{n}
+Return the filter coefficients of a Bohman window.
 }
 \details{
-A Bohman window is the convolution of two half-duration cosine lobes. In the time domain, it is the product of
-a triangular window and a single cycle of a cosine with a term added to set the first derivative to zero at the boundary. 
- 
-If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
+A Bohman window is the convolution of two half-duration cosine lobes. In the
+time domain, it is the product of a triangular window and a single cycle of a
+cosine with a term added to set the first derivative to zero at the boundary.
 }
 \examples{
 
@@ -31,6 +31,6 @@ plot (b, type = "l", xlab = "Samples", ylab =" Amplitude")
 \code{\link{triang}}
 }
 \author{
-Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

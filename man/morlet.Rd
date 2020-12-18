@@ -7,20 +7,23 @@
 morlet(lb = -4, ub = 4, n = 1000)
 }
 \arguments{
-\item{lb, ub}{Lower and upper bounds of the interval to evaluate the wavelet on. Default: -4 to 4.}
+\item{lb, ub}{Lower and upper bounds of the interval to evaluate the wavelet
+on. Default: -4 to 4.}
 
-\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.}
+\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length
+of the wavelet). Default: 1000.}
 }
 \value{
-A list containing 2 variables; \code{x}, the grid on which the Morlet wavelet was evaluated, and \code{psi}
-(\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
+A list containing 2 variables; \code{x}, the grid on which the Morlet
+  wavelet was evaluated, and \code{psi} (\eqn{\Psi}), the evaluated wavelet
+  on the grid \code{x}.
 }
 \description{
 Compute the Morlet wavelet on a regular grid.
 }
 \details{
-The code \code{m <- morlet(lb, ub, n)} returns values of the Morlet wavelet on an \code{n}-point regular grid in the interval
-\code{[lb,ub]}. This wavelet has [-4 4] as effective support.
+The code \code{m <- morlet(lb, ub, n)} returns values of the Morlet wavelet
+on an \code{n}-point regular grid in the interval \code{c(lb, ub)}.
 
 The Morlet waveform is defined as
 \deqn{\psi(x) = e^{-x^{2}/2} cos (5x)}
@@ -33,5 +36,5 @@ plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 }
 \author{
 Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

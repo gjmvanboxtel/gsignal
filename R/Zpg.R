@@ -3,7 +3,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -12,9 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200127  GvB       setup for gsignal v0.1.0
@@ -23,28 +21,27 @@
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero pole gain model
-#' 
+#'
 #' Create an zero pole gain model of an ARMA filter, or convert other forms to a
 #' Zpg model.
-#' 
+#'
 #' \code{as.Zpg} converts from other forms, including \code{Arma} and \code{Ma}.
-#' 
+#'
 #' @param z complex vector of the zeros of the model.
 #' @param p complex vector of the poles of the model.
 #' @param g overall gain of the model.
 #' @param x model to be converted.
-#'
 #' @param ...	additional arguments (ignored).
-#' 
+#'
 #' @return A list of class Zpg with the following list elements:
 #' \describe{
-#'   \item{zero}{complex vector of the zeros of the model}
-#'   \item{pole}{complex vector of the poles of the model}
-#'   \item{gain}{gain of the model}
+#'   \item{z}{complex vector of the zeros of the model}
+#'   \item{p}{complex vector of the poles of the model}
+#'   \item{g}{gain of the model}
 #' }
-#' 
+#'
 #' @seealso See also \code{\link{Arma}}
-#' 
+#'
 #' @examples
 #' ## design notch filter at pi/4 radians = 0.5/4 = 0.125 * fs
 #' w = pi/4
@@ -57,24 +54,24 @@
 #' r = 0.9
 #' p1 <- r * exp(1i * w)
 #' p2 <- r * exp(1i * -w)
-#' 
+#'
 #' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
-#' #zplane(zpg)
-#' 
+#' zplane(zpg)
+#'
 #' ba <- as.Arma(zpg)
-#' #freqz(ba)
-#' 
+#' freqz(ba)
+#'
 #' ## Sharper edges: increase distance between zeros and poles
 #' r = 0.8
 #' p1 <- r * exp(1i * w)
 #' p2 <- r * exp(1i * -w)
 #' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
-#' #zplane(zpg)
+#' zplane(zpg)
 #' ba <- as.Arma(zpg)
-#' #freqz(ba)
-#' 
-#' @author Tom Short \email{tshort@@eprisolutions.com}, adapted by Geert van
-#'   Boxtel \email{gjmvanboxtel@@gmail.com}
+#' freqz(ba)
+#'
+#' @author Tom Short, \email{tshort@@eprisolutions.com},\cr
+#'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.
 #' @rdname Zpg
 #' @export
 
@@ -111,10 +108,10 @@ as.Zpg.Ma <- function(x, ...) {
 #' @usage
 #' ## S3 method for class 'Sos'
 #' as.Zpg(x, ...)
-#' 
+#'
 #' @export
 as.Zpg.Sos <- function(x, ...) {
-  
+
   zpk <- sos2zp(x$sos, x$g)
   Zpg(zpk$z, zpk$p, zpk$k)
 }

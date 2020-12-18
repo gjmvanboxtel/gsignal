@@ -35,7 +35,7 @@ as.Sos(x, ...)
 \item{...}{additional arguments (ignored).}
 }
 \value{
-A list of class \code{'Sos'} with the following list elements:
+A list of class \code{Sos} with the following list elements:
 \describe{
   \item{sos}{second-order section representation of the model, returned as an
     \code{L x 6} matrix, one row for each section \code{1:L}. Each row
@@ -46,7 +46,7 @@ A list of class \code{'Sos'} with the following list elements:
 }
 }
 \description{
-Create or convert filter models to second-order sections form
+Create or convert filter models to second-order sections form.
 }
 \details{
 \code{as.Sos} converts from other forms, including \code{Arma}, \code{Ma},
@@ -56,5 +56,5 @@ and \code{Zpg}.
 \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

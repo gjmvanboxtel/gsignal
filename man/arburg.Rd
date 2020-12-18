@@ -42,23 +42,25 @@ A \code{list} containing the following elements:
   }
 }
 \description{
-Calculate the coefficients of an autoregressive model using Burg’s method
+Calculate the coefficients of an autoregressive model using the whitening
+lattice-filter method of Burg (1968)[1].
 }
 \details{
-This function calculates the coefficients of an autoregressive (AR) model of
-complex data \code{x} using the whitening lattice-filter method of Burg
-(1968)[1]. The inverse of the model is a moving-average filter which reduces
-\code{x} to white noise. The power spectrum of the AR model is an estimate of
-the maximum entropy power spectrum of the data. The function \code{ar_psd}
-calculates the power spectrum of the AR model.
+The inverse of the autoregressive model is a moving-average filter which
+reduces \code{x} to white noise. The power spectrum of the AR model is an
+estimate of the maximum entropy power spectrum of the data. The function
+\code{ar_psd} calculates the power spectrum of the AR model.
 
-for data input \code{x(n)} and white noise \code{e(n)}, the autoregressive
+For data input \code{x(n)} and white noise \code{e(n)}, the autoregressive
 model is
-\preformatted{
+\if{latex}{
+\deqn{x(n) = \sqrt{v} \cdot e(n) + \sum_{k=1}^{p+1} a(k) \cdot x(n-k)}
+}
+\if{html}{\preformatted{
                           p+1
     x(n) = sqrt(v).e(n) + SUM a(k).x(n-k)
                           k=1
- }
+ }}
 
 \code{arburg} does not remove the mean from the data. You should remove the
 mean from the data if you want a power spectrum. A non-zero mean can produce
@@ -68,7 +70,7 @@ large errors in a power-spectrum estimate.  See \code{\link{detrend}}
 AIC, AICc, KIC and AKICc are based on information theory. They  attempt
   to balance the complexity (or length) of the model against how well the
   model fits the data.  AIC and KIC are biased estimates of the asymmetric
-  and the symmetric Kullback-Leibler divergence respectively.  AICc and AKICc
+  and the symmetric Kullback-Leibler divergence, respectively. AICc and AKICc
   attempt to correct the bias. See reference [2].
 }
 \examples{
@@ -89,6 +91,6 @@ coefs <- arburg(y, 4)
 \code{\link{ar_psd}}
 }
 \author{
-Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au>}. Port to R
-  by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+ Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

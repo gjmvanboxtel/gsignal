@@ -37,7 +37,7 @@ If omitted, the default value is \code{none}. If \code{y} is supplied but
 does not have the same length as \code{x}, scale must be \code{none}.}
 }
 \value{
-A \code{\link{list}} containing the following variables:
+A list containing the following variables:
 \describe{
   \item{R}{array of correlation estimates}
   \item{lags}{vector of correlation lags \code{[-maxlag:maxlag]}}
@@ -64,11 +64,18 @@ vector \code{x}, for a range of lags \code{k} specified by the argument
 with itself and every other column.
 
 The cross-correlation estimate between vectors \code{x} and \code{y} (of
-length \code{N}) for lag \code{k} is given by \deqn{R_{xy}(k) =
-\sum_{i=1}^{N} x_{i+k} conj(y_i)} where data not provided (for example
-\code{x[-1], y[N+1]}) is zero. Note the definition of cross-correlation given
-above. To compute a cross-correlation consistent with the field of
-statistics, see xcov.
+length \code{N}) for lag \code{k} is given by
+\if{latex}{
+  \deqn{R_{xy}(k) = \sum_{i=1}^{N} x_{i+k} Conj(y_i)}
+}
+\if{html}{\preformatted{
+            N
+     Rxy = SUM x(i+k) . Conj(y(i))
+           i=1
+}}
+where data not provided (for example \code{x[-1], y[N+1]}) is zero. Note the
+definition of cross-correlation given above. To compute a cross-correlation
+consistent with the field of statistics, see xcov.
 
 The cross-correlation estimate is calculated by a "spectral" method
 in which the FFT of the first vector is multiplied element-by-element
@@ -104,11 +111,11 @@ plot(rl$lag, rl$R, type="h")
 
 }
 \seealso{
-xcov.
+\code{\link{xcov}}.
 }
 \author{
-Copyright (C) 1999-2001 Paul Kienzle \email{pkienzle@users.sf.net},
-  Copyright (C) 2004 \email{asbjorn.sabo@broadpark.no}, Copyright (C) 2008,
-  2010 Peter Lanspeary \email{peter.lanspeary@adelaide.edu.au}, Port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Asbjorn Sabo, \email{asbjorn.sabo@broadpark.no},\cr
+  Peter Lanspeary. \email{peter.lanspeary@adelaide.edu.au}.\cr
+   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

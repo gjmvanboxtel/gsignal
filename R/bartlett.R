@@ -21,32 +21,33 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Bartlett window
-#' 
-#' Return the filter coefficients of a Bartlett (triangular) window of length \code{n}
-#' 
-#' The Bartlett window is very similar to a triangular window as returned by the \code{triang} function. However, the Bartlett
-#' window always has zeros at the first and last samples, while the triangular window is nonzero at those points.
-#' 
-#' If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
-#' 
+#'
+#' Return the filter coefficients of a Bartlett (triangular) window.
+#'
+#' The Bartlett window is very similar to a triangular window as returned by the
+#' \code{triang} function. However, the Bartlett window always has zeros at the
+#' first and last samples, while the triangular window is nonzero at those
+#' points.
+#'
 #' @param n Window length, specified as a positive integer.
-#' 
-#' @return Bartlett window, returned as a vector.
-#' 
+#'
+#' @return Bartlett window, returned as a vector. If you specify a one-point
+#'   window \code{(n = 1)}, the value 1 is returned.
+#'
 #' @examples
-#' 
+#'
 #' bw <- bartlett(64)
 #' plot (bw, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' @seealso \code{\link{triang}}
-#' 
-#' @author Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 bartlett <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
 
   if (n == 1) {

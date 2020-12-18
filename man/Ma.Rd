@@ -10,19 +10,19 @@ Ma(b)
 \item{b}{moving average (MA) polynomial coefficients.}
 }
 \value{
-A list of class \code{'Ma'} with the polynomial coefficients
+A list of class \code{Ma} with the polynomial coefficients
 }
 \description{
 Create an MA model representing a filter or system model
 }
 \examples{
-filt <- Ma(b = c(1, 2, 1)/3)
-#zplane(filt)
+f <- Ma(b = c(1, 2, 1)/3)
+zplane(f)
 
 }
 \seealso{
 See also \code{\link{Arma}}
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}
+Tom Short, \email{tshort@eprisolutions.com}
 }

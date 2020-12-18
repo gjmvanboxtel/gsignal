@@ -36,7 +36,8 @@ low-pass and high-pass filters, and \code{w} must be a two-element vector
 For digital filters, w must be between 0 and 1 where 1 is the Nyquist
 frequency.}
 
-\item{type}{filter type, one of "low", "high", "stop", or "pass".}
+\item{type}{filter type, one of \code{"low"}, \code{"high"}, \code{"stop"},
+or \code{"pass"}.}
 
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
@@ -48,7 +49,7 @@ list of class \code{'\link{Arma}'} with list elements:
 }
 }
 \description{
-Compute the transfer function coefficients of an elliptic filter
+Compute the transfer function coefficients of an elliptic filter.
 }
 \details{
 An elliptic filter is a filter with equalized ripple (equiripple) behavior in
@@ -83,7 +84,8 @@ lines(efr$w, 20 * log10(abs(efr$h)), col = "red")
 \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{\link{cheby1}}, \code{\link{ellipord}}
 }
 \author{
-Original Octave code by Paulo Neis \email{p_neis@yahoo.com.br},
-  adapted by Doug Stewart \email{dastew@sympatico.ca}. Port to R Tom Short,
-  adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paulo Neis, \email{p_neis@yahoo.com.br},\cr
+  adapted by Doug Stewart, \email{dastew@sympatico.ca}.\cr
+  Conversion to R Tom Short,\cr
+  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

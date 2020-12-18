@@ -10,18 +10,21 @@ flattopwin(n, method = c("symmetric", "periodic"))
 \item{n}{Window length, specified as a positive integer.}
 
 \item{method}{Character string. Window sampling method, specified as:
-\itemize{
-  \item 'symmetric' (Default). Use this option when using windows for filter design.
-  \item 'periodic'. This option is useful for spectral analysis because it enables a windowed signal to have the perfect
-   periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
-   window of length \code{n + 1} and returns the first \code{n} points.
+\describe{
+  \item{'symmetric'}{(Default). Use this option when using windows for filter
+  design.}
+  \item{'periodic'}{This option is useful for spectral analysis because it
+  enables a windowed signal to have the perfect periodic extension implicit
+  in the discrete Fourier transform. When 'periodic' is specified, the
+  function computes a window of length \code{n + 1} and returns the first
+  \code{n} points.}
 }}
 }
 \value{
 Flat top window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a Flat Top window of length \code{n}
+Return the filter coefficients of a flat top window.
 }
 \details{
 The Flat Top window is defined by the function:
@@ -40,6 +43,6 @@ plot (ft, type = "l", xlab = "Samples", ylab =" Amplitude")
 
 }
 \author{
-Original Octave code Author: Paul Kienzle \email{pkienzle@users.sf.net} (2004).
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

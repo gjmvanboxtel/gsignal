@@ -21,47 +21,52 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev polynomials
-#' 
-#' Returns the value of the \code{n}th-order Chebyshev polynomial calculated at the point \code{x}.
-#' 
+#'
+#' Return the value of the Chebyshev polynomial at specific points.
+#'
 #' The Chebyshev polynomials are defined by the equations:
-#' \deqn{Tn(x) = cos(n \cdot acos(x),    |x|<= 1}
-#' \deqn{Tn(x) = cosh(n \cdot acosh(x),  |x|> 1}
-#' 
-#' If \code{x} is a vector, the output is a vector of the same size, where each element is calculated 
+#' \if{latex}{
+#'   \deqn{Tn(x) = cos(n \cdot acos(x),    |x|<= 1}
+#'   \deqn{Tn(x) = cosh(n \cdot acosh(x),  |x|> 1}
+#' }
+#' \if{html}{\preformatted{
+#'   Tn(x) = cos(n . acos(x),    |x|<= 1
+#'   Tn(x) = cosh(n . acosh(x),  |x|> 1
+#' }}
+#' If \code{x} is a vector, the output is a vector of the same size, where each element is calculated
 #' as \eqn{y(i) = Tn(x(i))}.
-#' 
+#'
 #' @param n Order of the polynomial, specified as a positive integer.
 #' @param x Point or points at which to calculate the Chebyshev polynomial
-#' 
-#' @return polynomial of order \code{x}, evaluated at point(s) \code{x}.
-#' 
+#'
+#' @return Polynomial of order \code{x}, evaluated at point(s) \code{x}.
+#'
 #' @examples
-#' 
+#'
 #' cp <- cheb(5, 1)
 #' cp <- cheb(5, c(2,3))
 #'
-#' @author Original Octave code Copyright (C) 2002 André Carezia \email{acarezia@@uol.com.br}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author André Carezia, \email{acarezia@@uol.com.br}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 cheb <- function (n, x) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
 
   T <- rep(0, length(x))
-  
+
   idx <- abs(x) <= 1
   if (any(idx)) {
     T[idx] <- cos(n * acos(as.complex(x[idx])))
   }
-  
+
   idx <- abs(x) > 1
   if (any(idx)) {
     T[idx] <- cosh(n * acosh(as.complex(x[idx])))
   }
-  
+
   Re(T)
 }
 

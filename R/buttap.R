@@ -21,32 +21,32 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Butterworth filter prototype
-#' 
+#'
 #' Return the poles and gain of an analog Butterworth lowpass filter prototype.
-#' 
+#'
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
 #' to \code{butter(n, 1, "low", "s")}.
-#' 
+#'
 #' @param n Order of the filter.
-#' 
-#' @return list of class \code{'\link{Zpg}'} containg poles and gain of the filter
-#' 
+#'
+#' @return List of class \code{'\link{Zpg}'} containing poles and gain of the
+#'   filter.
+#'
 #' @examples
 #' ## 9th order Butterworth low-pass analog filter
 #' zp <- buttap(9)
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Original Octave code by Carnë Draug
-#'   \email{carandraug+dev@@gmail.com}. Port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 buttap <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
-  
+
   as.Zpg(butter(n, 1, "low", "s"))
 }
 

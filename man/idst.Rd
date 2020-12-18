@@ -18,7 +18,7 @@ matrix each column is a signal.}
 Inverse discrete sine transform, returned as a vector or matrix.
 }
 \description{
-Compute the inverse discrete sine transform of a signal
+Compute the inverse discrete sine transform of a signal.
 }
 \details{
 The discrete sine transform (DST) is closely related to the discrete Fourier
@@ -37,6 +37,6 @@ all.equal(x, xx)
 \code{\link{dst}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

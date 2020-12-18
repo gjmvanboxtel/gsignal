@@ -18,7 +18,7 @@ reversed.}
 returned as well. Default \code{FALSE}.}
 }
 \value{
-the digit-reversed input vector. If \code{index.return = TRUE}, then
+The digit-reversed input vector. If \code{index.return = TRUE}, then
   a list containing the digit-reversed input vector (\code{y}, and the
   digit-reversed indices (\code{i}).
 }
@@ -40,6 +40,6 @@ digitrevorder(0:8, 3)
 \code{\link{bitrevorder}}, \code{\link{fft}}, \code{\link{ifft}}
 }
 \author{
-Mike Miller, port to to by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Mike Miller.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

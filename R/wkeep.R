@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Keep part of vector or matrix
-#' 
+#'
 #' Extract elements from a vector or matrix.
-#'   
+#'
 #' @param x input data, specified as a numeric vector or matrix.
 #' @param l either a positive integer value, specifying the length to extract
 #'   from the input *vector* \code{x}, or a vector of length 2, indicating the
@@ -38,31 +36,31 @@
 #'   \item{two-element vector}{starting row and columns from the *matrix* \code{x}}
 #' }
 #' See the examples. Default: "centered".
-#' 
+#'
 #' @return extracted vector or matrix
-#' 
+#'
 #' @examples
 #' ## create a vector
 #' x <- 1:10
 #' ## Extract a vector of length 6 from the central part of x.
 #' y <- wkeep(x, 6, 'c')
-#' 
+#'
 #' ## Extract two vectors of length 6, one from the left part of x, and the
 #' ## other from the right part of x.
 #' y <- wkeep(x, 6, 'l')
 #' y <- wkeep(x, 6, 'r')
-#' 
+#'
 #' ## Create a 5-by-5 matrix.
 #' x <- matrix(round(runif(25, 0, 25)), 5, 5)
-#' 
+#'
 #' ## Extract a 3-by-2 matrix from the center of x
 #' y <- wkeep(x, c(3, 2))
-#' 
+#'
 #' ## Extract from x the 2-by-4 submatrix starting at x[3, 1].
 #' y <- wkeep(x, c(2, 4), c(3, 1))
 #'
-#' @author Sylvain Pelissier \email{sylvain.pelissier@@gmail.com} port to R by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

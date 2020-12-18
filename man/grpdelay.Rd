@@ -70,7 +70,7 @@ A list of class \code{grpdelay} with items:
 }
 }
 \description{
-Compute the average delay of a filter (group delay)
+Compute the average delay of a filter (group delay).
 }
 \details{
 If the denominator of the computation becomes too small, the group delay is
@@ -91,7 +91,8 @@ plot(gpd)
 \url{http://en.wikipedia.org/wiki/Group_delay}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, Julius O. Smith III
-  \email{jos@ccrma.stanford.edu}, port to R by Tom Short, adapted by Geert
-  van Boxtel \email{gjmvanboxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+ Conversion to R by Tom Short,\cr
+ adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

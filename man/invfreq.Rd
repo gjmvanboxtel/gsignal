@@ -4,7 +4,7 @@
 \alias{invfreq}
 \alias{invfreqs}
 \alias{invfreqz}
-\title{Inverse Frequency R esponse}
+\title{Inverse Frequency Response}
 \usage{
 invfreq(
   h,
@@ -70,7 +70,7 @@ A list of class \code{'Arma'} with the following list elements:
 }
 }
 \description{
-Identify filter parameters from frequency response data
+Identify filter parameters from frequency response data.
 }
 \details{
 Given a desired (one-sided, complex) spectrum \code{h(w)} at equally spaced
@@ -99,6 +99,6 @@ title(paste('L2 norm of frequency response error =', err))
 \url{http://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html}
 }
 \author{
-Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.
-  Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

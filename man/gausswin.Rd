@@ -9,23 +9,24 @@ gausswin(n, a = 2.5)
 \arguments{
 \item{n}{Window length, specified as a positive integer.}
 
-\item{a}{Width factor, specified as a positive real scalar. \code{a} is inversely proportional to the width of the window.
-Default: 2.5.}
+\item{a}{Width factor, specified as a positive real scalar. \code{a} is
+inversely proportional to the width of the window. Default: 2.5.}
 }
 \value{
-gaussian convolution window, returned as a vector.
+Gaussian convolution window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a Gaussian window of length \code{n}
+Return the filter coefficients of a Gaussian window of length \code{n}.
 }
 \details{
-The width of the window is inversely proportional to the parameter \code{a}. Use larger \code{a} for a narrower window.
-Use larger \code{m} for a smoother curve.
+The width of the window is inversely proportional to the parameter \code{a}.
+Use larger \code{a} for a narrower window. Use larger \code{m} for a smoother
+curve.
 \deqn{w = e^{(-(a*x)^{2}/2 )}}
-for \code{x} <- seq(-(n - 1) / n, (n - 1) / n, by = n).
+for \code{x <- seq(-(n - 1) / n, (n - 1) / n, by = n)}.
 
-The exact correspondence with the standard deviation of a Gaussian probability density function is 
-\eqn{\sigma = (n - 1)/(2a)}.
+The exact correspondence with the standard deviation of a Gaussian
+probability density function is \eqn{\sigma = (n - 1)/(2a)}.
 }
 \examples{
 
@@ -36,6 +37,6 @@ lines(g2, col = "red")
 
 }
 \author{
-Original Octave code Copyright (C) 1999 Paul Kienzle \email{pkienzle@users.sf.net}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

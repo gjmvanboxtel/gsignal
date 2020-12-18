@@ -13,7 +13,7 @@ parzenwin(n)
 Parzen window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a Parzen window of length \code{n}
+Return the filter coefficients of a Parzen window of length \code{n}.
 }
 \details{
 Parzen windows are piecewise-cubic approximations of Gaussian windows.
@@ -27,6 +27,6 @@ lines(g, col = "red")
 
 }
 \author{
-Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

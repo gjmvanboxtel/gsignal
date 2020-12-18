@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Unwrap phase angles
-#' 
-#' Unwrap radian phases by adding or subtracting multiples of \code{2 * pi}. 
-#' 
+#'
+#' Unwrap radian phases by adding or subtracting multiples of \code{2 * pi}.
+#'
 #' @param x Input array, specified as a vector, matrix, or multidimensional array.
 #' @param tol Jump threshold to apply phase shift, specified as a scalar. A jump
 #'   threshold less than \eqn{pi} has the same effect as the threshold
@@ -36,11 +34,11 @@
 #'   character vector selecting dimension names. If MARGIN is larger than the
 #'   dimensions of x, the result will have MARGIN dimensions. Default: 2
 #'   (columns).
-#' 
+#'
 #' @return Unwraped phase angle, returned as a vector, matrix, or
 #'   multidimensional array. The size of the output is always the same as the
 #'   size of the input.
-#' 
+#'
 #' @examples
 #' ## Define spiral shape.
 #' t <- seq(0, 6 * pi, length.out = 201)
@@ -53,14 +51,14 @@
 #' ## unwrap it
 #' q = unwrap(p)
 #' plot(t, q, type ="l")
-#' 
-#' @author Bill Lash, port to R by Geert van Boxtel
-#'   \email{gjmvanboxtel@@gmail.com}
-#' 
+#'
+#' @author Bill Lash.\cr
+#' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
+#'
 #' @export
 
 unwrap <- function(x, tol = pi, MARGIN = 2) {
-  
+
   if (is.vector(x)) {
     vec <- TRUE
   } else {
@@ -68,10 +66,10 @@ unwrap <- function(x, tol = pi, MARGIN = 2) {
     dims <- dim(x)
     ld <- length(dims)
     if (is.character(MARGIN)) {
-      if (is.null(dnn <- names(dimnames(x)))) 
+      if (is.null(dnn <- names(dimnames(x))))
         stop("'x' must have named dimnames")
       MARGIN <- match(MARGIN, dnn)
-      if (anyNA(MARGIN)) 
+      if (anyNA(MARGIN))
         stop("not all elements of 'MARGIN' are names of dimensions")
     } else if(!isPosscal(MARGIN) || MARGIN > ld) {
       stop("'MARGIN' must be a positive integer and a valid margin")
@@ -81,9 +79,9 @@ unwrap <- function(x, tol = pi, MARGIN = 2) {
     stop("x must be a numeric matrix or vector");
   }
   tol = abs (tol)
-  
+
   unw <- function(v, tol) {
-    
+
     if (length(v) == 1) {
       y <- v
     } else {
@@ -95,7 +93,7 @@ unwrap <- function(x, tol = pi, MARGIN = 2) {
     }
     y
   }
-  
+
   if (vec) {
     y <- unw(x, tol)
   } else {

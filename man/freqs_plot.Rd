@@ -2,7 +2,7 @@
 % Please edit documentation in R/freqs_plot.R
 \name{freqs_plot}
 \alias{freqs_plot}
-\title{Plot freqwuency response}
+\title{Plot frequency response}
 \usage{
 freqs_plot(w, h, ...)
 }
@@ -15,7 +15,7 @@ in rad/second.}
 \item{...}{additional arguments passed to the \code{plot() function}}
 }
 \description{
-Plot the s-plane frequency response of an IIR filter
+Plot the s-plane frequency response of an IIR filter.
 }
 \examples{
 b <- c(1, 2); a <- c(1, 1)
@@ -26,6 +26,6 @@ freqs_plot(w, h, log = "x")
 
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by Geert van Boxtel \email{gjmvanboxtel@gmail.com}
 }

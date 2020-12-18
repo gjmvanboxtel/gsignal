@@ -39,9 +39,9 @@ as.Zpg(x, ...)
 \value{
 A list of class Zpg with the following list elements:
 \describe{
-  \item{zero}{complex vector of the zeros of the model}
-  \item{pole}{complex vector of the poles of the model}
-  \item{gain}{gain of the model}
+  \item{z}{complex vector of the zeros of the model}
+  \item{p}{complex vector of the poles of the model}
+  \item{g}{gain of the model}
 }
 }
 \description{
@@ -65,25 +65,25 @@ p1 <- r * exp(1i * w)
 p2 <- r * exp(1i * -w)
 
 zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
-#zplane(zpg)
+zplane(zpg)
 
 ba <- as.Arma(zpg)
-#freqz(ba)
+freqz(ba)
 
 ## Sharper edges: increase distance between zeros and poles
 r = 0.8
 p1 <- r * exp(1i * w)
 p2 <- r * exp(1i * -w)
 zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
-#zplane(zpg)
+zplane(zpg)
 ba <- as.Arma(zpg)
-#freqz(ba)
+freqz(ba)
 
 }
 \seealso{
 See also \code{\link{Arma}}
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}, adapted by Geert van
-  Boxtel \email{gjmvanboxtel@gmail.com}
+Tom Short, \email{tshort@eprisolutions.com},\cr
+ adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

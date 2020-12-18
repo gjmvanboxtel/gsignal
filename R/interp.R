@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201121  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Interpolation
-#' 
+#'
 #' Increase sample rate by integer factor.
-#'   
+#'
 #' @param x input data, specified as a numeric vector.
 #' @param q interpolation factor, specified as a positive integer.
 #' @param n Half the number of input samples used for interpolation, specified
@@ -36,9 +34,9 @@
 #'   positive real scalar not greater than 1 that represents a fraction of the
 #'   Nyquist frequency. A value of 1 means that the signal occupies the full
 #'   Nyquist interval. Default: 0.5.
-#' 
+#'
 #' @return interpolated signal, returned as a vector.
-#' 
+#'
 #' @examples
 #' # Generate a signal
 #' t <- seq(0, 2, 0.01)
@@ -52,11 +50,11 @@
 #' points(t[1:121] * 1000, y[1:121], col = "red", pch = '+')
 #' legend("topleft", legend = c("original", "interpolated"),
 #'   lty = 1, pch = c(1, 3), col = c(1, 2))
-#' 
+#'
 #' @seealso \code{\link{decimate}}, \code{\link{resample}}
 #'
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}; port to R by Geert van
-#'   Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
@@ -74,7 +72,7 @@ interp <- function (x, q, n = 4, Wc = 0.5) {
   if (!isPosscal(Wc) || Wc > 1) {
     stop('n must be a numeric value between 0 and 1')
   }
-  
+
   y <- rep(0, length(x) * q + q * n + 1)
   y[seq(1, length(x) * q, q)] <- x
   b <- fir1(2 * q * n + 1, Wc / q)

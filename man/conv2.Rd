@@ -38,5 +38,5 @@ conv2(a, b, 'valid')
 \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

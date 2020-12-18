@@ -7,27 +7,33 @@
 shanwavf(lb = -8, ub = 8, n = 1000, fb = 5, fc = 1)
 }
 \arguments{
-\item{lb, ub}{Lower and upper bounds of the interval to evaluate the waveform on. Default: -8 to 8.}
+\item{lb, ub}{Lower and upper bounds of the interval to evaluate the waveform
+on. Default: -8 to 8.}
 
-\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.}
+\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length
+of the wavelet). Default: 1000.}
 
-\item{fb}{Time-decay parameter of the wavelet (bandwidth in the frequency domain). Must be a positive scalar. Default: 5.}
+\item{fb}{Time-decay parameter of the wavelet (bandwidth in the frequency
+domain). Must be a positive scalar. Default: 5.}
 
-\item{fc}{Center frequency of the wavelet. Must be a positive scalar. Default: 1.}
+\item{fc}{Center frequency of the wavelet. Must be a positive scalar.
+Default: 1.}
 }
 \value{
-A list containing 2 variables; \code{x}, the grid on which the complex Shannon wavelet was evaluated, and \code{psi}
-(\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
+A list containing 2 variables; \code{x}, the grid on which the
+  complex Shannon wavelet was evaluated, and \code{psi} (\eqn{\Psi}), the
+  evaluated wavelet on the grid \code{x}.
 }
 \description{
-Compute the Complex Shannon wavelet
+Compute the Complex Shannon wavelet.
 }
 \details{
-The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the complex Shannon wavelet.
-The complex Shannon wavelet is defined by a bandwidth parameter \code{fb}, a wavelet center frequency
-\code{fc}, and the expression
+The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the
+complex Shannon wavelet. The complex Shannon wavelet is defined by a
+bandwidth parameter \code{fb}, a wavelet center frequency \code{fc}, and the
+expression
 \deqn{\psi(x) = (fb^{0.5} * (sinc(fb * x) * e^{2 * 1i * pi * fc * x}))}
-on an \code{n}-point regular grid in the interval of \code{lb} to \code{ub}
+on an \code{n}-point regular grid in the interval of \code{lb} to \code{ub}.
 }
 \examples{
 
@@ -44,6 +50,6 @@ par(op)
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

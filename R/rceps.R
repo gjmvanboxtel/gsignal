@@ -6,7 +6,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,9 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200827  GvB       setup for gsignal v0.1.0
@@ -26,56 +24,57 @@
 #' Real cepstrum
 #'
 #' Return the real cepstrum and minimum-phase reconstruction of a signal
-#' 
+#'
 #' Cepstral analysis is a nonlinear signal processing technique that is applied
 #' most commonly in speech and image processing, or as a tool to
 #' investigate periodic structures within frequency spectra, for instance
 #' resulting from echos/reflections in the signal or to the occurrence of
 #' harmonic frequencies (partials, overtones).
-#' 
+#'
 #' The cepstrum is used in many variants. Most important are the power cepstrum,
 #' the complex cepstrum, and real cepstrum. The function \code{rceps} implements
 #' the real cepstrum by computing the inverse of the log-transformed FFT while
 #' discarding phase, i.e.,
-#' 
+#'
 #' \deqn{rceps(x) <- ifft(log(Mag(fft(x))))}
-#' 
+#'
 #' The real cepstrum is related to the power spectrum by the relation \eqn{pceps
 #' = 4 * rceps^2}.
-#' 
-#' The function \code{rceps()} can also return a minimum-phase reconstruction of the original signal. The concept of minimum phase originates
-#' from filtering theory, and denotes a filter transfer function with all of its poles and zeroes in the Z-transform domain lie inside the unit circle
-#'  on the complex plane. Such a transfer function represents a stable filter.
-#'  
-#'  A minimum-phase *signal* is a signal that has its energy concentrated near
-#'  the front of the signal (near time 0). Such signals have many applications,
-#'  e.g. in seismology and speech analysis.
-#' 
-#' 
+#'
+#' The function \code{rceps()} can also return a minimum-phase reconstruction of
+#' the original signal. The concept of minimum phase originates from filtering
+#' theory, and denotes a filter transfer function with all of its poles and
+#' zeroes in the Z-transform domain lie inside the unit circle on the complex
+#' plane. Such a transfer function represents a stable filter.
+#'
+#'  A minimum-phase *signal* is a signal that has its energy concentrated
+#'  near the front of the signal (near time 0). Such signals have many
+#'  applications, e.g. in seismology and speech analysis.
+#'
 #' @param x input data, specified as a real vector.
 #' @param minphase logical (default: \code{FALSE})indication whether to compute
 #'   minimum-phase reconstructed signal
-#' 
+#'
 #' @return If \code{minphase} equals \code{FALSE}, the real cepstrum is returned
 #'   as a vector. If \code{minphase} equals \code{TRUE}, a list is returned
 #'   containing two vectors; \code{y} containing the real cepstrum, and
 #'   \code{ym} containing the minimum-phase reconstructed signal
-#' 
+#'
 #' @examples
 #' ## Simulate a speech signal with a 70 Hz glottal wave
-#' f0 <- 70; fs = 10000                 # 100 Hz fundamental, 10 kHz sampling rate
+#' f0 <- 70; fs = 10000           # 100 Hz fundamental, 10 kHz sampling rate
 #' a <- Re(poly(0.985 * exp(1i * pi * c(0.1, -0.1, 0.3, -0.3))))
 #' s <- 0.05 * runif(1024)
 #' s[floor(seq(1, length(s), fs / f0))] <- 1
 #' x <- filter(1, a, s)
-#' 
+#'
 #' ## compute real cepstrum and min-phase of x
 #' cep <- rceps(x, TRUE)
 #' hx <- freqz(x, fs = fs)
 #' hxm <- freqz (cep$ym, fs = fs)
 #' len <- 1000 * trunc(min(length(x), length(cep$ym)) / 1000)
 #' time <- 0:(len-1) * 1000 / fs
-#' 
+#'
 #' op <- par(mfcol = c(2, 2))
 #' plot(time, x[1:len], type = "l", ylim = c(-10, 10),
 #'   xlab = "Time (ms)", ylab = "Amplitude",
@@ -83,11 +82,11 @@
 #' lines(time, cep$ym[1:len], col = "red")
 #' legend("topright", legend = c("original", "reconstructed"),
 #'   lty = 1, col = c(1, 2))
-#'   
+#'
 #' plot(time, cep$y[1:len], type = "l",
 #'   xlab = "Quefrency (ms)", ylab = "Amplitude",
 #'   main = "Real cepstrum")
-#' 
+#'
 #' plot (hx$w, log(abs(hx$h)), type = "l",
 #'   xlab = "Frequency (Hz)", ylab = "Magnitude",
 #'   main = "Magnitudes are identical")
@@ -109,33 +108,33 @@
 #' ## confirm the magnitude spectrum is identical in the signal
 #' ## and the reconstruction and that there are peaks in the
 #' ## cepstrum at 14 ms intervals corresponding to an F0 of 70 Hz.
-#' 
+#'
 #' @references \url{https://en.wikipedia.org/wiki/Minimum_phase}
-#' 
+#'
 #' @seealso \code{\link{cceps}}
-#' 
-#' @author Original Octave code Paul Kienzle, \email{pkienzle@@users.sf.net},
-#'   Mike Miller; port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'  Mike Miller.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 rceps <- function (x, minphase = FALSE) {
-  
+
   if (!is.vector(x) || !is.numeric(x)) {
     stop("x must be a numeric vector")
   }
   if (!(is.logical(minphase) && length(minphase) == 1)) {
     stop("minphase must be a logical value (TRUE or FALSE)")
   }
-  
+
   X <- abs(stats::fft(x))
   if (min(X) == 0) {
     stop("signal has Fourier coefficients equal to 0");
   }
-  
+
   y <- Re(ifft(log(X)))
-  
+
   if (minphase) {
     n <- length (x)
     if (n%%2 == 1) {
@@ -145,7 +144,7 @@ rceps <- function (x, minphase = FALSE) {
     }
     ym <- Re(ifft(exp(stats::fft(ym))))
   }
-  
+
   if (minphase) {
     rv <- list(y = y, ym = ym)
   } else {

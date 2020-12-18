@@ -21,21 +21,28 @@ width/side-lobe-ratio.}
     \item{xmu (default)}{controls the ripple ratio by setting the
     (un-normalized) window’s Fourier transform according to its canonical
     definition:
-      \preformatted{
-       (MU)
-W(k) = C   [ xmu cos(pi k/M) ],  k = 0, 1, ..., M-1,
-       M-1
-     }
-     where C is the Ultraspherical (a.k.a. Gegenbauer) polynomial, which can
-     be defined using the recurrence relationship:
-       \preformatted{
+\if{latex}{
+  \deqn{W(k) = C_{M-1}^{\mu} x \mu \cdot cos(\pi k/M)}
+}
+\if{html}{\preformatted{
+           (MU)
+    W(k) = C   [ xmu cos(pi k/M) ],  k = 0, 1, ..., M-1,
+           M-1
+}}
+where C is the Ultraspherical (a.k.a. Gegenbauer) polynomial, which can be
+defined using the recurrence relationship:
+ \if{latex}{
+   \deqn{C_{m}^{l}(x) = \frac{1}{m} (2x(m+l-1) C_{m-1}^{l}(x) - (m+2l-2) C_{m-2}^{l}(x))}
+   for \eqn{m} and integer > 1, and \eqn{C_{0}^{l}(x) = 1}, \eqn{C_{1}^{l}(x) = 2 lx}.
+ }
+\if{html}{\preformatted{
      (l)    1                  (l)                    (l)
     C (x) = - [ 2x(m + l - 1) C   (x) - (m + 2l - 2) C   (x) ]
      m      m                  m-1                    m-2
                                 (l)        (l)
      for m an integer > 1, and C (x) = 1, C (x) = 2lx.
                                 0          1
-     }
+}}
      Note that when not giving \code{xmu}, stability issues may occur with
      \code{mu <= -1.5}.
    }
@@ -46,10 +53,10 @@ W(k) = C   [ xmu cos(pi k/M) ],  k = 0, 1, ..., M-1,
   }}
 }
 \value{
-ultraspherical window, returned as a vector.
+Ultraspherical window, returned as a vector.
 }
 \description{
-Return the coefficients of an ultraspherical window
+Return the coefficients of an ultraspherical window.
 }
 \details{
 Windows can be characterized as fixed or adjustable. Fixed windows have only
@@ -75,10 +82,10 @@ w <- ultrwin(120, -1, 40, "l")
 fz <- freqz(w)
 op <- par(mfrow = c(2, 1))
 plot (seq(0, length(w) - 1), w, type = "l", xlab = "", ylab ="")
-plot (fz$w / pi, 20 * log10(abs(fz$h) / abs(fz$h[1])), type = "l", 
+plot (fz$w / pi, 20 * log10(abs(fz$h) / abs(fz$h[1])), type = "l",
       xlab = "", ylab = "")
 par(op)
-      
+
 ## Varying beta with fixed mu
 x <- y <- NULL
 for (beta in 2:5) {
@@ -97,7 +104,7 @@ for (n in 2:10) {
   x <- cbind(x, fz$w / pi)
   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 }
-matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
   xlim = c(0, 0.25), ylim = c(-100, 0), col = 1:9,
   main = expression(paste("Varying n with ", mu, " = 1 and ", beta, " = 3")))
 legend("topright", legend = 20*(2:10), title = "n", lty = 1, col = 1:9)
@@ -109,7 +116,7 @@ for (j in 0:4) {
   x <- cbind(x, fz$w / pi)
   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 }
-matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
   xlim = c(0, 1), ylim = c(-100, 0), col = 1:5,
   main = expression(paste("Varying ", mu, " with n = 80 and att = 50")))
 legend("topright", legend = (0:4) * .6 - 1.2, title = expression(mu),
@@ -122,12 +129,12 @@ for (j in rev(0:4)) {
   x <- cbind(x, fz$w / pi)
   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 }
-matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
   xlim = c(0, 1), ylim = c(-100, 0), col = 1:5,
   main = expression(paste("Varying ", mu, " with n = 80 and latt = 50")))
 legend("topright", legend = (0:4) * .6 - 1.2, title = expression(mu),
   lty = 1, col = 1:5)
-  
+
 ## Compare ultraspherical, Dolph-Chebyshev and Kaiser windows
 x <- y <- NULL
 for (i in 1:3) {
@@ -140,7 +147,7 @@ matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", col = 1:3,
   xlim = c(0, 1), ylim = c(-130, 0))
 legend("topright", lty = 1, col = 1:3,
   legend = c("Ultraspherical", "Dolph-Chebyshev", "Kaiser"))
-  
+
 }
 \references{
 [1] Bergen, S.W.A., Antoniou, A. (2004). Design of Ultraspherical Window Functions
@@ -148,6 +155,6 @@ with Prescribed Spectral Characteristics. EURASIP J. Appl. Sign. Proc. 13, 2053-
 [2] \url{https://en.wikipedia.org/wiki/Window_function#Ultraspherical_window}
 }
 \author{
-Rob Sykes, \email{robs@users.sourceforge.net}; port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Rob Sykes, \email{robs@users.sourceforge.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

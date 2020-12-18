@@ -21,35 +21,34 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Triangular window
-#' 
-#' Return the filter coefficients of a triangular window of length \code{n}
-#' 
-#' Unlike the Bartlett window, \code{triang} does not go to zero at the edges of the window.
-#' For odd \code{n}, \code{triang(n)} is equal to \code{bartlett(m + 2)} except for the zeros
-#' at the edges of the window.
-#'  
-#' If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
-#' 
+#'
+#' Return the filter coefficients of a triangular window of length \code{n}.
+#'
+#' Unlike the Bartlett window, \code{triang} does not go to zero at the edges of
+#' the window. For odd \code{n}, \code{triang(n)} is equal to \code{bartlett(m +
+#' 2)} except for the zeros at the edges of the window.
+#'
 #' @param n Window length, specified as a positive integer.
-#' 
-#' @return triangular window, returned as a vector.
-#' 
+#'
+#' @return triangular window, returned as a vector. If you specify a one-point
+#'   window \code{(n = 1)}, the value 1 is returned.
+#'
 #' @examples
-#' 
+#'
 #' t <- triang(64)
 #' plot (t, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' @seealso \code{\link{bartlett}}
-#' 
-#' @author Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 triang <- function (n) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  
+
   w <- 1 - abs(seq(-(n-1), (n-1), by = 2) / (n + n %% 2))
   w
 }

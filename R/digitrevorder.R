@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200821  GvB       setup for gsignal v0.1.0
@@ -24,8 +22,8 @@
 
 #' Permute input to digit-reversed order
 #'
-#' Reorder the elements of the input vector in digit-reversed order. 
-#' 
+#' Reorder the elements of the input vector in digit-reversed order.
+#'
 #' This function is useful for pre-ordering a vector of filter coefficients for
 #' use in frequency-domain filtering algorithms, in which the fft and ifft
 #' transforms are computed without digit-reversed ordering for improved run-time
@@ -39,19 +37,19 @@
 #' @param index.return logical indicating if the ordering index vector should be
 #'   returned as well. Default \code{FALSE}.
 #'
-#' @return the digit-reversed input vector. If \code{index.return = TRUE}, then
+#' @return The digit-reversed input vector. If \code{index.return = TRUE}, then
 #'   a list containing the digit-reversed input vector (\code{y}, and the
 #'   digit-reversed indices (\code{i}).
 #'
 #' @examples
-#' 
+#'
 #' digitrevorder(0:8, 3)
 #'
-#' @author Mike Miller, port to to by Geert van Boxtel,
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Mike Miller.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{bitrevorder}}, \code{\link{fft}}, \code{\link{ifft}}
-#' 
+#'
 #' @export
 
 digitrevorder <- function (x, r, index.return = FALSE) {
@@ -69,10 +67,10 @@ digitrevorder <- function (x, r, index.return = FALSE) {
   if(!is.logical(index.return)) {
     stop("index.return must be TRUE or FALSE")
   }
-  
+
   old_ind <- seq(0, length(x) - 1)
   new_ind <- gdec2base(old_ind, r)
-  
+
   i <- new_ind + 1
   y <- rep(0L, length(x))
   y[old_ind + 1] <- x[i]
@@ -84,8 +82,6 @@ digitrevorder <- function (x, r, index.return = FALSE) {
   }
   y
 }
-
-
 # R version of Octave function dec2base, simplified and adapted for use with
 # digitrevorder, not exported to the namespace)
 
@@ -97,7 +93,7 @@ gdec2base <- function(d, base, len = 0) {
 
   # better safe than sorry
   d <- as.vector(round(abs(as.numeric(d))))
-  
+
   symbols = c(as.character(0:9), LETTERS)
   if (is.character(base)) {
     symbols <- unique(unlist(strsplit(gsub("[[:space:]]", "", base), "")))
@@ -107,22 +103,22 @@ gdec2base <- function(d, base, len = 0) {
   } else if (base < 2 || base > length(symbols)) {
     base <- max(min(base, length(symbols)), 2)
   }
-  
+
   ## determine number of digits required to handle all numbers, can overflow
   ## by 1 digit
   max_len <- round(log(max(max(d), 1)) / log(base)) + 1
   max_len <- max(max_len, len)
-  
+
   ## determine digits for each number
   digits <- matrix(0L, length(d), max_len)
   for (k in seq(max_len, 1, -1)) {
     digits[, k] <- d %% base
     d <- round((d - digits[, k]) / base)
   }
-  
+
   ## convert digits to symbols
   retval <- matrix(symbols[digits + 1], nrow = NCOL(digits), ncol = NROW(digits), byrow = TRUE)
-  
+
   ## Check if the first element is the zero symbol.  It seems possible
   ## that LEN is provided, and is less than the computed MAX_LEN and
   ## MAX_LEN is computed to be one larger than necessary, so we would
@@ -132,7 +128,7 @@ gdec2base <- function(d, base, len = 0) {
       && NROW(retval) != 1 && !any (retval[1, ] != symbols[1])) {
     retval <- retval[-1, ]
   }
-  
+
   # GvB: flip and convert back to numeric if retval is a matrix
   nc <- NCOL(retval); nr <- NROW(retval)
   if (nc > 1) {

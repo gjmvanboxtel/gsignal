@@ -33,27 +33,28 @@ c(low, high) specifying the lower and upper bands in radians/second. For
 digital filters, W must be between 0 and 1 where 1 is the Nyquist
 frequency.}
 
-\item{type}{filter type, one of "low", "high", "stop", or "pass".}
+\item{type}{filter type, one of \code{"low"}, \code{"high"}, \code{"stop"},
+or \code{"pass"}.}
 
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-list of class \code{'\link{Arma}'} with list elements:
+list of class \code{\link{Arma}} with list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
 }
 }
 \description{
-Compute the transfer function coefficients of a Chebyshev Type I filter
+Compute the transfer function coefficients of a Chebyshev Type I filter.
 }
 \details{
 Chebyshev filters are analog or digital filters having a steeper roll-off
 than Butterworth filters, and have passband ripple (type I) or stopband
 ripple (type II).
 
-Because cheby1 is generic, it can be extended to accept other inputs, using
-"cheb1ord" to generate filter criteria for example.
+Because \code{cheby1} is generic, it can be extended to accept other inputs,
+using \code{cheb1ord} to generate filter criteria for example.
 }
 \examples{
 # compare the frequency responses of 5th-order Butterworth and Chebyshev filters.
@@ -77,10 +78,12 @@ plot(c1fr$w / pi, abs(c1fr$h), type = "l", ylim = c(0, 1),
 \url{https://en.wikipedia.org/wiki/Chebyshev_filter}
 }
 \seealso{
-\code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{ellip}, \code{\link{cheb1ord}}
+\code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}},
+  \code{\link{ellip}}, \code{\link{cheb1ord}}
 }
 \author{
-Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net},
-  Doug Stewart \email{dastew@sympatico.ca}. Port to R Tom Short, adapted by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Doug Stewart, \email{dastew@sympatico.ca}.\cr
+  Conversion to R Tom Short,\cr
+  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

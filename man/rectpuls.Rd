@@ -15,14 +15,17 @@ rectpuls(t, w = 1)
 Rectangular pulse of unit amplitude, returned as a vector.
 }
 \description{
-Returns samples of the unit-amplitude rectangular pulse at the times indicated by \code{t}
+Return samples of the unit-amplitude rectangular pulse at the times
+indicated by \code{t}.
 }
 \details{
-\code{y <- rectpuls(t)} returns a continuous, aperiodic, unit-height rectangular pulse at the sample times indicated
-in array t, centered about t = 0.
+\code{y <- rectpuls(t)} returns a continuous, aperiodic, unit-height
+rectangular pulse at the sample times indicated in array t, centered about t
+= 0.
 
-\code{y <- rectpuls(t, w)} generates a rectangular pulse over the interval from \code{-w/2} to  \code{w/2}, sampled at times \code{t}.
-This is useful with the function \code{pulstran} for generating a series of pulses.
+\code{y <- rectpuls(t, w)} generates a rectangular pulse over the interval
+from \code{-w/2} to  \code{w/2}, sampled at times \code{t}. This is useful
+with the function \code{pulstran} for generating a series of pulses.
 }
 \examples{
 
@@ -44,6 +47,6 @@ plot (seq(0, length(y)-1) * 1000/fs, y, type ="l", xlab = "Time (ms)",
 \code{\link{pulstran}}
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2000 Paul Kienzle, Copyright (C) 2018-2019 Mike Miller.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, Mike Miller.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -21,7 +21,7 @@ wconv(
   \item{'row'}{For \code{a} as (coerced to) a matrix, and \code{b}
   (coerced to) a vector, perform the 1-D convolution of the rows of \code{a}
   and \code{b};}
-  \item{column'}{For \code{a} as (coerced to) a matrix, and \code{b}
+  \item{'column'}{For \code{a} as (coerced to) a matrix, and \code{b}
   (coerced to) a vector, perform the 1-D convolution of the colums of \code{a}
   and \code{b};}
 }}
@@ -59,7 +59,6 @@ wconv('c', a, c(0,1), 'valid')
 \code{\link[gsignal]{conv}}, \code{\link[gsignal]{conv}}
 }
 \author{
-Original Octave version Lukas Reichlin
-  \email{lukas.reichlin@gmail.com}, port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Lukas Reichlin, \email{lukas.reichlin@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

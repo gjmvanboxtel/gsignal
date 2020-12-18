@@ -34,10 +34,10 @@ dimensions. Default: 2 (columns).}
 
 \item{direction}{Where to pad the array along each dimension. One of the
   following:
-\itemize{
-  \item "pre" Before the first element
-  \item "post" After the last element
-  \item "both" (default) Before the first and after the last element
+\describe{
+  \item{pre}{Before the first element}
+  \item{post}{After the last element}
+  \item{both}{(default) Before the first and after the last element}
 }}
 }
 \value{
@@ -68,8 +68,8 @@ postpad(m, 2)
 postpad(m, 2, MARGIN = 1)
 prepad(m, 2)
 prepad(m, 2, MARGIN = 1)
- 
+
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

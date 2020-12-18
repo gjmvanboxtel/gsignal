@@ -7,7 +7,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,39 +16,44 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Cross-correlation
-#' 
+#'
 #' Estimate the cross-correlation between two sequences or the autocorrelation
 #' of a single sequence
-#' 
+#'
 #' Estimate the cross correlation R_xy(k) of vector arguments \code{x} and
 #' \code{y} or, if \code{y} is omitted, estimate autocorrelation R_xx(k) of
 #' vector \code{x}, for a range of lags \code{k} specified by the argument
 #' \code{maxlag}. If \code{x} is a matrix, each column of \code{x} is correlated
 #' with itself and every other column.
-#' 
+#'
 #' The cross-correlation estimate between vectors \code{x} and \code{y} (of
-#' length \code{N}) for lag \code{k} is given by \deqn{R_{xy}(k) =
-#' \sum_{i=1}^{N} x_{i+k} conj(y_i)} where data not provided (for example
-#' \code{x[-1], y[N+1]}) is zero. Note the definition of cross-correlation given
-#' above. To compute a cross-correlation consistent with the field of
-#' statistics, see xcov.
-#' 
+#' length \code{N}) for lag \code{k} is given by
+#' \if{latex}{
+#'   \deqn{R_{xy}(k) = \sum_{i=1}^{N} x_{i+k} Conj(y_i)}
+#' }
+#' \if{html}{\preformatted{
+#'             N
+#'      Rxy = SUM x(i+k) . Conj(y(i))
+#'            i=1
+#' }}
+#' where data not provided (for example \code{x[-1], y[N+1]}) is zero. Note the
+#' definition of cross-correlation given above. To compute a cross-correlation
+#' consistent with the field of statistics, see xcov.
+#'
 #' The cross-correlation estimate is calculated by a "spectral" method
 #' in which the FFT of the first vector is multiplied element-by-element
 #' with the FFT of second vector.  The computational effort depends on
 #' the length N of the vectors and is independent of the number of lags
 #' requested.  If you only need a few lags, the "direct sum" method may
 #' be faster.
-#' 
+#'
 #' @param x Input, numeric or complex vector or matrix. Must not be missing.
 #' @param y Input, numeric or complex vector data.  If \code{x} is a matrix (not
 #'   a vector), \code{y} must be omitted. \code{y} may be omitted if \code{x} is
@@ -69,8 +74,8 @@
 #'   }
 #'  If omitted, the default value is \code{none}. If \code{y} is supplied but
 #'  does not have the same length as \code{x}, scale must be \code{none}.
-#' 
-#' @return A \code{\link{list}} containing the following variables:
+#'
+#' @return A list containing the following variables:
 #' \describe{
 #'   \item{R}{array of correlation estimates}
 #'   \item{lags}{vector of correlation lags \code{[-maxlag:maxlag]}}
@@ -84,8 +89,8 @@
 #'   varies with the first index so that \code{R} has \code{2 * maxlag + 1} rows
 #'   and \eqn{P^2} columns where \code{P} is the number of columns in \code{x}.
 #' }
-#' @seealso xcov. 
-#'  
+#' @seealso \code{\link{xcov}}.
+#'
 #' @examples
 #' ## Create a vector x and a vector y that is equal to x shifted by 5 elements to the right.
 #' ## Compute and plot the estimated cross-correlation of x and y. The largest spike occurs
@@ -95,14 +100,14 @@
 #' y <- pracma::circshift(x, 5)
 #' rl <- xcorr(x, y)
 #' plot(rl$lag, rl$R, type="h")
-#' 
+#'
 #' ## Compute and plot the estimated autocorrelation of a vector x.
 #' ## The largest spike occurs at zero lag, when x matches itself exactly.
 #' n <- 0:15
 #' x <- 0.84^n
 #' rl <- xcorr(x)
 #' plot(rl$lag, rl$R, type="h")
-#' 
+#'
 #' ## Compute and plot the normalized cross-correlation of vectors
 #' ## x and y with unity peak, and specify a maximum lag of 10.
 #' n <- 0:15
@@ -110,17 +115,17 @@
 #' y <- pracma::circshift(x, 5)
 #' rl <- xcorr(x, y, 10, 'coeff')
 #' plot(rl$lag, rl$R, type="h")
-#' 
-#' @author Copyright (C) 1999-2001 Paul Kienzle \email{pkienzle@@users.sf.net},
-#'   Copyright (C) 2004 \email{asbjorn.sabo@@broadpark.no}, Copyright (C) 2008,
-#'   2010 Peter Lanspeary \email{peter.lanspeary@@adelaide.edu.au}, Port to R by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'   Asbjorn Sabo, \email{asbjorn.sabo@@broadpark.no},\cr
+#'   Peter Lanspeary. \email{peter.lanspeary@@adelaide.edu.au}.\cr
+#'    Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
 xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(length(x), length(y)) - 1),
                    scale = c("none", "biased", "unbiased", "coeff")) {
-  
+
   if (is.array(x)) {
     ld <- length(dim(x))
     if (ld == 1) {
@@ -141,7 +146,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
       stop ('multidimensional arrays are not supported (y)')
     }
   }
-  
+
   if (is.vector(x)) {
     N <- max(length(x), length(y))
   } else {
@@ -165,7 +170,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
 
   # Correlations for lags in excess of +/-(N-1)
   #  (a) are not calculated by the FFT algorithm,
-  #  (b) are all zero; 
+  #  (b) are all zero;
   # so provide them by padding the results (with zeros) before returning.
   if (maxlag > (N - 1)) {
     pad_result <- maxlag - (N - 1)
@@ -173,7 +178,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
   } else {
     pad_result <- 0
   }
-  
+
   if (is.vector(x) && is.vector(y) && length(x) != length(y) && scale != 'none') {
     stop ("scale must be 'none' if length(x) != length(y)")
   }
@@ -201,7 +206,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
         R[, ((i - 1) * P + j)] <- cor[1:(2 * maxlag + 1)]
         R[, ((j - 1) * P + i)] <- Conj(rev(cor[1:(2 * maxlag + 1)]))
       }
-      
+
     }
   } else if (is.null(y)) {
     # compute autocorrelation of a single vector
@@ -215,7 +220,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     cor <- ifft(pre * Conj(post))
     R <- cor[1:(2 * maxlag + 1)]
   }
-  
+
   # if inputs are real, outputs should be real, so ignore the
   # insignificant complex portion left over from the FFT
   if (is.numeric(x) && (is.null(y) || is.numeric(y))) {

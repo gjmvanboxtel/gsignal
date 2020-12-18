@@ -13,19 +13,20 @@ besself(n, w, type = c("low", "high", "stop", "pass"))
 low-pass and high-pass filters, and \code{w} must be a two-element vector
 c(low, high) specifying the lower and upper bands in radians/second.}
 
-\item{type}{filter type, one of "low", "high", "stop", or "pass"}
+\item{type}{filter type, one of \code{"low"} (default), \code{"high"},
+\code{"stop"}, or \code{"pass"}.}
 }
 \value{
-list of class \code{'\link{Zpg}'} containing poles and gain of the
-  filter
+List of class \code{'\link{Zpg}'} containing poles and gain of the
+  filter.
 }
 \description{
-Compute the transfer function coefficients of an analog Bessel filter
+Compute the transfer function coefficients of an analog Bessel filter.
 }
 \details{
-\code{besself} designs analog Bessel filters, which are characterized by an
-almost constant group delay across the entire passband, thus preserving the
-wave shape of filtered signals in the passband.
+Bessel filters are characterized by an almost constant group delay across the
+entire passband, thus preserving the wave shape of filtered signals in the
+passband.
 
 Lowpass Bessel filters have a monotonically decreasing magnitude response, as
 do lowpass Butterworth filters. Compared to the Butterworth, Chebyshev, and
@@ -37,7 +38,7 @@ As the important characteristic of a Bessel filter is its
   maximally-flat group delay, and not the amplitude response, it is
   inappropriate to use the bilinear transform to convert the analog Bessel
   filter into a digital form (since this preserves the amplitude response but
-  not the group delay [1].
+  not the group delay) [1].
 }
 \examples{
 w <- seq(0, 4, length.out = 128)
@@ -63,8 +64,8 @@ freqs(zp, w)
 [1] \url{https://en.wikipedia.org/wiki/Bessel_filter}
 }
 \author{
-Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net},
-  Doug Stewart \email{dastew@sympatico.ca}, Thomas Sailer
-  \email{t.sailer@alumni.ethz.ch}. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Doug Stewart, \email{dastew@sympatico.ca},\cr
+  Thomas Sailer, \email{t.sailer@alumni.ethz.ch}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

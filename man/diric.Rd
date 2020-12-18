@@ -7,23 +7,28 @@
 diric(x, n)
 }
 \arguments{
-\item{x}{Input array, specified as a real scalar, vector, matrix, or multidimensional array. When \code{x} is nonscalar,
-diric is an element-wise operation.}
+\item{x}{Input array, specified as a real scalar, vector, matrix, or
+multidimensional array. When \code{x} is nonscalar, diric is an
+element-wise operation.}
 
 \item{n}{Function degree, specified as a positive integer scalar.}
 }
 \value{
-Output array, returned as a real-valued scalar, vector, matrix, or multidimensional array of the same size as x.
+Output array, returned as a real-valued scalar, vector, matrix, or
+  multidimensional array of the same size as x.
 }
 \description{
 Compute the Dirichlet or periodic sinc function.
 }
 \details{
-\code{y <- diric(x, n)} returns the Dirichlet Function of degree \code{n} evaluated at the elements of the input array {x}.
+\code{y <- diric(x, n)} returns the Dirichlet Function of degree \code{n}
+evaluated at the elements of the input array {x}.
 
-The Dirichlet function, or periodic sinc function, has period \eqn{2 \pi} for odd \eqn{N} and period \eqn{4 \pi} for even
-\eqn{N}. Its maximum value is 1 for all N, and its minimum value is -1 for even N. The magnitude of the function is 1/N times
-the magnitude of the discrete-time Fourier transform of the N-point rectangular window.
+The Dirichlet function, or periodic sinc function, has period \eqn{2 \pi} for
+odd \eqn{N} and period \eqn{4 \pi} for even \eqn{N}. Its maximum value is 1
+for all N, and its minimum value is -1 for even N. The magnitude of the
+function is 1/N times the magnitude of the discrete-time Fourier transform of
+the N-point rectangular window.
 }
 \examples{
 
@@ -39,6 +44,6 @@ par(op)
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

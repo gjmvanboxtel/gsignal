@@ -3,7 +3,7 @@
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
+// as published by the Free Software Foundation; either version 3
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -12,9 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-// See also: http://www.gnu.org/licenses/gpl-2.0.txt
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // Version history
 // 20200803  GvB       setup for gsignal v0.1.0
@@ -24,25 +22,25 @@
 using namespace Rcpp;
 
 /*
- 
+
  Copyright (C) 1995, 1998 Jake Janovetz <janovetz@uiuc.edu>
  Copyright (C) 1999 Paul Kienzle <pkienzle@users.sf.net>
  Copyright (C) 2000 Kai Habel <kahacjde@linux.zrz.tu-berlin.de>
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program; see the file COPYING.  If not, see
  <https://www.gnu.org/licenses/>.
- 
+
  */
 
 /**************************************************************************
@@ -100,15 +98,15 @@ void CreateDenseGrid(int r, int numtaps, int numband, const NumericVector bands,
 {
    int i, j, k, band;
    double delf, lowf, highf, grid0;
-   
+
    delf = 0.5/(griddensity*r);
-   
+
    /*
     * For differentiator, hilbert,
     *   symmetry is odd and Grid[0] = max(delf, bands[0])
     */
    grid0 = (symmetry == NEGATIVE) && (delf > bands[0]) ? delf : bands[0];
-   
+
    j=0;
    for (band=0; band < numband; band++)
    {
@@ -127,7 +125,7 @@ void CreateDenseGrid(int r, int numtaps, int numband, const NumericVector bands,
    }
    Grid[j-1] = highf;
    }
-   
+
    /*
     * Similar to above, if odd symmetry, last grid point can't be .5
     *  - but, if there are even taps, leave the last grid point at .5
@@ -160,7 +158,7 @@ void CreateDenseGrid(int r, int numtaps, int numband, const NumericVector bands,
 void InitialGuess(int r, NumericVector& Ext, int gridsize)
 {
    int i;
-   
+
    for (i=0; i<=r; i++)
       Ext[i] = i * (gridsize-1) / r;
 }
@@ -191,13 +189,13 @@ void CalcParms(int r, NumericVector Ext, NumericVector Grid, NumericVector D, Nu
 {
    int i, j, k, ld;
    double sign, xi, delta, denom, numer;
-   
+
    /*
     * Find x[]
     */
    for (i=0; i<=r; i++)
       x[i] = cos(Pi2 * Grid[Ext[i]]);
-   
+
    /*
     * Calculate ad[]  - Oppenheim & Schafer eq 7.132
     */
@@ -216,7 +214,7 @@ void CalcParms(int r, NumericVector Ext, NumericVector Grid, NumericVector D, Nu
          denom = 0.00001;
       ad[i] = 1.0/denom;
    }
-   
+
    /*
     * Calculate delta  - Oppenheim & Schafer eq 7.131
     */
@@ -230,7 +228,7 @@ void CalcParms(int r, NumericVector Ext, NumericVector Grid, NumericVector D, Nu
    }
    delta = numer/denom;
    sign = 1;
-   
+
    /*
     * Calculate y[]  - Oppenheim & Schafer eq 7.133b
     */
@@ -317,7 +315,7 @@ void CalcError(int r, NumericVector ad, NumericVector x, NumericVector y,
 {
    int i;
    double A;
-   
+
    for (i=0; i<gridsize; i++)
    {
       A = ComputeA(Grid[i], r, ad, x, y);
@@ -487,7 +485,7 @@ void FreqSample(int N, NumericVector A, NumericVector& h, int symm)
 {
    int n, k;
    double x, val, M;
-   
+
    M = (N-1.0)/2.0;
    if (symm == POSITIVE)
    {
@@ -563,7 +561,7 @@ int isDone(int r, NumericVector Ext, NumericVector E)
 {
    int i;
    double min, max, current;
-   
+
    min = max = fabs(E[Ext[0]]);
    for (i=1; i<=r; i++)
    {
@@ -607,12 +605,12 @@ NumericVector remez(NumericVector h, int numtaps,
 {
    int i, iter, gridsize, r, symmetry;
    double c;
-   
+
    if (type == BANDPASS)
       symmetry = POSITIVE;
    else
       symmetry = NEGATIVE;
-   
+
    r = numtaps/2;                  /* number of extrema */
    if ((numtaps%2) && (symmetry == POSITIVE))
       r++;
@@ -636,7 +634,7 @@ NumericVector remez(NumericVector h, int numtaps,
     */
    NumericVector Grid(gridsize), D(gridsize), W(gridsize), E(gridsize);
    NumericVector Ext(r+1), taps(r+1), x(r+1), y(r+1), ad(r+1);
-   
+
    /*
     * Create dense frequency grid
     */

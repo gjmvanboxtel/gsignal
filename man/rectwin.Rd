@@ -13,11 +13,11 @@ rectwin(n)
 rectangular window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a rectangular window of length \code{n}
+Return the filter coefficients of a rectangular window of length \code{n}.
 }
 \details{
-The output of the rectwin function with input \code{n} can also be created using the \code{rep} function:
-w <- rep(1L, n)
+The output of the rectwin function with input \code{n} can also be created
+using the \code{rep} function: w <- rep(1L, n)
 }
 \examples{
 
@@ -29,6 +29,6 @@ plot (r, type = "l", xlab = "Samples", ylab =" Amplitude", ylim = c(0, 1))
 \code{\link{boxcar}}
 }
 \author{
-Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

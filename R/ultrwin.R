@@ -21,9 +21,9 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Ultraspherical window
-#' 
-#' Return the coefficients of an ultraspherical window
-#' 
+#'
+#' Return the coefficients of an ultraspherical window.
+#'
 #' Windows can be characterized as fixed or adjustable. Fixed windows have only
 #' one independent parameter, namely, the window length which controls the
 #' main-lobe width. Adjustable windows have one or more additional parameters
@@ -33,10 +33,10 @@
 #' side-lobes decrease (or increase) in amplitude as a function of frequency.
 #' This can be useful, for instance, if a very sharp attenuation immediately
 #' next to the transition band is desired.
-#' 
+#'
 #' Ref [1] details methods to set the parameters that can be used for designing
 #' specific spectral characteristics of the window.
-#' 
+#'
 #' @param n Window length, specified as a positive integer (controls main lobe
 #'   width)
 #' @param mu parameter that controls the side-lobe roll-off ratio of the Fourier
@@ -48,21 +48,28 @@
 #'     \item{xmu (default)}{controls the ripple ratio by setting the
 #'     (un-normalized) window’s Fourier transform according to its canonical
 #'     definition:
-#'       \preformatted{
-#'        (MU)
-#' W(k) = C   [ xmu cos(pi k/M) ],  k = 0, 1, ..., M-1,
-#'        M-1
-#'      }
-#'      where C is the Ultraspherical (a.k.a. Gegenbauer) polynomial, which can
-#'      be defined using the recurrence relationship:
-#'        \preformatted{
+#' \if{latex}{
+#'   \deqn{W(k) = C_{M-1}^{\mu} x \mu \cdot cos(\pi k/M)}
+#' }
+#' \if{html}{\preformatted{
+#'            (MU)
+#'     W(k) = C   [ xmu cos(pi k/M) ],  k = 0, 1, ..., M-1,
+#'            M-1
+#' }}
+#' where C is the Ultraspherical (a.k.a. Gegenbauer) polynomial, which can be
+#' defined using the recurrence relationship:
+#'  \if{latex}{
+#'    \deqn{C_{m}^{l}(x) = \frac{1}{m} (2x(m+l-1) C_{m-1}^{l}(x) - (m+2l-2) C_{m-2}^{l}(x))}
+#'    for \eqn{m} and integer > 1, and \eqn{C_{0}^{l}(x) = 1}, \eqn{C_{1}^{l}(x) = 2 lx}.
+#'  }
+#' \if{html}{\preformatted{
 #'      (l)    1                  (l)                    (l)
 #'     C (x) = - [ 2x(m + l - 1) C   (x) - (m + 2l - 2) C   (x) ]
 #'      m      m                  m-1                    m-2
 #'                                 (l)        (l)
 #'      for m an integer > 1, and C (x) = 1, C (x) = 2lx.
 #'                                 0          1
-#'      }
+#' }}
 #'      Note that when not giving \code{xmu}, stability issues may occur with
 #'      \code{mu <= -1.5}.
 #'    }
@@ -71,19 +78,19 @@
 #'     \item{att}{sets the ripple ratio at the first }
 #'     \item{latt}{sets the ripple ratio at the last side-lobe}
 #'   }
-#' 
-#' @return ultraspherical window, returned as a vector.
-#' 
+#'
+#' @return Ultraspherical window, returned as a vector.
+#'
 #' @examples
 #' ## Window with sharp attenuation next to transition band
 #' w <- ultrwin(120, -1, 40, "l")
 #' fz <- freqz(w)
 #' op <- par(mfrow = c(2, 1))
 #' plot (seq(0, length(w) - 1), w, type = "l", xlab = "", ylab ="")
-#' plot (fz$w / pi, 20 * log10(abs(fz$h) / abs(fz$h[1])), type = "l", 
+#' plot (fz$w / pi, 20 * log10(abs(fz$h) / abs(fz$h[1])), type = "l",
 #'       xlab = "", ylab = "")
 #' par(op)
-#'       
+#'
 #' ## Varying beta with fixed mu
 #' x <- y <- NULL
 #' for (beta in 2:5) {
@@ -94,7 +101,7 @@
 #' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", ylim = c(-150,0),
 #'   main = expression(paste("Varying ", beta, " with ", mu, " = 0.5")))
 #' legend("topright", legend = 2:5, title = "Beta", lty = 1, col = 1:4)
-#' 
+#'
 #' ## Varying n with fixed mu and beta
 #' x <- y <- NULL
 #' for (n in 2:10) {
@@ -102,11 +109,11 @@
 #'   x <- cbind(x, fz$w / pi)
 #'   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 #' }
-#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
 #'   xlim = c(0, 0.25), ylim = c(-100, 0), col = 1:9,
 #'   main = expression(paste("Varying n with ", mu, " = 1 and ", beta, " = 3")))
 #' legend("topright", legend = 20*(2:10), title = "n", lty = 1, col = 1:9)
-#' 
+#'
 #' ## Varying mu with fixed m and att
 #' x <- y <- NULL
 #' for (j in 0:4) {
@@ -114,12 +121,12 @@
 #'   x <- cbind(x, fz$w / pi)
 #'   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 #' }
-#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
 #'   xlim = c(0, 1), ylim = c(-100, 0), col = 1:5,
 #'   main = expression(paste("Varying ", mu, " with n = 80 and att = 50")))
 #' legend("topright", legend = (0:4) * .6 - 1.2, title = expression(mu),
 #'   lty = 1, col = 1:5)
-#' 
+#'
 #' ## Varying mu with fixed m and latt
 #' x <- y <- NULL
 #' for (j in rev(0:4)) {
@@ -127,12 +134,12 @@
 #'   x <- cbind(x, fz$w / pi)
 #'   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
 #' }
-#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "", 
+#' matplot(x, y, type = "l", lty = 1, xlab = "", ylab = "",
 #'   xlim = c(0, 1), ylim = c(-100, 0), col = 1:5,
 #'   main = expression(paste("Varying ", mu, " with n = 80 and latt = 50")))
 #' legend("topright", legend = (0:4) * .6 - 1.2, title = expression(mu),
 #'   lty = 1, col = 1:5)
-#'   
+#'
 #' ## Compare ultraspherical, Dolph-Chebyshev and Kaiser windows
 #' x <- y <- NULL
 #' for (i in 1:3) {
@@ -145,12 +152,12 @@
 #'   xlim = c(0, 1), ylim = c(-130, 0))
 #' legend("topright", lty = 1, col = 1:3,
 #'   legend = c("Ultraspherical", "Dolph-Chebyshev", "Kaiser"))
-#'   
+#'
 #' @note The Dolph-Chebyshev and Saramaki windows are special cases of the
 #'   Ultraspherical window, with mu set to 0 and 1 respectively.
-#' 
-#' @author Rob Sykes, \email{robs@@users.sourceforge.net}; port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Rob Sykes, \email{robs@@users.sourceforge.net}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @references [1] Bergen, S.W.A., Antoniou, A. (2004). Design of Ultraspherical Window Functions
 #' with Prescribed Spectral Characteristics. EURASIP J. Appl. Sign. Proc. 13, 2053-2065\cr
@@ -159,7 +166,7 @@
 #' @export
 
 ultrwin <- function (n, mu, pvalue, ptype = "beta") {
-  
+
   if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be a positive integer")
   mu <- as.double(mu)
   if (!isScalar(mu)) stop ("mu must be a real scalar")
@@ -167,8 +174,8 @@ ultrwin <- function (n, mu, pvalue, ptype = "beta") {
   if (!isScalar(pvalue)) stop ("paramater value must be a real scalar")
   types <- c("xmu", "beta", "att", "latt")
   ptype = match.arg(ptype, types)
-  
-  
+
+
   w <- .Call("_gsignal_ultrwin", PACKAGE = "gsignal", n, mu, pvalue, which(types == ptype) - 1, 0L)
   if (is.null(w)) {
     stop("Parameter(s) out of range")

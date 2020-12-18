@@ -13,12 +13,14 @@ boxcar(n)
 rectangular window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a boxcar (rectangular) window of length \code{n}
+Return the filter coefficients of a boxcar (rectangular) window.
 }
 \details{
-The rectangular window (sometimes known as the boxcar or Dirichlet window) is the simplest window, equivalent to
-replacing all but \code{n} values of a data sequence by zeros, making it appear as though the waveform suddenly turns on and off.
-Other windows are designed to moderate these sudden changes, which reduces scalloping loss and improves dynamic range.
+The rectangular window (sometimes known as the boxcar or Dirichlet window) is
+the simplest window, equivalent to replacing all but \code{n} values of a
+data sequence by zeros, making it appear as though the waveform suddenly
+turns on and off. Other windows are designed to moderate these sudden
+changes, which reduces scalloping loss and improves dynamic range.
 }
 \examples{
 
@@ -30,6 +32,6 @@ plot (b, type = "l", xlab = "Samples", ylab =" Amplitude")
 \code{\link{triang}}
 }
 \author{
-Original Octave code Copyright (C) 2000 Paul Kienzle \email{pkienzle@users.sf.net}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

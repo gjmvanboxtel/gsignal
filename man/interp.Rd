@@ -46,6 +46,6 @@ legend("topleft", legend = c("original", "interpolated"),
 \code{\link{decimate}}, \code{\link{resample}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -16,16 +16,16 @@ Default: \code{m}.}
 \item{d}{delay, specified as a positive integer. Default: 0.}
 }
 \value{
-sine wave, returned as a vector of length \code{m}.
+Sine wave, returned as a vector of length \code{m}.
 }
 \description{
-Generate discrete sine wave
+Generate a discrete sine wave.
 }
 \examples{
 plot(sinewave(100, 10), type = "l")
 
 }
 \author{
-Friedrich Leisch; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Friedrich Leisch.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

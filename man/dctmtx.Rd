@@ -7,13 +7,13 @@
 dctmtx(n)
 }
 \arguments{
-\item{n}{Size of DCT matrix, specified as a positive integer. Default: none.}
+\item{n}{Size of DCT matrix, specified as a positive integer.}
 }
 \value{
 Discrete cosine transform, returned as a vector or matrix.
 }
 \description{
-Compute the discrete cosine transform matrix
+Compute the discrete cosine transform matrix.
 }
 \details{
 A DCT transformation matrix is useful for doing things like JPEG image
@@ -27,7 +27,7 @@ computation is sometimes faster than using \code{dct2}, especially if you are
 computing a large number of small DCTs, because D needs to be determined only
 once. For example, in JPEG compression, the DCT of each 8-by-8 block is
 computed. To perform this computation, use \code{dctmtx} to determine D of
-imput image A, and then calculate each DCT using \eqn{D * A * t(D)} (where A
+input image A, and then calculate each DCT using \code{D * A * t(D)} (where A
 is each 8-by-8 block). This is faster than calling \code{dct2} for each
 individual block. See the examples.
 }
@@ -44,12 +44,12 @@ dct <- D * A * t(D)
 plot(as.cimg(dct), axes = FALSE, main = "DCT2 of Original")
 par(op)
 }
-        
+
 }
 \seealso{
 \code{\link{dct}}, \code{\link{dct2}}, \code{\link{idct}}, \code{\link{idct2}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

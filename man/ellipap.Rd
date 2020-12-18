@@ -14,7 +14,7 @@ ellipap(n, Rp, Rs)
 \item{Rs}{dB of stopband ripple.}
 }
 \value{
-list of class \code{'\link{Zpg}'} containg zeros, poles and gain of
+list of class \code{\link{Zpg}} containing zeros, poles and gain of
   the filter
 }
 \description{
@@ -33,7 +33,6 @@ freqs(zp, w)
 
 }
 \author{
-Original Octave code by Carnë Draug
-  \email{carandraug+dev@gmail.com}. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Carnë Draug, \email{carandraug+dev@gmail.com}.
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200606  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Multiplicity of poles
-#' 
-#' Identify unique poles and their associated multiplicity
-#' 
+#'
+#' Identify unique poles and their associated multiplicity.
+#'
 #' @param p vector of poles.
 #' @param tol tolerance. If the relative difference of two poles is less than
 #'   \code{tol} then they are considered to be multiples. The default value for
@@ -34,25 +32,25 @@
 #'   largest pole to smallest pole.
 #' @param index.return logical indicating if index vector should be returned as
 #'   well. See examples. Default: \code{FALSE}.
-#' 
+#'
 #' @return If \code{index.return = TRUE}, a list consisting of two vectors:
 #' \describe{
 #'   \item{m}{vector specifying the multiplicity of the poles}
 #'   \item{n}{index}
 #' }
 #' If \code{index.return = FALSE}, only \code{m} is returned (as a vector).
-#' 
+#'
 #' @examples
 #' p <- c(2, 3, 1, 1, 2)
 #' ret <- mpoles(p, index = TRUE)
 #' ret$m         # returns 1 1 2 1 2
 #' ret$n         # returns 2 5 1 4 3
 #' p[ret$n]      # returns 3 2 2 1 1
-#' 
-#' @seealso \code{\link{poly}}, \code{residue}
-#' 
-#' @author Original Octave version by Ben Abbott \email{bpabbott@@mac.com}.
-#'   Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}
+#'
+#' @seealso \code{\link{poly}}, \code{\link{residue}}
+#'
+#' @author Ben Abbott, \email{bpabbott@@mac.com}.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
 #
 #' @export
 
@@ -74,7 +72,7 @@ mpoles <- function(p, tol = 0.001, reorder = TRUE, index.return = FALSE) {
   if (!is.logical(index.return)) {
     stop("'index.return' should be TRUE or FALSE")
   }
-  
+
   ## Sort the poles according to their magnitidues, largest first.
   if (reorder) {
     ## Sort with smallest magnitude first.
@@ -86,10 +84,10 @@ mpoles <- function(p, tol = 0.001, reorder = TRUE, index.return = FALSE) {
   } else {
     ordr <- seq_len(Np)
   }
-  
+
   ## Find pole multiplicty by comparing the relative differnce in the
   ## poles.
-  
+
   multp <- array(0L, Np)
   indx <- NULL
   n <- which(multp == 0)[1]
@@ -113,10 +111,10 @@ mpoles <- function(p, tol = 0.001, reorder = TRUE, index.return = FALSE) {
     multp[k] <- m
     indx <- c(indx, k)
     n <- which(multp == 0)[1]
-  } 
+  }
   multp <- as.numeric(multp[indx])
   indx <- as.numeric(ordr[indx])
-  
+
   if (index.return) {
     ret <- list(m = multp, n = indx)
   } else {

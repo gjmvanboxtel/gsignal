@@ -12,7 +12,7 @@ residuez(b, a)
 \item{a}{coefficients of denominator polynomial}
 }
 \value{
-A \code{\link{list}} containing 
+A list containing
 \describe{
   \item{r}{vector of filter pole residues of the partial fraction}
   \item{p}{vector of partial fraction poles}
@@ -25,8 +25,8 @@ Finds the residues, poles, and direct term of a Partial Fraction Expansion of
 the ratio of two polynomials.
 }
 \details{
-residuez converts a discrete time system, expressed as the ratio of two
-polynomials, to partial fraction expansion, or residue, form.
+\code{residuez} converts a discrete time system, expressed as the ratio of
+two polynomials, to partial fraction expansion, or residue, form.
 }
 \examples{
 b0 <- 0.05634
@@ -37,13 +37,12 @@ a2 <- c(1, -1.4461, 0.7957)
 b <- b0 * conv(b1, b2)
 a <- conv(a1, a2)
 res <- residuez(b, a)
- 
+
 }
 \seealso{
 \code{\link{residue}}, \code{\link{residued}}
 }
 \author{
-Original Octave version by Julius O. Smith III
-  \email{jos@ccrma.stanford.edu}. Conversion to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

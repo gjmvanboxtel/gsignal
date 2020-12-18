@@ -26,7 +26,7 @@ Compute the (inverse) Hartley transform of a signal using FFT
 \details{
 The Hartley transform is an integral transform closely related to the Fourier
 transform, but which transforms real-valued functions to real-valued
-functions. It  Compared to the Fourier transform, the Hartley transform has
+functions. Compared to the Fourier transform, the Hartley transform has
 the advantages of transforming real functions to real functions (as opposed
 to requiring complex numbers) and of being its own inverse [1].
 
@@ -64,6 +64,6 @@ all.equal(x, ifht(X))
 \code{\link{fft}}
 }
 \author{
-Muthiah Annamalai, \email{muthiah.annamalai@uta.edu}; port to R by
-  Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+Muthiah Annamalai, \email{muthiah.annamalai@uta.edu}.\
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

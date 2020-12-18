@@ -12,17 +12,22 @@ cheb(n, x)
 \item{x}{Point or points at which to calculate the Chebyshev polynomial}
 }
 \value{
-polynomial of order \code{x}, evaluated at point(s) \code{x}.
+Polynomial of order \code{x}, evaluated at point(s) \code{x}.
 }
 \description{
-Returns the value of the \code{n}th-order Chebyshev polynomial calculated at the point \code{x}.
+Return the value of the Chebyshev polynomial at specific points.
 }
 \details{
 The Chebyshev polynomials are defined by the equations:
-\deqn{Tn(x) = cos(n \cdot acos(x),    |x|<= 1}
-\deqn{Tn(x) = cosh(n \cdot acosh(x),  |x|> 1}
-
-If \code{x} is a vector, the output is a vector of the same size, where each element is calculated 
+\if{latex}{
+  \deqn{Tn(x) = cos(n \cdot acos(x),    |x|<= 1}
+  \deqn{Tn(x) = cosh(n \cdot acosh(x),  |x|> 1}
+}
+\if{html}{\preformatted{
+  Tn(x) = cos(n . acos(x),    |x|<= 1
+  Tn(x) = cosh(n . acosh(x),  |x|> 1
+}}
+If \code{x} is a vector, the output is a vector of the same size, where each element is calculated
 as \eqn{y(i) = Tn(x(i))}.
 }
 \examples{
@@ -32,6 +37,6 @@ cp <- cheb(5, c(2,3))
 
 }
 \author{
-Original Octave code Copyright (C) 2002 André Carezia \email{acarezia@uol.com.br}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+André Carezia, \email{acarezia@uol.com.br}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -22,7 +22,7 @@ A list of class Zpg with the following list elements:
 }
 }
 \description{
-Compute the transfer function coefficients of a Cauer analog filter
+Compute the transfer function coefficients of a Cauer analog filter.
 }
 \details{
 Cauer filters have equal maximum ripple in the passband and the stopband. The
@@ -40,7 +40,7 @@ generalized continued fractions.[1]
 }
 \examples{
 zpg <- ncauer(0.5, 40, 5)
- 
+
 }
 \references{
 [1] \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
@@ -49,7 +49,7 @@ zpg <- ncauer(0.5, 40, 5)
 \code{\link{Zpg}}, \code{\link{filter}}, \code{\link{ellip}}
 }
 \author{
-Original Octave code by Paulo Neis \email{p_neis@yahoo.com.br}. Port
-  to R Tom Short, adapted by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Paulo Neis, \email{p_neis@yahoo.com.br}.\cr
+Conversion to R Tom Short,\cr
+ adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

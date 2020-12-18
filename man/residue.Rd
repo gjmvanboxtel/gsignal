@@ -32,7 +32,7 @@ the ratio of two polynomials.
 }
 \details{
 The call \code{res <- residue(b, a)} computes the partial fraction expansion
-for the quotient of the polynomials, \code{b} and \code{a}. 
+for the quotient of the polynomials, \code{b} and \code{a}.
 
 The call \code{res <- rresidue(r, p, k)} performs the inverse operation and
 computes the reconstituted quotient of polynomials, b(s)/a(s), from the
@@ -44,12 +44,12 @@ multiplicity \code{e}.
 b <- c(-4, 8)
 a <- c(1, 6, 8)
 rpk <- residue(b, a)
-ba <- rresidue(rpk$r, rpk$p, rpk$k) 
- 
+ba <- rresidue(rpk$r, rpk$p, rpk$k)
+
 }
 \author{
-Original Octave version by Tony Richardson
-  \email{arichard@stark.cc.oh.us}, Ben Abbott \email{bpabbott@mac.com},
-  adapted by John W. Eaton. Conversion to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}
+Tony Richardson, \email{arichard@stark.cc.oh.us},\cr
+ Ben Abbott, \email{bpabbott@mac.com},\cr
+ adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

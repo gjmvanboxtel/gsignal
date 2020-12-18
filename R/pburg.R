@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
@@ -25,7 +23,7 @@
 #' Autoregressive PSD estimate - Burg's method
 #'
 #' Calculate Burg maximum-entropy power spectral density.
-#' 
+#'
 #' @param x input data, specified as a numeric or complex vector or matrix. In
 #'   case of a vector it represents a single signal; in case of a matrix each
 #'   column is a signal.
@@ -69,11 +67,11 @@
 #'   the power spectrum as a polynomial). This argument is ignored if the
 #'   \code{freq} argument is a vector. The default is \code{'poly'} unless the
 #'   \code{freq} argument is an integer power of 2.
-#'   
+#'
 #' @return An object of class "ar_psd" , which is a list containing two
 #'   elements, \code{freq} and \code{psd} containing the frequency values and
 #'   the estimates of power-spectral density, respectively.
-#'   
+#'
 #' @note This function is a wrapper for \code{arburg} and \code{ar_psd}.
 #'
 #' @examples
@@ -81,11 +79,11 @@
 #' y <- filter(A, 0.2 * rnorm(1024))
 #' pburg(y, 4)
 #'
-#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}. Port to R
-#'   by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}.\cr
+#' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @seealso \code{\link{ar_psd}}, \code{\link{arburg}}
-#' 
+#'
 #' @export
 
 pburg <- function(x, p, criterion = NULL, freq = 256, fs = 1, range = NULL,

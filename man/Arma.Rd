@@ -53,23 +53,34 @@ polynomial coefficients follow the Matlab/Octave convention where the
 coefficients are in decreasing order of the polynomial (the opposite of the
 definitions for filter from the stats package and polyroot from the base
 package). For an analog model,
- \deqn{H(s) = (b[1]*s^(m-1) + b[2]*s^(m-2) + … + b[m]) / (a[1]*s^(n-1) + a[2]*s^(n-2) + … + a[n])}
- For a z-plane digital model,
-\deqn{H(z) = (b[1] + b[2]*z^(-1) + … + b[m]*z^(-m+1)) / (a[1] + a[2]*z^(-1) + … + a[n]*z^(-n+1))}
+\if{latex}{
+ \deqn{H(s) = (b_1 s^{(m-1)} + b_2 s^{(m-2)} + \ldots + b_m) / (a_1 s^{(n-1)} + a_2 s^{(n-2)} + \ldots + a_n)}
+}
+\if{html}{\preformatted{
+  H(s) = (b[1]*s^(m-1) + b[2]*s^(m-2) + ... + b[m]) / (a[1]*s^(n-1) + a[2]*s^(n-2) + ... + a[n])
+}}
+For a z-plane digital model,
+\if{latex}{
+ \deqn{H(z) = (b_1 + b_2 z^{-1} + \ldots + b_m z^{(-m+1)}) / (a_1 + a_2 z^{-1} + \ldots + a_n z^{(-n+1)})}
+}
+\if{html}{\preformatted{
+  H(z) = (b[1] + b[2]*z^(-1) + … + b[m]*z^(-m+1)) / (a[1] + a[2]*z^(-1) + … + a[n]*z^(-n+1))
+}}
+
 
 \code{as.Arma} converts from other forms, including \code{Zpg} and \code{Ma}.
 }
 \examples{
 filt <- Arma(b = c(1, 2, 1)/3, a = c(1, 1))
-#zplane(filt)
+zplane(filt)
 
 }
 \seealso{
-See also \code{\link{Zpg}}, \code{\link{Ma}}, \code{filter}, and
-  various filter-generation functions like \code{butter} and \code{cheby1}
-  that return Arma models.
+See also \code{\link{Zpg}}, \code{\link{Ma}}, \code{\link{filter}},
+  and various filter-generation functions like \code{\link{butter}} and
+  \code{\link{cheby1}} that return Arma models.
 }
 \author{
-Tom Short \email{tshort@eprisolutions.com}, adapted by Geert van
-  Boxtel \email{gjmvanboxtel@gmail.com}
+Tom Short, \email{tshort@eprisolutions.com},\cr
+adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

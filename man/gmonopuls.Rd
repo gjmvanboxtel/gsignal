@@ -7,26 +7,24 @@
 gmonopuls(t, fc = 1000)
 }
 \arguments{
-\item{t}{Vector of time values at which the unit-amplitude Gaussian monopulse is calculated.}
+\item{t}{Vector of time values at which the unit-amplitude Gaussian monopulse
+is calculated.}
 
-\item{fc}{Center frequency of the Gaussian monopulses, specified as a real positive scalar expressed in Hz.
-Default: 1000}
+\item{fc}{Center frequency of the Gaussian monopulses, specified as a real
+positive scalar expressed in Hz. Default: 1000}
 }
 \value{
-Samples of the Gaussian monopulse, returned as a vector of unit amplitude at the times
-indicated by the time vector \code{t}.
+Samples of the Gaussian monopulse, returned as a vector of unit
+  amplitude at the times indicated by the time vector \code{t}.
 }
 \description{
-Returns samples of the unit-amplitude Gaussian monopulse with center frequency \code{fc} (in Hertz) at the times indicated
-in array \code{t}
-}
-\details{
-\code{y = gmonopuls(t, fc)} returns samples of the unit-amplitude Gaussian monopulse with center frequency
-\code{fc} (in Hertz) at the times indicated in array \code{t}.
+Returns samples of the unit-amplitude Gaussian monopulse with center
+frequency \code{fc} (in Hertz) at the times indicated in array \code{t}.
 }
 \note{
-The Octave \code{gauspuls} function differs from the function in the Matlab signal package. The Octave function
-does not use the \code{'cutoff'} input argument.
+The Octave \code{gauspuls} function differs from the function in the
+  Matlab signal package. The Octave function does not use the \code{'cutoff'}
+  input argument.
 }
 \examples{
 
@@ -40,6 +38,6 @@ legend("topright", legend = c("fc = 0.1", "fc = 0.2"), lty = 1, col = c(1, 2))
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

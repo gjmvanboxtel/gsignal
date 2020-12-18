@@ -20,7 +20,7 @@ The filtered signal, normally of the same length as the input signal
   \code{x}, returned as a vector
 }
 \description{
-One-dimensional second-order (biquadratic) IIR digital filtering
+One-dimensional second-order (biquadratic) IIR digital filtering.
 }
 \examples{
 fs <- 1000                                           # sampling frequency
@@ -29,9 +29,7 @@ s <- sin(2* pi * t * 6)                              # 6 Hz sinus
 x <- s + rnorm(length(t))                            # add noise
 plot(t, x, type = "l", col="light gray")
 lines(t, s, col="black")
-#bf <- signal::butter(3, 0.02)                        # low-pass 0.02 * 1000 = 20 Hz
-bf <- Arma(c(2.914649e-05, 8.743948e-05, 8.743948e-05, 2.914649e-05),
-           c(1.0000000, -2.8743569,  2.7564832, -0.8818931))
+bf <- butter(3, 0.02)                        # low-pass 0.02 * 1000 = 20 Hz
 sosg <- as.Sos(bf)                                   # convert to second order sections
 sos <- sosg$sos
 sos[1, 1:3] <- sos[1, 1:3] * sosg$g                  # apply gain factor
@@ -45,5 +43,5 @@ lines(t, yy, col="blue")
 \code{\link{filter}}, \code{\link{filtfilt}}
 }
 \author{
-Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -21,22 +21,23 @@ a vector containing the zeros in a pole-zero-gain model.}
 
 \item{...}{arguments passed to the generic function.}
 
-\item{T}{the sampling frequency represented in the z plane. Default: 2 *
-tan(1/2).}
+\item{T}{the sampling frequency represented in the z plane. Default:
+\code{2 * tan(1/2)}.}
 
 \item{Sp}{a vector containing the poles in a pole-zero-gain model.}
 
 \item{Sg}{a vector containing the gain in a pole-zero-gain model.}
 }
 \value{
-For the default case or for bilinear.Zpg, an object of class 'Zpg',
-  containing the list elements:
+For the default case or for bilinear.Zpg, an object of class
+  \code{'Zpg'}, containing the list elements:
 \describe{
   \item{z}{complex vector of the zeros of the transformed model}
   \item{p}{complex vector of the poles of the transformed model}
   \item{g}{gain of the transformed model}
 }
-For bilinear.Arma, an object of class 'Arma', containing the list elements:
+For bilinear.Arma, an object of class \code{'Arma'}, containing the list
+elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
@@ -51,13 +52,13 @@ Given a piecewise flat filter design, you can transform it from the s-plane
 to the z-plane while maintaining the band edges by means of the bilinear
 transform. This maps the left hand side of the s-plane into the interior of
 the unit circle. The mapping is highly non-linear, so you must design your
-filter with band edges in the s-plane positioned at \eqn{2/T tan(w*T/2)} so
+filter with band edges in the s-plane positioned at \eqn{2/T tan(wT / 2)} so
 that they will be positioned at \code{w} after the bilinear transform is
 complete.
 
 The bilinear transform is:
-\deqn{z = (1 + sT/2) / (1 - sT/2)}
-\deqn{s = (T/2) * (z - 1) / (z + 1)}
+\deqn{z = (1 + sT / 2) / (1 - sT / 2)}
+\deqn{s = (T / 2) (z - 1) / (z + 1)}
 
 Please note that a pole and a zero at the same place exactly cancel. This is
 significant since the bilinear transform creates numerous extra poles and
@@ -86,6 +87,6 @@ freqz(zzp)
 }
 \author{
 Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net}.
-  Port to R by Tom Short, adapted by Geert van Boxtel
+  Conversion to R by Tom Short, adapted by Geert van Boxtel
   \email{G.J.M.vanBoxtel@gmail.com}.
 }

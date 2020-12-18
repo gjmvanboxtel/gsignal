@@ -17,14 +17,14 @@ Convolution matrix of input \code{h} for a vector of length \code{n}.
   \code{m + n - 1} rows and \code{n} columns.
 }
 \description{
-Returns the convolution matrix for a filter kernel
+Returns the convolution matrix for a filter kernel.
 }
 \details{
 Computing a convolution using \code{conv} when the signals are vectors is
 generally more efficient than using \code{convmtx}. For multichannel signals,
 however, when  a large number of vectors are to be convolved with the same
 filter kernel, \code{convmtx} might be more efficient.
- 
+
 The code \code{cm <- convmtx(h, n)} computes the convolution matrix of the
 filter kernel \code{h} with a vector of length \code{n}. Then, \code{cm %*%
 x} gives the convolution of \code{h} and \code{x}.
@@ -44,6 +44,6 @@ all.equal(max(d - cref), 0)
 \code{\link[gsignal]{conv}}
 }
 \author{
-David Bateman \email{adb014@gmail.com}, port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+David Bateman \email{adb014@gmail.com}.\cr
+ Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

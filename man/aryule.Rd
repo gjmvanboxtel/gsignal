@@ -12,7 +12,8 @@ case of a vector it represents a single signal; in case of a matrix each
 column is a signal.}
 
 \item{p}{model order; number of poles in the AR model or limit to the number
-of poles if a valid criterion is provided. Must be < length(x) - 1.}
+of poles if a valid criterion is provided. Must be smaller than the length
+of \code{x} minus 1.}
 }
 \value{
 A \code{list} containing the following elements:
@@ -29,7 +30,7 @@ A \code{list} containing the following elements:
   }
 }
 \description{
-compute utoregressive all-pole model parameters using the Yule-Walker method
+compute autoregressive all-pole model parameters using the Yule-Walker method.
 }
 \details{
 \code{aryule} uses the Levinson-Durbin recursion on the biased estimate of
@@ -50,7 +51,7 @@ coefs <- aryule(y, 4)
 \code{\link{ar_psd}}, \code{\link{arburg}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}; Peter V. Lanspeary,
-  \email{pvl@mecheng.adelaide.edu.au>}. Port to R by Geert van Boxtel,
-  \email{gjmvanboxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+ Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

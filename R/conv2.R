@@ -3,7 +3,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -12,9 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200227  GvB       setup for gsignal v0.1.0
@@ -22,9 +20,9 @@
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 2-D convolution
-#' 
+#'
 #' Compute the two-dimensional convolution of two matrices.
-#' 
+#'
 #' @param a,b Input matrices, coerced to numeric.
 #' @param shape Subsection of convolution, partially matched to:
 #' \describe{
@@ -36,28 +34,28 @@
 #'   The size of the result is \code{max(c(nrow(a), ncol(b)) - c(nrow(b),
 #'   ncol(b)) + 1, 0)}}
 #' }
-#' 
+#'
 #' @return Convolution of input matrices, returned as a matrix.
-#' 
+#'
 #' @examples
 #' a <- matrix(1:16, 4, 4)
 #' b <- matrix(1:9, 3,3)
 #' conv2(a, b)
 #' conv2(a, b, 'same')
 #' conv2(a, b, 'valid')
-#' 
+#'
 #' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
-#' 
-#' @author Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
 conv2 <- function (a, b, shape = c("full", "same", "valid")) {
-  
+
   a <- as.matrix(a)
   b <- as.matrix(b)
   shape <- match.arg(shape)
-  
+
   if(length(a) < length(b)) {
     x <- a
     a <- b

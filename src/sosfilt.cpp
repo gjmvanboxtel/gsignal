@@ -5,7 +5,7 @@
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
+// as published by the Free Software Foundation; either version 3
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-// See also: http://www.gnu.org/licenses/gpl-2.0.txt
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // Version history
 // 20200413  GvB       setup for gsignal v0.1.0
@@ -27,16 +25,16 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector sosfilt (NumericMatrix sos, NumericVector x) {
-  
+
   // Invalid values should be caught by calling function, but just to be safe
   int nSections = sos.nrow();
 
   int nSosCol = sos.ncol();
-  if (nSosCol != 6) {     
+  if (nSosCol != 6) {
     return R_NilValue;
   }
   int nSamp = x.size();
-  if (nSamp <= 0) {     
+  if (nSamp <= 0) {
     return R_NilValue;
   }
 
@@ -46,7 +44,7 @@ NumericVector sosfilt (NumericMatrix sos, NumericVector x) {
 
     double v0 = 0.0, v1 = 0.0, v2 = 0.0;
     double a0, a1, a2, b0, b1, b2;
-    
+
     a0 =   sos(iSection, 3);
     if (a0 == 0) {
       return rep(R_NaN, nSamp);
@@ -66,5 +64,5 @@ NumericVector sosfilt (NumericMatrix sos, NumericVector x) {
     x = y;
   }
 
-  return y;  
+  return y;
 }

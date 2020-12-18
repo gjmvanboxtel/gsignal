@@ -21,7 +21,7 @@ An square matrix with dimensions \code{length(n)} that is of class
   implementation by Tom Short in the package \code{link{signal}})).
 }
 \description{
-Compute the filter coefficients for all Savitzky-Golay FIR smoothing filters
+Compute the filter coefficients for all Savitzky-Golay FIR smoothing filters.
 }
 \details{
 The early rows of the resulting filter smooth based on future values and
@@ -57,7 +57,7 @@ ycenter <- conv(x, sg[(n + 1)/2, ], 'valid')
 ## and the first rows of b for the terminal.
 ybegin <- sg[seq(nrow(sg), (n + 3) / 2, -1), ] \%*\% x[seq(n, 1, -1)]
 yend <- sg[seq((n - 1)/2, 1, -1), ] \%*\% x[seq(length(x), (length(x) - (n - 1)), -1)]
-## Concatenate the transients and the steady-state portion to 
+## Concatenate the transients and the steady-state portion to
 ## generate the complete smoothed signal.
 ## Plot the original signal and the Savitzky-Golay estimate.
 y = c(ybegin, ycenter, yend)
@@ -71,7 +71,8 @@ legend("topright", c('Noisy Sinusoid','S-G smoothed sinusoid'),
 \code{\link{sgolayfilt}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, Pascal Dupuis
-  \email{Pascal.Dupuis@esat.kuleuven.ac.be}, port to R Tom Short. Minor
-  changes by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle \email{pkienzle@users.sf.net},\cr
+ Pascal Dupuis, \email{Pascal.Dupuis@esat.kuleuven.ac.be}.\cr
+ Conversion to R Tom Short,\cr
+ adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

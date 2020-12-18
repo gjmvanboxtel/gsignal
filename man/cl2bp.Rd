@@ -7,25 +7,25 @@
 cl2bp(m = 30, w1, w2, up, lo, L = 2048)
 }
 \arguments{
-\item{m}{degree of cosine polynomial, resulting in a filter of length 2 * m
-+ 1. Must be an even number. Default: 30}
+\item{m}{degree of cosine polynomial, resulting in a filter of length
+\code{2 * m + 1}. Must be an even number. Default: 30.}
 
-\item{w1, w2}{bandpass filter cutoffs in the range 0 <= w1 < w2 <= pi, where
-pi is the Nyquist frequency.}
+\item{w1, w2}{bandpass filter cutoffs in the range \code{0 <= w1 < w2 <= pi},
+where pi is the Nyquist frequency.}
 
-\item{up}{vector of 3 upper bounds for [stopband1, passband, stopband2].}
+\item{up}{vector of 3 upper bounds for c(stopband1, passband, stopband2).}
 
-\item{lo}{vector of 3 lower bounds for [stopband1, passband, stopband2].}
+\item{lo}{vector of 3 lower bounds for c(stopband1, passband, stopband2).}
 
 \item{L}{search grid size; larger values may improve accuracy, but greatly
-increase calculation time. Default: 2048, maximum: 1000000.}
+increase calculation time. Default: 2048, maximum: 1e6.}
 }
 \value{
 The FIR filter coefficients, a vector of length \code{2 * m + 1}, of
-  class \code{Ma}
+  class \code{Ma}.
 }
 \description{
-Constrained least squars bandpass FIR filter design without specified
+Constrained least square bandpass FIR filter design without specified
 transition bands.
 }
 \details{
@@ -54,7 +54,7 @@ Selesnick, I.W., Lang, M., and Burrus, C.S. (1998) A modified algorithm
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{remez}}
 }
 \author{
-Original Matlab code by Ivan Selesnick, Rice University, 1995,
-  downloaded from \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}.
-  Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Ivan Selesnick, Rice University, 1995,
+  downloaded from \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

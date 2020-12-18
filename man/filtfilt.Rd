@@ -31,7 +31,7 @@ filter operation.}
 \item{a}{the autoregressive (recursive) coefficients of an ARMA filter.}
 
 \item{x}{the input signal to be filtered. If \code{x} is a matrix, all
-coulums}
+coulums are filtered.}
 }
 \value{
 The filtered signal, normally of the same length of the input signal
@@ -49,18 +49,16 @@ band.
 
 In Matlab filtfilt reduces filter startup transients by carefully choosing
 initial conditions, and by prepending onto the input sequence a short,
-reflected piece of the input sequence. The current (1.4.1) Octave version uses a
-slightly different method to choose initial conditions. Neither of these
-methods have been implemented in the current version (mainly because I did
-not entirely understand them). Here, a reflected sequence of the input signal
-is added to the beginning and end of the signal, and tapered to zero, as per
-the recommendations on the Matlab website. This is different from the current
-(0.7-6) R signal package, which pads the input signal with zeroes.
+reflected piece of the input sequence. The current (1.4.1) Octave version
+uses a slightly different method to choose initial conditions. Neither of
+these methods have been implemented in the current version. Here, a reflected
+sequence of the input signal is added to the beginning and end of the signal,
+and tapered to zero, as per the recommendations on the Matlab website. This
+is different from the current (0.7-6) R signal package, which pads the input
+signal with zeroes.
 }
 \examples{
-#bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
-bf <- Arma(c(0.002898195, 0.008694584, 0.008694584, 0.002898195),
- c(1.0000000, -2.3740947,  1.9293557, -0.5320754))   # change later
+bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
 t <- seq(0, 1, len = 100)                            # 1 second sample
 x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 z <- filter(bf, x)                                   # apply filter
@@ -76,7 +74,8 @@ legend("bottomleft", legend = c("original", "filter", "filtfilt"), lty = 1,
 \code{\link{filter}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}, Francesco Potortì
-  \email{pot@gnu.org}, Luca Citi \email{lciti@essex.ac.uk}, port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+ Francesco Potortì, \email{pot@gnu.org},\cr
+ Luca Citi, \email{lciti@essex.ac.uk}.\cr
+ Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

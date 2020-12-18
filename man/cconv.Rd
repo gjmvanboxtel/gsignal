@@ -10,7 +10,7 @@ cconv(a, b, n = length(a) + length(b) - 1)
 \item{a, b}{Input, coerced to vectors, can be different lengths or data types.}
 
 \item{n}{Convolution length, specified as a positive integer. Default:
-length(a) + length(b) - 1.}
+\code{length(a) + length(b) - 1}.}
 }
 \value{
 Circular convolution of input vectors, returned as a vector.
@@ -22,17 +22,17 @@ Compute the modulo-n circular convolution.
 Linear and circular convolution are fundamentally different operations.
 Linear convolution of an n-point vector x, and an l-point vector y, has
 length n + l - 1, and can be computed by the function
-\code{\link[gsignal]{conv}}, whcih uses \code{\link[gsignal]{filter}}. The
+\code{\link[gsignal]{conv}}, which uses \code{\link[gsignal]{filter}}. The
 circular convolution, by contrast, is equal to the inverse discrete Fourier
 transform (DFT) of the product of the vectors' DFTs.
 
-For the circular convolution of x and y to be equivalent to their linear
-convolution, the vectors must be padded with zeros to length at least n + l -
-1 before taking the DFT. After inverting the product of the DFTs, only the
-first n + n - 1 elements should be retained.
+For the circular convolution of \code{x} and \code{y} to be equivalent to
+their linear convolution, the vectors must be padded with zeros to length at
+least \code{n + l - 1} before taking the DFT. After inverting the product of
+the DFTs, only the first \code{n + n - 1} elements should be retained.
 
-For long sequences circular convolution may be more efficient
-than linear convolution. You can also use cconv to compute the circular
+For long sequences circular convolution may be more efficient than linear
+convolution. You can also use \code{cconv} to compute the circular
 cross-correlation of two sequences.
 }
 \examples{
@@ -49,6 +49,6 @@ cconv(a, b, 6)
 \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
 }
 \author{
-Leonardo Araujo, port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Leonardo Araujo.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

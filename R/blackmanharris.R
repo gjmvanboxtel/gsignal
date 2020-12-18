@@ -20,13 +20,13 @@
 # 20191210 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Minimum four-term Blackman-Harris window
-#' 
-#' Return the filter coefficients of a Blackman-Harris window of length \code{n}
-#' 
-#' The Blackman window is a member of the family of cosine sum windows. It is a generalization of the Hamming family, 
+#' Blackman-Harris window
+#'
+#' Return the filter coefficients of a minimum four-term Blackman-Harris window.
+#'
+#' The Blackman window is a member of the family of cosine sum windows. It is a generalization of the Hamming family,
 #' produced by adding more shifted sinc functions, meant to minimize side-lobe levels.
-#' 
+#'
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
 #' \itemize{
@@ -35,29 +35,29 @@
 #'    periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
 #'    window of length \code{n + 1} and returns the first \code{n} points.
 #' }
-#' 
+#'
 #' @return Blackman-Harris window, returned as a vector.
-#' 
+#'
 #' @examples
-#' 
+#'
 #' b <- blackmanharris(64)
 #' plot (b, type = "l", xlab = "Samples", ylab =" Amplitude")
-#' 
+#'
 #' bs = blackmanharris(64,'symmetric')
 #' bp = blackmanharris(63,'periodic')
 #' plot (bs, type = "l", xlab = "Samples", ylab =" Amplitude")
 #' lines(bp, col="red")
-#' 
-#' @author Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{<sylvain.pelissier@@gmail.com>}.
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 blackmanharris <- function (n, method = c('symmetric', 'periodic')) {
-  
+
   if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
   method <- match.arg(method)
-  
+
   if (method == "periodic") {
     N <- n
   } else if (method == 'symmetric') {
@@ -65,7 +65,7 @@ blackmanharris <- function (n, method = c('symmetric', 'periodic')) {
   } else {
     stop ("method must be either 'periodic' or 'symmetric'")
   }
-  
+
   if (n == 1) {
     w <- 1
   } else {

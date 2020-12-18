@@ -10,16 +10,17 @@ idct2(x, m = NROW(x), n = NCOL(x))
 \item{x}{2-D numeric matrix}
 
 \item{m}{Number of rows, specified as a positive integer. \code{dct2} pads or
-truncates A so that is has \code{m} rows. Default: \code{NROW(A)}.}
+truncates \code{x} so that it has \code{m} rows. Default: \code{NROW(x)}.}
 
-\item{n}{Number of columns, specified as a positive integer. \code{dct2} pads or
-truncates A so that is has \code{n} columns. Default: \code{NCOL(A)}.}
+\item{n}{Number of columns, specified as a positive integer. \code{dct2} pads
+or truncates \code{x} so that it has \code{n} columns. Default:
+\code{NCOL(x)}.}
 }
 \value{
-\code{n}-by-\code{n} numeric discrete cosine transformed matrix*
+\code{m}-by-\code{n} numeric discrete cosine transformed matrix.
 }
 \description{
-Compute the inverse two-dimensional discrete cosine transform of a matrix
+Compute the inverse two-dimensional discrete cosine transform of a matrix.
 }
 \details{
 The discrete cosine transform (DCT) is closely related to the discrete
@@ -33,12 +34,12 @@ A <- matrix(50 * runif(100), 10, 10)
 B <- dct2(A)
 B[which(B < 1)] <- 0
 AA <- idct2(B)
-        
+
 }
 \seealso{
 \code{\link{dct2}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

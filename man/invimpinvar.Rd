@@ -28,12 +28,10 @@ A list of class \code{\link{Arma}} containing numerator and
   denominator polynomial filter coefficients of the A/D converted filter.
 }
 \description{
-Converts digital filter with coefficients b and a to analog, conserving impulse response.
+Convert digital filter with coefficients b and a to analog, conserving
+impulse response.
 }
 \details{
-This function does the inverse of impinvar so that the following example
-should restore the original values of a and b.
-
 Because \code{invimpinvar} is generic, it can also accept input of class
 \code{\link{Arma}}.
 }
@@ -44,18 +42,17 @@ but <- butter(6, 2 * pi * f, 'low', 's')
 zbut <- impinvar(but, fs)
 sbut <- invimpinvar(zbut, fs)
 all.equal(but, sbut, tolerance = 1e-7)
- 
+
 }
 \references{
-Thomas J. Cavicchi (1996) ``Impulse invariance and multiple-order
-  poles''. IEEE transactions on signal processing, Vol 40 (9): 2344--2347.
+Thomas J. Cavicchi (1996) Impulse invariance and multiple-order
+  poles. IEEE transactions on signal processing, Vol 40 (9): 2344--2347.
 }
 \seealso{
 \code{\link{impinvar}}
 }
 \author{
-Original Octave version R.G.H. Eschauzier
-  \email{reschauzier@yahoo.com}, Carnë Draug
-  \email{carandraug+dev@gmail.com}. Conversion to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}
+R.G.H. Eschauzier, \email{reschauzier@yahoo.com},\cr
+ Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

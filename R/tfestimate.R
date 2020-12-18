@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,20 +14,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201107  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Transfer Function Estimate
-#' 
-#' Finds a transfer function estimate for signals
-#' 
+#'
+#' Finds a transfer function estimate for signals.
+#'
 #' \code{tfestimate} uses Welch's averaged periodogram method.
-#' 
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
@@ -59,7 +57,7 @@
 #'     \item{\code{short-linear}}{remove linear trend from each segment}
 #'     \item{\code{none}}{no detrending}
 #'  }
-#'  
+#'
 #' @return A list containing the following elements:
 #'   \describe{
 #'     \item{\code{freq}}{vector of frequencies at which the spectral variables
@@ -73,7 +71,7 @@
 #'     cross-spectral estimates between columns \eqn{i} and \eqn{j} of \eqn{x},
 #'     where \eqn{i < j}.}
 #'   }
-#' 
+#'
 #' @examples
 #' fs <- 1000
 #' f <- 250
@@ -83,23 +81,23 @@
 #' rv <- tfestimate(cbind(s1, s2), fs = fs)
 #' plot(rv$freq, 10*log10(abs(rv$trans)), type="l", xlab = "Frequency",
 #'  ylab = "Tranfer Function Estimate (dB)", main = colnames((rv$trans)))
-#'  
+#'
 #' h <- fir1(30, 0.2, window = rectwin(31))
 #' x <- rnorm(16384)
 #' y <- filter(h, x)
 #' tfe <- tfestimate(cbind(x, y), 1024, fs = 500)
 #' plot(tfe$freq, 10*log10(abs(tfe$trans)), type="l", xlab = "Frequency",
 #'   ylab = "Tranfer Function Estimate (dB)", main = colnames((tfe$trans)))
-#' 
+#'
 #' @note The function \code{tfestimate} (and its deprecated alias \code{tfe})
 #'   is a wrapper for the function \code{pwelch}, which is more complete and
 #'   more flexible.
-#' 
-#' @author Peter V. Lanspeary \email{pvl@@mecheng.adelaide.edu.au}; port to R by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{pwelch}}
-#' 
+#'
 #' @rdname tfestimate
 #' @export
 

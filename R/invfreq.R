@@ -23,16 +23,16 @@
 # 20201118 Geert van Boxtel          First version for v0.1.0
 #---------------------------------------------------------------------------------------------------------------------------------
 
-#' Inverse Frequency R esponse
-#' 
-#' Identify filter parameters from frequency response data
-#' 
+#' Inverse Frequency Response
+#'
+#' Identify filter parameters from frequency response data.
+#'
 #' Given a desired (one-sided, complex) spectrum \code{h(w)} at equally spaced
 #' angular frequencies \eqn{w = (2 \pi k) / N}, k = 0, ... N-1, this function
 #' finds the filter \code{B(z)/A(z)} or \code{B(s)/A(s)} with \code{nb} zeroes
 #' and \code{na} poles. Optionally, the fit-errors can be weighted with respect
 #' to frequency according to the weights \code{wt}.
-#' 
+#'
 #' @param h Frequency response, specified as a vector
 #' @param w Angular frequencies at which \code{h} is computed, specified as a
 #'   vector
@@ -50,13 +50,13 @@
 #'   }
 #' @param norm logical indicating whether frequencies must be normalized to
 #'   avoid matrices with rank deficiency. Default: TRUE
-#' 
+#'
 #' @return A list of class \code{'Arma'} with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
-#' 
+#'
 #' @examples
 #' order <- 6  # order of test filter
 #' fc <- 1/2   # sampling rate / 4
@@ -71,9 +71,9 @@
 #' legend("topright", legend = c("Original", "Measured"), lty  = 1, col = 1:2)
 #' err <- norm(hw$h - HW$h, type = "2")
 #' title(paste('L2 norm of frequency response error =', err))
-#' 
-#' @author Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.
-#'   Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.\cr
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @references \url{http://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html}
 #'
@@ -82,7 +82,7 @@
 
 invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
                      method = c("ols", "tls", "qr"), norm = TRUE) {
-  
+
   # Parameter checking
   if(!is.vector(h)) {
     stop("h must be a vector")
@@ -113,7 +113,7 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   method = match.arg(method)
   norm <- is.logical(norm)
   # End of parameter checking
-  
+
   Ruu <- matrix(0, mb, mb)
   Ryy <- matrix(0, na, na)
   Ryu <- matrix(0, na, mb)
@@ -138,7 +138,7 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
       s <- 1i * w / wmax
     }
   }
-  
+
   for (k in seq_len(nw)) {
     Zk <- s[k]^seq(0, n)
     Hk <- h[k]
@@ -178,7 +178,7 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   if (k <= na) {
     Rr[, (mb + k)] <- -Zk * h
   }
-  
+
   ## complex to real equation system -- this ensures real solution
   Rr <- Rr[, (1 + zb):ncol(Rr)]
   Rr <- rbind(Re(Rr), Im(Rr))
@@ -186,7 +186,7 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   ## normal equations -- keep for ref
   ## Rn= [Ruu(1+zB:mB, 1+zB:mB), -Ryu(:, 1+zB:mB)';  -Ryu(:, 1+zB:mB), Ryy];
   ## Pn= [Pu(1+zB:mB); -Py];
-  
+
   if (method == "ols") {
     ## avoid scaling errors with Theta = R\P;
     ## [Q, R] = qr([Rn Pn]); Theta = R(1:end, 1:end-1)\R(1:end, end);
@@ -231,7 +231,7 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
 
   B <- c(rep(0, zb), Theta[1:(mb - zb)])
   A <- c(1, Theta[mb - zb + (1:na)])
-  
+
   if (plane == 's') {
     B <- rev(B)
     A <- rev(A)
@@ -247,8 +247,6 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   }
   Arma(B, A)
 }
-
-
 #' @rdname invfreq
 #' @export
 
@@ -263,5 +261,5 @@ invfreqs <- function (h, w, nb, na, wt = rep(1, length(w)),
 invfreqz <- function (h, w, nb, na, wt = rep(1, length(w)),
                      method = c("ols", "tls", "qr"), norm = TRUE) {
   invfreq(h, w, nb, na, wt, plane = 'z', method, norm)
-  
+
 }

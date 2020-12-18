@@ -6,7 +6,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,9 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201105  GvB       setup for gsignal v0.1.0
@@ -40,13 +38,13 @@
 #' recursion (particularly split Levinson recursion) tends to be faster
 #' computationally, but more sensitive to computational inaccuracies like
 #' round-off errors.
-#' 
+#'
 #' @param acf autocorrelation function for lags 0 to \code{p}, specified as a
 #'   vector or matrix. If r is a matrix, the function finds the coefficients for
 #'   each column of \code{acf} and returns them in the rows of \code{a}.
 #' @param p model order, specified as a positive integer. Default:
 #'   \code{NROW(acf) - 1}.
-#'  
+#'
 #' @return A \code{list} containing the following elements:
 #'   \describe{
 #'     \item{a}{vector or matrix containing \code{(p+1)} autoregression
@@ -59,7 +57,7 @@
 #'     then each column of \code{k} corresponds to a column of \code{x}.
 #'     \code{k} has \code{p} rows.}
 #'   }
-#' 
+#'
 #' @examples
 #' ## Estimate the coefficients of an autoregressive process given by
 #' ## x(n) = 0.1x(n-1) - 0.8x(n-2) - 0.27x(n-3) + w(n).
@@ -70,29 +68,25 @@
 #' xc <- xcorr(x, scale = 'biased')
 #' acf <- xc$R[-which(xc$lags < 0)]
 #' lev <- levinson(acf, length(a) - 1)
-#'  
-#' @note The function \code{mscohere} (and its deprecated alias \code{cohere})
-#'   is a wrapper for the function \code{pwelch}, which is more complete and
-#'   more flexible.
-#' 
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}, Peter V. Lanspeary
-#'   \email{pvl@@mecheng.adelaide.edu.au}; port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
-#' @references [1] Steven M. Kay and Stanley Lawrence Marple Jr.: "Spectrum
-#'   analysis – a modern perspective", Proceedings of the IEEE, Vol 69, pp
-#'   1380-1419, Nov., 1981.\cr
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'  Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @references [1] Steven M. Kay and Stanley Lawrence Marple Jr. (1981).
+#'   Spectrum analysis – a modern perspective. Proceedings of the IEEE, Vol 69,
+#'   1380-1419.\cr
 #'   [2] \url{https://en.wikipedia.org/wiki/Levinson_recursion}
-#' 
+#'
 #' @export
 
 levinson <- function (acf, p = NROW(acf)) {
-  
+
   # check parameters
   if (!(is.vector(acf) || is.matrix(acf))) {
     stop('acf must be a vector or matrix')
   }
-  
+
   if (is.vector(acf)) {
     vec <- TRUE
     acf <- as.matrix(acf, ncol = 1)
@@ -104,12 +98,12 @@ levinson <- function (acf, p = NROW(acf)) {
   if (nr < 2) {
     stop("acf must be a vector or matrix of length > 1")
   }
-  
+
   if (!isScalar(p) || !isWhole(p) || !is.numeric(p) || p <= 0.5) {
     stop('p must be a positive integer > 0')
   }
   # end of parameter checking
-  
+
   aggr_a <- aggr_v <- aggr_k <- NULL
   for (icol in seq_len(nc)) {
     ref <- rep(0L, p)
@@ -129,7 +123,7 @@ levinson <- function (acf, p = NROW(acf)) {
     aggr_v <- c(aggr_v, v)
     aggr_k <- rbind(aggr_k, ref)
   }
-    
+
   if (vec) {
     rv <- list(a = as.vector(aggr_a), e = aggr_v, k = as.vector(aggr_k))
   } else {

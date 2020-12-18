@@ -23,16 +23,16 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev Type II filter design
-#' 
-#' Compute the transfer function coefficients of a Chebyshev Type II filter
-#' 
+#'
+#' Compute the transfer function coefficients of a Chebyshev Type II filter.
+#'
 #' Chebyshev filters are analog or digital filters having a steeper roll-off
 #' than Butterworth filters, and have passband ripple (type I) or stopband
 #' ripple (type II).
-#' 
-#' Because cheby2 is generic, it can be extended to accept other inputs, using
-#' "cheb2ord" to generate filter criteria for example.
-#' 
+#'
+#' Because \code{cheby2} is generic, it can be extended to accept other inputs,
+#' using \code{cheb2ord} to generate filter criteria for example.
+#'
 #' @param n filter order.
 #' @param Rs dB of stopband ripple.
 #' @param w critical frequencies of the filter. \code{w} must be a scalar for
@@ -40,17 +40,18 @@
 #'   c(low, high) specifying the lower and upper bands in radians/second. For
 #'   digital filters, W must be between 0 and 1 where 1 is the Nyquist
 #'   frequency.
-#' @param type filter type, one of "low", "high", "stop", or "pass".
+#' @param type filter type, one of \code{"low"}, \code{"high"}, \code{"stop"},
+#'   or \code{"pass"}.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param ... additional arguments passed to cheby1, overriding those given by n
 #'   of class \code{FilterSpecs}.
-#' 
-#' @return list of class \code{'\link{Arma}'} with list elements:
+#'
+#' @return list of class \code{\link{Arma}} with list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
-#' 
+#'
 #' @examples
 #' # compare the frequency responses of 5th-order Butterworth and Chebyshev filters.
 #' bf <- butter(5, 0.1)
@@ -67,14 +68,16 @@
 #' plot(c1fr$w / pi, abs(c1fr$h), type = "l", ylim = c(0, 1.1),
 #'   xlab = "Frequency", ylab = c("Magnitude"))
 #' lines(c2fr$w / pi, abs(c2fr$h), col = "red")
-#' 
+#'
 #' @references \url{https://en.wikipedia.org/wiki/Chebyshev_filter}
-#' 
-#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{ellip}, \code{\link{cheb2ord}}
-#' 
-#' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net},
-#'   Doug Stewart \email{dastew@@sympatico.ca}. Port to R Tom Short, adapted by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}},
+#'   \code{\link{ellip}}, \code{\link{cheb2ord}}
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'   Doug Stewart, \email{dastew@@sympatico.ca}.\cr
+#'   Conversion to R Tom Short,\cr
+#'   adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @rdname cheby2
 #' @export
@@ -91,7 +94,7 @@ cheby2.FilterSpecs <- function(n, ...)
 #' @export
 
 cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...) {
-  
+
   # check input arguments
   type <- match.arg(type)
   plane <- match.arg(plane)
@@ -120,9 +123,9 @@ cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"), p
     T <- 2                    # sampling frequency of 2 Hz
     wc <- 2 / T * tan (pi * w / T)
   }
-  
+
   ## Generate splane poles and zeros for the chebyshev type 2 filter
-  ## From: Stearns, SD; David, RA; (1988). Signal Processing Algorithms. 
+  ## From: Stearns, SD; David, RA; (1988). Signal Processing Algorithms.
   ##       New Jersey: Prentice-Hall.
   C <- 1             # default cutoff frequency
   lambda <- 10^(Rs / 20)
@@ -137,24 +140,24 @@ cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"), p
     zero <- 1i * C / cos(theta)
   }
   pole <- C / (alpha^2 + beta^2) * (alpha - 1i * beta)
-  
+
   ## Compensate for amplitude at s=0
   ## Because of the vagaries of floating point computations, the
   ## prod(pole)/prod(zero) sometimes comes out as negative and
   ## with a small imaginary component even though analytically
   ## the gain will always be positive, hence the abs(Re(...))
   gain <- abs(Re(prod(pole) / prod(zero)))
-  
+
   zpg <- Zpg(z = zero, p = pole, g = gain)
-  
+
   ## splane frequency transform
   zpg <- sftrans(zpg, w = w, stop = stop)
-  
+
   ## Use bilinear transform to convert poles to the z plane
   if (digital) {
     zpg <- bilinear(zpg, T = T)
   }
-  
+
   as.Arma(zpg)
-  
+
 }

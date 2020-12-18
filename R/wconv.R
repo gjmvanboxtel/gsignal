@@ -4,7 +4,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -13,18 +13,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200228  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 1-D or 2-D convolution
-#' 
+#'
 #' Compute the one- or two-dimensional convolution of two vectors or matrices.
-#' 
+#'
 #' @param type Numeric or character, specifies the type of convolution to perform:
 #' \describe{
 #'   \item{'1d'}{For \code{a} and \code{b} as (coerced to) vectors,
@@ -34,7 +32,7 @@
 #'   \item{'row'}{For \code{a} as (coerced to) a matrix, and \code{b}
 #'   (coerced to) a vector, perform the 1-D convolution of the rows of \code{a}
 #'   and \code{b};}
-#'   \item{column'}{For \code{a} as (coerced to) a matrix, and \code{b}
+#'   \item{'column'}{For \code{a} as (coerced to) a matrix, and \code{b}
 #'   (coerced to) a vector, perform the 1-D convolution of the colums of \code{a}
 #'   and \code{b};}
 #' }
@@ -49,9 +47,9 @@
 #'   The size of the result is \code{max(c(nrow(a), ncol(b)) - c(nrow(b),
 #'   ncol(b)) + 1, 0)}}
 #' }
-#' 
+#'
 #' @return Convolution of input matrices, returned as a matrix or a vector.
-#' 
+#'
 #' @examples
 #' a <- matrix(1:16, 4, 4)
 #' b <- matrix(1:9, 3,3)
@@ -60,20 +58,19 @@
 #' wconv('r', a, b)
 #' wconv('r', a, c(0,1), 'same')
 #' wconv('c', a, c(0,1), 'valid')
-#' 
+#'
 #' @seealso \code{\link[gsignal]{conv}}, \code{\link[gsignal]{conv}}
-#' 
-#' @author Original Octave version Lukas Reichlin
-#'   \email{lukas.reichlin@@gmail.com}, port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Lukas Reichlin, \email{lukas.reichlin@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
 wconv <- function (type = c('1d', '2d', 'row', 'column'), a, b, shape = c("full", "same", "valid")) {
-  
+
   type <- match.arg(type)
   shape <- match.arg(shape)
-  
+
   y <- switch (type,
                '1d' = conv(as.vector(a), as.vector(b), shape),
                '2d' = conv2(as.matrix(a), as.matrix(b), shape),

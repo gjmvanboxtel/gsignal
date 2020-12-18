@@ -48,7 +48,7 @@ which spectral density is calculated. Default: 256.}
   -0.2. -0.1.}
   \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
   the first half of the spectrum swapped with second half to put the
-  zero-frequency value in the middle. If \code{freq} is vector,
+  zero-frequency value in the middle. If \code{freq} is a vector,
   \code{'shift'} is ignored.}
 }
   Default: If model coefficients \code{a} are real, the default range is
@@ -70,7 +70,7 @@ the power spectrum as a polynomial). This argument is ignored if the
 \item{...}{additional arguments passed to functions}
 }
 \value{
-An object of class "ar_psd" , which is a list containing two
+An object of class \code{"ar_psd"} , which is a list containing two
   elements, \code{freq} and \code{psd} containing the frequency values and
   the estimates of power-spectral density, respectively.
 }
@@ -79,12 +79,15 @@ Compute the power spectral density of an autoregressive model.
 }
 \details{
 This function calculates the power spectrum of the autoregressive model
-\preformatted{
+\if{latex}{
+  \deqn{x(n) = \sqrt{v} \cdot e(n) + \sum_{k=1}^{M} a(k) \cdot x(n-k)}
+}
+\if{html}{\preformatted{
                        M
 x(n) = sqrt(v).e(n) + SUM a(k).x(n-k)
                       k=1
-}
-where x(n) is the output of the model and e(n) is white noise.
+}}
+where \code{x(n)} is the output of the model and \code{e(n)} is white noise.
 }
 \examples{
 a <- c(1, -2.7607, 3.8106, -2.6535, 0.9238)
@@ -92,6 +95,6 @@ ar_psd(a)
 
 }
 \author{
-Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au>}. Port to R
-  by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+ Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

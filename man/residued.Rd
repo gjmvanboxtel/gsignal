@@ -44,7 +44,6 @@ resz <- residuez(b, a)
 \code{\link{residue}}, \code{\link{residuez}}
 }
 \author{
-Original Octave version by Julius O. Smith III
-  \email{jos@ccrma.stanford.edu}. Conversion to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

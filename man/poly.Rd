@@ -15,7 +15,7 @@ A vector of the coefficients of the polynomial in order from highest
 }
 \description{
 Compute the coefficients of a polynomial when the roots are given, or the
-characteristic polynomial of a matrix
+characteristic polynomial of a matrix.
 }
 \details{
 If a vector is passed as an argument, then \code{poly((x)} is a vector of the
@@ -35,6 +35,7 @@ poly(matrix(1:9, 3, 3))
 \code{\link{roots}}
 }
 \author{
-Original Octave version by Kurt Hornik. Conversion to R by Tom Short.
-  Minor changes by Geert van Boxtel
+Kurt Hornik.\cr
+ Conversion to R by Tom Short,\cr
+  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,9 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
@@ -24,33 +22,35 @@
 
 #' Autoregressive model coefficients - Burg's method
 #'
-#' Calculate the coefficients of an autoregressive model using Burg’s method
-#' 
-#' This function calculates the coefficients of an autoregressive (AR) model of
-#' complex data \code{x} using the whitening lattice-filter method of Burg
-#' (1968)[1]. The inverse of the model is a moving-average filter which reduces
-#' \code{x} to white noise. The power spectrum of the AR model is an estimate of
-#' the maximum entropy power spectrum of the data. The function \code{ar_psd}
-#' calculates the power spectrum of the AR model.
-#' 
-#' for data input \code{x(n)} and white noise \code{e(n)}, the autoregressive
+#' Calculate the coefficients of an autoregressive model using the whitening
+#' lattice-filter method of Burg (1968)[1].
+#'
+#' The inverse of the autoregressive model is a moving-average filter which
+#' reduces \code{x} to white noise. The power spectrum of the AR model is an
+#' estimate of the maximum entropy power spectrum of the data. The function
+#' \code{ar_psd} calculates the power spectrum of the AR model.
+#'
+#' For data input \code{x(n)} and white noise \code{e(n)}, the autoregressive
 #' model is
-#' \preformatted{
+#' \if{latex}{
+#' \deqn{x(n) = \sqrt{v} \cdot e(n) + \sum_{k=1}^{p+1} a(k) \cdot x(n-k)}
+#' }
+#' \if{html}{\preformatted{
 #'                           p+1
 #'     x(n) = sqrt(v).e(n) + SUM a(k).x(n-k)
 #'                           k=1
-#'  }
-#' 
+#'  }}
+#'
 #' \code{arburg} does not remove the mean from the data. You should remove the
 #' mean from the data if you want a power spectrum. A non-zero mean can produce
 #' large errors in a power-spectrum estimate.  See \code{\link{detrend}}
-#' 
+#'
 #' @note AIC, AICc, KIC and AKICc are based on information theory. They  attempt
 #'   to balance the complexity (or length) of the model against how well the
 #'   model fits the data.  AIC and KIC are biased estimates of the asymmetric
-#'   and the symmetric Kullback-Leibler divergence respectively.  AICc and AKICc
+#'   and the symmetric Kullback-Leibler divergence, respectively. AICc and AKICc
 #'   attempt to correct the bias. See reference [2].
-#' 
+#'
 #' @param x input data, specified as a numeric or complex vector or matrix. In
 #'   case of a vector it represents a single signal; in case of a matrix each
 #'   column is a signal.
@@ -68,7 +68,7 @@
 #'     \item{FPE}{final prediction error}
 #'   }
 #'   The default is to NOT use a model-selection criterion (NULL)
-#'   
+#'
 #' @return A \code{list} containing the following elements:
 #'   \describe{
 #'     \item{a}{vector or matrix containing \code{(p+1)} autoregression
@@ -87,8 +87,8 @@
 #' y <- filter(A, 0.2 * rnorm(1024))
 #' coefs <- arburg(y, 4)
 #'
-#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}. Port to R
-#'   by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.
 #'
 #' @references [1] Burg, J.P. (1968) A new analysis technique for
 #'   time series data, NATO advanced study Institute on Signal Processing with
@@ -98,7 +98,7 @@
 #'   Proc., 52(12), pp 3314-3323,
 #'
 #' @seealso \code{\link{ar_psd}}
-#' 
+#'
 #' @export
 
 arburg <- function(x, p, criterion = NULL)  {
@@ -107,7 +107,7 @@ arburg <- function(x, p, criterion = NULL)  {
   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
     stop('x must be a numeric or vector or matrix')
   }
-  
+
   if (is.vector(x)) {
     vec <- TRUE
     x <- as.matrix(x, ncol = 1)
@@ -116,14 +116,14 @@ arburg <- function(x, p, criterion = NULL)  {
   }
   nr <- nrow(x)
   nc <- ncol(x)
-  
+
   if (!isScalar(p) || !isWhole(p) || !is.numeric(p) || p <= 0.5) {
     stop('p must be a positive integer')
   }
   if (p >= nr - 2) {
     stop(paste0('p must be less than the length of x (', nr, ') - 2'))
   }
-  
+
   if (!is.null(criterion)) {
     criterion <- match.arg(criterion, c("AKICc", "KIC", "AICc", "AIC", "FPE"))
     #  Set the model-selection-criterion flags.
@@ -138,7 +138,7 @@ arburg <- function(x, p, criterion = NULL)  {
     use_FPE <- FALSE
   }
   # end of parameter checking
-  
+
   # loop over columns
   aggr_a <- aggr_v <- aggr_k <- NULL
   for (icol in seq_len(nc)) {
@@ -158,9 +158,9 @@ arburg <- function(x, p, criterion = NULL)  {
     # new_crit/old_crit is the mode-selection criterion
     new_crit <- abs(v)
     old_crit <- 2 * new_crit
-    
+
     for (ip in seq_len(p)) {
-    
+
       # new reflection coeff = -2* E(f.conj(b)) / ( E(f^2)+E(b(^2) )
       last_k <- as.vector(-2 * (t(b) %*% f) / (t(f) %*% f + t(b) %*% b))
       ##  Levinson-Durbin recursion for residual
@@ -182,8 +182,8 @@ arburg <- function(x, p, criterion = NULL)  {
           #    is_corrected to "short circuit" the AKICc calculation.
           #    The extra 4--12 scalar arithmetic ops should be quicker than
           #    doing if...elseif...elseif...elseif...elseif.
-          new_crit <- log(new_v) + as.integer(is_AKICc) * ip / nr / (nr - ip) + 
-            (2 + as.integer(isa_KIC) - as.integer(is_AKICc) * (ip + 2) / nr) * 
+          new_crit <- log(new_v) + as.integer(is_AKICc) * ip / nr / (nr - ip) +
+            (2 + as.integer(isa_KIC) - as.integer(is_AKICc) * (ip + 2) / nr) *
             (ip + 1) / (nr - as.integer(is_corrected) * (ip + 2))
           if (new_crit > old_crit) {
             break
@@ -222,7 +222,7 @@ arburg <- function(x, p, criterion = NULL)  {
     aggr_v <- c(aggr_v, v)
     aggr_k <- rbind(aggr_k, k)
   }    # loop over signals
-  
+
   if (vec) {
     rv <- list(a = as.vector(aggr_a), e = aggr_v, k = as.vector(aggr_k))
   } else {

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,33 +14,31 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
-# 20201127  GvB       adated algorithm because of indexing bug (also in Octave)
+# 20201127  GvB       adapted algorithm because of indexing bug (also in Octave)
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Cluster Segments
-#' 
+#'
 #' Calculate boundary indexes of clusters of 1’s.
-#' 
+#'
 #' The function calculates the initial index and end index of sequences of 1's
 #' rising and falling phases of the signal in \code{x}. The clusters are sought
 #' in the rows of the array \code{x}. The function works by finding the indexes
 #' of jumps between consecutive values in the rows of \code{x}.
-#'   
-#' @param x input data, specified as a numeric vector or matrix, coerced to 
-#'   contain only 0's and 1's, i.e., every nonzero element in \code{x} will 
+#'
+#' @param x input data, specified as a numeric vector or matrix, coerced to
+#'   contain only 0's and 1's, i.e., every nonzero element in \code{x} will
 #'   be replaced by 1.
-#' 
-#' @return a \code{\link{list}} of size \code{nr}, where \code{nr} is the number
+#'
+#' @return A list of size \code{nr}, where \code{nr} is the number
 #'   of rows in \code{x}. Each element of the list contains a matrix with two
 #'   rows. The first row is the initial index of a sequence of 1’s and the
 #'   second row is the end index of that sequence.
-#' 
+#'
 #' @examples
 #' (x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1))
 #' # [1] 0 0 1 1 1 0 0 1 0 0 0 1 1
@@ -51,20 +49,20 @@
 #' # The first sequence of 1's in x lies in the interval
 #' ranges[1,1]:ranges[2,1]
 #' # [1] 3 4 5
-#' 
+#'
 #' x <- matrix(as.numeric(runif(30) > 0.4), 3, 10)
 #' ranges <- clustersegment(x)
-#' 
+#'
 #' x <- c(0, 1.2, 3, -8, 0)
 #' ranges <- clustersegment(x)
 #'
-#' @author Juan Pablo Carbajal \email{carbajal@@ifi.uzh.ch}; port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 clustersegment <- function (x) {
-  
+
   if(!(is.numeric(x) || is.logical(x) || is.complex(x)) ) {
     stop("x must be numeric, logical or complex")
   }
@@ -79,17 +77,17 @@ clustersegment <- function (x) {
   }
   nc <- ncol(x)
   nr <- nrow(x)
-  
+
   # coerce to 0's and 1's
   x <- apply(x, c(1, 2), function(x) as.integer(as.logical(x)))
-  
+
   y <- list()
   for (i in seq_len(nr)) {
     bool_discon <- diff(x[i, ])
     idxUp <- which(bool_discon > 0) + 1L
     idxDwn <- which(bool_discon < 0)
     tLen <- length(idxUp) + length(idxDwn)
-    
+
     if (tLen <= 0) {
       y[[i]] <- matrix(NA, 1, 1)
     } else  {
@@ -110,7 +108,7 @@ clustersegment <- function (x) {
         ## last event was up
         contRange <- c(contRange, nc)
       }
-    
+
       tLen <- length(contRange)
       if (tLen != 0) {
         dim(contRange) <- c(2, tLen / 2)
@@ -118,7 +116,7 @@ clustersegment <- function (x) {
       }
     }
   }
-  
+
   if (nr == 1 && length(y) > 0) {
     y <- as.matrix(y[[1]])
   }

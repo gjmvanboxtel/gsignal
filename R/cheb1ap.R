@@ -21,37 +21,37 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev Type I filter prototype
-#' 
+#'
 #' Return the poles and gain of an analog Chebyshev Type I lowpass filter prototype.
-#' 
+#'
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
 #' to \code{cheby1(n, Rp, 1, "low", "s")}.
-#' 
+#'
 #' @param n Order of the filter.
 #' @param Rp dB of passband ripple.
-#' 
-#' @return list of class \code{'\link{Zpg}'} containg poles and gain of the filter
-#' 
+#'
+#' @return List of class \code{\link{Zpg}} containing the poles and gain of the
+#'   filter.
+#'
 #' @examples
 #' ## 9th order Chebyshev type I low-pass analog filter
 #' zp <- cheb1ap(9, .1)
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Original Octave code by Carnë Draug
-#'   \email{carandraug+dev@@gmail.com}. Port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 cheb1ap <- function (n, Rp) {
-  
+
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
   if (!isPosscal(Rp) || !is.numeric(Rp)) {
     stop("passband ripple Rp must a non-negative scalar")
   }
-  
+
   as.Zpg(cheby1(n, Rp, 1, "low", "s"))
-  
+
 }
 

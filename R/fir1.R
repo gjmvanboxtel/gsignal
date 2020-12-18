@@ -21,46 +21,49 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Window-based FIR filter design
-#' 
-#' FIR filter coefficients for a filter with the given order and frequency cutoff
-#' 
+#'
+#' FIR filter coefficients for a filter with the given order and frequency
+#' cutoff.
+#'
 #' @param n filter order (1 less than the length of the filter).
-#' @param w band edges, strictly increasing vector in the range [0, 1], where 1
+#' @param w band edges, strictly increasing vector in the range c(0, 1), where 1
 #'   is the Nyquist frequency. A scalar for highpass or lowpass filters, a
 #'   vector pair for bandpass or bandstop, or a vector for an alternating
 #'   pass/stop filter.
-#' @param type character specifying filter type, one of "low" for a low-pass
-#'   filter, "high" for a high-pass filter, "stop" for a stop-band (band-reject)
-#'   filter, "pass" for a pass-band filter, "DC-0" for a bandpass as the first
-#'   band of a multiband filter, or "DC-1" for a bandstop as the first band of a
-#'   multiband filter. Default: "low".
+#' @param type character specifying filter type, one of \code{"low"} for a
+#'   low-pass filter, \code{"high"} for a high-pass filter, \code{"stop"} for a
+#'   stop-band (band-reject) filter, \code{"pass"} for a pass-band filter,
+#'   \code{"DC-0"} for a bandpass as the first band of a multiband filter, or
+#'   \code{"DC-1"} for a bandstop as the first band of a multiband filter.
+#'   Default: \code{"low"}.
 #' @param window smoothing window. The returned filter is the same shape as the
 #'   smoothing window. Default: \code{hamming(n + 1)}.
-#' @param scale whether to normalize or not. Use TRUE (default) or 'scale' to
-#'   set the magnitude of the center of the first passband to 1, and FALSE or
-#'   'noscale' to not normalize.
-#' 
+#' @param scale whether to normalize or not. Use \code{TRUE} (default) or
+#'   \code{'scale'} to set the magnitude of the center of the first passband to
+#'   1, and \code{FALSE} or \code{'noscale'} to not normalize.
+#'
 #' @return The FIR filter coefficients, a vector of length \code{n + 1}, of
-#'   class \code{Ma}
-#'   
+#'   class \code{Ma}.
+#'
 #' @references \url{http://en.wikipedia.org/wiki/Fir_filter}
-#' 
+#'
 #' @examples
 #' freqz(fir1(40, 0.3))
 #' freqz(fir1(10, c(0.3, 0.5), "stop"))
 #' freqz(fir1(10, c(0.3, 0.5), "pass"))
-#'  
+#'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
 #'   \code{\link{fir2}}
-#' 
-#' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net}, Port to R Tom
-#'   Short, slightly adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},
+#'  Conversion to R Tom Short,\cr
+#'  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
-fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"), 
+fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
                   window = hamming(n + 1), scale = TRUE) {
-  
+
   type <- match.arg(type)
   if (!is.logical(scale)) {
     scale <- match.arg(scale, c("scale", "noscale"))
@@ -71,14 +74,14 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
   } else if(is.character(window)) {
     window <- do.call(window, list(n+1))
   }
-  
+
   ## Assign default window, filter type and scale.
-  ## If single band edge, the first band defaults to a pass band to 
-  ## create a lowpass filter.  If multiple band edges, the first band 
-  ## defaults to a stop band so that the two band case defaults to a 
+  ## If single band edge, the first band defaults to a pass band to
+  ## create a lowpass filter.  If multiple band edges, the first band
+  ## defaults to a stop band so that the two band case defaults to a
   ## band pass filter.  Ick.
   ftype <- tolower(type) %in% c('low','stop','dc-1')
-  
+
   ## build response function according to fir2 requirements
   bands <- length(w) + 1
   f <- numeric(2 * bands)
@@ -88,10 +91,10 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
   m <- numeric(2 * bands)
   m[seq(1, 2 * bands, by = 2)] <- (1:bands - (1 - ftype)) %% 2
   m[seq(2, 2 * bands, by = 2)] <- m[seq(1, 2 * bands, by = 2)]
-  
+
   ## Increment the order if the final band is a pass band.  Something
   ## about having a nyquist frequency of zero causing problems.
-  if (n %% 2 == 1 && m[2 * bands] == 1) { 
+  if (n %% 2 == 1 && m[2 * bands] == 1) {
     warning("n must be even for highpass and bandstop filters. Incrementing.")
     n <- n + 1
     if (is.vector(window) && is.double(window)) {
@@ -99,15 +102,15 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
       M <- length(window)
       if (M == 1)
         window <- c(window, window)
-      else 
-        window <- pracma::interp1(seq(0, 1, length = M), window, seq(0, 1, length = M + 1), 
+      else
+        window <- pracma::interp1(seq(0, 1, length = M), window, seq(0, 1, length = M + 1),
                           if (M < 4) 'linear' else 'spline')
     }
   }
-  
+
   ## compute the filter
   b <- fir2(n, f, m, 512, 2, window)
-  
+
   ## normalize filter magnitude
   if (scale) {
     ## find the middle of the first band edge
@@ -118,10 +121,10 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
     }
     ## compute |h(w_o)|^-1
     renorm <- 1 / abs(pracma::polyval(as.vector(b), exp(-1i * pi * w_o)))
-    
+
     ## normalize the filter
     b <- renorm * b
   }
-  
-  Ma(b)  
+
+  Ma(b)
 }

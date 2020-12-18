@@ -33,10 +33,10 @@ ifftshift(fftshift(Xodd))
 
 }
 \seealso{
-\code{fftshift}
+\code{\link{fftshift}}
 }
 \author{
-Vincent Cautaerts \email{vincent@comf5.comm.eng.osaka-u.ac.jp},
-  adapted by John W. Eaton, port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Vincent Cautaerts, \email{vincent@comf5.comm.eng.osaka-u.ac.jp},\cr
+  adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

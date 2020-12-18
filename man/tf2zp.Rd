@@ -23,7 +23,7 @@ A list of class Zpg with the following list elements:
 }
 }
 \description{
-Convert digital filter transfer function parameters to zero-pole-gain form
+Convert digital filter transfer function parameters to zero-pole-gain form.
 }
 \examples{
 b <- c(2, 3)
@@ -35,5 +35,5 @@ zpk <- tf2zp(b, a)
 See also \code{\link{filter}}
 }
 \author{
-Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

@@ -10,19 +10,20 @@ barthannwin(n)
 \item{n}{Window length, specified as a positive integer.}
 }
 \value{
-modified Bartlett-Hann window, returned as a vector.
+Modified Bartlett-Hann window, returned as a vector. If you specify a
+  one-point window \code{(n = 1)}, the value 1 is returned.
 }
 \description{
-Return the filter coefficients of a modified Bartlett-Hann window of length \code{n}
+Return the filter coefficients of a modified Bartlett-Hann window.
 }
 \details{
-\code{barthannwin} returns an modified Bartlett-Hann window. Like Bartlett, Hann, and Hamming windows, this window has a
-mainlobe at the origin and asymptotically decaying sidelobes on both sides. It is a linear combination of weighted
-Bartlett and Hann windows with near sidelobes lower than both Bartlett and Hann and with far sidelobes lower than both
-Bartlett and Hamming windows. The mainlobe width of the modified Bartlett-Hann window is not increased relative to
-either Bartlett or Hann window mainlobes.
- 
-If you specify a one-point window \code{(n = 1)}, the value 1 is returned.
+Like Bartlett, Hann, and Hamming windows, the Bartlett-Hann window has a
+mainlobe at the origin and asymptotically decaying sidelobes on both sides.
+It is a linear combination of weighted Bartlett and Hann windows with near
+sidelobes lower than both Bartlett and Hann and with far sidelobes lower than
+both Bartlett and Hamming windows. The mainlobe width of the modified
+Bartlett-Hann window is not increased relative to either Bartlett or Hann
+window mainlobes.
 }
 \examples{
 
@@ -30,7 +31,10 @@ t <- barthannwin(64)
 plot (t, type = "l", xlab = "Samples", ylab =" Amplitude")
 
 }
+\seealso{
+\code{\link{bartlett}}, \code{\link{hann}}, \code{\link{hamming}}
+}
 \author{
-Original Octave code Copyright (C) 1995-2017 Andreas Weingessel \email{Andreas.Weingessel@ci.tuwien.ac.at}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Andreas Weingessel, \email{Andreas.Weingessel@ci.tuwien.ac.at}.
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

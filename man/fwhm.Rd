@@ -25,14 +25,15 @@ columns are computed.}
   \item{\code{'absolute'}}{an absolute level of \code{y}}
 }}
 
-\item{level}{the level at which to compute the width. Deafault: 0.5.}
+\item{level}{the level at which to compute the width. Default: 0.5.}
 }
 \value{
-full width at half maximum, returned as a vector with a length equal
+Full width at half maximum, returned as a vector with a length equal
   to the number of columns in \code{y}, or 1 in case of a vector.
 }
 \description{
-Compute peak full-width at half maximum or at another level of peak maximum for vector or matrix
+Compute peak full-width at half maximum or at another level of peak maximum
+for a vector or matrix.
 }
 \examples{
 x <- seq(-pi, pi, 0.001)
@@ -50,6 +51,6 @@ abline(h = max(y) / 2, lty = 2, col = "gray")
 
 }
 \author{
-Original Octave code Petr Mikulik (2009). Port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Petr Mikulik.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

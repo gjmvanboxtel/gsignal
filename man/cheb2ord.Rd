@@ -2,20 +2,21 @@
 % Please edit documentation in R/cheb2ord.R
 \name{cheb2ord}
 \alias{cheb2ord}
-\title{Chebyshev Type II filter order and cutoff}
+\title{Chebyshev Type II filter order}
 \usage{
 cheb2ord(Wp, Ws, Rp, Rs, plane = c("z", "s"))
 }
 \arguments{
 \item{Wp, Ws}{pass-band and stop-band edges. For a low-pass or high-pass
-filter, Wp and Ws are scalars. For a band-pass or band-rejection filter,
-both are vectors of length 2. For a low-pass filter, Wp < Ws. For a
-high-pass filter, Ws > Wp. For a band-pass (Ws[1] < Wp[1] < Wp[2] < Ws[2])
-or band-reject (Wp[1] < Ws[1] < Ws[2] < Wp[2]) filter design, Wp gives the
-edges of the pass band, and Ws gives the edges of the stop band. For
-digital filters, frequencies are normalized to [0,1], corresponding to the
-range [0, fs/2]. In case of an analog filter, all frequencies are specified
-in radians per second.}
+filter, \code{Wp} and \code{Ws} are scalars. For a band-pass or
+band-rejection filter, both are vectors of length 2. For a low-pass filter,
+\code{Wp < Ws}. For a high-pass filter, \code{Ws > Wp}. For a band-pass
+\code{(Ws[1] < Wp[1] < Wp[2] < Ws[2])} or band-reject \code{(Wp[1] < Ws[1]
+< Ws[2] < Wp[2])} filter design, \code{Wp} gives the edges of the pass
+band, and \code{Ws} gives the edges of the stop band. For digital filters,
+frequencies are normalized to [0, 1], corresponding to the range [0, fs/2].
+In case of an analog filter, all frequencies are specified in radians per
+second.}
 
 \item{Rp}{allowable decibels of ripple in the pass band.}
 
@@ -28,7 +29,8 @@ A list of class \code{'FilterSpecs'} with the following list elements:
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}
-  \item{type}{filter type, normally one of "low", "high", "stop", or "pass".}
+  \item{type}{filter type, normally one of \code{"low"}, \code{"high"},
+    \code{"stop"}, or \code{"pass"}.}
 }
 }
 \description{
@@ -47,6 +49,6 @@ freqz(cf, fs = fs)
 \code{\link{cheby1}}
 }
 \author{
-Original Octave code by Paul Kienzle, Charles Praplan. Conversion to
-  R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, Charles Praplan.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

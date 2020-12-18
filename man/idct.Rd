@@ -18,7 +18,7 @@ matrix each column is a signal.}
 Inverse discrete cosine transform, returned as a vector or matrix.
 }
 \description{
-Compute the inverse unitary discrete cosine transform of a signal
+Compute the inverse unitary discrete cosine transform of a signal.
 }
 \details{
 The discrete cosine transform (DCT) is closely related to the discrete
@@ -42,12 +42,12 @@ plot(x, type = "l")
 lines(xx, col = "red")
 legend("bottomright", legend = c("Original", paste("Reconstructed, N =", N)),
        lty = 1, col = 1:2)
-       
+
 }
 \seealso{
 \code{\link{dct}}
 }
 \author{
-Paul Kienzle \email{pkienzle@users.sf.net}; port to R by Geert van
-  Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

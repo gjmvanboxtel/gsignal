@@ -14,39 +14,51 @@ chirp(
 )
 }
 \arguments{
-\item{t}{Time array, specified as a vector}
+\item{t}{Time array, specified as a vector.}
 
-\item{f0}{Initial instantaneous frequency at time 0, specified as a positive scalar expressed in Hz.
-Default: 0 Hz for linear and quadratic shapes; 1e-6 for logarithmic shape.}
+\item{f0}{Initial instantaneous frequency at time 0, specified as a positive
+scalar expressed in Hz. Default: 0 Hz for linear and quadratic shapes; 1e-6
+for logarithmic shape.}
 
-\item{t1}{Reference time, specified as a positive scalar expressed in seconds. Default: 1 sec.}
+\item{t1}{Reference time, specified as a positive scalar expressed in
+seconds. Default: 1 sec.}
 
-\item{f1}{Instantaneous frequency at time t1, specified as a positive scalar expressed in Hz. Default: 100 Hz.}
+\item{f1}{Instantaneous frequency at time t1, specified as a positive scalar
+expressed in Hz. Default: 100 Hz.}
 
-\item{shape}{Sweep method, specified as 'linear', 'quadratic', or 'logarithmic' (see Details). Default: linear.}
+\item{shape}{Sweep method, specified as \code{'linear'}, \code{'quadratic'},
+or \code{'logarithmic'} (see Details). Default: \code{linear}.}
 
-\item{phase}{Initial phase, specified as a positive scalar expressed in degrees. Default: 0.}
+\item{phase}{Initial phase, specified as a positive scalar expressed in
+degrees. Default: 0.}
 }
 \value{
-Swept-frequency cosine signal, returned as an array of the same length as \code{t}
+Chirp signal, returned as an array of the same length as \code{t}.
 }
 \description{
-Evaluate a chirp signal at time \code{t}.  A chirp signal is a frequency swept cosine wave.
+Evaluate a chirp signal (frequency swept cosine wave).
 }
 \details{
-A chirp is a signal in which the frequency changes with time, commonly used in sonar, radar, and laser.
-The name is a reference to the chirping sound made by birds.
+A chirp is a signal in which the frequency changes with time, commonly used
+in sonar, radar, and laser. The name is a reference to the chirping sound
+made by birds.
 
 The chirp can have one of three shapes:
-\itemize{
-  \item {'linear' - Specifies an instantaneous frequency sweep \eqn{f_i(t)} given by \eqn{f_i(t) = f_0 + \beta t}, where
-    \eqn{\beta = (f_1 - f_0) / t_1} and the default value for \eqn{f_0} is 0. The coefficient \eqn{\beta} ensures that the
-    desired frequency breakpoint \eqn{f_1} at time \eqn{t_1} is maintained.}
-  \item {'quadratic' - Specifies an instantaneous frequency sweep \eqn{f_i(t)} given by \eqn{f_i(t) = f_0 + \beta t^2},
-    where \eqn{\beta = (f_1 - f_0) / t_1^2} and the default value for \eqn{f_0} is 0. If \eqn{f_0 > f_1} (downsweep),
-    the default shape is convex. If \eqn{f_0 < f_1} (upsweep), the default shape is concave.}
-  \item {'logarithmic' - Specifies an instantaneous frequency sweep \eqn{f_i(t)} given by \eqn{f_i(t) = f_0 \times \beta t},
-    where \eqn{\beta = \left( \frac {f_1}{f_0} \right) ^ \frac{1}{t1}} and the default value for \eqn{f_0} is \eqn{10^{-6}}.}
+\describe{
+  \item{linear}{Specifies an instantaneous frequency sweep \eqn{f_i(t)} given
+  by \eqn{f_i(t) = f_0 + \beta t}, where \eqn{\beta = (f_1 - f_0) / t_1} and
+  the default value for \eqn{f_0} is 0. The coefficient \eqn{\beta} ensures
+  that the desired frequency breakpoint \eqn{f_1} at time \eqn{t_1} is
+  maintained.}
+  \item{quadratic}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
+  given by \eqn{f_i(t) = f_0 + \beta t^2}, where \eqn{\beta = (f_1 - f_0) /
+  t_1^2} and the default value for \eqn{f_0} is 0. If \eqn{f_0 > f_1}
+  (downsweep), the default shape is convex. If \eqn{f_0 < f_1} (upsweep), the
+  default shape is concave.}
+  \item{logarithmic}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
+  given by \eqn{f_i(t) = f_0 \times \beta t}, where \eqn{\beta = \left( \frac
+  {f_1}{f_0} \right) ^ \frac{1}{t1}} and the default value for \eqn{f_0} is
+  \eqn{10^{-6}}.}
 }
 }
 \examples{
@@ -67,6 +79,7 @@ specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000)
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 1999-2000 Paul Kienzle \email{pkienzle@users.sf.net}, 
-Copyright (C) 2018-2019 Mike Miller. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr
+  Mike Miller.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -9,23 +9,25 @@ gaussian(n, a = 1)
 \arguments{
 \item{n}{Window length, specified as a positive integer.}
 
-\item{a}{Width factor, specified as a positive real scalar. \code{a} is inversely proportional to the width of the window.
-Default: 1.}
+\item{a}{Width factor, specified as a positive real scalar. \code{a} is
+inversely proportional to the width of the window. Default: 1.}
 }
 \value{
-gaussian convolution window, returned as a vector.
+Gaussian convolution window, returned as a vector.
 }
 \description{
-Return a Gaussian convolution window of length \code{n}
+Return a Gaussian convolution window of length \code{n}.
 }
 \details{
-The width of the window is inversely proportional to the parameter \code{a}. Use larger \code{a} for a narrower window.
-Use larger \code{m} for longer tails.
+The width of the window is inversely proportional to the parameter \code{a}.
+Use larger \code{a} for a narrower window. Use larger \code{m} for longer
+tails.
 \deqn{w = e^{(-(a*x)^{2}/2 )}}
-for \code{x} <- seq(-(n - 1) / 2, (n - 1) / 2, by = n).
+for \code{x <- seq(-(n - 1) / 2, (n - 1) / 2, by = n)}.
 
-Width a is measured in frequency units (sample rate/num samples). It should be f when multiplying in the time domain,
-but 1/f when multiplying in the frequency domain (for use in convolutions).
+Width a is measured in frequency units (sample rate/num samples). It should
+be f when multiplying in the time domain, but 1/f when multiplying in the
+frequency domain (for use in convolutions).
 }
 \examples{
 
@@ -36,6 +38,6 @@ lines(g2, col = "red")
 
 }
 \author{
-Original Octave code Copyright (C) 1999 Paul Kienzle \email{pkienzle@users.sf.net}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

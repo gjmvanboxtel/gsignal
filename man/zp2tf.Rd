@@ -34,5 +34,5 @@ ba <- zp2tf(z, p, k)
 See also \code{\link{filter}}
 }
 \author{
-Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

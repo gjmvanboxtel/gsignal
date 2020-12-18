@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,27 +14,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201123  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Primitive
-#' 
-#' Calculate the indefinitive integral of a function
-#' 
+#'
+#' Calculate the indefinitive integral of a function.
+#'
 #' This function is a fancy way of calculating the cumulative sum.
-#'   
+#'
 #' @param FUN the function to calculate the primitive of.
 #' @param t points at which the function \code{FUN} is evaluated, specified as a
 #'   vector of ascending values
 #' @param C constant of integration. Default: 0
-#' 
-#' @return  vector of integrated function values.
-#' 
+#'
+#' @return  Vector of integrated function values.
+#'
 #' @examples
 #' f <- function(t) sin(2 * pi * 3 * t)
 #' t <- c(0, sort(runif(100)))
@@ -46,9 +44,9 @@
 #' legend("topright", legend = c("Numerical primitive", "True primitive"),
 #'   lty = c(0, 1), pch = c(1, NA), col = 1:2)
 #'
-#' @author Juan Pablo Carbajal; port to R by Geert van Boxtel,
-#'   \email{G.J.M.vanBoxtel@@gmail.com}
-#'   
+#' @author Juan Pablo Carbajal.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
+#'
 #' @seealso \code{\link{cumsum}}
 #
 #' @export
@@ -62,7 +60,7 @@ primitive <- function(FUN, t, C = 0) {
   if(!isScalar(C)) {
     stop("C must be a scalar")
   }
-  
+
   F_prev <- t0 <- NULL
   i_chunk <- function (t, f, init) {
     if (is.null(init)) {
@@ -77,7 +75,7 @@ primitive <- function(FUN, t, C = 0) {
     F <- F_prev
     invisible(F)
   }
-  
+
   i_chunk(0, 0, NULL)
   y <- unlist(lapply(t, i_chunk, f = FUN, init = C))
   y

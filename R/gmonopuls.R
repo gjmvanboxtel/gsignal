@@ -21,23 +21,22 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Gaussian monopulse
-#' 
-#' Returns samples of the unit-amplitude Gaussian monopulse with center frequency \code{fc} (in Hertz) at the times indicated
-#' in array \code{t}
 #'
-#' \code{y = gmonopuls(t, fc)} returns samples of the unit-amplitude Gaussian monopulse with center frequency
-#' \code{fc} (in Hertz) at the times indicated in array \code{t}.
-#' 
-#' @note The Octave \code{gauspuls} function differs from the function in the Matlab signal package. The Octave function
-#' does not use the \code{'cutoff'} input argument. 
-#' 
-#' @param t Vector of time values at which the unit-amplitude Gaussian monopulse is calculated.
-#' @param fc Center frequency of the Gaussian monopulses, specified as a real positive scalar expressed in Hz.
-#' Default: 1000
-#' 
-#' @return Samples of the Gaussian monopulse, returned as a vector of unit amplitude at the times
-#' indicated by the time vector \code{t}.
-#' 
+#' Returns samples of the unit-amplitude Gaussian monopulse with center
+#' frequency \code{fc} (in Hertz) at the times indicated in array \code{t}.
+#'
+#' @note The Octave \code{gauspuls} function differs from the function in the
+#'   Matlab signal package. The Octave function does not use the \code{'cutoff'}
+#'   input argument.
+#'
+#' @param t Vector of time values at which the unit-amplitude Gaussian monopulse
+#'   is calculated.
+#' @param fc Center frequency of the Gaussian monopulses, specified as a real
+#'   positive scalar expressed in Hz. Default: 1000
+#'
+#' @return Samples of the Gaussian monopulse, returned as a vector of unit
+#'   amplitude at the times indicated by the time vector \code{t}.
+#'
 #' @examples
 #'
 #' fs <- 11025    # arbitrary sample rate
@@ -47,14 +46,14 @@
 #' plot(t, y1, type="l", xlab = "Time", ylab = "Amplitude")
 #' lines(t, y2, col = "red")
 #' legend("topright", legend = c("fc = 0.1", "fc = 0.2"), lty = 1, col = c(1, 2))
-#' 
-#' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@@gmail.com}
-#' Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 gmonopuls <- function (t, fc = 1e3) {
-  
+
   if (!isPosscal(fc)) stop ("fc must be a non-negative real scalar")
 
   y <- 2 * sqrt(exp(1)) * pi * t * fc * exp(-2 * (pi * t * fc)^2)

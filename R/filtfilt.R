@@ -7,7 +7,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,9 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200217  GvB       setup for gsignal v0.1
@@ -26,40 +24,38 @@
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
-#' 
+#'
 #' Forward and reverse filter the signal.
-#' 
+#'
 #' Forward and reverse filtering the signal corrects for phase distortion
 #' introduced by a one-pass filter, though it does square the magnitude response
 #' in the process. That’s the theory at least. In practice the phase correction
 #' is not perfect, and magnitude response is distorted, particularly in the stop
 #' band.
-#' 
+#'
 #' In Matlab filtfilt reduces filter startup transients by carefully choosing
 #' initial conditions, and by prepending onto the input sequence a short,
-#' reflected piece of the input sequence. The current (1.4.1) Octave version uses a
-#' slightly different method to choose initial conditions. Neither of these
-#' methods have been implemented in the current version (mainly because I did
-#' not entirely understand them). Here, a reflected sequence of the input signal
-#' is added to the beginning and end of the signal, and tapered to zero, as per
-#' the recommendations on the Matlab website. This is different from the current
-#' (0.7-6) R signal package, which pads the input signal with zeroes.
-#' 
+#' reflected piece of the input sequence. The current (1.4.1) Octave version
+#' uses a slightly different method to choose initial conditions. Neither of
+#' these methods have been implemented in the current version. Here, a reflected
+#' sequence of the input signal is added to the beginning and end of the signal,
+#' and tapered to zero, as per the recommendations on the Matlab website. This
+#' is different from the current (0.7-6) R signal package, which pads the input
+#' signal with zeroes.
+#'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
 #'   filter (normally called ‘b’). Generically, \code{filt} specifies an arbitrary
 #'   filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
 #' @param x the input signal to be filtered. If \code{x} is a matrix, all
-#' coulums
+#' coulums are filtered.
 #' @param ... additional arguments (ignored).
-#' 
+#'
 #' @return The filtered signal, normally of the same length of the input signal
 #'   \code{x}, returned as a vector or matrix
-#' 
+#'
 #' @examples
-#' #bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
-#' bf <- Arma(c(0.002898195, 0.008694584, 0.008694584, 0.002898195),
-#'  c(1.0000000, -2.3740947,  1.9293557, -0.5320754))   # change later
+#' bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
 #' t <- seq(0, 1, len = 100)                            # 1 second sample
 #' x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 #' z <- filter(bf, x)                                   # apply filter
@@ -69,13 +65,14 @@
 #' lines(t, zz, col="blue")
 #' legend("bottomleft", legend = c("original", "filter", "filtfilt"), lty = 1,
 #'  col = c("black", "red", "blue"))
-#' 
+#'
 #' @seealso \code{\link{filter}}
-#' 
-#' @author Paul Kienzle \email{pkienzle@@users.sf.net}, Francesco Potortì
-#'   \email{pot@@gnu.org}, Luca Citi \email{lciti@@essex.ac.uk}, port to R by
-#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'  Francesco Potortì, \email{pot@@gnu.org},\cr
+#'  Luca Citi, \email{lciti@@essex.ac.uk}.\cr
+#'  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @rdname filtfilt
 #' @export
 
@@ -86,7 +83,7 @@ filtfilt <- function(filt, ...) UseMethod("filtfilt")
 #' @export
 
 filtfilt.default <- function(filt, a, x, ...) {
-  
+
   ff_single <- function(x, filt, a) {
     if (missing(a)) {
       fl <- length(filt)
@@ -102,7 +99,7 @@ filtfilt.default <- function(filt, a, x, ...) {
     y <- rev(filter(filt, a, rev(y)))
     y[(fl + 1):(length(y) - fl)]
   }
-  
+
   d <- dim(x)
   if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
     y <- ff_single(x, filt, a)
@@ -139,11 +136,11 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
     y <- rev(sosfilt(sos, rev(y)))
     y[(fl + 1):(length(y) - fl)]
   }
-  
+
   if (filt$g != 1) {
     filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
   }
-  
+
   d <- dim(x)
   if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
     y <- ff_single(x, filt$sos)

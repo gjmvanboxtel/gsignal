@@ -33,6 +33,6 @@ upsamplefill(diag(2), rep(-1, 3))
 \code{\link{upsample}}
 }
 \author{
-Juan Pablo Carbajal \email{carbajal@ifi.uzh.ch}; port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Juan Pablo Carbajal, \email{carbajal@ifi.uzh.ch}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -77,7 +77,7 @@ A list containing the following elements:
   }
 }
 \description{
-Finds a transfer function estimate for signals
+Finds a transfer function estimate for signals.
 }
 \details{
 \code{tfestimate} uses Welch's averaged periodogram method.
@@ -96,7 +96,7 @@ s2 <- sin(2 * pi * f * t - pi / 3) + runif(length(t))
 rv <- tfestimate(cbind(s1, s2), fs = fs)
 plot(rv$freq, 10*log10(abs(rv$trans)), type="l", xlab = "Frequency",
  ylab = "Tranfer Function Estimate (dB)", main = colnames((rv$trans)))
- 
+
 h <- fir1(30, 0.2, window = rectwin(31))
 x <- rnorm(16384)
 y <- filter(h, x)
@@ -109,6 +109,6 @@ plot(tfe$freq, 10*log10(abs(tfe$trans)), type="l", xlab = "Frequency",
 \code{\link{pwelch}}
 }
 \author{
-Peter V. Lanspeary \email{pvl@mecheng.adelaide.edu.au}; port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

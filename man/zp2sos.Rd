@@ -26,7 +26,7 @@ A list with the following list elements:
 }
 }
 \description{
-Convert digital filter zero-pole-gain data to second-order section form
+Convert digital filter zero-pole-gain data to second-order section form.
 }
 \examples{
 zpk <- tf2zp (c(1, 0, 0, 0, 0, 1), c(1, 0, 0, 0, 0, .9))
@@ -37,6 +37,6 @@ sosg <- zp2sos (zpk$z, zpk$p, zpk$k)
 See also \code{\link{filter}}
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

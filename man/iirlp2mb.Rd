@@ -33,8 +33,8 @@ iirlp2mb(b, ...)
 \item{a}{denominator polynomial of prototype low pass filter}
 }
 \value{
-list of class \code{'\link{Arma}'} numerator and denominator
-  polynomials of the resulting filter
+List of class \code{\link{Arma}} numerator and denominator
+  polynomials of the resulting filter.
 }
 \description{
 Transform an IIR lowpass filter prototype to an IIR multiband filter.
@@ -85,6 +85,6 @@ legend('bottomleft', legend = c('Prototype', 'Two passbands', 'Two Stopbands'),
 [2] \url{https://en.wikipedia.org/wiki/Prototype_filter#Lowpass_to_multi-band}
 }
 \author{
-Original Octave code by Alan J. Greenberger \email{alanjg@ptd.net}.
-  Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Alan J. Greenberger, \email{alanjg@ptd.net}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

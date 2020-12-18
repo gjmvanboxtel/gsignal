@@ -7,34 +7,56 @@
 cmorwavf(lb = -8, ub = 8, n = 1000, fb = 5, fc = 1)
 }
 \arguments{
-\item{lb, ub}{Lower and upper bounds of the interval to evaluate the complex Morlet waveform on. Default: -8 to 8.}
+\item{lb, ub}{Lower and upper bounds of the interval to evaluate the complex
+Morlet waveform on. Default: -8 to 8.}
 
-\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length of the wavelet). Default: 1000.}
+\item{n}{Number of points on the grid between \code{lb} and \code{ub} (length
+of the wavelet). Default: 1000.}
 
-\item{fb}{Time-decay parameter of the wavelet (bandwidth in the frequency domain). Must be a positive scalar. Default: 5.}
+\item{fb}{Time-decay parameter of the wavelet (bandwidth in the frequency
+domain). Must be a positive scalar. Default: 5.}
 
-\item{fc}{Center frequency of the wavelet. Must be a positive scalar. Default: 1.}
+\item{fc}{Center frequency of the wavelet. Must be a positive scalar.
+Default: 1.}
 }
 \value{
-A list containing 2 variables; \code{x}, the grid on which the complex Morlet wavelet was evaluated, and \code{psi}
-(\eqn{\Psi}), the evaluated wavelet on the grid \code{x}.
+A list containing 2 variables; \code{x}, the grid on which the
+  complex Morlet wavelet was evaluated, and \code{psi} (\eqn{\Psi}), the
+  evaluated wavelet on the grid \code{x}.
 }
 \description{
-the Morlet wavelet (or Gabor wavelet) is a wavelet composed of a complex exponential (carrier) multiplied by a Gaussian window
-(envelope). The wavelet exists as a complex version or a purely real-valued version. Some distinguish between the "real Morlet"
-versus the "complex Morlet". Others consider the complex version to be the "Gabor wavelet", while the real-valued version is the
-"Morlet wavelet". This function returns the complex Morlet wavelet, with time-decay parameter \code{fb}, and center frequency 
-\code{fc}. The general expression for the complex Morlet wavelet is
-\deqn{\Psi(x) = ((\pi * fb)^{-0.5}) * \exp{2 * \pi * i * fc * x} * exp{-(x^2) / fb}}
-\code{x} is evaluated on an \code{n}-point regular grid in the interval (lb, ub).
+Compute the complex Morlet wavelet on a grid.
 }
 \details{
-\code{fb} controls the decay in the time domain and the corresponding energy spread (bandwidth) in the frequency domain.
-\code{fb} is the inverse of the variance in the frequency domain. Increasing \code{fb} makes the wavelet energy more concentrated
-around the center frequency and results in slower decay of the wavelet in the time domain. Decreasing \code{fb} results in faster
-decay of the wavelet in the time domain and less energy spread in the frequency domain. The value of \code{fb} does not affect
-the center frequency. When converting from scale to frequency, only the center frequency affects the frequency values.
-The energy spread or bandwidth parameter affects how localized the wavelet is in the frequency domain. See the examples.
+The Morlet (or Gabor) wavelet is a wavelet composed of a complex exponential
+(carrier) multiplied by a Gaussian window (envelope). The wavelet exists as a
+complex version or a purely real-valued version. Some distinguish between the
+"real Morlet" versus the "complex Morlet". Others consider the complex
+version to be the "Gabor wavelet", while the real-valued version is the
+"Morlet wavelet". This function returns the complex Morlet wavelet, with
+time-decay parameter \code{fb}, and center frequency \code{fc}. The general
+expression for the complex Morlet wavelet is
+\if{latex}{
+  \deqn{\Psi(x) = ((\pi fb)^{-0.5})  \cdot e^{(2 \pi i fc x)} \cdot e^{-(x^2) / fb}}
+}
+\if{html}{\preformatted{
+ Psi(x) = ((pi * fb)^-0.5) *  exp(2 * pi * i * fc * x) * exp(-(x^2) / fb)
+}}
+
+\code{x} is evaluated on an \code{n}-point regular grid in the interval (lb,
+ub).
+
+\code{fb} controls the decay in the time domain and the corresponding energy
+spread (bandwidth) in the frequency domain.
+\code{fb} is the inverse of the variance in the frequency domain. Increasing
+\code{fb} makes the wavelet energy more concentrated around the center
+frequency and results in slower decay of the wavelet in the time domain.
+Decreasing \code{fb} results in faster decay of the wavelet in the time
+domain and less energy spread in the frequency domain. The value of \code{fb}
+does not affect the center frequency. When converting from scale to
+frequency, only the center frequency affects the frequency values. The energy
+spread or bandwidth parameter affects how localized the wavelet is in the
+frequency domain. See the examples.
 }
 \examples{
 
@@ -64,11 +86,11 @@ legend("topright", legend = c("fb = 0.5", "fb = 8"), lty= 1, col = c(1,2))
 
 # frequency domain plot
 f <- seq(-5, 5, .01)
-Fc <- 1  
-Fb1 <- 0.5  
+Fc <- 1
+Fb1 <- 0.5
 Fb2 <- 8
-PSI1 <- exp(-pi^2 * Fb1 * (f-Fc)^2)  
-PSI2 <- exp(-pi^2 * Fb2 * (f-Fc)^2)  
+PSI1 <- exp(-pi^2 * Fb1 * (f-Fc)^2)
+PSI2 <- exp(-pi^2 * Fb2 * (f-Fc)^2)
 plot(f, PSI1, type="l", xlab = "Frequency", ylab = "", main = "Frequency domain")
 lines(f, PSI2, col = "red")
 legend("topright", legend = c("fb = 0.5", "fb = 8"), lty= 1, col = c(1,2))
@@ -83,13 +105,13 @@ fs <- length(cmw1$x) / sum(abs(range(cmw1$x)))
 hz  <- seq(0, fs/2, len=floor(length(cmw1$psi)/2)+1)
 PSI1 <- fft(cmw1$psi) / length(cmw1$psi)
 PSI2 <- fft(cmw2$psi) / length(cmw2$psi)
-plot(hz, 2 * abs(PSI1)[1:length(hz)], type="l", xlab = "Frequency", 
+plot(hz, 2 * abs(PSI1)[1:length(hz)], type="l", xlab = "Frequency",
      ylab = "", main = "Frequency domain", xlim=c(0,5))
 lines(hz, 2 * abs(PSI2)[1:length(hz)], col = 2)
 legend("topright", legend = c("fb = 0.5", "fb = 8"), lty= 1, col = c(1,2))
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier \email{sylvain.pelissier@gmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

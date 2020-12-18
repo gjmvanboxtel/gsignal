@@ -4,7 +4,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -13,9 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200209  GvB       setup for gsignal v0.1.0
@@ -23,55 +21,55 @@
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Circular convolution
-#' 
+#'
 #' Compute the modulo-n circular convolution.
-#' 
+#'
 #' Linear and circular convolution are fundamentally different operations.
 #' Linear convolution of an n-point vector x, and an l-point vector y, has
 #' length n + l - 1, and can be computed by the function
-#' \code{\link[gsignal]{conv}}, whcih uses \code{\link[gsignal]{filter}}. The
+#' \code{\link[gsignal]{conv}}, which uses \code{\link[gsignal]{filter}}. The
 #' circular convolution, by contrast, is equal to the inverse discrete Fourier
 #' transform (DFT) of the product of the vectors' DFTs.
-#' 
-#' For the circular convolution of x and y to be equivalent to their linear
-#' convolution, the vectors must be padded with zeros to length at least n + l -
-#' 1 before taking the DFT. After inverting the product of the DFTs, only the
-#' first n + n - 1 elements should be retained.
-#' 
-#' For long sequences circular convolution may be more efficient
-#' than linear convolution. You can also use cconv to compute the circular
+#'
+#' For the circular convolution of \code{x} and \code{y} to be equivalent to
+#' their linear convolution, the vectors must be padded with zeros to length at
+#' least \code{n + l - 1} before taking the DFT. After inverting the product of
+#' the DFTs, only the first \code{n + n - 1} elements should be retained.
+#'
+#' For long sequences circular convolution may be more efficient than linear
+#' convolution. You can also use \code{cconv} to compute the circular
 #' cross-correlation of two sequences.
-#' 
+#'
 #' @param a,b Input, coerced to vectors, can be different lengths or data types.
 #' @param n Convolution length, specified as a positive integer. Default:
-#'   length(a) + length(b) - 1.
-#' 
+#'   \code{length(a) + length(b) - 1}.
+#'
 #' @return Circular convolution of input vectors, returned as a vector.
-#' 
+#'
 #' @examples
 #' a <- c(1, 2, -1, 1)
 #' b <- c(1, 1, 2, 1, 2, 2, 1, 1)
 #' c <- cconv(a, b)       # Circular convolution
 #' cref = conv(a, b)      # Linear convolution
 #' all.equal(max(c - cref), 0)
-#' 
+#'
 #' cconv(a, b, 6)
-#' 
+#'
 #' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
-#' 
-#' @author Leonardo Araujo, port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Leonardo Araujo.\cr
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 cconv <- function (a, b, n = length(a) + length(b) -1) {
-  
+
   a <- as.vector(a)
   b <- as.vector(b)
   if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
-  
+
   la <- length (a)
   lb <- length (b)
 
@@ -95,7 +93,7 @@ cconv <- function (a, b, n = length(a) + length(b) -1) {
     a <- postpad(a, n)
     b <- postpad(b, n)
   }
-  
+
   y <- ifft(stats::fft(postpad(a, stats::nextn(length(a)))) * stats::fft(postpad(b, stats::nextn(length(b)))))
   y[1:n]
 }

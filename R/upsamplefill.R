@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Upsample and Fill
-#' 
+#'
 #' Upsample and fill with given values or copies of the vector elements.
-#'   
+#'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
@@ -36,15 +34,15 @@
 #'   between the elements of \code{x}.
 #'
 #' @return upsampled vector or matrix
-#' 
+#'
 #' @examples
 #' upsamplefill(diag(2), 2, TRUE)
 #' upsamplefill(diag(2), rep(-1, 3))
-#' 
+#'
 #' @seealso \code{\link{upsample}}
 #'
-#' @author Juan Pablo Carbajal \email{carbajal@@ifi.uzh.ch}; port to R by Geert
-#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
@@ -53,7 +51,7 @@ upsamplefill <- function (x, v, copy = FALSE) {
   if (!is.numeric(x)) {
     stop('x must be a numeric vector or matrix')
   }
-  
+
   if (is.vector(x)) {
     x <- matrix(x, ncol = 1)
     vec <- TRUE
@@ -64,7 +62,7 @@ upsamplefill <- function (x, v, copy = FALSE) {
   }
   nc <- ncol(x)
   nr <- nrow(x)
-  
+
   if (!is.numeric(v) || !is.vector(v)) {
     stop('v must be a numeric vector')
   }
@@ -96,11 +94,11 @@ upsamplefill <- function (x, v, copy = FALSE) {
       y[idx_c, ] <- pracma::repmat(v, nr, nc)
     }
   }
-  
+
   if (vec) {
     y <- as.vector(y)
   }
   y
-  
+
 }
 

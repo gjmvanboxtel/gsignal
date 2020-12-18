@@ -8,21 +8,21 @@ bitrevorder(x, index.return = FALSE)
 }
 \arguments{
 \item{x}{input data, specified as a vector. The length of \code{x} must be an
-integer power of \code{r}.}
+integer power of 2.}
 
 \item{index.return}{logical indicating if the ordering index vector should be
-returned as well. Default \code{FALSE}.}
+returned as well. Default: \code{FALSE}.}
 }
 \value{
-the bit-reversed input vector. If \code{index.return = TRUE}, then
-  a list containing the bit-reversed input vector (\code{y}, and the
+The bit-reversed input vector. If \code{index.return = TRUE}, then
+  a list containing the bit-reversed input vector (\code{y}), and the
   digit-reversed indices (\code{i}).
 }
 \description{
 Reorder the elements of the input vector in bit-reversed order.
 }
 \details{
-This function is equivalent to calling \code{digitrevorder (x, 2)}, and is
+This function is equivalent to calling \code{digitrevorder(x, 2)}, and is
 useful for prearranging filter coefficients so that bit-reversed ordering
 does not have to be performed as part of an fft or ifft computation.
 }
@@ -41,6 +41,6 @@ data.frame(x, x_bin, v, v_bin)
 \code{\link{digitrevorder}}, \code{\link{fft}}, \code{\link{ifft}}
 }
 \author{
-Mike Miller, port to to by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Mike Miller.\cr
+ Port to to by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

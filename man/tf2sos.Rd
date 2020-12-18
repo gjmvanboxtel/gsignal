@@ -24,7 +24,7 @@ A list with the following list elements:
 }
 }
 \description{
-Convert digital filter transfer function data to second-order section form
+Convert digital filter transfer function data to second-order section form.
 }
 \examples{
 b <- c(1, 0, 0, 0, 0, 1)
@@ -36,6 +36,6 @@ sosg <- tf2sos (b, a)
 See also \code{\link{filter}}
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

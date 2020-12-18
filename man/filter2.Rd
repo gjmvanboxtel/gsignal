@@ -50,9 +50,9 @@ par(op)
 
 }
 \seealso{
-\code{conv2}
+\code{\link{conv2}}
 }
 \author{
-Paul Kienzle; port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle.
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,29 +14,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201020  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 1-D Discrete Wavelet Transform
-#' 
+#'
 #' Compute the single-level discrete wavelet transform of a signal
-#' 
+#'
 #' This function is only included because of compatibility with the Octave
 #' signal package. Specialized packages exist in R to perform the discrete
 #' wavelet transform, e.g., the \code{wavelets} package [1]. this function
 #' recognizes only a few wavelet names, namely those for which scale
 #' coefficients are available (Daubechies [2] and Coiflet [3]).
-#' 
+#'
 #' The wavelet and scaling coefficients are returned by the function
 #' \code{wfilters}, which returns the coefficients for reconstruction filters
 #' associated with the wavelet \code{wname}. Decomposition filters are the time
 #' reverse of the reconstruction filters (see examples).
-#' 
+#'
 #' @param x input data, specified as a numeric vector.
 #' @param wname analyzing wavelet, specified as a character string consisting of
 #'   a class name followed by the wavelet length Only two classes of wavelets
@@ -45,25 +43,25 @@
 #'   lengths 6, 12, 18, 24, and 30. The wavelet name \code{'haar'} is
 #'   the equivalent of \code{'d2'}. Default: d8.
 #' @param lo scaling (low-pass) filter, specified as an even-length numeric
-#'   vector. \code{g} must be the same length as \code{h}. Ignored when
+#'   vector. \code{lo} must be the same length as \code{hi}. Ignored when
 #'   \code{wname != NULL}.
 #' @param hi wavelet (high-pass) filter, specified as an even-length numeric
-#'   vector. \code{h} must be the same length as \code{g}, Ignored when
+#'   vector. \code{hi} must be the same length as \code{lo}, Ignored when
 #'   \code{wname != NULL}.
-#' 
+#'
 #' @note The notations \code{g} and \code{h} are often used to denote low-pass
 #'   (scaling) and high-pass (wavelet) coefficients, respectively, but
 #'   inconsistently. Ref [4] uses it, as does the R \code{wavelets} package.
 #'   Octave uses the reverse notation. To avoid confusion, more neutral terms
 #'   are used here.
-#'   
+#'
 #' @note There are two naming schemes for wavelet names in use. For instance for
 #'   Daubechies wavelets (d), dN using the length or number of taps, and dbA
 #'   referring to the number of vanishing moments. So d4 and db2 are the same
 #'   wavelet transform. This function uses the formed (dN) notation; Matlab uses
 #'   the latter (dbA).
-#'   
-#' @return A \code{\link{list}} containng two numeric vectors:
+#'
+#' @return A list containng two numeric vectors:
 #' \describe{
 #'   \item{a}{approximation (average) coefficients, obtained from convolving
 #'     \code{x} with the scaling (low-pass) filter \code{lo}, and then
@@ -72,13 +70,13 @@
 #'     \code{x} with the wavelet (high-pass) filter \code{hi}, and then
 #'     downsampled (keep the even-indexed elements).}
 #' }
-#'  
+#'
 #' @examples
 #' # get Coiflet 30 coefficients
 #' wv <- wfilters('c30')
 #' lo <- rev(wv$lo)
 #' hi <- rev(wv$hi)
-#' 
+#'
 #' # general time-varying signal
 #' time <- 1
 #' fs <- 1000
@@ -89,22 +87,22 @@
 #' plot(x, y, type = "l", xlab = "Time", ylab = "Amplitude",
 #'      main = "Original signal")
 #' wt <- dwt(y, wname = NULL, lo, hi)
-#' 
+#'
 #' x2 <- seq(1, length(x) - length(hi) + 1, 2)
 #' plot(x2, wt$a, type = "h", xlab = "Time", ylab = "",
 #'     main = "Approximation coefficients")
 #' plot(x2, wt$d, type = "h", xlab = "Time", ylab = "",
 #'      main = "Detail coefficients")
 #' par (op)
-#'         
-#' @author Lukas F. Reichlin; port to R by Geert van Boxtel,
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @author Lukas F. Reichlin.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @references [1] \url{https://cran.r-project.org/web/packages/wavelets/index.html}
 #' @references [2] \url{https://en.wikipedia.org/wiki/Daubechies_wavelet}
 #' @references [3] \url{https://en.wikipedia.org/wiki/Coiflet}
 #' @references [4] \url{https://en.wikipedia.org/wiki/Discrete_wavelet_transform}
-#' 
+#'
 #' @rdname dwt
 #' @export
 
@@ -114,7 +112,7 @@
   if (!is.vector(x) || !is.numeric(x)) {
     stop('x must be a numeric vector')
   }
-  
+
   if(is.null(wname)) {
     if (is.null(lo) || is.null(hi)) {
       stop("both lo and hi needed when wname not specified")
@@ -128,29 +126,29 @@
     lo <- cf$lo
     hi <- cf$hi
   }
-  
+
   tmp <- wconv ("1d", x, lo, "valid")
   u <- tmp[seq(1, length(tmp), 2)]
-    
+
   tmp <- wconv ("1d", x, hi, "valid")
   v <- tmp[seq(1, length(tmp), 2)]
-    
+
   list(a = u, d = v)
  }
- 
- 
+
+
  #' @rdname dwt
  #' @export
- 
+
  wfilters <- function(wname) {
-  
+
   lo <- switch(wname,
               'haar'   = c(1, 1),
               'd2'     = c(1, 1),
               'd4'     = c(0.6830127, 1.1830127, 0.3169873, -0.1830127),
               'd6'     = c(0.47046721,1.14111692, 0.650365,
                            -0.19093442,-0.12083221,0.0498175),
-              'd8'     = c(0.32580343, 1.01094572, 0.89220014, -0.03957503, 
+              'd8'     = c(0.32580343, 1.01094572, 0.89220014, -0.03957503,
                            -0.26450717, 0.0436163, 0.0465036, -0.01498699),
               'd10'    = c(0.22641898, 0.85394354, 1.02432694, 0.19576696, -0.34265671,
                            -0.04560113, 0.10970265, -0.00882680, -0.01779187, 4.71742793e-3),
@@ -172,7 +170,7 @@
                            -0.35333620, -0.27710988, 0.18012745, 0.13160299, -0.10096657,
                            -0.04165925, 0.04696981, 5.10043697e-3, -0.01517900, 1.97332536e-3,
                            2.81768659e-3, -9.69947840e-4, -1.64709006e-4, 1.32354367e-4, -1.875841e-5),
-              
+
               'c6'     = c(-0.1028594569415370, 0.4778594569415370, 1.2057189138830700,
                            0.5442810861169260, -0.1028594569415370, -0.0221405430584631),
               'c12'    = c(0.0231751934774337, -0.0586402759669371, -0.0952791806220162,
@@ -209,6 +207,5 @@
   hi <- lo[ll:1] * (-1)^((1:ll) - 1)
 
   list(lo = lo, hi = hi)
-     
+
  }
- 

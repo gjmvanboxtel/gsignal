@@ -6,14 +6,79 @@
 \alias{gsignal-package}
 \title{gsignal: Signal Processing}
 \description{
-I wanted to learn more about signal analysis, so I thought it would be useful to study 
-    the Matlab/Octave signal package. Gsignal is my own R implementation of the Octave signal package.
-    This allowed me to get a basic understanding of the algorithms and experiment with them in R.
+R implementation of the Octave signal package.
 }
 \details{
 gsignal is my own implementation of the Matlab/Octave package signal
 }
 \references{
 To be filled in
+}
+\author{
+\strong{Maintainer}: Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com} (Maintainer)
+
+Authors:
+\itemize{
+  \item Tom Short \email{tshort@eprisolutions.com} (Author of signal package)
+  \item Paul Kienzle (Majority of the original sources)
+}
+
+Other contributors:
+\itemize{
+  \item Ben Abbott [contributor]
+  \item Juan Aguado [contributor]
+  \item Muthiah Annamalai [contributor]
+  \item Leonardo Araujo [contributor]
+  \item William Asquith [contributor]
+  \item David Bateman [contributor]
+  \item David Billinghurst [contributor]
+  \item Juan Pablo Carbajal [contributor]
+  \item André Carezia [contributor]
+  \item Vincent Cautaerts [contributor]
+  \item Eric Chassande-Mottin [contributor]
+  \item Luca Citi [contributor]
+  \item Dave Cogdell [contributor]
+  \item Carlo de Falco [contributor]
+  \item Carnë Draug [contributor]
+  \item Pascal Dupuis [contributor]
+  \item John W. Eaton [contributor]
+  \item R.G.H Eschauzier [contributor]
+  \item Andrew Fitting [contributor]
+  \item Alan J. Greenberger [contributor]
+  \item Mike Gross [contributor]
+  \item Daniel Gunyan [contributor]
+  \item Kai Habel [contributor]
+  \item Kurt Hornik [contributor]
+  \item Jake Janovetz [contributor]
+  \item Alexander Klein [contributor]
+  \item Peter V. Lanspeary [contributor]
+  \item Bill Lash [contributor]
+  \item Friedrich Leissh [contributor]
+  \item Laurent S. Mazet [contributor]
+  \item Mike Miller [contributor]
+  \item Petr Mikulik [contributor]
+  \item Paolo Neis [contributor]
+  \item Georgios Ouzounis [contributor]
+  \item Sylvain Pelissier [contributor]
+  \item Francesco Potortì [contributor]
+  \item Charles Praplan [contributor]
+  \item Lukas F. Reichlin [contributor]
+  \item Tony Richardson [contributor]
+  \item Asbjorn Sabo [contributor]
+  \item Thomas Sailer [contributor]
+  \item Rolf Schirmacher [contributor]
+  \item Rolf Schirmacher [contributor]
+  \item Ivan Selesnick [contributor]
+  \item Julius O. Smith III [contributor]
+  \item Peter L. Soendergaard [contributor]
+  \item Quentin Spencer [contributor]
+  \item Doug Stewart [contributor]
+  \item P. Sudeepam [contributor]
+  \item Stefan van der Walt [contributor]
+  \item Andreas Weber [contributor]
+  \item P. Sudeepam [contributor]
+  \item Andreas Weingessel [contributor]
+}
+
 }
 \keyword{internal}

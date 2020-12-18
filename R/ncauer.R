@@ -21,9 +21,9 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' ncauer analog filter design
-#' 
-#' Compute the transfer function coefficients of a Cauer analog filter
-#' 
+#'
+#' Compute the transfer function coefficients of a Cauer analog filter.
+#'
 #' Cauer filters have equal maximum ripple in the passband and the stopband. The
 #' Cauer filter has a faster transition from the passband to the stopband than
 #' any other class of network synthesis filter. The term Cauer filter can be
@@ -36,33 +36,33 @@
 #' Butterworth filter. The filter is named after Wilhelm Cauer and the transfer
 #' function is based on elliptic rational functions.Cauer-type filters use
 #' generalized continued fractions.[1]
-#' 
+#'
 #' @param Rp dB of passband ripple.
 #' @param Rs dB of stopband ripple.
 #' @param n filter order.
-#' 
+#'
 #' @return A list of class Zpg with the following list elements:
 #' \describe{
 #'   \item{zero}{complex vector of the zeros of the model}
 #'   \item{pole}{complex vector of the poles of the model}
 #'   \item{gain}{gain of the model}
 #' }
-#'  
+#'
 #' @examples
 #' zpg <- ncauer(0.5, 40, 5)
-#'  
+#'
 #' @references [1] \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
-#' 
+#'
 #' @seealso \code{\link{Zpg}}, \code{\link{filter}}, \code{\link{ellip}}
-#' 
-#' @author Original Octave code by Paulo Neis \email{p_neis@@yahoo.com.br}. Port
-#'   to R Tom Short, adapted by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paulo Neis, \email{p_neis@@yahoo.com.br}.\cr
+#' Conversion to R Tom Short,\cr
+#'  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
 ncauer <- function (Rp, Rs, n) {
-  
+
   # check input arguments
   if (!isPosscal(n) || !isWhole(n)) {
     stop("filter order n must be a positive integer")
@@ -73,7 +73,7 @@ ncauer <- function (Rp, Rs, n) {
   if (!isPosscal(Rs) || !is.numeric(Rs)) {
     stop("stopband ripple Rp must a non-negative scalar")
   }
-  
+
   ## Calculate the stop band edge for the Cauer filter.
   ellip_ws <- function(n, rp, rs) {
     ellip_ws_min <- function(kl) {
@@ -88,28 +88,27 @@ ncauer <- function (Rp, Rs, n) {
     ql0 <- int[1]
     q0 <- int[2]
     x <- n * ql0 / q0
-    #    kl <- optim(ellip_ws_min, method = "L-BFGS-B", lower = eps, upper = 1-eps)
     kl <- stats::optimize(ellip_ws_min,
                           interval = c(.Machine$double.eps, 1-.Machine$double.eps))$minimum
     ws <- sqrt(1 / kl)
     ws
   }
-  
+
   ## Cutoff frequency = 1:
   wp <- 1
-  
+
   ## Stop band edge ws:
   ws <- ellip_ws(n, Rp, Rs)
-  
+
   k  <- wp / ws
   k1 <- sqrt(1 - k^2)
   q0 <- (1 / 2) * ((1 - sqrt(k1)) / (1 + sqrt(k1)))
   q <-  q0 + 2 * q0^5 + 15 * q0^9 + 150*q0^13
-  
+
   ####Filter order maybe this, but not used now:
   ##D <-  (10^(0.1*Rs)-1)/(10^(0.1*Rp)-1)
   ##n<-ceil(log10(16*D)/log10(1/q))
-  
+
   l <- (1 / (2 * n)) * log((10^(0.05 * Rp) + 1) / (10^(0.05 * Rp) - 1))
   sig01 <- 0
   sig02 <- 0
@@ -120,11 +119,11 @@ ncauer <- function (Rp, Rs, n) {
     sig02 <- sig02 + (-1)^m * q^(m^2) * cosh(2 * m * l)
   }
   sig0 <- abs((2 * q^(1 / 4) * sig01) / (1 + 2 * sig02))
-  
+
   w <- sqrt((1 + k * sig0^2) * (1 + sig0^2 / k))
-  
+
   r <- (n - (n %% 2)) / 2
-  
+
   wi <- matrix(0, 1, r)
   for (ii in 1:r) {
     mu <- ii - (1 - (n %% 2)) / 2
@@ -138,13 +137,13 @@ ncauer <- function (Rp, Rs, n) {
     }
     wi[ii] <- soma1 / (1 + soma2)
   }
-  
+
   Vi <- sqrt((1 - (k * (wi^2))) * (1 - (wi^2) / k))
   A0i <- 1 / wi^2
   sqrA0i <- 1 / wi
   B0i <- ((sig0 * Vi)^2 + (w * wi)^2) / ((1 + sig0^2 * wi^2)^2)
   ## not used: ## B1i <- (2 * sig0 * Vi) / (1 + sig0^2 * wi^2)
-  
+
   ##Gain T0:
   if (n %% 2) { # odd
     T0 <- sig0 * prod(B0i / A0i) * sqrt(ws)
@@ -153,18 +152,18 @@ ncauer <- function (Rp, Rs, n) {
   }
   ##zeros:
   zer <- c(1i * sqrA0i, -1i * sqrA0i)
-  
+
   ##poles:
   pol <- c((-2 * sig0 * Vi + 2 * 1i * wi * w) / (2 * (1 + sig0^2 * wi^2)),
            (-2 * sig0 * Vi - 2 * 1i * wi * w) / (2 * (1 + sig0^2 * wi^2)))
-  
+
   ##If n odd, there is a real pole  -sig0:
   if (n %% 2) {   # odd
     pol <- c(pol, -sig0)
   }
-  
+
   pole <- sqrt(ws) * pol
   zero <- sqrt(ws) * zer
-  
-  Zpg(z = zero, p = pole, g = T0)  
+
+  Zpg(z = zero, p = pole, g = T0)
 }

@@ -10,7 +10,8 @@ buttap(n)
 \item{n}{Order of the filter.}
 }
 \value{
-list of class \code{'\link{Zpg}'} containg poles and gain of the filter
+List of class \code{'\link{Zpg}'} containing poles and gain of the
+  filter.
 }
 \description{
 Return the poles and gain of an analog Butterworth lowpass filter prototype.
@@ -27,7 +28,6 @@ freqs(zp, w)
 
 }
 \author{
-Original Octave code by Carnë Draug
-  \email{carandraug+dev@gmail.com}. Port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -10,7 +10,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -19,20 +19,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200425  GvB       setup for gsignal v0.1.0
+# 20201214  GvB       changes to S3 setup: do them all via as.Zpg
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole plot
 #'
 #' Plot the poles and zeros of a filter or model on the complex Z-plane
-#' 
+#'
 #' Poles are marked with an ‘x’, and zeros are marked with an ‘o’.
-#' 
+#'
 #' @note When results of \code{zplane} are printed, \code{plot} will be called.
 #'   As with lattice plots, automatic printing does not work inside loops and
 #'   function calls, so explicit calls to print or plot are needed there.
@@ -47,18 +46,18 @@
 #'
 #' @examples
 #' ## elliptic low-pass filter
-#' #elp <- ellip(4, 0.5, 20, 0.4)
-#' elp <- Arma(b = c(0.1810488, 0.1048651, 0.3111133, 0.1048651, 0.1810488),
-#'             a = c(1.0000000, -1.1463305, 1.5092587, -0.6975320,  0.2698624))
+#' elp <- ellip(4, 0.5, 20, 0.4)
 #' zplane(elp)
-#' 
+#'
 #' @references \url{http://en.wikipedia.org/wiki/Pole-zero_plot}
-#' 
+#'
 #' @seealso \code{\link{freqz}}
-#' 
-#' @author Paul Kienzle \email{pkienzle@@users.sf.net}, Stefan van der Walt
-#'   \email{stefan@@sun.ac.za}, Mike Miller. Port to R by Tom Short; adapted by
-#'   Geert van Boxtel \email{gjmvanboxtel@@gmail.com}
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#'  Stefan van der Walt \email{stefan@@sun.ac.za},\cr
+#'  Mike Miller.\cr
+#'   Conversion to R by Tom Short,\cr
+#'    adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @rdname zplane
 #' @export
@@ -69,19 +68,19 @@ zplane <- function(filt, ...) UseMethod("zplane")
 #' @export
 
 zplane.Arma <- function(filt, ...) # IIR
-  zplane(filt$b, filt$a, ...)
+  zplane(as.Zpg(filt), ...)
 
 #' @rdname zplane
 #' @export
 
 zplane.Ma <- function(filt, ...) # FIR
-  zplane(filt, 1, ...)
+  zplane(as.Zpg(filt), ...)
 
 #' @rdname zplane
 #' @export
 
 zplane.Sos <- function(filt, ...)
-  zplane(as.Zpg(filt, ...))
+  zplane(as.Zpg(filt), ...)
 
 #' @rdname zplane
 #' @export
@@ -100,5 +99,5 @@ zplane.Zpg <- function(filt, ...) {
 #' @export
 
 zplane.default <- function(filt, a, ...) {
-  zplane(Zpg(pracma::roots(filt), pracma::roots(a), 1), ...)
+  zplane(Zpg(pracma::roots(as.numeric(filt)), pracma::roots(as.numeric(a)), 1), ...)
 }

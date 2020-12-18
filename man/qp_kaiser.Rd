@@ -12,28 +12,29 @@ qp_kaiser(nb, at, linear = FALSE)
 \item{at}{attentuation (in dB) in the stop band.}
 
 \item{linear}{logical, indicating linear scaling. If FALSE (default), the
-Kaiser window is multiplied by the ideal impulse response h(n)=a.sinc(a.n)
-and converted to its minimum-phase version by means of a Hilbert transform.}
+Kaiser window is multiplied by the ideal impulse response \eqn{h(n) = a
+sinc(an)} and converted to its minimum-phase version by means of a Hilbert
+transform.}
 }
 \value{
-The FIR filter coefficients, of class \code{Ma}
+The FIR filter coefficients, of class \code{Ma}.
 }
 \description{
 Compute FIR filter for use with a quasi-perfect reconstruction
-polyphase-network filter bank
+polyphase-network filter bank.
 }
 \examples{
 freqz(qp_kaiser(1, 80))
 freqz(qp_kaiser(2, 80))
 freqz(qp_kaiser(3, 80))
 freqz(qp_kaiser(1, 120))
- 
+
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
   \code{\link{fir2}}
 }
 \author{
-Original Octave code by André Carezia \email{andre@carezia.eng.br},
-  Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+André Carezia, \email{andre@carezia.eng.br}.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

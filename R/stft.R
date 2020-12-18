@@ -5,7 +5,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -14,18 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20201206  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Short-Term Fourier Transform
-#' 
-#' Compute the short-term Fourier transform of a vector or matrix
-#' 
+#'
+#' Compute the short-term Fourier transform of a vector or matrix.
+#'
 #' @param x input data, specified as a numeric or complex vector or matrix. In
 #'   case of a vector it represents a single signal; in case of a matrix each
 #'   column is a signal.
@@ -47,7 +45,7 @@
 #'   the frequency resolution of the spectral estimate is controversial.
 #' @param fs sampling frequency (Hertz), specified as a positive scalar.
 #'   Default: 1.
-#'  
+#'
 #' @return A list containing the following elements:
 #'   \describe{
 #'     \item{\code{f}}{vector of frequencies at which the STFT is estimated.
@@ -61,12 +59,15 @@
 #'     increases down the rows. The third dimension, if present, corresponds to
 #'     the input channels.}
 #'   }
-#' 
+#'
 #' @examples
 #' y <- chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic")
 #' ft <- stft (y)
 #' filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
-#' 
+#'
+#' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @export
 
 stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
@@ -77,7 +78,7 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
   if (!(is.vector(x) || is.matrix(x)) && !(is.numeric(x) || is.complex(x))) {
     stop('x must be a numeric or complex vector or matrix')
   }
-  
+
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
   }
@@ -97,19 +98,19 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
       stop ('window must be a positive scalar > 3 or a vector with length > 3')
     }
   }
-  
+
   if (!isScalar(overlap) || !(overlap >= 0 && overlap < 1)) {
     stop('overlap must be a numeric value >= 0 and < 1')
   }
-  
+
   if(!isPosscal(nfft) || !isWhole(nfft)) {
     stop('nfft must be a positive integer')
   }
-  
+
   if(!isPosscal(fs) || fs <= 0) {
     stop('fs must be a numeric value > 0')
   }
-  
+
   # initialize variables
   seg_len <- length(window)                              # segment length in number of samples
   overlap <- trunc(seg_len * overlap)                    # overlap in number of samples
@@ -121,11 +122,11 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
     stop('overlap must be smaller than windowlength')
   }
   # Pad data with zeros if shorter than segment. This should not happen.
-  if (nr < seg_len) {                    
+  if (nr < seg_len) {
     x <- c(x, rep(0, seg_len - nr))
     nr <- seg_len
   }
-  
+
   # MAIN CALCULATIONS
 
   # Calculate and accumulate periodograms
@@ -138,14 +139,14 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
     if (nc == 1) {
       fft_x <- stats::fft(xx)
     } else {
-      fft_x <- stats::mvfft(xx)  
+      fft_x <- stats::mvfft(xx)
     }
     # accumulate periodogram
     n_ffts = n_ffts +1;
     Pxx[1:nfft, n_ffts, 1:nc] <- Re(fft_x * Conj(fft_x))
     t[n_ffts] <- 0.5 * (end_seg - start_seg + 1) / fs
   }
-  
+
   # Convert two-sided spectra to one-sided spectra if the input is numeric
   # For one-sided spectra, contributions from negative frequencies are added
   # to the positive side of the spectrum -- but not at zero or Nyquist
@@ -163,17 +164,17 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
     psd_len <- nfft
   }
   # end MAIN CALCULATIONS
-  
+
   ## SCALING AND OUTPUT
   scale <- n_ffts * seg_len * fs * win_meansq
   s <- Pxx / scale
   f <- seq(0, psd_len - 1) * (fs / nfft)
   t <- seq(0, num_win - 1) * fs
-  
+
 
   if (nc == 1) {
     s <- s[, , 1]
   }
-  
+
   list(f = f, t = t, s = s)
 }

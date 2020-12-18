@@ -24,7 +24,7 @@ A list with the following list elements:
 }
 }
 \description{
-Convert digital filter second-order section data to transfer function form
+Convert digital filter second-order section data to transfer function form.
 }
 \examples{
 sos <- rbind(c(1, 1, 1, 1, 0, -1), c(-2, 3, 1, 1, 10, 1))
@@ -35,6 +35,6 @@ sos2tf(sos)
 See also \code{\link{filter}}
 }
 \author{
-Julius O. Smith III \email{jos@ccrma.stanford.edu}, port to R by
-  Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr
+Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

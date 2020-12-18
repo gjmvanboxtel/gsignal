@@ -7,12 +7,12 @@
 clustersegment(x)
 }
 \arguments{
-\item{x}{input data, specified as a numeric vector or matrix, coerced to 
-contain only 0's and 1's, i.e., every nonzero element in \code{x} will 
+\item{x}{input data, specified as a numeric vector or matrix, coerced to
+contain only 0's and 1's, i.e., every nonzero element in \code{x} will
 be replaced by 1.}
 }
 \value{
-a \code{\link{list}} of size \code{nr}, where \code{nr} is the number
+A list of size \code{nr}, where \code{nr} is the number
   of rows in \code{x}. Each element of the list contains a matrix with two
   rows. The first row is the initial index of a sequence of 1’s and the
   second row is the end index of that sequence.
@@ -45,6 +45,6 @@ ranges <- clustersegment(x)
 
 }
 \author{
-Juan Pablo Carbajal \email{carbajal@ifi.uzh.ch}; port to R by Geert
-  van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Juan Pablo Carbajal, \email{carbajal@ifi.uzh.ch}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

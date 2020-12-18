@@ -15,10 +15,10 @@ vector of ascending values}
 \item{C}{constant of integration. Default: 0}
 }
 \value{
-vector of integrated function values.
+Vector of integrated function values.
 }
 \description{
-Calculate the indefinitive integral of a function
+Calculate the indefinitive integral of a function.
 }
 \details{
 This function is a fancy way of calculating the cumulative sum.
@@ -39,6 +39,6 @@ legend("topright", legend = c("Numerical primitive", "True primitive"),
 \code{\link{cumsum}}
 }
 \author{
-Juan Pablo Carbajal; port to R by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}
+Juan Pablo Carbajal.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

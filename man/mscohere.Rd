@@ -105,6 +105,6 @@ plot(rv$freq, rv$coh, type="l", xlab = "Frequency", ylab = "Coherence")
   Electroacoustics, AU-15 (2): 70–73.\cr
 }
 \author{
-Peter V. Lanspeary \email{pvl@mecheng.adelaide.edu.au}; port to R by
-  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

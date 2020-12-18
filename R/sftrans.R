@@ -21,7 +21,7 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Transform filter band edges
-#' 
+#'
 #' Transform band edges of a generic lowpass filter to a filter with different
 #' band edges and to other filter types (high pass, band pass, or band stop).
 #'
@@ -29,43 +29,72 @@
 #' convert it to a low pass, high pass, band pass or band stop by transforming
 #' each of the poles and zeros individually. The following summarizes the
 #' transformations:
-#' 
-#' \tabular{lll}{
-#'   Transform        \tab Zero at x                 \tab Pole at x                 \cr
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#'   Low-Pass         \tab zero: Fc x/C              \tab pole: Fc x/C              \cr
-#'   S -> C S/Fc      \tab gain: C/Fc                \tab gain: Fc/C                \cr
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#'   High Pass        \tab zero: Fc C/x              \tab pole: Fc C/x              \cr
-#'   S -> C Fc/S      \tab pole: 0                   \tab zero: 0                   \cr
-#'                    \tab gain: -x                  \tab gain: -1/x                \cr
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#'   Band Pass        \tab zero: b +- sqrt(b^2-FhFl) \tab pole: b +- sqrt(b^2-FhFl) \cr
-#'          S^2+FhFl  \tab pole: 0                   \tab zero: 0                   \cr
-#'   S -> C --------  \tab gain: C/(Fh-Fl)           \tab gain: (Fh-Fl)/C           \cr
-#'          S(Fh-Fl)  \tab b=x/C (Fh-Fl)/2           \tab b=x/C (Fh-Fl)/2           \cr
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#'   Band Stop        \tab zero: b +- sqrt(b^2-FhFl) \tab pole: b +- sqrt(b^2-FhFl) \cr
-#'          S(Fh-Fl)  \tab pole: +-sqrt(-FhFl)       \tab zero: +-sqrt(-FhFl)       \cr
-#'   S -> C --------  \tab gain: -x                  \tab gain: -1/x                \cr
-#'          S^2+FhFl  \tab b=C/x (Fh-Fl)/2           \tab b=C/x (Fh-Fl)/2           \cr
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#'   Bilinear         \tab zero: (2+xT)/(2-xT)       \tab pole: (2+xT)/(2-xT)       \cr
-#'        2 z-1       \tab pole: -1                  \tab zero: -1                  \cr
-#'   S -> -----       \tab gain: (2-xT)/T            \tab gain: (2-xT)/T            \cr
-#'        T z+1       \tab                           \tab                           \cr                      
-#'   ---------------- \tab ------------------------- \tab --------------------------\cr
-#' }
-#' 
+#' \if{latex}{
+#'   \tabular{lll}{
+#'      \strong{Transform}               \tab \strong{Zero at x}                   \tab \strong{Pole at x}  \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#'      \strong{Low-Pass}                 \tab  zero: \eqn{Fc x/C}                  \tab  pole: \eqn{Fc x/C} \cr
+#'      \eqn{S \rightarrow C S/Fc}       \tab  gain: \eqn{C/Fc}                    \tab  gain: \eqn{Fc/C}   \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#'      \strong{High Pass}               \tab  zero: \eqn{Fc C/x}                  \tab  pole: \eqn{Fc C/x} \cr
+#'      \eqn{S \rightarrow C Fc/S}       \tab  pole: \eqn{0}                       \tab  zero: \eqn{0} \cr
+#'                                       \tab  gain: \eqn{-x}                      \tab  gain: \eqn{-1/x} \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#'      \strong{Band Pass}               \tab  zero: \eqn{b +- \sqrt{(b^2-FhFl)}}  \tab  pole: \eqn{b \pm \sqrt{(b^2-FhFl)}} \cr
+#'                                       \tab  pole: \eqn{0}                       \tab  zero: \eqn{0} \cr
+#'      S -> \eqn{C \frac{S^2+FhFl}{S(Fh-Fl)}}
+#'                                       \tab gain: \eqn{C/(Fh-Fl)}                \tab  gain: \eqn{(Fh-Fl)/C} \cr
+#'                                       \tab  \eqn{b=x/C (Fh-Fl)/2}               \tab  \eqn{b=x/C (Fh-Fl)/2} \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#'      \strong{Band Stop}               \tab  zero: \eqn{b \pm \sqrt{(b^2-FhFl)}} \tab  pole: \eqn{b +- \sqrt{(b^2-FhFl)}} \cr
+#'                                       \tab  pole: \eqn{\pm \sqrt{(-FhFl)}}      \tab  zero: \eqn{\pm \sqrt{(-FhFl)}}      \cr
+#'      S -> \eqn{C \frac{S(Fh-Fl)}{S^2+FhFl}}
+#'                                       \tab  gain: \eqn{-x}                      \tab  gain: \eqn{-1/x} \cr
+#'                                       \tab  \eqn{b=C/x (Fh-Fl)/2}               \tab  \eqn{b=C/x (Fh-Fl)/2} \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#'      \strong{Bilinear}                \tab zero: \eqn{(2+xT)/(2-xT)}            \tab  pole: \eqn{(2+xT)/(2-xT)} \cr
+#'                                       \tab  pole: \eqn{-1}                      \tab  zero: \eqn{-1} \cr
+#'      \eqn{S \rightarrow \frac{2 z-1}{T z+1}}
+#'                                       \tab  gain: \eqn{(2-xT)/T}                \tab  gain: \eqn{(2-xT)/T} \cr
+#'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
+#' }}
+#' \if{html}{\preformatted{
+#'
+#'   Transform         Zero at x                  Pole at x
+#'   ----------------  -------------------------  --------------------------
+#'   Low-Pass          zero: Fc x/C               pole: Fc x/C
+#'   S -> C S/Fc       gain: C/Fc                 gain: Fc/C
+#'   ----------------  -------------------------  --------------------------
+#'   High Pass         zero: Fc C/x               pole: Fc C/x
+#'   S -> C Fc/S       pole: 0                    zero: 0
+#'                     gain: -x                   gain: -1/x
+#'   ----------------  -------------------------  --------------------------
+#'   Band Pass         zero: b +- sqrt(b^2-FhFl)  pole: b +- sqrt(b^2-FhFl)
+#'          S^2+FhFl   pole: 0                    zero: 0
+#'   S -> C --------   gain: C/(Fh-Fl)            gain: (Fh-Fl)/C
+#'          S(Fh-Fl)   b=x/C (Fh-Fl)/2            b=x/C (Fh-Fl)/2
+#'   ----------------  -------------------------  --------------------------
+#'   Band Stop         zero: b +- sqrt(b^2-FhFl)  pole: b +- sqrt(b^2-FhFl)
+#'          S(Fh-Fl)   pole: +-sqrt(-FhFl)        zero: +-sqrt(-FhFl)
+#'   S -> C --------   gain: -x                   gain: -1/x
+#'          S^2+FhFl   b=C/x (Fh-Fl)/2            b=C/x (Fh-Fl)/2
+#'   ----------------  -------------------------  --------------------------
+#'   Bilinear          zero: (2+xT)/(2-xT)        pole: (2+xT)/(2-xT)
+#'        2 z-1        pole: -1                   zero: -1
+#'   S -> -----        gain: (2-xT)/T             gain: (2-xT)/T
+#'        T z+1
+#'   ----------------  -------------------------  --------------------------
+#' }}
+#'
 #' where C is the cutoff frequency of the initial lowpass filter, F_c is the
 #' edge of the target low/high pass filter and [F_l,F_h] are the edges of the
 #' target band pass/stop filter. With abundant tedious algebra, you can derive
-#' the above formulae yourself by substituting the transform for S into H(S)=S-x
-#' for a zero at x or H(S)=1/(S-x) for a pole at x, and converting the result
-#' into the form:
-#' 
+#' the above formulae yourself by substituting the transform for S into
+#' \eqn{H(S)=S-x} for a zero at x or \eqn{H(S)=1/(S-x)} for a pole at x, and
+#' converting the result into the form:
+#'
 #' \deqn{g prod(S-Xi) / prod(S-Xj)}
-#' 
+#'
 #' Please note that a pole and a zero at the same place exactly cancel. This is
 #' significant for High Pass, Band Pass and Band Stop filters which create
 #' numerous extra poles and zeros, most of which cancel. Those which do not
@@ -73,13 +102,13 @@
 #' same number of as the longer of the sets of poles and zeros (or at least
 #' split the difference in the case of the band pass filter). There may be other
 #' opportunistic cancellations, but it does not check for them.
-#' 
+#'
 #' Also note that any pole on the unit circle or beyond will result in an
 #' unstable filter. Because of cancellation, this will only happen if the number
 #' of poles is smaller than the number of zeros and the filter is high pass or
 #' band pass. The analytic design methods all yield more poles than zeros, so
 #' this will not be a problem.
-#' 
+#'
 #' @param Sz In the generic case, a model to be transformed. In the default case,
 #'   a vector containing the zeros in a pole-zero-gain model.
 #' @param Sp a vector containing the poles in a pole-zero-gain model.
@@ -91,7 +120,7 @@
 #' @param stop FALSE for a low-pass or band-pass filter, TRUE for a high-pass or
 #'   band-stop filter.
 #' @param ...	arguments passed to the generic function.
-#' 
+#'
 #' @return For the default case or for sftrans.Zpg, an object of class 'Zpg',
 #'   containing the list elements:
 #' \describe{
@@ -104,7 +133,7 @@
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
-#' 
+#'
 #' @examples
 #' ## 6th order Bessel bandpass
 #' zpg <- besselap(6)
@@ -112,13 +141,13 @@
 #' freqs(bp, seq(0, 4, length.out = 128))
 #' bp <- sftrans(zpg, c(0.1,0.3), stop = FALSE)
 #' freqs(bp, seq(0, 4, length.out = 128))
-#' 
+#'
 #' @references Proakis & Manolakis (1992). \emph{Digital Signal Processing}. New
 #'   York: Macmillan Publishing Company.
-#' 
-#' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net}.
-#'   Port to R by Tom Short, adapted by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#'   Conversion to R by Tom Short,\cr
+#'   adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @rdname sftrans
 #' @export
@@ -128,20 +157,20 @@ sftrans <- function(Sz, ...) UseMethod("sftrans")
 #' @rdname sftrans
 #' @export
 
-sftrans.Zpg <- function(Sz, w, stop = FALSE, ...)  
+sftrans.Zpg <- function(Sz, w, stop = FALSE, ...)
   sftrans.default(Sz$z, Sz$p, Sz$g, w, stop)
 
 #' @rdname sftrans
 #' @export
 
-sftrans.Arma <- function(Sz, w, stop = FALSE, ...)  
+sftrans.Arma <- function(Sz, w, stop = FALSE, ...)
   as.Arma(sftrans(as.Zpg(Sz), w, stop))
 
 #' @rdname sftrans
 #' @export
 
 sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
-  
+
   if(is.null(Sz)) Sz <- 0   #GvB 20200428
   C <- 1
   p <- length(Sp)
@@ -214,7 +243,7 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
     } else {
       ## ----------------  -------------------------  ------------------------
       ## Low Pass          zero: Fc x/C               pole: Fc x/C
-      ## S -> C S/Fc       gain: C/Fc                 gain: Fc/C 
+      ## S -> C S/Fc       gain: C/Fc                 gain: Fc/C
       ## ----------------  -------------------------  ------------------------
       Sg <- Sg * (C / Fc)^(z - p)
       Sp <- Fc * Sp / C
@@ -222,4 +251,4 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
     }
   }
   Zpg(z = Sz, p = Sp, g = Sg)
-} 
+}

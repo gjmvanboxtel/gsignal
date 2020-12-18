@@ -7,7 +7,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,21 +16,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 2-D cross-correlation
-#' 
+#'
 #' Compute the 2D cross-correlation of matrices \code{a} and \code{b}.
-#' 
+#'
 #' If \code{b} is not specified, computes autocorrelation of \code{a},
-#' i.e., same as \code{xcorr2 (a, a)}. 
-#' 
+#' i.e., same as \code{xcorr2 (a, a)}.
+#'
 #' @param a Input matrix, coerced to numeric. Must not be missing.
 #' @param b Input matrix, coerced to numeric. Default: \code{a}.
 #' @param scale Character string. Specifies the type of scaling applied to the
@@ -46,11 +44,11 @@
 #'     \item{'coeff'}{Scales the normalized cross-correlation on the range of [0
 #'     1] so that a value of 1 corresponds to a correlation coefficient of 1. }
 #'   }
-#' 
+#'
 #' @return 2-D cross-correlation or autocorrelation matrix, returned as a matrix
-#' 
-#' @seealso \code{\link{conv2}}, \code{\link{xcorr}}. 
-#'  
+#'
+#' @seealso \code{\link{conv2}}, \code{\link{xcorr}}.
+#'
 #' @examples
 #' m1 <- matrix(c(17, 24,  1,  8, 15,
 #'                23,  5,  7, 14, 16,
@@ -61,28 +59,28 @@
 #'                3, 5, 7,
 #'                4, 9, 2), 3, 3, byrow = TRUE)
 #' R <- xcorr2(m1, m2)
-#' 
-#' @author Copyright (C) 2000 Dave Cogdell \email{cogdelld@@asme.org},
-#' Copyright (C) 2000 Paul Kienzle \email{pkienzle@@users.sf.net},
-#' Copyright (C) 2012 Carnë Draug \email{carandraug+dev@@gmail.com},
-#' port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
+#' @author Dave Cogdell, \email{cogdelld@@asme.org},\cr
+#' Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
+#' Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
 xcorr2 <- function (a, b = a, scale = c("none", "biased", "unbiased", "coeff")) {
-  
+
   if (!is.matrix(a) || !is.matrix(b)) {
     stop ("input matrices must must have 2 dimensions");
   }
   scale <- match.arg(scale)
-  
+
   ## compute correlation
   ma <- nrow(a)
   na <- ncol(a)
   mb <- nrow(b)
   nb <- ncol(b)
   R <- conv2(a, Conj(b[rev(1:mb), rev(1:nb)]))
-  
+
   # bias routines by Dave Cogdell (cogdelld@asme.org)
   # optimized by Paul Kienzle (pkienzle@users.sf.net)
   # coeff routine by Carnë Draug (carandraug+dev@gmail.com)

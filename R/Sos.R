@@ -3,7 +3,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -12,27 +12,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-# See also: http://www.gnu.org/licenses/gpl-2.0.txt
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Second-order sections
-#' 
-#' Create or convert filter models to second-order sections form
-#' 
+#'
+#' Create or convert filter models to second-order sections form.
+#'
 #' \code{as.Sos} converts from other forms, including \code{Arma}, \code{Ma},
 #' and \code{Zpg}.
-#' 
+#'
 #' @param sos second-order sections representation of the model
 #' @param g overall gain factor
 #' @param x model to be converted.
 #' @param ...	additional arguments (ignored).
-#' 
-#' @return A list of class \code{'Sos'} with the following list elements:
+#'
+#' @return A list of class \code{Sos} with the following list elements:
 #' \describe{
 #'   \item{sos}{second-order section representation of the model, returned as an
 #'     \code{L x 6} matrix, one row for each section \code{1:L}. Each row
@@ -41,11 +39,11 @@
 #'     \code{b0} entry must be nonzero for each section.}
 #'   \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors}
 #' }
-#' 
-#' @seealso \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}} 
-#' 
-#' @author Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
-#' 
+#'
+#' @seealso \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}}
+#'
+#' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'
 #' @rdname Sos
 #' @export
 

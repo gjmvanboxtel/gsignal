@@ -7,21 +7,26 @@
 unshiftdata(sd)
 }
 \arguments{
-\item{sd}{A list of objects named \code{x}, \code{perm}, and \code{nshifts}, as returned by \code{shiftdata()}}
+\item{sd}{A list of objects named \code{x}, \code{perm}, and \code{nshifts},
+as returned by \code{shiftdata()}}
 }
 \value{
-Array with the same values and dimensions as passed to a previous call to \code{shiftdata}.
+Array with the same values and dimensions as passed to a previous
+  call to \code{shiftdata}.
 }
 \description{
-Reverse what has been done by \code{shiftdata()}
+Reverse what has been done by \code{shiftdata()}.
 }
 \details{
-\code{unshiftdata} restores the orientation of the data that was shifted with shiftdata. The permutation vector is given by
-\code{perm}, and \code{nshifts} is the number of shifts that was returned from \code{shiftdata()}.
+\code{unshiftdata} restores the orientation of the data that was shifted with
+shiftdata. The permutation vector is given by \code{perm}, and \code{nshifts}
+is the number of shifts that was returned from \code{shiftdata()}.
 
-\code{unshiftdata} is meant to be used in tandem with \code{shiftdata}. These functions are useful for creating functions that work along a certain dimension, like filter, goertzel, sgolayfilt, and sosfilt.
-These functions are useful for creating functions that work along a certain dimension, like \code{\link{filter}},
-sgolayfilt, and sosfilt.
+\code{unshiftdata} is meant to be used in tandem with \code{shiftdata}. These
+functions are useful for creating functions that work along a certain
+dimension, like filter, goertzel, sgolayfilt, and sosfilt. These functions
+are useful for creating functions that work along a certain dimension, like
+\code{\link{filter}}, \code{\link{sgolayfilt}}, and \code{\link{sosfilt}}.
 }
 \examples{
 
@@ -44,6 +49,6 @@ y <- unshiftdata(sd)
 \code{\link{shiftdata}}
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2014 Georgios Ouzounis \email{ouzounis_georgios@hotmail.com}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Georgios Ouzounis, \email{ouzounis_georgios@hotmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

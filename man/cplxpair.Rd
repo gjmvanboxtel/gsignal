@@ -7,30 +7,30 @@
 cplxpair(z, tol = 100 * .Machine$double.eps, dim = 2)
 }
 \arguments{
-\item{z}{Vector, matrix, or array of complesinglex numbers.}
+\item{z}{Vector, matrix, or array of complex numbers.}
 
 \item{tol}{Weighting factor \code{0 < tol < 1}, which determines the
-tolerance of matching. Default: 100 * .Machine$double.eps. (This definition
-differs from the Octave usage).}
+tolerance of matching. Default: \code{100 * .Machine$double.eps}. (This
+definition differs from the Octave usage).}
 
 \item{dim}{Dimension along which to sort the complex pairs. Default: 2
 (columns).}
 }
 \value{
-Vector, matrix or array containg ordered complex conjugate pairs by
+Vector, matrix or array containing ordered complex conjugate pairs by
   increasing real parts.
 }
 \description{
 Sort complex numbers into complex conjugate pairs ordered by increasing real
-part
+part.
 }
 \details{
 The negative imaginary complex numbers are placed first within each pair. All
 real numbers (those with \code{abs(Im (z) / z) < tol)} are placed after the
 complex pairs.
 
-An error is signalled if some complex numbers could not be paired and if all
-complex numbers are not exact conjugates (to within tol).
+An error is signaled if some complex numbers could not be paired and if all
+complex numbers are not exact conjugates (to within \code{tol}).
 }
 \note{
 There is no defined order for pairs with identical real parts but

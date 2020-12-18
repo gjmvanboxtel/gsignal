@@ -2,7 +2,7 @@
 % Please edit documentation in R/blackmanharris.R
 \name{blackmanharris}
 \alias{blackmanharris}
-\title{Minimum four-term Blackman-Harris window}
+\title{Blackman-Harris window}
 \usage{
 blackmanharris(n, method = c("symmetric", "periodic"))
 }
@@ -21,10 +21,10 @@ blackmanharris(n, method = c("symmetric", "periodic"))
 Blackman-Harris window, returned as a vector.
 }
 \description{
-Return the filter coefficients of a Blackman-Harris window of length \code{n}
+Return the filter coefficients of a minimum four-term Blackman-Harris window.
 }
 \details{
-The Blackman window is a member of the family of cosine sum windows. It is a generalization of the Hamming family, 
+The Blackman window is a member of the family of cosine sum windows. It is a generalization of the Hamming family,
 produced by adding more shifted sinc functions, meant to minimize side-lobe levels.
 }
 \examples{
@@ -39,6 +39,6 @@ lines(bp, col="red")
 
 }
 \author{
-Original Octave code Copyright (C) 2007 Sylvain Pelissier \email{<sylvain.pelissier@gmail.com>}.
-Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

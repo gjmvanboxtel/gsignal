@@ -58,6 +58,7 @@ w <- conv(u, v, 'same')
 
 }
 \author{
-Tony Richardson \email{arichard@stark.cc.oh.us}, adapted by John W.
-  Eaton. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Tony Richardson, \email{arichard@stark.cc.oh.us},
+  adapted by John W. Eaton.\cr
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -78,11 +78,15 @@ y2 <- fftfilt(ma, x)                                 # FFT filter
 all.equal(y1, y2)                                    # same result
 
 }
+\references{
+\url{https://en.wikipedia.org/wiki/Overlap-add_method}.
+}
 \seealso{
-\code{\link{filter}}, \url{https://en.wikipedia.org/wiki/Overlap-add_method}.
+\code{\link{filter}}
 }
 \author{
-Kurt Hornik \email{Kurt.Hornik@wu-wien.ac.at}, adapted by John W.
-  Eaton. Port to R by Tom Short; adapted by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Kurt Hornik, \email{Kurt.Hornik@wu-wien.ac.at},\cr
+ adapted by John W. Eaton.\cr
+ Conversion to R by Tom Short,\cr
+ adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

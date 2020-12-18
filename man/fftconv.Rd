@@ -42,6 +42,7 @@ all.equal(w1, w2)             # same results
 \code{\link{conv}}, \code{\link{conv2}}
 }
 \author{
-Kurt Hornik \email{Kurt.Hornik@wu-wien.ac.at}, adapted by John W.
-  Eaton. Port to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Kurt Hornik, \email{Kurt.Hornik@wu-wien.ac.at},\cr
+ adapted by John W. Eaton.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

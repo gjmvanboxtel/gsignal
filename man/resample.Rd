@@ -69,7 +69,6 @@ Prentice-Hall.
 \code{\link{kaiser}}
 }
 \author{
-Original Octave code by Eric Chassande-Mottin
-  \email{ecm@apc.univ-paris7.fr}, port to R by Geert van Boxtel
-  \email{G.J.M.vanBoxtel@gmail.com}.
+Eric Chassande-Mottin, \email{ecm@apc.univ-paris7.fr}.\cr
+Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

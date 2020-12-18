@@ -2,7 +2,7 @@
 % Please edit documentation in R/filtic.R
 \name{filtic}
 \alias{filtic}
-\title{Initial conditions for filter}
+\title{Filter Initial Conditions}
 \usage{
 filtic(b, a, y, x = 0)
 }
@@ -21,18 +21,21 @@ Initial conditions for filter with coefficients \code{a} and
   vector.
 }
 \description{
+Compute the initial conditions for a filter.
+}
+\details{
 This function computes the same values that would be obtained from the
 Matlab/Octave function \code{filter} given past inputs \code{x} and outputs
 \code{y}
-}
-\details{
+
 The vectors \code{x} and \code{y} contain the most recent inputs and outputs
 respectively, with the newest values first:
 
-\deqn{x = [x(-1) x(-2) ... x(-nb)], nb = length(b)-1}
-\deqn{y = [y(-1) y(-2) ... y(-na)], na = length(a)-a}
+\code{x = c(x(-1), x(-2), ... x(-nb)); nb = length(b)-1}\cr
+\code{y = c(y(-1), y(-2), ... y(-na)); na = length(a)-a}
 
-If \code{length(x) < nb} then it is zero padded. If \code{length(y) < na} then it is zero padded.
+If \code{length(x) < nb} then it is zero padded. If \code{length(y) < na}
+then it is zero padded.
 }
 \examples{
 ## Simple low pass filter
@@ -50,6 +53,6 @@ ic <- filtic(b, a, 0, 1)
 \code{\link{filter}}, \code{\link{filtfilt}}
 }
 \author{
-David Billinghurst \email{David.Billinghurst@riotinto.com}, port to
-  R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+David Billinghurst, \email{David.Billinghurst@riotinto.com}.\cr
+Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

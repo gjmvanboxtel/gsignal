@@ -8,7 +8,7 @@ dftmtx(n)
 }
 \arguments{
 \item{n}{Size of Fourier transformation matrix, specified as a positive
-integer. Default: none.}
+integer.}
 }
 \value{
 Fourier transform matrix.
@@ -34,12 +34,12 @@ n <- length(x)
 y2 <- drop(x \%*\% dftmtx(n))
 max(abs(y1 - y2))
 # [1] 1.201692e-10
-        
+
 }
 \seealso{
 \code{\link[stats]{fft}}, \code{\link{ifft}}
 }
 \author{
-David Bateman, \email{adb014@gmail.com}; port to R by Geert van
-  Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+David Bateman, \email{adb014@gmail.com}.\cr
+ Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

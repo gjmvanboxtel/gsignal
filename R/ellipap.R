@@ -21,34 +21,33 @@
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Lowpass analog elliptic filter
-#' 
+#'
 #' Return the zeros, poles and gain of an analog elliptic lowpass filter
 #' prototype.
-#' 
+#'
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
 #' to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
-#' 
+#'
 #' @param n Order of the filter.
 #' @param Rp dB of passband ripple.
 #' @param Rs dB of stopband ripple.
-#' 
-#' @return list of class \code{'\link{Zpg}'} containg zeros, poles and gain of
+#'
+#' @return list of class \code{\link{Zpg}} containing zeros, poles and gain of
 #'   the filter
-#' 
+#'
 #' @examples
 #' ## 9th order elliptic low-pass analog filter
 #' zp <- ellipap(9, .1, 40)
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Original Octave code by Carnë Draug
-#'   \email{carandraug+dev@@gmail.com}. Port to R by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.
+#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
 ellipap <- function (n, Rp, Rs) {
-  
+
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
   if (!isPosscal(Rp) || !is.numeric(Rp)) {
     stop("passband ripple Rp must a non-negative scalar")
@@ -56,8 +55,8 @@ ellipap <- function (n, Rp, Rs) {
   if (!isPosscal(Rs) || !is.numeric(Rs)) {
     stop("stopband ripple Rs must a non-negative scalar")
   }
-  
+
   as.Zpg(ellip(n, Rp, Rs, 1, "low", "s"))
-  
+
 }
 
