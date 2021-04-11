@@ -23,6 +23,7 @@
 # 20200513 Geert van Boxtel           First version for v0.1.0
 # 20200519 Geert van Boxtel           Added plane parameter to butter.IIRfspec
 # 20200708 GvB                        renamed IIRfspec to FilterSpecs
+# 20210308 GvB                        bug in passing w to sftrans; added output parameter ("ba', "zpg", "Sos")
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Butterworth filter design
@@ -46,14 +47,21 @@
 #' @param type filter type, one of \code{"low"}, (default) \code{"high"},
 #'   \code{"stop"}, or \code{"pass"}.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
+#' @param output Type of output, one of:
+#' \describe{
+#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+#'   \item{Zpg}{Zero-pole-gain format}
+#'   \item{Sos}{Second-order sections}
+#' }
+#' Default is \code{Arma} compatibility with \code{signal::butter} and the
+#'   Matlab/Octave equivalents, but \code{Sos} should be preferred for
+#'   general-purpose filtering because of numeric stability.
 #' @param ... additional arguments passed to butter, overriding those given by n
 #'   of class \code{FilterSpecs}.
 #'
-#' @return List of class \code{'\link{Arma}'} with list elements:
-#' \describe{
-#'   \item{b}{moving average (MA) polynomial coefficients}
-#'   \item{a}{autoregressive (AR) polynomial coefficients}
-#' }
+#' @return Depending on the value of the \code{'output'} parameter, a list of
+#'   class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+#'   containing the filter coefficients
 #'
 #' @examples
 #' ## 50 Hz notch filter
@@ -78,8 +86,9 @@
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Butterworth_filter}
 #'
-#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{cheby1}},
-#'   \code{\link{ellip}}, \code{\link{buttord}}.
+#' @seealso \code{\link{Arma}}, \code{\link{Zpg}}, \code{\link{Sos}},
+#'   \code{\link{filter}}, \code{\link{cheby1}}, \code{\link{ellip}},
+#'   \code{\link{buttord}}.
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
 #'   Doug Stewart, \email{dastew@@sympatico.ca},\cr
@@ -102,11 +111,13 @@ butter.FilterSpecs <- function(n, ...)
 #' @rdname butter
 #' @export
 
-butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...) {
+butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), 
+                            plane = c("z", "s"), output = c("Arma", "Zpg", "Sos"), ...) {
 
   # check input arguments
   type <- match.arg(type)
   plane <- match.arg(plane)
+  output <- match.arg(output)
   if (!isPosscal(n) || !isWhole(n)) {
     stop("filter order n must be a positive integer")
   }
@@ -127,7 +138,7 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), plane
   ## Prewarp to the band edges to s plane
   if (digital) {
     T <- 2                    # sampling frequency of 2 Hz
-    wc <- 2 / T * tan (pi * w / T)
+    w <- 2 / T * tan (pi * w / T)
   }
 
   ## Generate splane poles for the prototype Butterworth filter
@@ -150,6 +161,14 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), plane
     zpg <- bilinear(zpg, T = T)
   }
 
-  as.Arma(zpg)
+  if (output == "Arma") {
+    retval <- as.Arma(zpg)
+  } else if (output == "Sos") {
+    retval <- as.Sos(zpg)
+  } else {
+    retval <- zpg
+  }
+  
+  retval
 
 }

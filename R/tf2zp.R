@@ -19,6 +19,7 @@
 # 20200401  GvB       catch k == 0
 # 20200403  GvB       compute roots with the "eigen" method, and sort them (for Matlab/Octave compatibilty)
 # 20200406  GvB       validated
+# 20210326  GvB       renamed k to g, return object of class 'Zpg'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Transfer function to zero-pole-gain form
@@ -35,7 +36,7 @@
 #' \describe{
 #'   \item{z}{complex vector of the zeros of the model (roots of \code{B(z)})}
 #'   \item{p}{complex vector of the poles of the model (roots of \code{A(z)})}
-#'   \item{k}{overall gain (\code{B(Inf)})}
+#'   \item{g}{overall gain (\code{B(Inf)})}
 #' }
 #'
 #' @seealso See also \code{\link{filter}}
@@ -82,5 +83,5 @@ tf2zp <- function(b, a) {
     k <- 1
   }
 
-  list(z = z, p = p, k = k)
+  Zpg(z = z, p = p, g = k)
 }

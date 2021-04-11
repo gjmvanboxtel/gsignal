@@ -44,7 +44,7 @@ test_that("sos2zp() tests are correct", {
   zpg <- sos2zp(sos, 1)
   expect_equal(cplxpair(zpg$z, 1e-7), as.vector(zref))
   expect_equal(cplxpair(zpg$p, 1e-7), as.vector(pref))
-  expect_equal(zpg$k, 4)
+  expect_equal(zpg$g, 4)
 })
 
 # -----------------------------------------------------------------------
@@ -62,7 +62,7 @@ test_that("tf2zp() tests are correct", {
   zpk <- tf2zp(b, a)
   expect_equal(zpk$z, pracma::roots(b))
   expect_equal(zpk$p, pracma::roots(a))
-  expect_equal(zpk$k, 2)
+  expect_equal(zpk$g, 2)
   
 })
 
@@ -77,15 +77,15 @@ test_that("parameters to zp2sos() are correct", {
 
 test_that("zp2sos() tests are correct", {
   sosg <- zp2sos(c(0+1i, 0-1i), c(0+1i, 0-1i))
-  expect_equal(sosg$sos, c(1, 0, 1, 1, 0, 1))
+  expect_equal(sosg$sos, matrix(c(1, 0, 1, 1, 0, 1), 1))
   expect_equal(sosg$g, 1)
 
   sosg <- zp2sos(c(1+1i, 1-1i), c(1+1i, 1-1i))
-  expect_equal(sosg$sos, c(1, -2, 2, 1, -2, 2))
+  expect_equal(sosg$sos, matrix(c(1, -2, 2, 1, -2, 2), 1))
   expect_equal(sosg$g, 1)
 
   sosg <- zp2sos(c(1+1i, 1-1i), c(1+1i, 1-1i), 3)
-  expect_equal(sosg$sos, c(1, -2, 2, 1, -2, 2))
+  expect_equal(sosg$sos, matrix(c(1, -2, 2, 1, -2, 2), 1))
   expect_equal(sosg$g, 3)
   
   # these are slightly different in Matlab (b[0] and b[1] swapped),
@@ -110,15 +110,15 @@ test_that("tf2sos() tests are correct", {
   b <- c(1, 0, 0, 0, 0, 1)
   a <- c(1, 0, 0, 0, 0, .9)
   sosg <- tf2sos (b, a)
-  sec1 <- c(1, 1, 0, 1,  0.9791484, 0)
-  sec2 <- c(1, -1.618034, 1, 1, -1.5842953, 0.9587315)
-  sec3 <- c(1, 0.618034, 1, 1, 0.6051470, 0.9587315)
+  sec1 <- c(1, 0.618034, 1, 1, 0.6051470, 0.9587315)
+  sec2 <- c(1, -1.618034,  1, 1, -1.5842953, 0.9587315)
+  sec3 <- c(1, 1.000000, 0, 1, 0.9791484, 0.0000000)
   expect_equal(sosg$sos, rbind(sec1, sec2, sec3, deparse.level = 0))
   
   # these are slightly different in Matlab (b[0] and b[1] swapped),
   # and produce errors in Octave
   sosg <- tf2sos(c(0, 0), c(1,1))
-  expect_equal(sosg$sos, c(1, 0, 0, 1, 1, 0))
+  expect_equal(as.vector(sosg$sos), c(1, 0, 0, 1, 1, 0))
   expect_equal(sosg$g, 1)
 
 })
@@ -156,7 +156,7 @@ test_that("zp2tf() tests are correct", {
   inv <- tf2zp(ba$b, ba$a)
   expect_equal(inv$z, zeros)
   expect_equal(inv$p, poles)
-  expect_equal(inv$k, 1)
+  expect_equal(inv$g, 1)
 })
 
 # -----------------------------------------------------------------------

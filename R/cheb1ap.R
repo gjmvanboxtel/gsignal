@@ -51,7 +51,7 @@ cheb1ap <- function (n, Rp) {
     stop("passband ripple Rp must a non-negative scalar")
   }
 
-  as.Zpg(cheby1(n, Rp, 1, "low", "s"))
+  cheby1(n, Rp, 1, "low", "s", "Zpg")
 
 }
 

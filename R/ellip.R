@@ -20,6 +20,7 @@
 #
 # 20200527 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
+# 20210308 GvB                       added output parameter ("ba', "zpg", "Sos")
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Elliptic filter design
@@ -51,14 +52,21 @@
 #' @param type filter type, one of \code{"low"}, \code{"high"}, \code{"stop"},
 #'   or \code{"pass"}.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
+#' @param output Type of output, one of:
+#' \describe{
+#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+#'   \item{Zpg}{Zero-pole-gain format}
+#'   \item{Sos}{Second-order sections}
+#' }
+#' Default is \code{Arma} compatibility with \code{signal::ellip} and the
+#'   Matlab/Octave equivalents, but \code{Sos} should be preferred for
+#'   general-purpose filtering because of numeric stability.
 #' @param ... additional arguments passed to ellip, overriding those given by n
 #'   of class \code{FilterSpecs}.
 #'
-#' @return list of class \code{'\link{Arma}'} with list elements:
-#' \describe{
-#'   \item{b}{moving average (MA) polynomial coefficients}
-#'   \item{a}{autoregressive (AR) polynomial coefficients}
-#' }
+#' @return Depending on the value of the \code{'output'} parameter, a list of
+#'   class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+#'   containing the filter coefficients
 #'
 #' @examples
 #' # compare the frequency responses of 5th-order Butterworth and elliptic filters.
@@ -93,11 +101,13 @@ ellip.FilterSpecs <- function(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, 
 #' @rdname ellip
 #' @export
 
-ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...) {
+ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass"), 
+                           plane = c("z", "s"), output = c("Arma", "Zpg", "Sos"), ...) {
 
   # check input arguments
   type <- match.arg(type)
   plane <- match.arg(plane)
+  output <- match.arg(output)
   if (!isPosscal(n) || !isWhole(n)) {
     stop("filter order n must be a positive integer")
   }
@@ -138,6 +148,14 @@ ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass")
     zpg <- bilinear(zpg, T = T)
   }
 
-  as.Arma(zpg)
-
+  if (output == "Arma") {
+    retval <- as.Arma(zpg)
+  } else if (output == "Sos") {
+    retval <- as.Sos(zpg)
+  } else {
+    retval <- zpg
+  }
+  
+  retval
+  
 }

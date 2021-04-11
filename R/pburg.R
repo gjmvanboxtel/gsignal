@@ -77,7 +77,8 @@
 #' @examples
 #' A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
 #' y <- filter(A, 0.2 * rnorm(1024))
-#' pburg(y, 4)
+#' plot(pb <- pburg(y, 4))
+#' 
 #'
 #' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}.\cr
 #' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}

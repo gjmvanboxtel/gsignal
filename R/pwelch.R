@@ -19,6 +19,8 @@
 # Version history
 # 20201001  GvB       setup for gsignal v0.1.0
 # 20201112  GvB       bug in assigning colnames when ns > 1
+# 20210302  GvB       bug when x is matrix: xx[1:seg_len] -> xx[1:seg_len, ]
+# 20210408  GvB       added range parameter ('half' o 'whole')
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
@@ -72,6 +74,22 @@
 #'     \item{\code{short-linear}}{remove linear trend from each segment}
 #'     \item{\code{none}}{no detrending}
 #'  }
+#' @param range character string. one of:
+#' \describe{
+#'   \item{\code{'half'} or \code{'onesided'}}{frequency range of the spectrum
+#'   is from zero up to but not including \code{fs / 2}. Power from negative
+#'   frequencies is added to the positive side of the spectrum.}
+#'   \item{\code{'whole'} or \code{'twosided'}}{frequency range of the spectrum
+#'   is \code{-fs / 2} to \code{fs / 2}, with negative frequencies stored in
+#'   "wrap around order" after the positive frequencies; e.g. frequencies for a
+#'   10-point \code{'twosided'} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
+#'   -0.2. -0.1.}
+#'   \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
+#'   the first half of the spectrum swapped with second half to put the
+#'   zero-frequency value in the middle.}
+#' }
+#'   Default: If \code{x} are real, the default range is \code{'half'},
+#'   otherwise the default range is \code{'whole'}.
 #' @param plot.type character string specifying which plot to produce; one of
 #'   \code{"spectrum"}, \code{"cross-spectrum"}, \code{"phase"},
 #'   \code{"coherence"}, \code{"transfer"}
@@ -172,7 +190,8 @@
 pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
                     nfft = ifelse(isScalar(window), window, length(window)),
                     fs = 1,
-                    detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
+                    detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none'),
+                    range = ifelse(is.numeric(x), "half", "whole")) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) && !(is.numeric(x) || is.complex(x))) {
@@ -218,8 +237,9 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
     stop('fs must be a numeric value > 0')
   }
 
-  detrend = match.arg(detrend)
-
+  detrend <- match.arg(detrend)
+  range <- match.arg(range, c("half", "whole"))
+  
   # initialize variables
   seg_len <- length(window)                              # segment length in number of samples
   overlap <- trunc(seg_len * overlap)                    # overlap in number of samples
@@ -256,9 +276,9 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
     end_seg <- start_seg + seg_len - 1
     # Don't truncate/remove the zero padding in xx
     if (detrend == 'short-mean') {
-      xx[1:seg_len] <- window * detrend(x[start_seg:end_seg], p = 0)
+      xx[1:seg_len, ] <- window * detrend(x[start_seg:end_seg, ], p = 0)
     } else if (detrend == 'short-linear') {
-      xx[1:seg_len] <- window * detrend(x[start_seg:end_seg], p = 1)
+      xx[1:seg_len, ] <- window * detrend(x[start_seg:end_seg, ], p = 1)
     } else {
       xx[1:seg_len, ] <- window * x[start_seg:end_seg, ]
     }
@@ -277,12 +297,13 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
     n_ffts = n_ffts +1;
   }
 
-  # Convert two-sided spectra to one-sided spectra if the input is numeric
-  # For one-sided spectra, contributions from negative frequencies are added
-  # to the positive side of the spectrum -- but not at zero or Nyquist
-  # (half sampling) frequencies.  This keeps power equal in time and spectral
-  # domains, as required by Parseval theorem.
-  if (is.numeric(x)) {
+  # Convert two-sided spectra to one-sided spectra if range == 'half' 
+  # (normally if the input is numeric). For one-sided spectra, contributions 
+  # from negative frequencies are added to the positive side of the spectrum
+  # -- but not at zero or Nyquist (half sampling) frequencies.
+  # This keeps power equal in time and spectral domains, as required by
+  # Parseval theorem.
+  if (range == 'half') {
     if (nfft%%2 == 0) {    # one-sided, nfft is even
       psd_len <- nfft / 2 + 1
       Pxx <- apply(Pxx, 2, function(x) x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)], 0))
@@ -296,7 +317,7 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
         Pxy = apply(Pxy, 2, function(x) x[1:psd_len] + Conj(c(0, x[seq(nfft, psd_len + 1, -1)])))
       }
     }
-  } else {  # is.complex(x)
+  } else {  # range == 'whole'
     psd_len <- nfft
   }
   # end MAIN CALCULATIONS

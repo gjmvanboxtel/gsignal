@@ -19,6 +19,9 @@
 # Version history
 # 20200330  GvB       setup for gsignal v0.1.0
 # 20200406  GvB       validated
+# 20210306  GvB       initialize a, b with sos[1, ] instead of 1 (bug in Octave
+#                     signal?)
+# 20210326  GvB       return object of class 'Arma'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sos to transfer function
@@ -33,13 +36,13 @@
 #' @param g Overall gain factor that effectively scales the output \code{b}
 #'   vector (or any one of the input \code{Bi} vectors). Default: 1.
 #'
-#' @return A list with the following list elements:
+#' @return An object of class 'Arma' with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
 #'
-#' @seealso See also \code{\link{filter}}
+#' @seealso See also \code{\link{as.Arma}}, \code{\link{filter}}
 #'
 #' @examples
 #' sos <- rbind(c(1, 1, 1, 1, 0, -1), c(-2, 3, 1, 1, 10, 1))
@@ -55,18 +58,23 @@ sos2tf <- function(sos, g = 1) {
   sos <- as.matrix(sos, ncol = 6)
   n <- nrow(sos)
   m <- ncol(sos)
+  if (n <= 0) {
+    stop('sos must have at least 1 row')
+  }
   if (m != 6) {
     stop('sos must be a nrow-by-6 matrix')
   }
 
-  a <- 1
-  b <- 1
+  b <- sos[1, 1:3]
+  a <- sos[1, 4:6]
 
-  for (i in seq_len(n)) {
-    b <- conv(b, sos[i, 1:3])
-    a <- conv(a, sos[i, 4:6])
+  if (n > 1) {
+    for (i in 2:n) {
+      b <- conv(b, sos[i, 1:3])
+      a <- conv(a, sos[i, 4:6])
+    }
   }
-
+  
   nb <- length(b)
   while (nb > 0 && b[nb] == 0) {
     b <- b[1:(nb - 1)]
@@ -81,5 +89,5 @@ sos2tf <- function(sos, g = 1) {
 
   b <-  b * prod(g)
 
-  list(b = b, a = a)
+  Arma(b = b, a = a)
 }

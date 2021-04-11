@@ -20,6 +20,7 @@
 # 20200330  GvB       setup for gsignal v0.1.0
 # 20200405  GvB       replaced roots() by pracma::roots()
 # 20200406  GvB       validated
+# 20210326  GvB       return object of class 'Zpg'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sos to zero-pole-gain
@@ -62,8 +63,8 @@ sos2zp <- function(sos, g = 1) {
   }
 
   gains <- sos[, 1]             # All b0 coeffs
-  k <- prod(gains) * g          # pole-zero gain
-  if (k == 0) {
+  g <- prod(gains) * g          # pole-zero gain
+  if (g == 0) {
     stop('one or more section gains is zero')
   }
   sos[, 1:3] <- sos[, 1:3] / c(gains, gains, gains)
@@ -77,5 +78,5 @@ sos2zp <- function(sos, g = 1) {
     p[ndx] <- pi
   }
 
-  list(z = z, p = p, k = k)
+  Zpg(z = z, p = p, g = g)
 }

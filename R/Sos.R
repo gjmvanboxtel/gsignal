@@ -16,6 +16,7 @@
 #
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
+# 20210306  GvB       as.Sos.Zpg()): x$g instead of x$k
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Second-order sections
@@ -34,8 +35,8 @@
 #' \describe{
 #'   \item{sos}{second-order section representation of the model, returned as an
 #'     \code{L x 6} matrix, one row for each section \code{1:L}. Each row
-#'     constists of an \code{[B, A]}, pair, where \code{B = c(b0, b1, b2)}, and
-#'     \code{A = c(1, a1, a2)}, the filer coeffients for each section. Each
+#'     consists of an \code{[B, A]}, pair, where \code{B = c(b0, b1, b2)}, and
+#'     \code{A = c(1, a1, a2)}, the filer coefficents for each section. Each
 #'     \code{b0} entry must be nonzero for each section.}
 #'   \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors}
 #' }
@@ -89,7 +90,7 @@ as.Sos.Sos <- function(x, ...) x
 #' as.Sos(x, ...)
 #' @export
 as.Sos.Zpg <- function(x, ...) {
-  ret <- zp2sos(x$z, x$p, x$k)
+  ret <- zp2sos(x$z, x$p, x$g)
   class(ret) <- "Sos"
   ret
 }

@@ -4,7 +4,7 @@
 \alias{cplxpair}
 \title{Complex conjugate pairs}
 \usage{
-cplxpair(z, tol = 100 * .Machine$double.eps, dim = 2)
+cplxpair(z, tol = 100 * .Machine$double.eps, MARGIN = 2)
 }
 \arguments{
 \item{z}{Vector, matrix, or array of complex numbers.}
@@ -13,8 +13,10 @@ cplxpair(z, tol = 100 * .Machine$double.eps, dim = 2)
 tolerance of matching. Default: \code{100 * .Machine$double.eps}. (This
 definition differs from the Octave usage).}
 
-\item{dim}{Dimension along which to sort the complex pairs. Default: 2
-(columns).}
+\item{MARGIN}{Vector giving the subscripts which the function will be applied
+over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+indicates rows and columns. Where X has named dimnames, it can be a
+character vector selecting dimension names. Default: 2 (columns).}
 }
 \value{
 Vector, matrix or array containing ordered complex conjugate pairs by

@@ -4,15 +4,17 @@
 \alias{medfilt1}
 \title{1-D median filtering}
 \usage{
-medfilt1(x, n = 3, dim = 2, na.omit = FALSE, ...)
+medfilt1(x, n = 3, MARGIN = 2, na.omit = FALSE, ...)
 }
 \arguments{
 \item{x}{Input signal, specified as a numeric vector, matrix or array.}
 
 \item{n}{positive integer width of the median window; must be odd. Default: 3}
 
-\item{dim}{Dimension to filter along in case \code{x} is a matrix or array.
-Default: 2 (columns)}
+\item{MARGIN}{Vector giving the subscripts which the function will be applied
+over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+indicates rows and columns. Where X has named dimnames, it can be a
+character vector selecting dimension names. Default: 2 (columns).}
 
 \item{na.omit}{logical indicating whether to omit missing values,
 or interpolate then using a cubic spline function

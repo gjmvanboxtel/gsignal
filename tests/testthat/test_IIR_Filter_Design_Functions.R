@@ -366,7 +366,7 @@ test_that("parameters to butter() are correct", {
   expect_error(butter(9, .6, "stop"))
   expect_error(butter(9, .6, "pass"))
   expect_error(butter(9, .6, "pass", "q"))
-  
+  expect_error(butter(9, .6, "pass", "z", "invalid"))
 })
 
 test_that("butter() tests are correct", {
@@ -401,7 +401,12 @@ test_that("butter() tests are correct", {
   filtered <- NULL; for (i in 1:5) filtered <- cbind(filtered, filter(bf, data[, i]))
   damp_db <- NULL; for (i in 1:5) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - fs):l, i])))
   expect_equal(c(damp_db[2] - damp_db[1], damp_db[3:5]), c(24, -3, 0, 0), tolerance = off_db)
- 
+
+  # Test outut formats
+  zpg <- butter(3, 0.05, output = "Zpg")
+  expect_equal(as.Arma(zpg), butter(3, 0.05))
+  sos <- butter(3, 0.05, output = "Sos")
+  expect_equal(as.Arma(sos), butter(3, 0.05))
 })
 
 # -----------------------------------------------------------------------
@@ -857,16 +862,16 @@ test_that("pei_tseng_notch() tests are correct", {
   data <- cbind(sinetone(49, fs, 10, 1), sinetone(50, fs, 10, 1), sinetone(51, fs, 10, 1))
   l <- nrow(data)
   ba <-  pei_tseng_notch( 50 / nyq, 2 / nyq)
-  filtered <- NULL; for (i in 1:3) filtered <- cbind(filtered, filter(ba, data[, i]))
-  damp_db <- NULL; for (i in 1:3) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - 1000):l, i])))
+  filtered <- filter(ba, data)
+  damp_db <- apply(filtered, 2, function(x) 20 * log10(max(x[(l - 1000):l])))
   expect_equal(as.vector(damp_db), c(-3.037382, -44.16588, -3.065681), tolerance = 1e-7)
 
   ## 1Hz bandwidth
   data <- cbind(sinetone(49.5, fs, 10, 1), sinetone(50, fs, 10, 1), sinetone(50.5, fs, 10, 1))
   l <- nrow(data)
   ba <-  pei_tseng_notch( 50 / nyq, 1 / nyq)
-  filtered <- NULL; for (i in 1:3) filtered <- cbind(filtered, filter(ba, data[, i]))
-  damp_db <- NULL; for (i in 1:3) damp_db <- cbind(damp_db, 20 * log10(max(filtered[(l - 1000):l, i])))
+  filtered <- filter(ba, data)
+  damp_db <- apply(filtered, 2, function(x) 20 * log10(max(x[(l - 1000):l])))
   expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = 1e-7)
 })
   

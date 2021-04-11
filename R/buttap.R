@@ -47,6 +47,6 @@ buttap <- function (n) {
 
   if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
 
-  as.Zpg(butter(n, 1, "low", "s"))
+  butter(n, 1, "low", "s", "Zpg")
 }
 

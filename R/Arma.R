@@ -21,6 +21,7 @@
 # 20200127  GvB       setup for gsignal v0.1.0
 # 20200402  GvB       Adapted to Octave filter conversion functions
 # 20200425  GvB       as.Arma.Zpg(): adapted zero pole gain to z p g
+# 20210603  GvB       as.Arma.Sos(): g = x$g instead of g = 1
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Autoregressive moving average (ARMA) model
@@ -109,7 +110,7 @@ as.Arma.Ma <- function(x, ...) {
 #' as.Arma(x, ...)
 #' @export
 as.Arma.Sos <- function(x, ...) {
-  ba <- sos2tf(x$sos, g = 1)
+  ba <- sos2tf(x$sos, x$g)
   Arma(ba$b, ba$a)
 }
 

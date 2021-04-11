@@ -18,6 +18,8 @@
 #
 # Version history
 # 20200317    GvB       setup for gsignal v0.1.0
+# 20210322    GvB       adapted to accept missing x and y parameters (all 1's)
+#                       defined S3 methods and added method for Sos
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Filter Initial Conditions
@@ -25,8 +27,7 @@
 #' Compute the initial conditions for a filter.
 #'
 #' This function computes the same values that would be obtained from the
-#' Matlab/Octave function \code{filter} given past inputs \code{x} and outputs
-#' \code{y}
+#' function \code{filter} given past inputs \code{x} and outputs \code{y}.
 #'
 #' The vectors \code{x} and \code{y} contain the most recent inputs and outputs
 #' respectively, with the newest values first:
@@ -37,14 +38,16 @@
 #' If \code{length(x) < nb} then it is zero padded. If \code{length(y) < na}
 #' then it is zero padded.
 #'
-#' @param b the moving-average coefficients of an ARMA filter .
+#' @param filt For the default case, the moving-average coefficients of an ARMA
+#'   filter (normally called ‘b’), specified as a vector. Generically,
+#'   \code{filt} specifies an arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
-#' @param y output vector.
-#' @param x input vector. Default: 0
+#' @param y output vector, with the most recent values first.
+#' @param x input vector, with teh most recent values first. Default: 0 
+#' @param ... additional arguments (ignored).
 #'
-#' @return Initial conditions for filter with coefficients \code{a} and
-#'   \code{b}, input vector \code{x}, and output vector \code{y}, returned as a
-#'   vector.
+#' @return Initial conditions for filter specified by \code{filt}, input vector
+#'   \code{x}, and output vector \code{y}, returned as a vector.
 #'
 #' @examples
 #' ## Simple low pass filter
@@ -56,19 +59,39 @@
 #' b <- c(0.25, -0.25)
 #' a <- c(1.0, 0.5)
 #' ic <- filtic(b, a, 0, 1)
+#' 
+#' ## Example from Python scipy.signal.lfilter() documentation
+#' t <- seq(-1, 1, length.out =  201)
+#' x <- (sin(2 * pi * 0.75 * t * (1 - t) + 2.1)
+#'       + 0.1 * sin(2 * pi * 1.25 * t + 1)
+#'       + 0.18 * cos(2 * pi * 3.85 * t))
+#' h <- butter(3, 0.05)
+#' l <- max(length(h$b), length(h$a)) - 1
+#' zi <- filtic(h, rep(1, l), rep(1, l))
+#' z <- filter(h, x, zi * x[1])
 #'
-#' @seealso \code{\link{filter}}, \code{\link{filtfilt}}
+#' @seealso \code{\link{filter}}, \code{\link{sosfilt}}, \code{\link{filtfilt}},
+#' \code{\link{filter_zi}}
 #'
 #' @author David Billinghurst, \email{David.Billinghurst@@riotinto.com}.\cr
-#' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'   Adapted and converted to R by Geert van Boxtel
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
+#' @rdname filtic
 #' @export
 
-filtic <- function(b, a, y, x = 0) {
+filtic <- function(filt, ...) UseMethod("filtic")
 
-  nz <- max(length(a) - 1, length(b) - 1)
-  zf <- numeric(nz)
+#' @rdname filtic
+#' @method filtic default
+#' @export
 
+filtic.default <- function(filt, a, y, x = 0, ...) {
+
+  b <- filt
+  nz <- max(length(a), length(b)) - 1
+  zi <- numeric(nz)
+  
   # Pad arrays a and b to length nz+1 if required
   if (length(a) < (nz + 1)) {
     a <- postpad(a, nz + 1)
@@ -87,11 +110,51 @@ filtic <- function(b, a, y, x = 0) {
 
   for (i in seq(nz, 1, -1)) {
     for (j in i:(nz-1)) {
-      zf[j] <- b[j + 1] * x[i] - a[j + 1] * y[i] + zf[j + 1]
+      zi[j] <- b[j + 1] * x[i] - a[j + 1] * y[i] + zi[j + 1]
     }
-    zf[nz] <- b[nz + 1] * x[i] - a[nz + 1] * y[i]
+    zi[nz] <- b[nz + 1] * x[i] - a[nz + 1] * y[i]
   }
 
-  zf = zf / a[1]
-  zf
+  zi = zi / a[1]
+  zi}
+
+#' @rdname filtic
+#' @method filtic Arma
+#' @export
+filtic.Arma <- function(filt, y, x = 0, ...) # IIR
+  filtic(filt$b, filt$a, y, x, ...)
+
+#' @rdname filtic
+#' @method filtic Ma
+#' @export
+filtic.Ma <- function(filt, y, x = 0, ...) # FIR
+  filtic(unclass(filt), 1, y, x, ...)
+
+#' @rdname filtic
+#' @method filtic Sos
+#' @export
+filtic.Sos <- function(filt, y, x = 0, ...) { # Second-order sections
+
+  if (filt$g != 1) {
+    filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
+  }
+  L = NROW(filt$sos)
+  zi <- matrix(0, L, 2)
+  scale = 1.0
+  for (l in seq_len(L)) {
+    b <- filt$sos[l, 1:3]
+    a <- filt$sos[l, 4:6]
+    zi[l, ] = scale * filtic.default(b, a, y, x)
+    # If H(z) = B(z)/A(z) is this section's transfer function, then
+    # b.sum()/a.sum() is H(1), the gain at omega=0.  That's the steady
+    # state value of this section's step response.
+    scale <- scale *  sum(b) / sum(a)
+  }
+  zi
 }
+
+#' @rdname filtic
+#' @method filtic Zpg
+#' @export
+filtic.Zpg <- function(filt, y, x = 0, ...) # zero-pole-gain form
+  filtic(as.Arma(filt), y, x, ...)

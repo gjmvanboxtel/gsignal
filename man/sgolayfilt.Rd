@@ -12,7 +12,8 @@ sgolayfilt(x, p = 3, n = p + 3 - p\%\%2, m = 0, ts = 1)
 \arguments{
 \item{filt}{Filter characteristics, usually the result of a call to \code{sgolay}}
 
-\item{x}{Polynomial filter order; must be smaller than \code{n}.}
+\item{x}{the input signal to be filtered, specified as a vector or as a
+matrix. If \code{x} is a matrix, each column is filtered.}
 
 \item{...}{Additional arguments (ignored)}
 
@@ -25,7 +26,7 @@ sgolayfilt(x, p = 3, n = p + 3 - p\%\%2, m = 0, ts = 1)
 \item{ts}{Scaling factor. Default: 1}
 }
 \value{
-The filtered signal, returned as a vector.
+The filtered signal, of the same dimensions as the input signal.
 }
 \description{
 Filter a signal with a Savitzky-Golay FIR filter.

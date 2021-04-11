@@ -21,6 +21,7 @@
 # 20200401  GvB       handle NULL input
 # 20200403  GvB       use 'relaxed' tolerance 1e-7 for cplxreal, flipud sos for compatibility with Matlab/Octave
 # 20200406  GvB       validated
+# 20210326  GvB       renamed k to g; added 'order' argument; return class 'Sos' argument
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to second-order section format
@@ -29,7 +30,16 @@
 #'
 #' @param z complex vector of the zeros of the model (roots of \code{B(z)})
 #' @param p complex vector of the poles of the model (roots of \code{A(z)})
-#' @param k overall gain (\code{B(Inf)}). Default: 1.
+#' @param g overall gain (\code{B(Inf)}). Default: 1
+#' @param order row order, specified as:
+#' \describe{
+#'   \item{up}{(the default in Matlab): order the sections so the first row
+#'   contains the poles farthest from the unit circle.}
+#'   \item{down}{(the default in Python scipy); order the sections so the first
+#'   row of \code{sos} contains the poles closest to the unit circle.}
+#' }
+#' The ordering influences round-off noise and the probability of overflow.
+#' Default: \code{down}.
 #'
 #' @return A list with the following list elements:
 #' \describe{
@@ -42,19 +52,22 @@
 #'   vector (or any one of the input \code{Bi} vectors).}
 #' }
 #'
-#' @seealso See also \code{\link{filter}}
+#' @seealso See also \code{\link{as.Sos}}, \code{\link{filter}},
+#'   \code{\link{sosfilt}}
 #'
 #' @examples
 #' zpk <- tf2zp (c(1, 0, 0, 0, 0, 1), c(1, 0, 0, 0, 0, .9))
-#' sosg <- zp2sos (zpk$z, zpk$p, zpk$k)
+#' sosg <- zp2sos (zpk$z, zpk$p, zpk$g)
 #'
 #' @author Julius O. Smith III, \email{jos@@ccrma.stanford.edu}.\cr
 #' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @export
 
-zp2sos <- function(z, p, k = 1) {
+zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
 
+  order <- match.arg(order)
+  
   if (!is.null(z)) {
     zcr <- cplxreal(z, tol = 1e-7)
     if (is.null(zcr$zc)) {
@@ -143,13 +156,17 @@ zp2sos <- function(z, p, k = 1) {
       sos[i, 2:3] <- c(zrms[i - nzc], zrp[i - nzc])
     }
 
-    if (i<=npc) {              # lay down a complex pole pair:
+    if (i <= npc) {              # lay down a complex pole pair:
       sos[i, 5:6] <- c(pcm2r[i], pca2[i])
     } else if (i <= nprl) {    # lay down a pair of real poles:
       sos[i, 5:6] <- c(prms[i - npc], prp[i - npc])
     }
   }
 
-  list(sos = sos[rev(seq_len(nsecs)), ], g = k)
-
+  if (order == 'down') {
+    rv <- Sos(sos = sos, g = g)
+  } else {
+    rv <- Sos(sos = sos[rev(seq_len(nsecs)), ], g = g)
+  }
+  rv
 }

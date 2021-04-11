@@ -2,31 +2,48 @@
 % Please edit documentation in R/filtic.R
 \name{filtic}
 \alias{filtic}
+\alias{filtic.default}
+\alias{filtic.Arma}
+\alias{filtic.Ma}
+\alias{filtic.Sos}
+\alias{filtic.Zpg}
 \title{Filter Initial Conditions}
 \usage{
-filtic(b, a, y, x = 0)
+filtic(filt, ...)
+
+\method{filtic}{default}(filt, a, y, x = 0, ...)
+
+\method{filtic}{Arma}(filt, y, x = 0, ...)
+
+\method{filtic}{Ma}(filt, y, x = 0, ...)
+
+\method{filtic}{Sos}(filt, y, x = 0, ...)
+
+\method{filtic}{Zpg}(filt, y, x = 0, ...)
 }
 \arguments{
-\item{b}{the moving-average coefficients of an ARMA filter .}
+\item{filt}{For the default case, the moving-average coefficients of an ARMA
+filter (normally called ‘b’), specified as a vector. Generically,
+\code{filt} specifies an arbitrary filter operation.}
+
+\item{...}{additional arguments (ignored).}
 
 \item{a}{the autoregressive (recursive) coefficients of an ARMA filter.}
 
-\item{y}{output vector.}
+\item{y}{output vector, with the most recent values first.}
 
-\item{x}{input vector. Default: 0}
+\item{x}{input vector, with teh most recent values first. Default: 0}
 }
 \value{
-Initial conditions for filter with coefficients \code{a} and
-  \code{b}, input vector \code{x}, and output vector \code{y}, returned as a
-  vector.
+Initial conditions for filter specified by \code{filt}, input vector
+  \code{x}, and output vector \code{y}, returned as a vector.
 }
 \description{
 Compute the initial conditions for a filter.
 }
 \details{
 This function computes the same values that would be obtained from the
-Matlab/Octave function \code{filter} given past inputs \code{x} and outputs
-\code{y}
+function \code{filter} given past inputs \code{x} and outputs \code{y}.
 
 The vectors \code{x} and \code{y} contain the most recent inputs and outputs
 respectively, with the newest values first:
@@ -48,11 +65,23 @@ b <- c(0.25, -0.25)
 a <- c(1.0, 0.5)
 ic <- filtic(b, a, 0, 1)
 
+## Example from Python scipy.signal.lfilter() documentation
+t <- seq(-1, 1, length.out =  201)
+x <- (sin(2 * pi * 0.75 * t * (1 - t) + 2.1)
+      + 0.1 * sin(2 * pi * 1.25 * t + 1)
+      + 0.18 * cos(2 * pi * 3.85 * t))
+h <- butter(3, 0.05)
+l <- max(length(h$b), length(h$a)) - 1
+zi <- filtic(h, rep(1, l), rep(1, l))
+z <- filter(h, x, zi * x[1])
+
 }
 \seealso{
-\code{\link{filter}}, \code{\link{filtfilt}}
+\code{\link{filter}}, \code{\link{sosfilt}}, \code{\link{filtfilt}},
+\code{\link{filter_zi}}
 }
 \author{
 David Billinghurst, \email{David.Billinghurst@riotinto.com}.\cr
-Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+  Adapted and converted to R by Geert van Boxtel
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201206  GvB       setup for gsignal v0.1.0
+# 20210411  GvB       v0.3.0 bugfix in output time points
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Short-Term Fourier Transform
@@ -61,8 +62,9 @@
 #'   }
 #'
 #' @examples
-#' y <- chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic")
-#' ft <- stft (y)
+#' fs <- 8000
+#' y <- chirp(seq(0, 5 - 1/fs, by = 1/fs), 200, 2, 500, "logarithmic")
+#' ft <- stft (y, fs = fs)
 #' filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
 #'
 #' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.\cr
@@ -169,8 +171,10 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
   scale <- n_ffts * seg_len * fs * win_meansq
   s <- Pxx / scale
   f <- seq(0, psd_len - 1) * (fs / nfft)
-  t <- seq(0, num_win - 1) * fs
-
+  # bugfix 210411
+  #  t <- seq(0, num_win - 1) * fs
+  t <- seq(0, (nr / fs) - 1 / fs, length.out = num_win)
+  
 
   if (nc == 1) {
     s <- s[, , 1]

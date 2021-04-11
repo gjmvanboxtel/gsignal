@@ -17,6 +17,7 @@ ellip(n, ...)
   w,
   type = c("low", "high", "stop", "pass"),
   plane = c("z", "s"),
+  output = c("Arma", "Zpg", "Sos"),
   ...
 )
 }
@@ -40,13 +41,21 @@ frequency.}
 or \code{"pass"}.}
 
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
+
+\item{output}{Type of output, one of:
+\describe{
+  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+  \item{Zpg}{Zero-pole-gain format}
+  \item{Sos}{Second-order sections}
+}
+Default is \code{Arma} compatibility with \code{signal::ellip} and the
+  Matlab/Octave equivalents, but \code{Sos} should be preferred for
+  general-purpose filtering because of numeric stability.}
 }
 \value{
-list of class \code{'\link{Arma}'} with list elements:
-\describe{
-  \item{b}{moving average (MA) polynomial coefficients}
-  \item{a}{autoregressive (AR) polynomial coefficients}
-}
+Depending on the value of the \code{'output'} parameter, a list of
+  class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+  containing the filter coefficients
 }
 \description{
 Compute the transfer function coefficients of an elliptic filter.

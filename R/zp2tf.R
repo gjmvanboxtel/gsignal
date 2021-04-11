@@ -18,6 +18,7 @@
 # 20200402  GvB       setup for gsignal v0.1.0
 # 20200405  GvB       Set default k = 1
 # 20200406  GvB       validated
+# 20210326  GvB       renamed k to g, return object of class 'Arma'
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-pole-gain to transfer function
@@ -26,30 +27,30 @@
 #'
 #' @param z complex vector of the zeros of the model
 #' @param p complex vector of the poles of the model
-#' @param k overall gain. Default: 1.
+#' @param g overall gain. Default: 1.
 #'
-#' @return A list with the following list elements:
+#' @return A list of class 'Arma' with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
 #'
-#' @seealso See also \code{\link{filter}}
+#' @seealso See also \code{\link{as.Arma}}, \code{\link{filter}}
 #'
 #' @examples
-#' k <- 1
+#' g <- 1
 #' z <- c(0, 0)
 #' p <- pracma::roots(c(1, 0.01, 1))
-#' ba <- zp2tf(z, p, k)
+#' ba <- zp2tf(z, p, g)
 #'
 #' @author Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @export
 
-zp2tf <- function(z, p, k = 1) {
+zp2tf <- function(z, p, g = 1) {
 
-  b <- Re(k * poly(z))
+  b <- Re(g * poly(z))
   a <- Re(poly(p))
 
-  list(b = b, a = a)
+  Arma(b = b, a = a)
 }

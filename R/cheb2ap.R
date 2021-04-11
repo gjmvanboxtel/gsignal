@@ -50,6 +50,6 @@ cheb2ap <- function (n, Rs) {
     stop("passband ripple Rp must a non-negative scalar")
   }
 
-  as.Zpg(cheby2(n, Rs, 1, "low", "s"))
+  cheby2(n, Rs, 1, "low", "s", "Zpg")
 
 }

@@ -10,7 +10,14 @@ butter(n, ...)
 
 \method{butter}{FilterSpecs}(n, ...)
 
-\method{butter}{default}(n, w, type = c("low", "high", "stop", "pass"), plane = c("z", "s"), ...)
+\method{butter}{default}(
+  n,
+  w,
+  type = c("low", "high", "stop", "pass"),
+  plane = c("z", "s"),
+  output = c("Arma", "Zpg", "Sos"),
+  ...
+)
 }
 \arguments{
 \item{n}{filter order.}
@@ -28,13 +35,21 @@ frequency.}
 \code{"stop"}, or \code{"pass"}.}
 
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
+
+\item{output}{Type of output, one of:
+\describe{
+  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+  \item{Zpg}{Zero-pole-gain format}
+  \item{Sos}{Second-order sections}
+}
+Default is \code{Arma} compatibility with \code{signal::butter} and the
+  Matlab/Octave equivalents, but \code{Sos} should be preferred for
+  general-purpose filtering because of numeric stability.}
 }
 \value{
-List of class \code{'\link{Arma}'} with list elements:
-\describe{
-  \item{b}{moving average (MA) polynomial coefficients}
-  \item{a}{autoregressive (AR) polynomial coefficients}
-}
+Depending on the value of the \code{'output'} parameter, a list of
+  class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+  containing the filter coefficients
 }
 \description{
 Compute the transfer function coefficients of a Butterworth filter.
@@ -74,8 +89,9 @@ zplane(bf)
 \url{https://en.wikipedia.org/wiki/Butterworth_filter}
 }
 \seealso{
-\code{\link{Arma}}, \code{\link{filter}}, \code{\link{cheby1}},
-  \code{\link{ellip}}, \code{\link{buttord}}.
+\code{\link{Arma}}, \code{\link{Zpg}}, \code{\link{Sos}},
+  \code{\link{filter}}, \code{\link{cheby1}}, \code{\link{ellip}},
+  \code{\link{buttord}}.
 }
 \author{
 Paul Kienzle, \email{pkienzle@users.sf.net},\cr

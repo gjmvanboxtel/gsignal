@@ -13,6 +13,10 @@ conv2dv <- function(a, b) {
     .Call(`_gsignal_conv2dv`, a, b)
 }
 
+rfilter <- function(b, a, x, zi) {
+    .Call(`_gsignal_rfilter`, b, a, x, zi)
+}
+
 fwht <- function(x) {
     .Call(`_gsignal_fwht`, x)
 }
@@ -21,8 +25,8 @@ remez <- function(h, numtaps, numband, bands, des, weight, type, griddensity) {
     .Call(`_gsignal_remez`, h, numtaps, numband, bands, des, weight, type, griddensity)
 }
 
-sosfilt <- function(sos, x) {
-    .Call(`_gsignal_sosfilt`, sos, x)
+rsosfilt <- function(sos, x, zi) {
+    .Call(`_gsignal_rsosfilt`, sos, x, zi)
 }
 
 ultrwin <- function(m, mu, par, par_type, even_norm) {

@@ -41,6 +41,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rfilter
+List rfilter(NumericVector b, NumericVector a, NumericVector x, NumericVector zi);
+RcppExport SEXP _gsignal_rfilter(SEXP bSEXP, SEXP aSEXP, SEXP xSEXP, SEXP ziSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type zi(ziSEXP);
+    rcpp_result_gen = Rcpp::wrap(rfilter(b, a, x, zi));
+    return rcpp_result_gen;
+END_RCPP
+}
 // fwht
 NumericMatrix fwht(NumericMatrix x);
 RcppExport SEXP _gsignal_fwht(SEXP xSEXP) {
@@ -70,15 +84,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sosfilt
-NumericVector sosfilt(NumericMatrix sos, NumericVector x);
-RcppExport SEXP _gsignal_sosfilt(SEXP sosSEXP, SEXP xSEXP) {
+// rsosfilt
+List rsosfilt(NumericMatrix sos, NumericVector x, NumericMatrix zi);
+RcppExport SEXP _gsignal_rsosfilt(SEXP sosSEXP, SEXP xSEXP, SEXP ziSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type sos(sosSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(sosfilt(sos, x));
+    Rcpp::traits::input_parameter< NumericMatrix >::type zi(ziSEXP);
+    rcpp_result_gen = Rcpp::wrap(rsosfilt(sos, x, zi));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -116,9 +131,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2df", (DL_FUNC) &_gsignal_conv2df, 2},
     {"_gsignal_conv2ds", (DL_FUNC) &_gsignal_conv2ds, 2},
     {"_gsignal_conv2dv", (DL_FUNC) &_gsignal_conv2dv, 2},
+    {"_gsignal_rfilter", (DL_FUNC) &_gsignal_rfilter, 4},
     {"_gsignal_fwht", (DL_FUNC) &_gsignal_fwht, 1},
     {"_gsignal_remez", (DL_FUNC) &_gsignal_remez, 8},
-    {"_gsignal_sosfilt", (DL_FUNC) &_gsignal_sosfilt, 2},
+    {"_gsignal_rsosfilt", (DL_FUNC) &_gsignal_rsosfilt, 3},
     {"_gsignal_ultrwin", (DL_FUNC) &_gsignal_ultrwin, 5},
     {"_gsignal_upfirdn", (DL_FUNC) &_gsignal_upfirdn, 4},
     {NULL, NULL, 0}

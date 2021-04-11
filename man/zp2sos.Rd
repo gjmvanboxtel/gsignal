@@ -4,14 +4,24 @@
 \alias{zp2sos}
 \title{Zero-pole-gain to second-order section format}
 \usage{
-zp2sos(z, p, k = 1)
+zp2sos(z, p, g = 1, order = c("down", "up"))
 }
 \arguments{
 \item{z}{complex vector of the zeros of the model (roots of \code{B(z)})}
 
 \item{p}{complex vector of the poles of the model (roots of \code{A(z)})}
 
-\item{k}{overall gain (\code{B(Inf)}). Default: 1.}
+\item{g}{overall gain (\code{B(Inf)}). Default: 1}
+
+\item{order}{row order, specified as:
+\describe{
+  \item{up}{(the default in Matlab): order the sections so the first row
+  contains the poles farthest from the unit circle.}
+  \item{down}{(the default in Python scipy); order the sections so the first
+  row of \code{sos} contains the poles closest to the unit circle.}
+}
+The ordering influences round-off noise and the probability of overflow.
+Default: \code{down}.}
 }
 \value{
 A list with the following list elements:
@@ -30,11 +40,12 @@ Convert digital filter zero-pole-gain data to second-order section form.
 }
 \examples{
 zpk <- tf2zp (c(1, 0, 0, 0, 0, 1), c(1, 0, 0, 0, 0, .9))
-sosg <- zp2sos (zpk$z, zpk$p, zpk$k)
+sosg <- zp2sos (zpk$z, zpk$p, zpk$g)
 
 }
 \seealso{
-See also \code{\link{filter}}
+See also \code{\link{as.Sos}}, \code{\link{filter}},
+  \code{\link{sosfilt}}
 }
 \author{
 Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr

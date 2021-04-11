@@ -62,6 +62,10 @@ test_that("pwelch() tests are correct", {
   expect_equal(Pxy$seg_len, 128L)
   expect_equal(Pxy$psd_len, 65L)
   expect_equal(Pxy$nseries, 2L)
+  
+  Pxx <- pwelch(x, fs = fs, range = "whole")
+  expect_equal(length(Pxx$freq), 128L)
+  expect_equal(length(Pxx$spec), 128L)
 
 })
 

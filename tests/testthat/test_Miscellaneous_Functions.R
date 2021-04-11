@@ -102,8 +102,9 @@ test_that("poly() tests are correct", {
 test_that("parameters to filter() are correct", {
   expect_error(filter())
   expect_error(filter(1, 2))
-  expect_warning(filter(1, 2, 'invalid'))
-  expect_error(filter(1, 1, 1:10, init.x = 1))
+  expect_error(filter(1, 2, 'invalid'))
+  expect_error(filter(1, 1, 1:10, 'invalid'))
+  expect_error(filter(c(1, 1), 1, 1:10, c(0, 0)))
 })
 
 test_that("filter() tests are correct", {
@@ -117,15 +118,35 @@ test_that("filter() tests are correct", {
   filt <- Arma(b, a)
   expect_equal(filter(filt, x), c(1L, rep(0L, 9)))
 
-  # complex input  
-  r <- sqrt (1/2) * (1 + 1i)
-  a <- a * r
-  b <- b * r
-  expect_equal(suppressWarnings(filter (b, 1, x)), Re(r * c(rep(1L, 2), rep(0L, 8))))
-  expect_equal(suppressWarnings(filter (b, a, x)), c(1L, rep(0L, 9)))
+  # # complex input  
+  # r <- sqrt (1/2) * (1 + 1i)
+  # a <- a * r
+  # b <- b * r
+  # expect_equal(suppressWarnings(filter (b, 1, x)), Re(r * c(rep(1L, 2), rep(0L, 8))))
+  # expect_equal(suppressWarnings(filter (b, a, x)), c(1L, rep(0L, 9)))
   
-  # initial conditions
-  expect_equal(filter (c(1,1,1), c(1,1), c(1,2), init.x=c(1,1), init.y=1), c(2, 2))
+  a <- c(1, 1)
+  b <- c(1, 1)
+  x <- c(1, rep(0L, 9))
+  lst <- filter (b, 1, x, -1)
+  expect_equal(lst[['y']], c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(lst[['zf']], 0)
+  
+  b <- c(1, 1)
+  x  <- y0 <- matrix(0L, 10, 3)
+  x[1, 1] <- -1;  x[1, 2] <- 1
+  y0[1:2, 1] <- -1;  y0[1:2, 2] <- 1
+  y <- filter(b, 1, x)
+  expect_equal(y, y0)
+  
+  expect_equal(filter(1, rep(1, 10) / 10, NULL), NULL)
+  expect_equal(filter(1, rep(1, 10) / 10, rep(0,10)), rep(0,10))
+  expect_equal(filter(1, rep(1, 10) / 10, 1:5), rep(10, 5))
+  
+  # Test using initial conditions
+  expect_equal(filter(c(1, 1, 1), c(1, 1), c(1, 2), c(1, 1))[['y']], c(2, 2))
+  expect_equal(filter(c(1, 3), 1, matrix(1:6, ncol = 2, byrow = TRUE), matrix(c(4, 5), ncol = 2))[['y']], 
+               matrix(c(5, 7, 6, 10, 14, 18), ncol = 2, byrow = TRUE))
 })
 
 # -----------------------------------------------------------------------
@@ -224,7 +245,6 @@ test_that("conv2() tests are correct", {
 test_that("parameters to cplxpair() are correct", {
   expect_error(cplxpair())
   expect_error(cplxpair(1, -1))
-  expect_error(cplxpair(1, 1, 3))
   expect_error(cplxpair(1, 2, 3, 4))
   expect_error(cplxpair(c(2000 * (1 + .Machine$double.eps) + 4i,
                           2000 * (1 - .Machine$double.eps) - 4i), 0))
@@ -243,8 +263,37 @@ test_that("cplxpair() tests are correct", {
   z <- c(1 + 1i, 1 + 1i, 1, 1 - 1i, 1 - 1i, 2)
   ans <- cplxpair(z)
   m <- cbind(z, z)
-  expect_equivalent(cplxpair(m, dim = 2), cbind(ans, ans))
-  expect_error(cplxpair(m, dim = 1))
+  expect_equivalent(cplxpair(m, MARGIN = 2), cbind(ans, ans))
+  expect_error(cplxpair(m, MARGIN = 1))
+  
+  # shared z,y
+  z <- exp (2i * pi * c(4, 3, 5, 2, 6, 1, 0) / 7)
+  z[2] <- Conj(z[1])
+  z[4] <- Conj(z[3])
+  z[6] <- Conj(z[5])
+  expect_equal(cplxpair(z[pracma::randperm(7)]), z)
+  expect_equal(cplxpair(z[pracma::randperm(7)]), z)
+  expect_equal(cplxpair(z[pracma::randperm(7)]), z)
+  expect_equal(cplxpair(cbind(z[pracma::randperm(7)], z[pracma::randperm(7)])), 
+               cbind(z, z, deparse.level = 0))
+  expect_equal(cplxpair(cbind(z[pracma::randperm(7)], z[pracma::randperm(7)])), 
+               cbind(z, z, deparse.level = 0))
+  y <- c(-1-1i,  -1+1i, -3, -2, 1, 2, 3)
+  expect_equal(cplxpair(cbind(z[pracma::randperm(7)], y[pracma::randperm(7)], deparse.level = 0)),
+                        cbind(z, y, deparse.level = 0))
+  expect_equal(cplxpair(cbind(z[pracma::randperm(7)], 
+                              y[pracma::randperm(7)],
+                              z[pracma::randperm(7)], deparse.level = 0)),
+               cbind(z, y, z, deparse.level = 0))
+  
+  # Test tolerance
+  expect_equal(cplxpair(c(2000 * (1 + .Machine$double.eps) + 4i,
+                       2000 * (1 - .Machine$double.eps) - 4i)),
+               c(2000 - 4i,  2000 + 4i), 
+               tolerance = 100 * .Machine$double.eps)
+  expect_error(cplxpair(c(2000 * (1 + .Machine$double.eps) + 4i,
+                          2000 * (1 - .Machine$double.eps) - 4i), tol = 0))
+  expect_error(cplxpair(c(2e6+1i, 2e6-1i, 1e-9 * (1+1i), 1e-9 * (1-2i))))
 })
 
 # -----------------------------------------------------------------------

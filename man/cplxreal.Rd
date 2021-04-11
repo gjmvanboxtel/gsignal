@@ -4,7 +4,7 @@
 \alias{cplxreal}
 \title{Sort complex conjugate pairs and real}
 \usage{
-cplxreal(z, tol = 100 * .Machine$double.eps, dim = 2)
+cplxreal(z, tol = 100 * .Machine$double.eps, MARGIN = 2)
 }
 \arguments{
 \item{z}{Vector, matrix, or array of complex numbers.}
@@ -12,8 +12,10 @@ cplxreal(z, tol = 100 * .Machine$double.eps, dim = 2)
 \item{tol}{Weighting factor \code{0 < tol < 1}, which determines the
 tolerance of matching. Default: \code{100 * .Machine$double.eps}.}
 
-\item{dim}{Dimension along which to sort the complex pairs. Default: 2
-(columns).}
+\item{MARGIN}{Vector giving the subscripts which the function will be applied
+over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+indicates rows and columns. Where X has named dimnames, it can be a
+character vector selecting dimension names. Default: 2 (columns).}
 }
 \value{
 A list containing two variables:

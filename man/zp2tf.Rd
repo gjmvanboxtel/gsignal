@@ -4,17 +4,17 @@
 \alias{zp2tf}
 \title{Zero-pole-gain to transfer function}
 \usage{
-zp2tf(z, p, k = 1)
+zp2tf(z, p, g = 1)
 }
 \arguments{
 \item{z}{complex vector of the zeros of the model}
 
 \item{p}{complex vector of the poles of the model}
 
-\item{k}{overall gain. Default: 1.}
+\item{g}{overall gain. Default: 1.}
 }
 \value{
-A list with the following list elements:
+A list of class 'Arma' with the following list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
@@ -24,14 +24,14 @@ A list with the following list elements:
 Convert digital filter zero-pole-gain data to transfer function form
 }
 \examples{
-k <- 1
+g <- 1
 z <- c(0, 0)
 p <- pracma::roots(c(1, 0.01, 1))
-ba <- zp2tf(z, p, k)
+ba <- zp2tf(z, p, g)
 
 }
 \seealso{
-See also \code{\link{filter}}
+See also \code{\link{as.Arma}}, \code{\link{filter}}
 }
 \author{
 Geert van Boxtel, \email{gjmvanboxtel@gmail.com}

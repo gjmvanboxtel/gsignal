@@ -25,8 +25,8 @@
 #'
 #' @param x Vector, array, or matrix to be padded
 #' @param l Length of output data along the padding dimension. If \code{length
-#'   (x) > l}, elements from the beginning (\code{dimension = "pre"} or the end
-#'   (\code{direction = "post"} of \code{x} are removed until a vector of length
+#'   (x) > l}, elements from the beginning (\code{dimension = "pre"}) or the end
+#'   (\code{direction = "post"}) of \code{x} are removed until a vector of length
 #'   \code{l} is obtained. If \code{direction = "both"}, values are removed from
 #'   both ends, and in case of an uneven length the smallest number of elements
 #'   is removed from the beginning of vector.

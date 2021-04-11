@@ -16,6 +16,8 @@
 #
 # Version history
 # 20200327  GvB       setup for gsignal v0.1.0
+# 20210405  GvB       changed 'dim' argument to MARGIN
+# 20210506  GvB       bugfix in Check if real parts occur in pairs. 
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Complex conjugate pairs
@@ -37,8 +39,10 @@
 #' @param tol Weighting factor \code{0 < tol < 1}, which determines the
 #'   tolerance of matching. Default: \code{100 * .Machine$double.eps}. (This
 #'   definition differs from the Octave usage).
-#' @param dim Dimension along which to sort the complex pairs. Default: 2
-#'   (columns).
+#' @param MARGIN Vector giving the subscripts which the function will be applied
+#'   over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+#'   indicates rows and columns. Where X has named dimnames, it can be a
+#'   character vector selecting dimension names. Default: 2 (columns).
 #'
 #' @return Vector, matrix or array containing ordered complex conjugate pairs by
 #'   increasing real parts.
@@ -52,7 +56,7 @@
 #'
 #' @export
 
-cplxpair <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
+cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
 
   vec <- FALSE
   if (is.vector(z)) {
@@ -71,9 +75,6 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     return(y)
   }
   nd <- length(d)
-  if (dim < 1 || dim > nd) {
-    stop('invalid dimension')
-  }
 
   sort_vec <- function (v) {
 
@@ -82,7 +83,7 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     y <- rep(0L, l)
 
     # Find real values and put them (sorted) at the end of y
-    idx <- which(abs(Im(v)) <= tol * abs(z))
+    idx <- which(abs(Im(v)) <= tol * abs(v))
     n = length(idx)
     if (n > 0) {
       y[(l - n + 1):l] <- sort(Re(v[idx]))
@@ -102,11 +103,7 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
       v <- v[s$ix]
 
       # Check if real parts occur in pairs. If not: error
-      if (nv == 2) {
-        a <- matrix(s$x, ncol = 2)
-      } else {
-        a <- t(matrix(s$x, ncol = 2))
-      }
+      a <- matrix(s$x, ncol = 2, byrow = TRUE)
       if (any(abs(a[, 1] - a[, 2]) > tol * abs(a[, 1]))) {
         stop('Could not pair all complex numbers')
       }
@@ -148,7 +145,7 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
   if (vec) {
     y <- as.vector(sort_vec(z))
   } else {
-    y <- apply(z, dim, sort_vec)
+    y <- apply(z, MARGIN, sort_vec)
   }
   y
 }

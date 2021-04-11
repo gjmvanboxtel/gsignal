@@ -16,6 +16,7 @@
 #
 # Version history
 # 20200320    GvB       setup for gsignal v0.1.0
+# 20210405  GvB       changed 'dim' argument to MARGIN
 #---------------------------------------------------------------------------------------------------------------------
 
 #' 1-D median filtering
@@ -45,8 +46,10 @@
 #'
 #' @param x Input signal, specified as a numeric vector, matrix or array.
 #' @param n positive integer width of the median window; must be odd. Default: 3
-#' @param dim Dimension to filter along in case \code{x} is a matrix or array.
-#'   Default: 2 (columns)
+#' @param MARGIN Vector giving the subscripts which the function will be applied
+#'   over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+#'   indicates rows and columns. Where X has named dimnames, it can be a
+#'   character vector selecting dimension names. Default: 2 (columns).
 #' @param na.omit logical indicating whether to omit missing values,
 #'   or interpolate then using a cubic spline function
 #'   (\code{\link[stats]{splinefun}}). Default: FALSE
@@ -71,7 +74,7 @@
 #'
 #' @export
 
-medfilt1 <- function(x, n = 3, dim = 2, na.omit = FALSE, ...) {
+medfilt1 <- function(x, n = 3, MARGIN = 2, na.omit = FALSE, ...) {
 
   mf <- function (x, n, na.omit, ...) {
     if (n%%2 != 1 || n > length(x)) {
@@ -92,11 +95,7 @@ medfilt1 <- function(x, n = 3, dim = 2, na.omit = FALSE, ...) {
   if (is.vector(x)) {
     y <- mf(x, n, na.omit, ...)
   } else {
-    d <- dim(x)
-    if (dim > length(d)) {
-      stop("invalid 'dim' argument")
-    }
-    y <- apply(x, dim, mf, n, na.omit, ...)
+    y <- apply(x, MARGIN, mf, n, na.omit, ...)
   }
   y
 }

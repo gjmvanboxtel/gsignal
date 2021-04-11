@@ -19,7 +19,7 @@ A list of class Zpg with the following list elements:
 \describe{
   \item{z}{complex vector of the zeros of the model (roots of \code{B(z)})}
   \item{p}{complex vector of the poles of the model (roots of \code{A(z)})}
-  \item{k}{overall gain (\code{B(Inf)})}
+  \item{g}{overall gain (\code{B(Inf)})}
 }
 }
 \description{

@@ -87,7 +87,7 @@ conv <- function (a, b, shape = c("full", "same", "valid")) {
     y <- NULL
   } else {
 
-    ## Use shortest vector as the coefficent vector to filter.
+    ## Use shortest vector as the coefficient vector to filter.
     if (la > lb) {
       tmp <- a
       a <- b

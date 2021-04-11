@@ -28,14 +28,17 @@ filter operation.}
 
 \item{...}{additional arguments (ignored).}
 
-\item{a}{the autoregressive (recursive) coefficients of an ARMA filter.}
+\item{a}{the autoregressive (recursive) coefficients of an ARMA filter,
+specified as a vector. If \code{a[1]} is not equal to 1, then filter
+normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
+must be nonzero.}
 
 \item{x}{the input signal to be filtered. If \code{x} is a matrix, all
-coulums are filtered.}
+colums are filtered.}
 }
 \value{
 The filtered signal, normally of the same length of the input signal
-  \code{x}, returned as a vector or matrix
+  \code{x}, returned as a vector or matrix.
 }
 \description{
 Forward and reverse filter the signal.
@@ -47,18 +50,13 @@ in the process. That’s the theory at least. In practice the phase correction
 is not perfect, and magnitude response is distorted, particularly in the stop
 band.
 
-In Matlab filtfilt reduces filter startup transients by carefully choosing
-initial conditions, and by prepending onto the input sequence a short,
-reflected piece of the input sequence. The current (1.4.1) Octave version
-uses a slightly different method to choose initial conditions. Neither of
-these methods have been implemented in the current version. Here, a reflected
-sequence of the input signal is added to the beginning and end of the signal,
-and tapered to zero, as per the recommendations on the Matlab website. This
-is different from the current (0.7-6) R signal package, which pads the input
-signal with zeroes.
+Before filtering the input signal is extended with a reflected part of both
+ends of the signal. The length of this extension is 3 times the filter order.
+Gustafsson's [1] method is then used to specify the initial conditions used
+to further handle the edges of the signal.
 }
 \examples{
-bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
+bf <- butter(3, 0.1)                                 # 10 Hz low-pass filter
 t <- seq(0, 1, len = 100)                            # 1 second sample
 x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 z <- filter(bf, x)                                   # apply filter
@@ -70,12 +68,18 @@ legend("bottomleft", legend = c("original", "filter", "filtfilt"), lty = 1,
  col = c("black", "red", "blue"))
 
 }
+\references{
+[1] Gustafsson, F. (1996). Determining the initial states in
+  forward-backward filtering. IEEE Transactions on Signal Processing, 44(4),
+  988 - 992.
+}
 \seealso{
-\code{\link{filter}}
+\code{\link{filter}}, \code{\link{filter_zi}}, \code{\link{Arma}},
+  \code{\link{Sos}}, \code{\link{Zpg}}
 }
 \author{
 Paul Kienzle, \email{pkienzle@users.sf.net},\cr
  Francesco Potortì, \email{pot@gnu.org},\cr
  Luca Citi, \email{lciti@essex.ac.uk}.\cr
- Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+ Conversion to R and adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
 }

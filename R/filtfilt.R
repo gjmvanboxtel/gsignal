@@ -21,6 +21,7 @@
 # Version history
 # 20200217  GvB       setup for gsignal v0.1
 # 20200413  GvB       added S3 method method for Sos
+# 20210402  GvB       use padding and Gustafsson method for initial conditions
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
@@ -33,29 +34,27 @@
 #' is not perfect, and magnitude response is distorted, particularly in the stop
 #' band.
 #'
-#' In Matlab filtfilt reduces filter startup transients by carefully choosing
-#' initial conditions, and by prepending onto the input sequence a short,
-#' reflected piece of the input sequence. The current (1.4.1) Octave version
-#' uses a slightly different method to choose initial conditions. Neither of
-#' these methods have been implemented in the current version. Here, a reflected
-#' sequence of the input signal is added to the beginning and end of the signal,
-#' and tapered to zero, as per the recommendations on the Matlab website. This
-#' is different from the current (0.7-6) R signal package, which pads the input
-#' signal with zeroes.
-#'
+#' Before filtering the input signal is extended with a reflected part of both
+#' ends of the signal. The length of this extension is 3 times the filter order.
+#' Gustafsson's [1] method is then used to specify the initial conditions used
+#' to further handle the edges of the signal.
+#' 
 #' @param filt For the default case, the moving-average coefficients of an ARMA
 #'   filter (normally called ‘b’). Generically, \code{filt} specifies an arbitrary
 #'   filter operation.
-#' @param a the autoregressive (recursive) coefficients of an ARMA filter.
+#' @param a the autoregressive (recursive) coefficients of an ARMA filter,
+#'   specified as a vector. If \code{a[1]} is not equal to 1, then filter
+#'   normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
+#'   must be nonzero.
 #' @param x the input signal to be filtered. If \code{x} is a matrix, all
-#' coulums are filtered.
+#'   colums are filtered.
 #' @param ... additional arguments (ignored).
 #'
 #' @return The filtered signal, normally of the same length of the input signal
-#'   \code{x}, returned as a vector or matrix
+#'   \code{x}, returned as a vector or matrix.
 #'
 #' @examples
-#' bf <- butter(3, 0.1)                                # 10 Hz low-pass filter
+#' bf <- butter(3, 0.1)                                 # 10 Hz low-pass filter
 #' t <- seq(0, 1, len = 100)                            # 1 second sample
 #' x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 #' z <- filter(bf, x)                                   # apply filter
@@ -66,13 +65,18 @@
 #' legend("bottomleft", legend = c("original", "filter", "filtfilt"), lty = 1,
 #'  col = c("black", "red", "blue"))
 #'
-#' @seealso \code{\link{filter}}
+#' @seealso \code{\link{filter}}, \code{\link{filter_zi}}, \code{\link{Arma}},
+#'   \code{\link{Sos}}, \code{\link{Zpg}}
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
 #'  Francesco Potortì, \email{pot@@gnu.org},\cr
 #'  Luca Citi, \email{lciti@@essex.ac.uk}.\cr
-#'  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#'  Conversion to R and adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
+#' @references [1] Gustafsson, F. (1996). Determining the initial states in
+#'   forward-backward filtering. IEEE Transactions on Signal Processing, 44(4),
+#'   988 - 992.
+#'   
 #' @rdname filtfilt
 #' @export
 
@@ -84,29 +88,52 @@ filtfilt <- function(filt, ...) UseMethod("filtfilt")
 
 filtfilt.default <- function(filt, a, x, ...) {
 
-  ff_single <- function(x, filt, a) {
-    if (missing(a)) {
-      fl <- length(filt)
-    } else {
-      fl <- max(length(filt), length(a))
-    }
-    if (fl >= length(x)) {
-      stop("filter length must be shorter than series length")
-    }
-    hann <- hann(2 * fl + 1)
-    x <- c((hann[1:fl] * rev(x[1:fl])), x, (hann[(fl + 2):length(hann)] * rev(x[(length(x) - fl + 1):length(x)])))
-    y <- filter(filt, a, x)
-    y <- rev(filter(filt, a, rev(y)))
-    y[(fl + 1):(length(y) - fl)]
+  if (!is.vector(filt) || ! is.vector(a) || !is.numeric(filt) || !is.numeric(a)) {
+    stop("b and a must be numeric vectors")
+  }
+  la <- length(a)
+  lb <- length(filt)
+  lab <- max(la, lb)
+  nfact <- max(1, 3 * (lab - 1))  #length of edge transients
+  
+  # Compute initial conditions as per [1]
+  if (lab > 1) {
+    zi <- filter_zi(filt, a)
+  } else {
+    zi <- NULL
   }
 
-  d <- dim(x)
-  if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
-    y <- ff_single(x, filt, a)
-  } else if (length(d) == 2 && d[2] > 1) {
-    y <- apply(x, 2, ff_single, filt = filt, a = a)
+  if (is.vector(x)) {
+    x <- as.matrix(x, ncol = 1)
+    vec <- TRUE
   } else {
-    stop('Incorrect array dimensions')
+    vec <- FALSE
+  }
+  nrx <- nrow(x)
+  ncx <- ncol(x)
+  nfact <- min(nfact - 1, nrx)
+  
+  y <- matrix(0, nrx, ncx)
+
+  for (icol in seq_len(ncx)) {
+    if(nfact > 0) {
+      temp <- c(2 * x[1, icol] - x[seq(nfact + 1, 2, -1), icol], x[, icol],
+                2 * x[nrx, icol] - x[seq(nrx - 1, nrx - nfact, -1), icol])
+      temp <- filter(filt, a, temp, zi * temp[1])$y
+      temp <- rev(temp)
+      temp <- rev(filter(filt, a, temp, zi * temp[1])$y)
+    } else {
+      temp <- x[, icol]
+      temp <- filter(filt, a, temp)
+      temp <- rev(temp)
+      temp <- rev(filter(filt, a, temp))
+    }
+    
+    y[, icol] <- temp[(nfact + 1):(length(temp) - nfact)]
+  }
+  
+  if (vec) {
+    y <- as.vector(y)
   }
   y
 }
@@ -128,26 +155,48 @@ filtfilt.Ma <- function(filt, x, ...) # FIR
 #' @export
 filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
 
-  ff_single <- function(x, sos) {
-    fl <- 3
-    hann <- hann(2 * fl + 1)
-    x <- c((hann[1:fl] * rev(x[1:fl])), x, (hann[(fl + 2):length(hann)] * rev(x[(length(x) - fl + 1):length(x)])))
-    y <- sosfilt(sos, x)
-    y <- rev(sosfilt(sos, rev(y)))
-    y[(fl + 1):(length(y) - fl)]
+  if(!is.matrix(filt$sos) || !is.numeric(filt$sos)) {
+    stop("sos must be a numeric matrix")
   }
+  nfact = max(1, 3 * length(as.Zpg(filt)$p)) # filter order
 
-  if (filt$g != 1) {
-    filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
-  }
-
-  d <- dim(x)
-  if (is.null(d) || (length(d) == 2 && d[2] == 1)) {
-    y <- ff_single(x, filt$sos)
-  } else if (length(d) == 2 && d[2] > 1) {
-    y <- apply(x, 2, ff_single, sos = filt$sos)
+  # Compute initial conditions as per [1]
+  if (nfact > 1) {
+    zi <- filter_zi(filt)
   } else {
-    stop('Incorrect array dimensions')
+    zi <- NULL
+  }
+  
+  if (is.vector(x)) {
+    x <- as.matrix(x, ncol = 1)
+    vec <- TRUE
+  } else {
+    vec <- FALSE
+  }
+  nrx <- nrow(x)
+  ncx <- ncol(x)
+  nfact <- min(nfact - 1, nrx)
+    
+  y <- matrix(0, nrx, ncx)
+  
+  for (icol in seq_len(ncx)) {
+    if (nfact > 0) {
+      temp <- c(2 * x[1, icol] - x[seq(nfact + 1, 2, -1), icol], x[, icol],
+                2 * x[nrx, icol] - x[seq(nrx - 1, nrx - nfact, -1), icol])
+      temp <- filter(filt, temp, zi * temp[1])$y
+      temp <- rev(temp)
+      temp <- rev(filter(filt, temp, zi * temp[1])$y)
+    } else {
+      temp <- x[, icol]
+      temp <- filter(filt, temp)
+      temp <- rev(temp)
+      temp <- rev(filter(filt, temp))
+    }
+    y[, icol] <- temp[(nfact + 1):(length(temp) - nfact)]
+  }
+  
+  if (vec) {
+    y <- as.vector(y)
   }
   y
 }

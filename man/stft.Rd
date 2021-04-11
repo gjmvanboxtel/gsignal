@@ -58,8 +58,9 @@ A list containing the following elements:
 Compute the short-term Fourier transform of a vector or matrix.
 }
 \examples{
-y <- chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic")
-ft <- stft (y)
+fs <- 8000
+y <- chirp(seq(0, 5 - 1/fs, by = 1/fs), 200, 2, 500, "logarithmic")
+ft <- stft (y, fs = fs)
 filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
 
 }

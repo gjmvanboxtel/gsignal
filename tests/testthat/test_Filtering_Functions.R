@@ -7,7 +7,6 @@ library(testthat)
 
 test_that("parameters to filtfilt() are correct", {
   expect_error(filtfilt())
-  expect_error(filtfilt(1, 2, 3))
   expect_error(filtfilt(0, 0, 1:10))
   expect_error(filtfilt(1, 2, array(1:8, c(2, 2, 2))))
   expect_error(filtfilt(1, 1, c('invalid', 'invalid')))
@@ -65,6 +64,7 @@ test_that("filtic() tests are correct", {
   
 })
 
+
 # -----------------------------------------------------------------------
 # medfilt1()
 
@@ -85,7 +85,7 @@ test_that("medfilt1() tests are correct", {
   expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5)), equals(c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = 1e-7))
   expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5), na.omit = TRUE), equals(c(1, 1, 2, 3, 4, 4, 4, 4)))
   expect_that(medfilt1(cbind(1:5, 1:5)), equals(cbind(1:5, 1:5)))
-  expect_that(medfilt1(cbind(1:5, 1:5), n = 1, dim = 1), equals(rbind(1:5, 1:5)))
+  expect_that(medfilt1(cbind(1:5, 1:5), n = 1, MARGIN = 1), equals(rbind(1:5, 1:5)))
 })
 
 # -----------------------------------------------------------------------
@@ -123,11 +123,11 @@ test_that("parameters to sosfilt() are correct", {
   expect_error(sosfilt(1, -1))
   expect_error(sosfilt(rep(1, 6), 'invalid'))
   expect_error(sosfilt(1, 1, 1))
+  expect_error(sosfilt(c(0,0,0,0,0,0), 1))
+  expect_error(sosfilt(rep(1, 6), 1, 'invalid'))
 })
 
 test_that("sosfilt() tests are correct", {
-  expect_that(sosfilt(c(0,0,0,0,0,0), 1), equals(NA))
-  expect_that(sosfilt(c(0,0,0,0,0,0), c(1, 1)), equals(c(NA, NA)))
   expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), 1), equals(0))
   expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), c(1, 1)), equals(c(0, 0)))
 
@@ -135,6 +135,28 @@ test_that("sosfilt() tests are correct", {
   x=1:10
   y=sosfilt(sos,x)
   expect_that(y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
+
+  # initial conditions  
+  sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
+  x1 <- 1:10
+  y1 <- sosfilt(sos, x1, "zf")
+  expect_that(y1$y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
+  expect_that(y1$zf, equals(matrix(c(55, 1980, 0, -1320), ncol = 2)))
+  x2 <- 11:20
+  y2 <- sosfilt(sos, x2, y1$zf)
+  expect_that(y2$y, equals(c(2035,2926,4082,5551,7385,9640,12376,15657,19551,24130)))
+  expect_that(y2$zf, equals(matrix(c(210, 29260, 0, -23940), ncol = 2)))
+  x <- 1:20
+  y <- sosfilt(sos, x)
+  expect_that(y, equals(c(y1$y, y2$y)))
+
+  # multidimensional
+  sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
+  x <- cbind(1:10, 11:20)
+  y <- sosfilt(sos, x, "zf")
+  expect_that(y$y, equals(cbind(c(0,1,7,26,70,155,301,532,876,1365),
+                                c(0,11,67,216,510,1005,1761,2842,4316,6255))))
+  expect_that(y$zf, equals(array(c(55,1980,0,-1320,155,8580,0,-6120), c(2,2,2))))
 })
 
 # -----------------------------------------------------------------------
@@ -189,3 +211,22 @@ test_that("fftfilt() tests are correct", {
   
 })
 
+# -----------------------------------------------------------------------
+# filter_zi()
+
+test_that("parameters to filter_zi() are correct", {
+  expect_error(filter_zi())
+  expect_error(filter_zi(1))
+  expect_error(filter_zi(1, 2))
+  expect_error(filter_zi(1, 2, 3, 4, 5))
+  expect_error(filter_zi(0, 0, 'invalid'))
+})
+
+test_that("filter_zi() tests are correct", {
+  
+  h <- butter(2, 0.4)
+  l <- max(length(h$b), length(h$a)) - 1
+  x <- y <- rep(1, l)
+  expect_that(filtic(h, y, x), equals(filter_zi(h)))
+
+})

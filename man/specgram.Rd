@@ -2,6 +2,7 @@
 % Please edit documentation in R/specgram.R
 \name{specgram}
 \alias{specgram}
+\alias{plot.specgram}
 \title{Spectrogram}
 \usage{
 specgram(
@@ -9,8 +10,14 @@ specgram(
   n = min(256, length(x)),
   fs = 2,
   window = hanning(n),
-  overlap = ceiling(n/2),
-  plot = TRUE,
+  overlap = ceiling(n/2)
+)
+
+\method{plot}{specgram}(
+  x,
+  col = grDevices::gray(0:512/512),
+  xlab = "Time",
+  ylab = "Frequency",
   ...
 )
 }
@@ -27,7 +34,12 @@ Default: hanning(n)}
 
 \item{overlap}{Overlap with previous window. Default: half the window length}
 
-\item{plot}{A logical indicating whether to produce a plot. Default: TRUE}
+\item{col}{Colormap to use for plotting. Default: \code{grDevices::gray(0:512
+/ 512)}}
+
+\item{xlab}{Label for x-axis of plot. Default: \code{"Time"}}
+
+\item{ylab}{Label for y-axis of plot. Default: \code{"Frequency"}}
 
 \item{...}{Additional arguments passed to the \code{image} plotting function}
 }
@@ -115,25 +127,21 @@ this in R.
 The final spectrogram is displayed in log energy scale and by convention has
 low frequencies on the bottom of the image.
 }
-\note{
-The Conversion to R by Tom Short used S3 methods to produce the plot.
-  This version does not do that. Perhaps this needs to change later, but for
-  now I just implemented a plot argument and additional arguments that are
-  passed to the \code{image} function. The results of the \code{specgram}
-  function are returned invisibly.
-}
 \examples{
 
 sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
-sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000)
+plot(sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
+"logarithmic"), fs = 8000))
 
 # use other color palettes than grayscale
 require(grDevices)
 jet <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
                           "yellow", "#FF7F00", "red", "#7F0000"))
-specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000, col = jet(20))
+plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
+8000), col = jet(20))
 c2w <- colorRampPalette(colors = c("red", "white", "blue"))
-specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000, col = c2w(50))
+plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
+8000), col = c2w(50))
 
 }
 \author{

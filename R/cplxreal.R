@@ -18,6 +18,7 @@
 # 20200327  GvB       setup for gsignal v0.1.0
 # 20200331  GvB       return only positive imaginary numbers in zc
 # 20200402  GvB       only test Im(v) against tol to determine whether complex or real
+# 20210405  GvB       changed 'dim' argument to MARGIN
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Sort complex conjugate pairs and real
@@ -32,8 +33,10 @@
 #' @param z Vector, matrix, or array of complex numbers.
 #' @param tol Weighting factor \code{0 < tol < 1}, which determines the
 #'   tolerance of matching. Default: \code{100 * .Machine$double.eps}.
-#' @param dim Dimension along which to sort the complex pairs. Default: 2
-#'   (columns).
+#' @param MARGIN Vector giving the subscripts which the function will be applied
+#'   over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)
+#'   indicates rows and columns. Where X has named dimnames, it can be a
+#'   character vector selecting dimension names. Default: 2 (columns).
 #'
 #' @return A list containing two variables:
 #' \describe{
@@ -52,9 +55,9 @@
 #'
 #' @export
 
-cplxreal <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
+cplxreal <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
 
-  y <- cplxpair (z, tol, dim)
+  y <- cplxpair (z, tol, MARGIN)
 
   getr <- function (v) {
     lv <- length(v)
@@ -83,8 +86,8 @@ cplxreal <- function (z, tol = 100 * .Machine$double.eps, dim = 2) {
     zc <- getc(y)
     zr <- getr(y)
   } else {
-    zc <- apply(y, dim, getc)
-    zr <- apply(y, dim, getr)
+    zc <- apply(y, MARGIN, getc)
+    zr <- apply(y, MARGIN, getr)
   }
 
   list(zc = zc, zr = zr)

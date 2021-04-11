@@ -56,7 +56,7 @@ ellipap <- function (n, Rp, Rs) {
     stop("stopband ripple Rs must a non-negative scalar")
   }
 
-  as.Zpg(ellip(n, Rp, Rs, 1, "low", "s"))
+  ellip(n, Rp, Rs, 1, "low", "s", "Zpg")
 
 }
 

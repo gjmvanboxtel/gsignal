@@ -54,6 +54,6 @@
 tf2sos <- function(b, a) {
 
   zpk <- tf2zp(b, a)
-  sos <- zp2sos(zpk$z, zpk$p, zpk$k)
+  sos <- zp2sos(zpk$z, zpk$p, zpk$g)
   sos
 }

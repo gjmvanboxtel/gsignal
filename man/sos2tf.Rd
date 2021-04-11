@@ -17,7 +17,7 @@ a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.}
 vector (or any one of the input \code{Bi} vectors). Default: 1.}
 }
 \value{
-A list with the following list elements:
+An object of class 'Arma' with the following list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
@@ -32,7 +32,7 @@ sos2tf(sos)
 
 }
 \seealso{
-See also \code{\link{filter}}
+See also \code{\link{as.Arma}}, \code{\link{filter}}
 }
 \author{
 Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr

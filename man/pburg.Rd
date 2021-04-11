@@ -79,7 +79,8 @@ This function is a wrapper for \code{arburg} and \code{ar_psd}.
 \examples{
 A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
 y <- filter(A, 0.2 * rnorm(1024))
-pburg(y, 4)
+plot(pb <- pburg(y, 4))
+
 
 }
 \seealso{

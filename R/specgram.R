@@ -18,7 +18,8 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20191204 Geert van Boxtel          First version for v0.1.0
+# 20191204  Geert van Boxtel          First version for v0.1.0
+# 20210411  GvB                       v0.3.0 plotting via S3 method
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Spectrogram
@@ -104,7 +105,10 @@
 #'   a vector of values representing the shape of the FFT tapering window.
 #'   Default: hanning(n)
 #' @param overlap Overlap with previous window. Default: half the window length
-#' @param plot A logical indicating whether to produce a plot. Default: TRUE
+#' @param col Colormap to use for plotting. Default: \code{grDevices::gray(0:512
+#'   / 512)}
+#' @param xlab Label for x-axis of plot. Default: \code{"Time"}
+#' @param ylab Label for y-axis of plot. Default: \code{"Frequency"}
 #' @param ... Additional arguments passed to the \code{image} plotting function
 #'
 #' @return A list of class \code{specgram} consisting of the following elements:
@@ -114,33 +118,31 @@
 #'   \item{t}{the time indices corresponding to the columns of S}
 #' }
 #'
-#' @note The Conversion to R by Tom Short used S3 methods to produce the plot.
-#'   This version does not do that. Perhaps this needs to change later, but for
-#'   now I just implemented a plot argument and additional arguments that are
-#'   passed to the \code{image} function. The results of the \code{specgram}
-#'   function are returned invisibly.
-#'
 #' @examples
 #'
 #' sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
-#' sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000)
+#' plot(sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
+#' "logarithmic"), fs = 8000))
 #'
 #' # use other color palettes than grayscale
 #' require(grDevices)
 #' jet <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
 #'                           "yellow", "#FF7F00", "red", "#7F0000"))
-#' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000, col = jet(20))
+#' plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
+#' 8000), col = jet(20))
 #' c2w <- colorRampPalette(colors = c("red", "white", "blue"))
-#' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000, col = c2w(50))
+#' plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
+#' 8000), col = c2w(50))
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Tom Short\cr
 #' This conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
-#
+#'
+#' @rdname specgram
 #' @export
 
 specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n),
-                      overlap = ceiling(n / 2), plot = TRUE, ...) {
+                      overlap = ceiling(n / 2)) {
 
   if (!is.numeric(x) || !is.vector(x)) stop("x must be a numeric vector")
   if (!isPosscal (n) || !isWhole(n)) stop('n must be a positive integer')
@@ -192,14 +194,15 @@ specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n),
   t <- offset / fs
 
   ret <- list(S = S, f = f, t = t)
-  class(ret) <- "specgram"    # not actually needed in this version
-
-  if (plot) {
-    plot.specgram <- function(x, col = grDevices::gray(0:512 / 512), xlab="time", ylab="frequency", ...) {
-      graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))), col = col, xlab = xlab, ylab = ylab, ...)
-    }
-    plot.specgram(ret, ...)
-  }
-  invisible(ret)
+  class(ret) <- "specgram"
+  ret
 }
 
+#' @rdname specgram
+#' @export
+
+plot.specgram <- print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
+                                            xlab = "Time", ylab = "Frequency", ...) {
+  graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))), col = col, xlab = xlab, ylab = ylab, ...)
+}
+  

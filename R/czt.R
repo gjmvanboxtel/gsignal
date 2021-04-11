@@ -93,6 +93,9 @@ czt <- function (x, m = NROW(x), w = exp(complex(real = 0, imaginary = -2 * pi /
 
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
+    vec <- TRUE
+  } else {
+    vec <- FALSE
   }
   n <- nrow(x)
   ns <- ncol(x)
@@ -124,7 +127,7 @@ czt <- function (x, m = NROW(x), w = exp(complex(real = 0, imaginary = -2 * pi /
   gg <- imvfft(fg * fw)
   y <-  gg[M, ] * W2[M]
 
-  if (ns == 1) {
+  if (vec) {
     y <- as.vector(y)
   }
   y

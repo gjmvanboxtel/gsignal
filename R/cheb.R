@@ -17,7 +17,9 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20191211 Geert van Boxtel          First version for v0.1.0
+# 20191211 GvB          First version for v0.1.0
+# 20210405 GvB          v0.3.0 corrected numerical rounding error when called by chebwin(7)
+#                       by limiting acosh tot 15 significant digits
 #---------------------------------------------------------------------------------------------------------------------------------
 
 #' Chebyshev polynomials
@@ -53,18 +55,19 @@
 
 cheb <- function (n, x) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
 
   T <- rep(0, length(x))
+#  acosh <- function(x) log(x + sqrt(x^2 + 1))
 
   idx <- abs(x) <= 1
   if (any(idx)) {
-    T[idx] <- cos(n * acos(as.complex(x[idx])))
+    T[idx] <- cos(n * acos(signif(as.complex(x[idx], 15))))
   }
 
   idx <- abs(x) > 1
   if (any(idx)) {
-    T[idx] <- cosh(n * acosh(as.complex(x[idx])))
+    T[idx] <- cosh(n * acosh(signif(as.complex(x[idx]))))
   }
 
   Re(T)

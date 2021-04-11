@@ -1,5 +1,5 @@
 # filter.R
-# Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
+# Copyright (C) 2020-2021 Geert van Boxtel <gjmvanboxtel@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +17,9 @@
 # Version history
 # 20200208  GvB       setup for gsignal v0.1.0
 # 20200413  GvB       added S3 method for Sos
+# 20210319  GvB       new setup using filter.cpp to handle initial conditions
+#                     the function now also has the options to return the
+#                     final conditions
 #---------------------------------------------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -24,8 +27,8 @@
 #' Apply a 1-D digital filter to the data in \code{x}, compatible with
 #' Matlab/Octave.
 #'
-#' \code{filter(b, a, x)} returns the solution to the following linear,
-#' time-invariant difference equation:
+#' The filter is a direct form II transposed implementation of the standard
+#' linear time-invariant difference equation:
 #' \if{latex}{
 #'   \deqn{\sum_{k=0}^{N} a(k+1) y(n-k) + \sum_{k=0}^{M} b(k+1) x(n-k) = 0; 1
 #'   \le n \le length(x)}
@@ -35,43 +38,36 @@
 #'  SUM a(k+1)y(n-k) + SUM b(k+1)x(n-k) = 0;   1 <= n <= length(x)
 #'  k=0                k=0
 #' }}
-#' where \code{N = length(a) - 1} and \code{M = length(b) - 1}.
+#' where \code{N = length(a) - 1} and \code{M = length(b) - 1}. 
 #'
-#' An equivalent form of this equation is:
-#' \if{latex}{
-#'   \deqn{y(n) = \sum_{k=1}^{N} c(k+1) y(n-k) + \sum_{k=0}^{M} d(k+1) x(n-k); 1
-#'   \le n \le length(x)}
-#' }
-#' \if{html}{\preformatted{
-#'           N                  M
-#'   y(n) = SUM c(k+1)y(n+k) + SUM d(k+1)x(n-k);   1 <=n <= length(x)
-#'          k=1                k=1
-#' }}
-#' where \code{c = a/a(1)} and \code{d = b/a(1)}.
-#'
-#' Specifying \code{init.x}, \code{init.y}, or \code{init} (alias of
-#' \code{init.y}) allows filtering very large time series in pieces in case of
-#' limited computer memory. This works by passing the last \code{M} data points
-#' of the truncated input series \code{x} for the convolution part to
-#' \code{init.x}, or the last \code{N} data points of the truncated output
-#' series \code{y} to \code{init.y}. See the examples.
-#'
-#' The default filter calls \code{\link[stats]{filter}}, which returns an object
-#' of class \code{\link{ts}}. However, the output of \code{filter} is converted
-#' to a vector before the result is returned.
-#'
+#' The initial and final conditions for filter delays can be used to filter data
+#' in sections, especially if memory limitations are a consideration. See the
+#' examples.
+#' 
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’). Generically, \code{filt} specifies an arbitrary
-#'   filter operation.
-#' @param a the autoregressive (recursive) coefficients of an ARMA filter.
-#' @param x the input signal to be filtered.
-#' @param init.x initial data for the convolution part of the filter (FIR).
-#' @param init.y,init initial data for the recursive part of the filter (IIR).
+#'   filter (normally called ‘b’), specified as a vector. Generically,
+#'   \code{filt} specifies an arbitrary filter operation.
+#' @param a the autoregressive (recursive) coefficients of an ARMA filter,
+#'   specified as a vector. If \code{a[1]} is not equal to 1, then filter
+#'   normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
+#'   must be nonzero.
+#' @param x the input signal to be filtered, specified as a vector or as a
+#'   matrix. If \code{x} is a matrix, each column is filtered.
+#' @param zi If \code{zi} is provided, it is taken as the initial state of the
+#'   system and the final state is returned as zf. The state vector is a vector
+#'   or a matrix (depending on \code{x}) whose length or number of rows is equal
+#'   to the length of the longest coefficient vector \code{b} or \code{a} minus
+#'   one. If \code{zi} is not supplied (NULL), the initial state vector is set
+#'   to all zeros. Alternatively, \code{zi} may be the character string
+#'   \code{"zf"}, which specifies to return the final state vector even though
+#'   the initial state vector is set to all zeros. Default: NULL.
 #' @param ... additional arguments (ignored).
 #'
-#' @return The filtered signal, normally of the same length as the input signal
-#'   \code{x}, returned as a vector
-#'
+#' @return The filtered signal, of the same dimensions as the input signal. In
+#'   case the \code{zi} input argument was specified, a list with two elements
+#'   is returned containing the variables \code{y}, which represents the output
+#'   signal, and \code{zf}, which contains the final state vector or matrix.
+#' 
 #' @examples
 #' bf <- butter(3, 0.1)                                 # 10 Hz low-pass filter
 #' t <- seq(0, 1, len = 100)                            # 1 second sample
@@ -80,30 +76,29 @@
 #' plot(t, x, type = "l")
 #' lines(t, z, col = "red")
 #'
-#' ## example of filtering data in pieces (FIR)
-#' b <- c(1, 1); a <- 1
-#' x <- 1:100
-#' y <- filter(b, a, x)
-#' x1 <- x[1:50]
-#' x2 <- x[51:100]
-#' y1 <- filter(b, a, x1)
-#' y2 <- filter(b, a, x2, init.x = x1[(length(x1) - (length(b) - 1) + 1):length(x1)])
-#' all.equal(as.numeric(y), c(y1,y2))
+#' ## specify initial conditions
+#' ## from Python scipy.signal.lfilter() documentation
+#' t <- seq(-1, 1, length.out =  201)
+#' x <- (sin(2 * pi * 0.75 * t * (1 - t) + 2.1)
+#'       + 0.1 * sin(2 * pi * 1.25 * t + 1)
+#'       + 0.18 * cos(2 * pi * 3.85 * t))
+#' h <- butter(3, 0.05)
+#' lab <- max(length(h$b), length(h$a)) - 1
+#' zi <- filtic(h$b, h$a, rep(1, lab), rep(1, lab))
+#' z1 <- filter(h, x)
+#' z2 <- filter(h, x, zi * x[1])
+#' plot(t, x, type = "l")
+#' lines(t, z1, col = "red")
+#' lines(t, z2$y, col = "green")
+#' legend("bottomright", legend = c("Original signal",
+#'         "Filtered without initial conditions",
+#'         "Filtered with initial conditions"),
+#'        lty = 1, col = c("black", "red", "green"))
+#'        
+#' @seealso \code{\link{filter_zi}}, \code{\link{sosfilt}} (preferred because it
+#'   avoids numerical problems).
 #'
-#' ## example of filtering data in pieces (IIR)
-#' b <- 1; a <- c(1,1)
-#' x <- 1:100
-#' y <- filter(b, a, x)
-#' x1 <- x[1:50]
-#' x2 <- x[51:100]
-#' y1 <- filter(b, a, x1)
-#' y2 <- filter(b, a, x2, init = y1[(length(y1) - (length(a) - 1) + 1):length(y1)])
-#' all.equal(as.numeric(y), c(y1,y2))
-#'
-#' @seealso \code{\link[stats]{filter}} in the \code{stats} package
-#'
-#' @author Tom Short, \email{tshort@@eprisolutions.com},\cr
-#'  adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @rdname filter
 #' @export
@@ -114,37 +109,94 @@ filter <- function(filt, ...) UseMethod("filter")
 #' @method filter default
 #' @export
 
-filter.default <- function(filt, a, x, init, init.x, init.y, ...) {
+filter.default <- function(filt, a, x, zi = NULL, ...) {
 
-  if(missing(init.x)) {
-    init.x <- c(rep(0, length(filt) - 1))
+  if (!is.vector(filt) || ! is.vector(a) || !is.numeric(filt) || !is.numeric(a)) {
+    stop("b and a must be numeric vectors")
   }
+  la <- length(a)
+  lb <- length(filt)
+  lab <- max(la, lb)
 
-  if(length(init.x) != length(filt) - 1) {
-    stop("length of init.x should match filter length-1 = ", length(filt)-1)
+  if (is.null(x)) {
+    return(NULL)
   }
-
-  if(missing(init) && !missing(init.y)) {
-    init <- rev(init.y)
+  if (!is.numeric(x)) {
+    stop('x must be a numeric vector or matrix')
   }
-
-  if(all(is.na(x))) {
+  if (is.vector(x)) {
+    x <- as.matrix(x, ncol = 1)
+    vec <- TRUE
+  } else {
+    vec <- FALSE
+  }
+  nrx <- NROW(x)
+  ncx <- NCOL(x)
+  if (is.null(nrx) || nrx <= 0) {
     return(x)
   }
-
-  if (length(filt)) {
-    x1 <- stats::filter(c(init.x, x), filt / a[1], sides = 1)
-    if(all(is.na(x1))) {
-      return(x)
+  
+  rzf <- (is.character(zi) && zi == "zf")
+  if(!is.null(zi) && !is.numeric(zi) && !rzf) {
+    stop("zi must either be NULL, a numeric vector or matrix, or the string 'zf'")
+  }
+  if (is.null(zi) || rzf) {
+    zi <- matrix(0, lab - 1, ncx)
+    if (is.null(zi)) {
+      rzf <- FALSE
     }
-    x <- stats::na.omit(x1)
+  } else if (!is.null(zi)) {
+    rzf <- TRUE
   }
-
-  if (length(a) >= 2) {
-    x <- stats::filter(x, -a[-1] / a[1], method = "recursive", init = init)
+  if (is.vector(zi)) {
+    zi <- as.matrix(zi, ncol = 1)
   }
-
-  as.numeric(x)
+  nrzi <- NROW(zi)
+  nczi <- NCOL(zi)
+  if (nrzi != lab - 1) {
+    stop('zi must be of length max(length(a), length(b)) - 1')
+  }
+  if (nczi != ncx) {
+    stop('number of columns of zi and x must agree')
+  }
+  
+  while (length(a) > 1 && a[1] == 0) {
+    a <- a[2:length(a)]
+  }
+  if (length(a) < 1 || a[1] == 0) {
+    stop("There must be at least one nonzero element in the vector a")
+  }
+  if (a[1] != 1) {
+    # Normalize the coefficients so a[1] == 1.
+    filt = filt / a[1]
+    a = a / a[1]
+  }
+  if (la <= 1 && nrzi <= 0) {
+    retval <- filt[1] * x 
+    if (vec) retval <- as.vector(retval)
+    return(retval)
+  }
+  
+  y <- matrix(0, nrx, ncx)
+  zf <- matrix(0, lab - 1, nczi)
+  for (icol in seq_len(ncx)) {
+    l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal", filt, a, x[, icol], zi[, icol])
+    y[, icol] <- l[['y']]
+    zf[, icol] <- l[['zf']]
+  }
+  
+  if (vec) {
+    y <- as.vector(y)
+    zf <- as.vector(zf)
+  }
+  
+  if (rzf) {
+    retval <- list(y = y, zf = zf)
+  } else {
+    retval <- y
+  }
+  
+  retval
 }
 
 #' @rdname filter
@@ -173,4 +225,4 @@ filter.Sos <- function(filt, x, ...) { # Second-order sections
 #' @method filter Zpg
 #' @export
 filter.Zpg <- function(filt, x, ...) # zero-pole-gain form
-  filter(as.Arma(filt), x)
+  filter(as.Arma(filt), x, ...)

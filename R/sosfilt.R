@@ -16,22 +16,38 @@
 #
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
+# 20210329  GvB       different setup for v0.3.0 including initial conditions
 #---------------------------------------------------------------------------------------------------------------------
 
-#' Second-order filtering
+#' Second-order sections filtering
 #'
-#' One-dimensional second-order (biquadratic) IIR digital filtering.
+#' One-dimensional second-order (biquadratic) sections IIR digital filtering.
+#' 
+#' The filter function is implemented as a series of second-order filters
+#' with direct-form II transposed structure. It is designed to minimize
+#' numerical precision errors for high-order filters [1].
 #'
 #' @param sos Second-order section representation, specified as an nrow-by-6
 #'   matrix, whose rows contain the numerator and denominator coefficients of
 #'   the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
 #'   cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
 #'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.
-#' @param x The input data to be filtered, coerced to a vector.
+#' @param x the input signal to be filtered, specified as a vector or as a
+#'   matrix. If \code{x} is a matrix, each column is filtered.
+#' @param zi If \code{zi} is provided, it is taken as the initial state of the
+#'   system and the final state is returned as zf. If \code{x} is a vector,
+#'   \code{zi} must be a matrix with \code{nrow(sos)} rows and 2 columns. If
+#'   \code{x} is a matrix, then \code{zi} must be a 3-dimensional array of size
+#'   \code{(nrow(sos), 2, ncol(x))}. Alternatively, \code{zi} may be the
+#'   character string \code{"zf"}, which specifies to return the final state
+#'   vector even though the initial state vector is set to all zeros. Default:
+#'   NULL.
 #'
-#' @return The filtered signal, normally of the same length as the input signal
-#'   \code{x}, returned as a vector
-#'
+#' @return The filtered signal, of the same dimensions as the input signal. In
+#'   case the \code{zi} input argument was specified, a list with two elements
+#'   is returned containing the variables \code{y}, which represents the output
+#'   signal, and \code{zf}, which contains the final state vector or matrix.
+#' 
 #' @examples
 #' fs <- 1000                                           # sampling frequency
 #' t <- seq(0, 1, 1/fs)                                 # 1 second sample
@@ -39,23 +55,41 @@
 #' x <- s + rnorm(length(t))                            # add noise
 #' plot(t, x, type = "l", col="light gray")
 #' lines(t, s, col="black")
-#' bf <- butter(3, 0.02)                        # low-pass 0.02 * 1000 = 20 Hz
-#' sosg <- as.Sos(bf)                                   # convert to second order sections
+#' sosg <- butter(3, 0.02, output = "Sos")                # low-pass 0.02 * 1000 = 20 Hz
 #' sos <- sosg$sos
 #' sos[1, 1:3] <- sos[1, 1:3] * sosg$g                  # apply gain factor
 #' y <- sosfilt(matrix(sos, ncol=6), x)                 # apply filter
 #' lines(t, y, col="red")
-#' yy <- filtfilt(sosg, x)                              # filtfilt and filter handle gain factor
-#' lines(t, yy, col="blue")
+#' 
+#' ## using 'filter' will handle the gain for you
+#' y2 <- filter(sosg, x)
+#' all.equal(y, y2)
+#' 
+#' ## The following example is from Python scipy.signal.sosfilt
+#' ## It shows the instability that results from trying to do a
+#' ## 13th-order filter in a single stage (the numerical error
+#' ## pushes some poles outside of the unit circle)
+#' arma <- ellip(13, 0.009, 80, 0.05, output='Arma')
+#' sos <- ellip(13, 0.009, 80, 0.05, output='Sos')
+#' x <- rep(0, 700); x[1] <- 1
+#' y_arma <- filter(arma, x)
+#' y_sos <- filter(sos, x)
+#' plot(y_arma, type ="l")
+#' lines (y_sos, col = 2)
+#' legend("topleft", legend = c("Arma", "Sos"), lty = 1, col = 1:2)
 #'
-#' @seealso \code{\link{filter}}, \code{\link{filtfilt}}
+#' @seealso \code{\link{filter}}, \code{\link{filtfilt}}, \code{\link{Sos}}
+#' 
+#' @references Smith III, J.O. (2012). Introduction to digital filters, with
+#'   audio applications (3rd Ed.). W3K Publishing.
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
-sosfilt <- function(sos, x) {
+sosfilt <- function(sos, x, zi = NULL) {
 
+  # Check sos
   if (is.vector(sos)) {
     if (length(sos) == 6) {
       sos <- matrix(sos, ncol = 6)
@@ -69,14 +103,81 @@ sosfilt <- function(sos, x) {
   } else {
     stop('sos must a matrix with 6 columns')
   }
-
-  x <- as.vector(x)
-
-  if (any(sos[, 4] == 0)) {
-    y <- rep(NA, length(x))
-  } else {
-    y <- .Call("_gsignal_sosfilt", PACKAGE = "gsignal", sos, x)
+  a0 <- sos[, 4]
+  if (any(a0 == 0)) {
+    stop("invalid sos structure (sos[, 4] must not be zero)")
+  }
+  if (any(a0 != 1)) {
+    sos <- sos / a0
   }
 
-  y
+  # check x, coerce it to matrix
+  if (is.null(x)) {
+    return(NULL)
+  }
+  if (!is.numeric(x)) {
+    stop('x must be a numeric vector or matrix')
+  }
+  if (is.vector(x)) {
+    x <- as.matrix(x, ncol = 1)
+    vec <- TRUE
+  } else {
+    vec <- FALSE
+  }
+  nrx <- NROW(x)
+  ncx <- NCOL(x)
+  if (is.null(nrx) || nrx <= 0) {
+    return(x)
+  }
+  
+  # check zi, coerce to 3d array
+  rzf <- (is.character(zi) && zi == "zf")
+  if(!is.null(zi) && !is.numeric(zi) && !rzf) {
+    stop("zi must either be NULL, a numeric vector or matrix, or the string 'zf'")
+  }
+  if (is.null(zi) || rzf) {
+    zi <- array(0, dim = c(nrow(sos), 2, ncx))
+    if (is.null(zi)) {
+      rzf <- FALSE
+    }
+  } else if (!is.null(zi)) {
+    rzf <- TRUE
+  }
+  if (is.vector(zi)) {
+    stop("zi must be NULL, a matrix or a 3-dimensional array")
+  } else {
+    dims_zi <- dim(zi)
+    if (length(dims_zi) == 2) {
+      dim(zi) <- c(dims_zi, 1)
+      dims_zi <- c(dims_zi, 1)
+    }
+  }
+  if (dims_zi[1] != nrow(sos)) {
+    stop('zi must equal the number of sections in sos')
+  }
+  if (dims_zi[2] != 2) {
+    stop('number of columns of zi must be 2')
+  }
+  if (dims_zi[3] != ncx) {
+    stop('third dimension of zi must be equal the number of columns in x')
+  }
+  
+  y <- matrix(0, nrx, ncx)
+  zf <- array(0, dim = dims_zi)
+  for (icol in seq_len(ncx)) {
+    l <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal", sos, x[, icol], matrix(zi[, , icol], ncol = 2))
+    y[, icol] <- l[['y']]
+    zf[, , icol] <- l[['zf']]
+  }
+  
+  if (vec) {
+    y <- as.vector(y)
+    dim(zf) <- dims_zi[1:2]
+  }
+  if (rzf) {
+    rv <- list(y = y, zf = zf)
+  } else {
+    rv <- y
+  }
+  rv
 }

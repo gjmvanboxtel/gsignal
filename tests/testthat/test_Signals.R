@@ -436,7 +436,7 @@ test_that("parameters to specgram() are correct", {
 })
 
 test_that("specgram() works correctly", {
-  sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'), plot = FALSE)
+  sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
   expect_that(length(sp$f), equals(128))
   expect_that(length(sp$t), equals(131))
   expect_that(nrow(sp$S), equals(length(sp$f)))
