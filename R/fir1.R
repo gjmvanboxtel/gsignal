@@ -45,7 +45,7 @@
 #' @return The FIR filter coefficients, a vector of length \code{n + 1}, of
 #'   class \code{Ma}.
 #'
-#' @references \url{http://en.wikipedia.org/wiki/Fir_filter}
+#' @references \url{https://en.wikipedia.org/wiki/Fir_filter}
 #'
 #' @examples
 #' freqz(fir1(40, 0.3))

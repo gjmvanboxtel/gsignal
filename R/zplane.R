@@ -49,7 +49,7 @@
 #' elp <- ellip(4, 0.5, 20, 0.4)
 #' zplane(elp)
 #'
-#' @references \url{http://en.wikipedia.org/wiki/Pole-zero_plot}
+#' @references \url{https://en.wikipedia.org/wiki/Pole-zero_plot}
 #'
 #' @seealso \code{\link{freqz}}
 #'

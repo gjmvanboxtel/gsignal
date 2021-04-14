@@ -1,4 +1,7 @@
-v0.3-0
+v0.3.-1 completed 20210414
+- Minor changes for submission to CRAN
+
+v0.3-0 completed 20210411
 - Minor bugfixes in pwelch(), butter(), as.Arma.Sos(), as.Sos.Zpg(), sos2tf()
 - Added 'output' parameter to butter(), cheby1(), cheby2(), ellip()
 - Redesigned filter() to correct problems with initial conditions (now direct-form II)

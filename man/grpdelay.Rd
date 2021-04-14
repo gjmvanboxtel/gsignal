@@ -87,7 +87,7 @@ plot(gpd)
 
 }
 \references{
-\url{http://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
+\url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 \url{http://en.wikipedia.org/wiki/Group_delay}
 }
 \author{

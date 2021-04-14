@@ -59,7 +59,7 @@ legend("topright", legend = c("Ideal", "Remez"), lty = 1,
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Fir_filter}
+\url{https://en.wikipedia.org/wiki/Fir_filter}
 
 Rabiner, L.R., McClellan, J.H., and Parks, T.W. (1975). FIR Digital
   Filter Design Techniques Using Weighted Chebyshev Approximations, IEEE

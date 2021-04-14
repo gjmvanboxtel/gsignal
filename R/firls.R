@@ -52,8 +52,9 @@
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @references [1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
-#'   Squares", \url{http://cnx.org/content/m10577}
-#'
+#'   Squares",
+#'   \url{https://cnx.org/contents/6x7LNQOp@7/Linear-Phase-Fir-Filter-Design-By-Least-Squares}
+#'   
 #' @export
 
 firls <- function (n, f, a, w = rep(1L, length(a) / 2)) {

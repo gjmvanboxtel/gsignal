@@ -39,7 +39,8 @@ freqz(firls(255, c(0, 0.25, 0.3, 1), c(1, 1, 0, 0)))
 }
 \references{
 [1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
-  Squares", \url{http://cnx.org/content/m10577}
+  Squares",
+  \url{https://cnx.org/contents/6x7LNQOp@7/Linear-Phase-Fir-Filter-Design-By-Least-Squares}
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},

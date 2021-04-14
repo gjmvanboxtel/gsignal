@@ -83,7 +83,7 @@ freqz(zzp)
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Bilinear_transform}
+\url{https://en.wikipedia.org/wiki/Bilinear_transform}
 }
 \author{
 Original Octave code by Paul Kienzle \email{pkienzle@users.sf.net}.

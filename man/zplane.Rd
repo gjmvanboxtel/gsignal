@@ -51,7 +51,7 @@ zplane(elp)
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Pole-zero_plot}
+\url{https://en.wikipedia.org/wiki/Pole-zero_plot}
 }
 \seealso{
 \code{\link{freqz}}

@@ -51,7 +51,7 @@ freqs(zp, w)
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Bessel_polynomials}
+\url{https://en.wikipedia.org/wiki/Bessel_polynomials}
 }
 \author{
 Thomas Sailer, email{<t.sailer@alumni.ethz.ch>}.\cr

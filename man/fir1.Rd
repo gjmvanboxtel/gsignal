@@ -49,7 +49,7 @@ freqz(fir1(10, c(0.3, 0.5), "pass"))
 
 }
 \references{
-\url{http://en.wikipedia.org/wiki/Fir_filter}
+\url{https://en.wikipedia.org/wiki/Fir_filter}
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},

@@ -98,7 +98,7 @@
 #' @author Lukas F. Reichlin.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references [1] \url{https://cran.r-project.org/web/packages/wavelets/index.html}
+#' @references [1] \url{https://CRAN.R-project.org/package=wavelets}
 #' @references [2] \url{https://en.wikipedia.org/wiki/Daubechies_wavelet}
 #' @references [3] \url{https://en.wikipedia.org/wiki/Coiflet}
 #' @references [4] \url{https://en.wikipedia.org/wiki/Discrete_wavelet_transform}

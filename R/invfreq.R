@@ -75,7 +75,7 @@
 #' @author Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.\cr
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references \url{http://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html}
+#' @references \url{https://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html} 
 #'
 #' @rdname invfreq
 #' @export

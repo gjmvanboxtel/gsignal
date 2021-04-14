@@ -62,7 +62,7 @@
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @references \url{http://en.wikipedia.org/wiki/Bessel_polynomials}
+#' @references \url{https://en.wikipedia.org/wiki/Bessel_polynomials}
 #'
 #' @author Thomas Sailer, email{<t.sailer@@alumni.ethz.ch>}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.

@@ -80,7 +80,7 @@
 #' zzp <- bilinear(zp)
 #' freqz(zzp)
 #'
-#' @references \url{http://en.wikipedia.org/wiki/Bilinear_transform}
+#' @references \url{https://en.wikipedia.org/wiki/Bilinear_transform}
 #'
 #' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net}.
 #'   Conversion to R by Tom Short, adapted by Geert van Boxtel

@@ -36,10 +36,12 @@
 #'
 #'
 #' @examples
+#' \donttest{
 #' freqz(qp_kaiser(1, 80))
 #' freqz(qp_kaiser(2, 80))
 #' freqz(qp_kaiser(3, 80))
 #' freqz(qp_kaiser(1, 120))
+#' }
 #'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
 #'   \code{\link{fir2}}

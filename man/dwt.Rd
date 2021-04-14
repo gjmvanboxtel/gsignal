@@ -92,7 +92,7 @@ par (op)
 
 }
 \references{
-[1] \url{https://cran.r-project.org/web/packages/wavelets/index.html}
+[1] \url{https://CRAN.R-project.org/package=wavelets}
 
 [2] \url{https://en.wikipedia.org/wiki/Daubechies_wavelet}
 

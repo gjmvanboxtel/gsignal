@@ -78,7 +78,7 @@
 #' @author Daniel Gunyan.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references [1] \url{https://en.wikipedia.org/wii/Chirp_Z-transform}\cr
+#' @references [1] \url{https://en.wikipedia.org/wiki/Chirp_Z-transform}\cr
 #'   [2]Oppenheim, A.V., Schafer, R.W., and Buck, J.R. (1999). Discrete-Time
 #'   Signal Processing, 2nd edition. Prentice-Hall.
 #'

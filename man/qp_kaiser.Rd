@@ -24,10 +24,12 @@ Compute FIR filter for use with a quasi-perfect reconstruction
 polyphase-network filter bank.
 }
 \examples{
+\donttest{
 freqz(qp_kaiser(1, 80))
 freqz(qp_kaiser(2, 80))
 freqz(qp_kaiser(3, 80))
 freqz(qp_kaiser(1, 120))
+}
 
 }
 \seealso{

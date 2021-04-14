@@ -38,7 +38,7 @@ freqz(notch, fs = fs)
 \references{
 Pei, Soo-Chang, and Tseng, Chien-Cheng "IIR Multiple Notch Filter
   Design Based on Allpass Filter"; 1996 IEEE Tencon, doi:
-  \url{https://dx.doi.org/10.1109/TENCON.1996.608814}
+  \doi{10.1109/TENCON.1996.608814}
 }
 \seealso{
 \code{\link{Arma}}, \code{\link{filter}}
