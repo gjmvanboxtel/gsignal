@@ -60,7 +60,7 @@ Authors@R: c(person("Geert", "van Boxtel", role = c("aut", "cre"), email="G.J.M.
  person("P.", "Sudeepam", role = "ctb"),
  person("Andreas", "Weingessel", role = "ctb"))
 Description: R implementation of the Octave signal package.
-Depends: R (>= 3.1.0)
+Depends: R (>= 3.5.0)
 LinkingTo: Rcpp
 Imports: pracma, Rcpp
 License: GPL-3

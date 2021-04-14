@@ -1,5 +1,6 @@
 v0.3.-1 completed 20210414
 - Minor changes for submission to CRAN
+- added 'signals' data frame
 
 v0.3-0 completed 20210411
 - Minor bugfixes in pwelch(), butter(), as.Arma.Sos(), as.Sos.Zpg(), sos2tf()

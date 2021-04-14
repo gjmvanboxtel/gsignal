@@ -70,7 +70,7 @@
 #'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @references \url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
-#' \url{http://en.wikipedia.org/wiki/Group_delay}
+#' \url{https://en.wikipedia.org/wiki/Group_delay}
 #'
 #' @rdname grpdelay
 #' @export
