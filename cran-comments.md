@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version the non-canonical links to packages
+have been changed to canonical URLs https://CRAN.R-project.org/package=pkgname.
+I then re-ran devtools::check() (Ubuntu Linux 20.04.1 LTS, R 4.05). Thank you.
+
 ## Test environments
 * local R installation, R 4.0.5
 * ubuntu 16.04 (on travis-ci), R 4.0.5
