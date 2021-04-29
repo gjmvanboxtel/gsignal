@@ -1,7 +1,7 @@
 # ellipap.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
-# Copyright (C) 2013 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2013 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200527 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Lowpass analog elliptic filter
 #'
@@ -41,14 +41,15 @@
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.
+#' @author Carne Draug, \email{carandraug+dev@@gmail.com}.
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-ellipap <- function (n, Rp, Rs) {
+ellipap <- function(n, Rp, Rs) {
 
-  if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n))
+    stop("n must be an integer strictly positive")
   if (!isPosscal(Rp) || !is.numeric(Rp)) {
     stop("passband ripple Rp must a non-negative scalar")
   }
@@ -59,4 +60,3 @@ ellipap <- function (n, Rp, Rs) {
   ellip(n, Rp, Rs, 1, "low", "s", "Zpg")
 
 }
-

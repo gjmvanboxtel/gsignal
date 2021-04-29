@@ -29,7 +29,7 @@ transform (DFT) of the product of the vectors' DFTs.
 For the circular convolution of \code{x} and \code{y} to be equivalent to
 their linear convolution, the vectors must be padded with zeros to length at
 least \code{n + l - 1} before taking the DFT. After inverting the product of
-the DFTs, only the first \code{n + n - 1} elements should be retained.
+the DFTs, only the first \code{n + l - 1} elements should be retained.
 
 For long sequences circular convolution may be more efficient than linear
 convolution. You can also use \code{cconv} to compute the circular
@@ -40,7 +40,7 @@ a <- c(1, 2, -1, 1)
 b <- c(1, 1, 2, 1, 2, 2, 1, 1)
 c <- cconv(a, b)       # Circular convolution
 cref = conv(a, b)      # Linear convolution
-all.equal(max(c - cref), 0)
+## all.equal(max(c - cref), 0)
 
 cconv(a, b, 6)
 

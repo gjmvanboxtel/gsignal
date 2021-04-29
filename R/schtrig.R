@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201127  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Schmitt Trigger
 #'
@@ -33,7 +33,7 @@
 #' @param x input data, specified as a numeric vector or matrix. In case of a
 #'   vector it represents a single signal; in case of a matrix each column is a
 #'   signal.
-#' @param lvl threshold levels against whoch \code{x} is compared, specified as
+#' @param lvl threshold levels against which \code{x} is compared, specified as
 #'   a vector. If this is a scalar, the thresholds are symmetric around 0, i.e.
 #'   \code{c(-lvl, lvl)}.
 #' @param st trigger state, specified as a vector of length \code{ncol(x}. The
@@ -73,10 +73,10 @@
 #
 #' @export
 
-schtrig <- function (x, lvl, st = NULL) {
+schtrig <- function(x, lvl, st = NULL) {
 
   if (!is.numeric(x)) {
-    stop('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -85,18 +85,18 @@ schtrig <- function (x, lvl, st = NULL) {
   } else if (is.matrix(x)) {
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
   nc <- ncol(x)
   nr <- nrow(x)
 
   if (!is.numeric(lvl) || !is.vector(lvl)) {
-    stop('lvl must be a numeric vector')
+    stop("lvl must be a numeric vector")
   }
   if (length(lvl) == 1) {
     lvl <- abs(lvl) * c(1, -1)
   } else {
-    lvl = sort(lvl, decreasing = TRUE)
+    lvl <- sort(lvl, decreasing = TRUE)
   }
 
   if (is.null(st)) {
@@ -120,7 +120,7 @@ schtrig <- function (x, lvl, st = NULL) {
   ## Find data between the levels
   idx    <- is.na(v)
   rng <- clustersegment(t(idx))
-  if(!is.list(rng)) {
+  if (!is.list(rng)) {
     crng <- list(rng)
   } else {
     crng <- rng
@@ -138,7 +138,7 @@ schtrig <- function (x, lvl, st = NULL) {
       ini_idx <- crng[[i]][1, ]
       end_idx <- crng[[i]][2, ]
       for (j in seq_along(ini_idx)) {
-        v[ini_idx[j]:end_idx[j],i] <- st[j]
+        v[ini_idx[j]:end_idx[j], i] <- st[j]
       }
     }
   }
@@ -150,4 +150,3 @@ schtrig <- function (x, lvl, st = NULL) {
 
   list(v = v, rng = rng, st = st)
 }
-

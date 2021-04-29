@@ -28,7 +28,7 @@ Convert digital filter second-order section data to transfer function form.
 }
 \examples{
 sos <- rbind(c(1, 1, 1, 1, 0, -1), c(-2, 3, 1, 1, 10, 1))
-sos2tf(sos)
+ba <- sos2tf(sos)
 
 }
 \seealso{

@@ -11,7 +11,7 @@ pburg(
   freq = 256,
   fs = 1,
   range = NULL,
-  method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly")
+  method = if (length(freq) == 1 && bitwAnd(freq, freq - 1) == 0) "fft" else "poly"
 )
 }
 \arguments{
@@ -35,9 +35,9 @@ information in it. Recognized values are:
 }
 The default is to NOT use a model-selection criterion (NULL)}
 
-\item{freq}{vector of frequencies at which power spectral density is calculated, or
-a scalar indicating the number of uniformly distributed frequency values at
-which spectral density is calculated. Default: 256.}
+\item{freq}{vector of frequencies at which power spectral density is
+calculated, or a scalar indicating the number of uniformly distributed
+frequency values at which spectral density is calculated. Default: 256.}
 
 \item{fs}{sampling frequency (Hz). Default: 1}
 
@@ -80,7 +80,6 @@ This function is a wrapper for \code{arburg} and \code{ar_psd}.
 A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
 y <- filter(A, 0.2 * rnorm(1024))
 plot(pb <- pburg(y, 4))
-
 
 }
 \seealso{

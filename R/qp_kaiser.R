@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200710 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Kaiser FIR filter design
 #'
@@ -26,7 +26,7 @@
 #' polyphase-network filter bank.
 #'
 #' @param nb number of frequency bands, specified as a scalar
-#' @param at attentuation (in dB) in the stop band.
+#' @param at attenuation (in dB) in the stop band.
 #' @param linear logical, indicating linear scaling. If FALSE (default), the
 #'   Kaiser window is multiplied by the ideal impulse response \eqn{h(n) = a
 #'   sinc(an)} and converted to its minimum-phase version by means of a Hilbert
@@ -34,14 +34,10 @@
 #'
 #' @return The FIR filter coefficients, of class \code{Ma}.
 #'
-#'
 #' @examples
-#' \donttest{
-#' freqz(qp_kaiser(1, 80))
-#' freqz(qp_kaiser(2, 80))
-#' freqz(qp_kaiser(3, 80))
-#' freqz(qp_kaiser(1, 120))
-#' }
+#' freqz(qp_kaiser(1, 20))
+#' freqz(qp_kaiser(1, 40))
+#' 
 #'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
 #'   \code{\link{fir2}}
@@ -51,16 +47,16 @@
 #'
 #' @export
 
-qp_kaiser <- function (nb, at, linear = FALSE) {
+qp_kaiser <- function(nb, at, linear = FALSE) {
 
   if (!(isPosscal(nb) && isWhole(nb) && nb > 0)) {
-    stop("nb must be a positive integer");
+    stop("nb must be a positive integer")
   }
   if (!(isPosscal(at) && at > 0)) {
-    stop("at must be a positive scalar");
+    stop("at must be a positive scalar")
   }
   if (!is.logical(linear)) {
-    stop('linear must be logical')
+    stop("linear must be logical")
   }
 
   ## Bandwidth
@@ -69,7 +65,7 @@ qp_kaiser <- function (nb, at, linear = FALSE) {
   ## Attenuation correction (empirically
   ## determined by M. Gerken
   ## <mgk@lcs.poli.usp.br>)
-  corr <- (1.4 + 0.6 * (at - 20) / 80)^(20 / at)
+  corr <- (1.4 + 0.6 * (at - 20) / 80) ^ (20 / at)
   at <- corr * at
 
   ## size of window (rounded to next odd integer)
@@ -78,7 +74,7 @@ qp_kaiser <- function (nb, at, linear = FALSE) {
   N <- 2 * M + 1
 
   ## Kaiser window
-  if (at > 50){
+  if (at > 50) {
     beta <- 0.1102 * (at - 8.7)
   } else if (at > 21) {
     beta <- 0.5842 * (at - 21)^0.4 + 0.07886 * (at - 21)
@@ -87,10 +83,10 @@ qp_kaiser <- function (nb, at, linear = FALSE) {
   }
   w <- kaiser(N, beta)
   ## squared in freq. domain
-  wsquared = conv(w, w)
+  wsquared <- conv(w, w)
 
   ## multiplied by ideal lowpass filter
-  n = -(N - 1):(N - 1)
+  n <- - (N - 1):(N - 1)
   hideal <- 1 / nb * sinc(n / nb)
   hcomp <- wsquared %o% hideal
 
@@ -111,7 +107,7 @@ qp_kaiser <- function (nb, at, linear = FALSE) {
   }
 
   ## truncate and fix amplitude scale (H(0)=1)
-  h = h / sum(h)
+  h <- h / sum(h)
 
   Ma(h)
 }

@@ -40,21 +40,21 @@ with direct-form II transposed structure. It is designed to minimize
 numerical precision errors for high-order filters [1].
 }
 \examples{
-fs <- 1000                                           # sampling frequency
-t <- seq(0, 1, 1/fs)                                 # 1 second sample
-s <- sin(2* pi * t * 6)                              # 6 Hz sinus
-x <- s + rnorm(length(t))                            # add noise
+fs <- 1000
+t <- seq(0, 1, 1/fs)
+s <- sin(2* pi * t * 6)
+x <- s + rnorm(length(t))
 plot(t, x, type = "l", col="light gray")
 lines(t, s, col="black")
-sosg <- butter(3, 0.02, output = "Sos")                # low-pass 0.02 * 1000 = 20 Hz
+sosg <- butter(3, 0.02, output = "Sos")
 sos <- sosg$sos
-sos[1, 1:3] <- sos[1, 1:3] * sosg$g                  # apply gain factor
-y <- sosfilt(matrix(sos, ncol=6), x)                 # apply filter
+sos[1, 1:3] <- sos[1, 1:3] * sosg$g
+y <- sosfilt(matrix(sos, ncol=6), x)
 lines(t, y, col="red")
 
 ## using 'filter' will handle the gain for you
 y2 <- filter(sosg, x)
-all.equal(y, y2)
+## all.equal(y, y2)
 
 ## The following example is from Python scipy.signal.sosfilt
 ## It shows the instability that results from trying to do a

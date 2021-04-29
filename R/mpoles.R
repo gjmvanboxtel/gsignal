@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200606  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Multiplicity of poles
 #'
@@ -43,9 +43,9 @@
 #' @examples
 #' p <- c(2, 3, 1, 1, 2)
 #' ret <- mpoles(p, index = TRUE)
-#' ret$m         # returns 1 1 2 1 2
-#' ret$n         # returns 2 5 1 4 3
-#' p[ret$n]      # returns 3 2 2 1 1
+#' ## ret$m         # returns 1 1 2 1 2
+#' ## ret$n         # returns 2 5 1 4 3
+#' ## p[ret$n]      # returns 3 2 2 1 1
 #'
 #' @seealso \code{\link{poly}}, \code{\link{residue}}
 #'
@@ -58,7 +58,7 @@ mpoles <- function(p, tol = 0.001, reorder = TRUE, index.return = FALSE) {
 
   ## Force the poles to be a vector.
   p <- as.vector(p)
-  Np <- length(p)
+  np <- length(p)
   # tol must be a positive scalar
   tol <- tol[1]
   if (!isPosscal(tol)) {
@@ -78,17 +78,17 @@ mpoles <- function(p, tol = 0.001, reorder = TRUE, index.return = FALSE) {
     ## Sort with smallest magnitude first.
     s <- sort(p, index.return = TRUE)
     ## Reverse order, largest maginitude first.
-    n <- seq(Np, 1, -1)
+    n <- seq(np, 1, -1)
     p <- s$x[n]
     ordr <- s$ix[n]
   } else {
-    ordr <- seq_len(Np)
+    ordr <- seq_len(np)
   }
 
   ## Find pole multiplicty by comparing the relative differnce in the
   ## poles.
 
-  multp <- array(0L, Np)
+  multp <- array(0L, np)
   indx <- NULL
   n <- which(multp == 0)[1]
   while (!is.na(n) & n > 0) {

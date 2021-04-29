@@ -72,10 +72,10 @@ lines(t, y2, col = "blue")
 ## use 'filter' with different classes
 t <- seq(0, 1, len = 10000)                          # 1 second sample
 x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
-ma <- Ma(rep(0.1, 10))                               # filter kernel class 'Ma' object
+ma <- Ma(rep(0.1, 10))                               # filter kernel
 y1 <- filter(ma, x)                                  # convulution filter
 y2 <- fftfilt(ma, x)                                 # FFT filter
-all.equal(y1, y2)                                    # same result
+## all.equal(y1, y2)                                 # same result
 
 }
 \references{

@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200708 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Kaiser filter order and cutoff frequency
 #'
@@ -61,11 +61,13 @@
 #' @param fs sampling rate. Used to convert the frequency specification into the
 #'   c(0, 1) range, where 1 corresponds to the Nyquist frequency, \code{fs / 2}.
 #'
-#' @return A list of class \code{\link{FilterSpecs}} with the following list elements:
+#' @return A list of class \code{\link{FilterSpecs}} with the following list
+#'   elements:
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
-#'   \item{type}{filter type, one of "low", "high", "stop", "pass", "DC-0", or "DC-1".}
+#'   \item{type}{filter type, one of "low", "high", "stop", "pass", "DC-0", or
+#'   "DC-1".}
 #'   \item{beta}{shape parameter}
 #' }
 #'
@@ -99,8 +101,10 @@
 #'     d <<- max(1, trunc(n/10))
 #'     if (mag[length(mag)] == 1 && (d %% 2) == 1)
 #'       d <<- d + 1
-#'     f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta), scale = FALSE), fs = fs)
-#'     f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta), scale = FALSE), fs = fs)
+#'     f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta),
+#'                  scale = FALSE), fs = fs)
+#'     f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta),
+#'                  scale = FALSE), fs = fs)
 #'   })
 #'   plot(f1$w, abs(f1$h), col = "blue", type = "l",  xlab = "", ylab = "")
 #'   lines(f2$w, abs(f2$h), col = "red")
@@ -123,7 +127,7 @@
 #'
 #' @export
 
-kaiserord <- function (f, m, dev, fs = 2) {
+kaiserord <- function(f, m, dev, fs = 2) {
 
   ## parameter checking
   if (length(f) != 2 * length(m) - 2) {
@@ -139,7 +143,7 @@ kaiserord <- function (f, m, dev, fs = 2) {
   if (dev <= 0) {
     stop("dev must be  0")
   }
-  if(!isPosscal(fs) || fs == 0) {
+  if (!isPosscal(fs) || fs == 0) {
     stop("Sampling frequency fs must be a positive scalar")
   }
 
@@ -149,21 +153,21 @@ kaiserord <- function (f, m, dev, fs = 2) {
   ## determine ftype
   if (length(w) == 1) {
     if (m[1] > m[2]) {
-      ftype <- 'low'
+      ftype <- "low"
     } else {
-      ftype <- 'high'
+      ftype <- "high"
     }
   } else if (length(w) == 2) {
     if (m[1] > m[2]) {
-      ftype <- 'stop'
+      ftype <- "stop"
     } else {
-      ftype <- 'pass'
+      ftype <- "pass"
     }
   } else {
     if (m[1] > m[2]) {
-      ftype <- 'DC-1'
+      ftype <- "DC-1"
     } else {
-      ftype <- 'DC-0'
+      ftype <- "DC-0"
     }
   }
 
@@ -172,20 +176,20 @@ kaiserord <- function (f, m, dev, fs = 2) {
   if (A > 50) {
     beta <- 0.1102 * (A - 8.7)
   } else if (A >= 21) {
-    beta <- 0.5842 * (A-21)^0.4 + 0.07886 * (A - 21)
+    beta <- 0.5842 * (A - 21)^0.4 + 0.07886 * (A - 21)
   } else {
     beta <- 0.0
   }
 
   ## compute n from beta and dev
-  dw <- 2* pi * min(f[seq(2, length(f), by = 2)] - f[seq(1, length(f), by = 2)]) / fs
+  dw <- 2 * pi * min(f[seq(2, length(f), by = 2)] -
+                      f[seq(1, length(f), by = 2)]) / fs
   n <- max(1, ceiling((A - 8) / (2.285 * dw)))
 
   ## if last band is high, make sure the order of the filter is even.
   if ((m[1] > m[2]) == (length(w) %% 2 == 0) && n %% 2 == 1) {
-    n = n+1
+    n <- n + 1
   }
 
   FilterSpecs(n = n, Wc = w, type = ftype, beta = beta)
 }
-

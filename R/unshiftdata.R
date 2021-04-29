@@ -18,8 +18,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191202 Geert van Boxtel          First version for v0.1.0
-# 20200507 GvB                       Replaced length(sd$perm) > 0 && !is.na(sd$perm) by length(sd$perm) > 0 && !anyNA(sd$perm)
-#---------------------------------------------------------------------------------------------------------------------------------
+# 20200507 GvB                       Bugfix
+#------------------------------------------------------------------------------
 
 #' Inverse of shiftdata
 #'
@@ -45,8 +45,9 @@
 #'
 #' ## create a 3x3 magic square
 #' x <- pracma::magic(3)
-#' ## Shift the matrix x to work along the second dimension. The permutation vector,
-#' ## perm, and the number of shifts, nshifts, are returned along with the shifted matrix.
+#' ## Shift the matrix x to work along the second dimension.
+#' ## The permutation vector, perm, and the number of shifts, nshifts,
+#' ## are returned along with the shifted matrix.
 #' sd <- shiftdata(x, 2)
 #'
 #' ## Shift the matrix back to its original shape.
@@ -58,26 +59,29 @@
 #' y <- unshiftdata(sd)
 #'
 #' @author Georgios Ouzounis, \email{ouzounis_georgios@@hotmail.com}.\cr
-#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{shiftdata}}
 #'
 #' @export
 
-unshiftdata <- function (sd) {
+unshiftdata <- function(sd) {
 
   nm <- names(sd)
   if (!is.list(sd) || !("x" %in% nm && "perm" %in% nm && "nshifts" %in% nm))
-    stop('sd must be a list with elements x, perm and nshifts')
+    stop("sd must be a list with elements x, perm and nshifts")
 
   if (length(sd$perm) > 0 && !anyNA(sd$perm)) {
-    if (!isWhole(sd$perm)) stop(paste0(deparse(substitute(sd)), '$perm must be a vector of integers'))
-    dimx = sd$perm[1]
+    if (!isWhole(sd$perm))
+      stop(paste0(deparse(substitute(sd)),
+                  "$perm must be a vector of integers"))
+    dimx <- sd$perm[1]
   } else if (length(sd$nshifts) > 0) {
-    if (!isWhole(sd$nshifts)) stop(paste0(deparse(substitute(sd)), '$nshifts must be an integer'))
+    if (!isWhole(sd$nshifts))
+      stop(paste0(deparse(substitute(sd)), "$nshifts must be an integer"))
     dimx <- sd$nshifts + 1
   } else {
-    stop (paste0('Either perm or nshifts must not be empty'))
+    stop(paste0("Either perm or nshifts must not be empty"))
   }
 
   perm <- dimx
@@ -88,7 +92,10 @@ unshiftdata <- function (sd) {
   d2 <- (length(dim(sd$x)))
   if (d1 <= d2) perm <- c(perm, d1:d2)
 
-  iaperm <- function(x, p) {p[p] <- 1:length(dim(x)); aperm(x, p)}
-  out <- iaperm (sd$x, perm)
+  iaperm <- function(x, p) {
+    p[p] <- seq_along(dim(x))
+    aperm(x, p)
+  }
+  out <- iaperm(sd$x, perm)
   out
 }

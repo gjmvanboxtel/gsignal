@@ -60,7 +60,7 @@ transformations:
   \tabular{lll}{
      \strong{Transform}               \tab \strong{Zero at x}                   \tab \strong{Pole at x}  \cr
      -------------------------        \tab -------------------------            \tab ------------------------- \cr
-     \strong{Low-Pass}                 \tab  zero: \eqn{Fc x/C}                  \tab  pole: \eqn{Fc x/C} \cr
+     \strong{Low-Pass}                \tab  zero: \eqn{Fc x/C}                  \tab  pole: \eqn{Fc x/C} \cr
      \eqn{S \rightarrow C S/Fc}       \tab  gain: \eqn{C/Fc}                    \tab  gain: \eqn{Fc/C}   \cr
      -------------------------        \tab -------------------------            \tab ------------------------- \cr
      \strong{High Pass}               \tab  zero: \eqn{Fc C/x}                  \tab  pole: \eqn{Fc C/x} \cr

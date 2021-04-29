@@ -40,7 +40,8 @@ fs <- 10e3
 t <- seq(-0.1, 0.1, 1/fs)
 w <- 40e-3
 y <- tripuls(t, w)
-plot(t, y, type="l", xlab = "", ylab = "", main = "Symmetric triangular pulse")
+plot(t, y, type="l", xlab = "", ylab = "",
+     main = "Symmetric triangular pulse")
 
 ## displace into paste and future
 tpast <- -45e-3

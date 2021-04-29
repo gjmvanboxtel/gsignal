@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201130  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 2-D digital filter
 #'
@@ -67,10 +67,10 @@
 
 filter2 <- function(h, x, shape = c("same", "full", "valid")) {
 
-  if(!is.numeric(h) || !is.matrix(h)) {
+  if (!is.numeric(h) || !is.matrix(h)) {
     stop("h must be a numeric matrix")
   }
-  if(!is.numeric(x) || !is.matrix(x)) {
+  if (!is.numeric(x) || !is.matrix(x)) {
     stop("x must be a numeric matrix")
   }
   shape <- match.arg(shape)

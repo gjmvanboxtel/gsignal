@@ -20,7 +20,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191210 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Welch window
 #'
@@ -68,28 +68,29 @@
 #
 #' @export
 
-welchwin <- function (n, method = c('symmetric', 'periodic')) {
+welchwin <- function(n, method = c("symmetric", "periodic")) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
   method <- match.arg(method)
 
   if (method == "periodic") {
     N <- n / 2
     nmin <- 2
-  } else if (method == 'symmetric') {
+  } else if (method == "symmetric") {
     N <- (n - 1) / 2
     nmin <- 3
   } else {
-    stop ("method must be either 'periodic' or 'symmetric'")
+    stop("method must be either 'periodic' or 'symmetric'")
   }
 
   ## Periodic window is not properly defined for m < 2.
   ## Symmetric window is not properly defined for m < 3.
   if (n < nmin) {
-    stop (paste("n must be an integer greater than", nmin))
+    stop(paste("n must be an integer greater than", nmin))
   }
 
   k <- 0:(n - 1)
-  w = 1 - ((k - N)/ N)^2
+  w <- 1 - ((k - N) / N)^2
   w
 }

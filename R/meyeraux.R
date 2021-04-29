@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191123 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Meyer wavelet auxiliary function
 #'
@@ -40,15 +40,16 @@
 #'
 #' x <- seq(0, 1, length.out = 100)
 #' y <- meyeraux(x)
-#' plot(x, y, type="l", main = "Meyer wavelet auxiliary function", xlab = "", ylab = "")
+#' plot(x, y, type="l", main = "Meyer wavelet auxiliary function",
+#'      xlab = "", ylab = "")
 #'
 #' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-meyeraux <- function (x) {
+meyeraux <- function(x) {
 
-  y <- 35*x^4 - 84*x^5 + 70*x^6 - 20*x^7
+  y <- 35 * x^4 - 84 * x^5 + 70 * x^6 - 20 * x^7
   y
 }

@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191122 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Complex Morlet Wavelet
 #'
@@ -33,7 +33,8 @@
 #' time-decay parameter \code{fb}, and center frequency \code{fc}. The general
 #' expression for the complex Morlet wavelet is
 #' \if{latex}{
-#'   \deqn{\Psi(x) = ((\pi fb)^{-0.5})  \cdot e^{(2 \pi i fc x)} \cdot e^{-(x^2) / fb}}
+#'   \deqn{\Psi(x) = ((\pi fb)^{-0.5})  \cdot e^{(2 \pi i fc x)} \cdot e^{-(x^2)
+#'   / fb}}
 #' }
 #' \if{html}{\preformatted{
 #'  Psi(x) = ((pi * fb)^-0.5) *  exp(2 * pi * i * fc * x) * exp(-(x^2) / fb)
@@ -69,9 +70,9 @@
 #'
 #' @examples
 #'
-#' ## Construct a complex-valued Morlet wavelet with a bandwidth parameter of 1.5
-#' ## and a center frequency of 1. Set the effective support to [-8,8] and the
-#' ## length of the wavelet to 1000.
+#' ## Construct a complex-valued Morlet wavelet with a bandwidth parameter
+#' ##  of 1.5 and a center frequency of 1. Set the effective support to [-8,8]
+#' ## and the length of the wavelet to 1000.
 #' cmw <- cmorwavf(-8, 8, 1000, 1.5, 1)
 #'
 #' # Plot the real and imaginary parts of the wavelet.
@@ -80,16 +81,18 @@
 #' plot(cmw$x, Im(cmw$psi), type = "l", main = "Imaginary Part")
 #' par(op)
 #'
-#' ## This example shows how the complex Morlet wavelet shape in the frequency domain is affected
-#' ## by the value of the bandwidth parameter (fb). Both wavelets have a center frequency of 1.
-#' ## One wavelet has an fb value of 0.5 and the other wavelet has a value of 8.
+#' ## This example shows how the complex Morlet wavelet shape in the frequency
+#' ## domain is affected by the value of the bandwidth parameter (fb). Both
+#' ## wavelets have a center frequency of 1. One wavelet has an fb value of
+#' ## 0.5 and the other wavelet has a value of 8.
 #'
 #' op <- par(mfrow = c(2,1))
 #' cmw1 <- cmorwavf(fb = 0.5)
 #' cmw2 <- cmorwavf(fb = 8)
 #'
 #' # time domain plot
-#' plot(cmw1$x, Re(cmw1$psi), type = "l", xlab = "Time", ylab = "", main = "Time domain, Real part")
+#' plot(cmw1$x, Re(cmw1$psi), type = "l", xlab = "Time", ylab = "",
+#'      main = "Time domain, Real part")
 #' lines(cmw2$x, Re(cmw2$psi), col = "red")
 #' legend("topright", legend = c("fb = 0.5", "fb = 8"), lty= 1, col = c(1,2))
 #'
@@ -100,14 +103,16 @@
 #' Fb2 <- 8
 #' PSI1 <- exp(-pi^2 * Fb1 * (f-Fc)^2)
 #' PSI2 <- exp(-pi^2 * Fb2 * (f-Fc)^2)
-#' plot(f, PSI1, type="l", xlab = "Frequency", ylab = "", main = "Frequency domain")
+#' plot(f, PSI1, type="l", xlab = "Frequency", ylab = "",
+#'      main = "Frequency domain")
 #' lines(f, PSI2, col = "red")
-#' legend("topright", legend = c("fb = 0.5", "fb = 8"), lty= 1, col = c(1,2))
+#' legend("topright", legend = c("fb = 0.5", "fb = 8"),
+#'        lty= 1, col = c(1,2))
 #' par(op)
 #'
-#' ## The fb bandwidth parameter for the complex Morlet wavelet is the inverse of the
-#' ## variance in frequency. Therefore, increasing Fb results in a narrower concentration
-#' ## of energy around the center frequency.
+#' ## The fb bandwidth parameter for the complex Morlet wavelet is the
+#' ## inverse of the variance in frequency. Therefore, increasing Fb results
+#' ## in a narrower concentration of energy around the center frequency.
 #'
 #' ## alternative to the above frequency plot:
 #' fs <- length(cmw1$x) / sum(abs(range(cmw1$x)))
@@ -124,14 +129,15 @@
 #'
 #' @export
 
-cmorwavf <- function (lb = -8, ub = 8, n = 1000, fb = 5, fc = 1) {
+cmorwavf <- function(lb = -8, ub = 8, n = 1000, fb = 5, fc = 1) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
-  if (!isPosscal(fb) || fb <= 0) stop('fb must be a positive scalar > 0')
-  if (!isPosscal(fc) || fc <= 0) stop('fc must be a positive scalar > 0')
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
+  if (!isPosscal(fb) || fb <= 0) stop("fb must be a positive scalar > 0")
+  if (!isPosscal(fc) || fc <= 0) stop("fc must be a positive scalar > 0")
 
   x <- seq(lb, ub, length.out = n)
-  psi <- ((pi * fb)^(-0.5)) * exp(2 * 1i * pi * fc * x) * exp(-x^2 / fb)
+  psi <- ((pi * fb) ^ (-0.5)) * exp(2 * 1i * pi * fc * x) * exp(-x^2 / fb)
 
   list(x = x, psi = psi)
 }

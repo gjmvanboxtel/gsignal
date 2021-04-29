@@ -27,8 +27,8 @@ The Chebyshev polynomials are defined by the equations:
   Tn(x) = cos(n . acos(x),    |x|<= 1
   Tn(x) = cosh(n . acosh(x),  |x|> 1
 }}
-If \code{x} is a vector, the output is a vector of the same size, where each element is calculated
-as \eqn{y(i) = Tn(x(i))}.
+If \code{x} is a vector, the output is a vector of the same size, where each
+element is calculated as \eqn{y(i) = Tn(x(i))}.
 }
 \examples{
 

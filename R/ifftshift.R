@@ -20,7 +20,7 @@
 #
 # Version history
 # 20200823  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse zero-frequency shift
 #'
@@ -38,11 +38,11 @@
 #'
 #' @examples
 #' Xeven <- 1:6
-#' fftshift(fftshift(Xeven))
+#' res <- fftshift(fftshift(Xeven))
 #'
 #' Xodd <- 1:7
-#' fftshift(fftshift(Xodd))
-#' ifftshift(fftshift(Xodd))
+#' res <- fftshift(fftshift(Xodd))
+#' res <- ifftshift(fftshift(Xodd))
 #'
 #' @seealso \code{\link{fftshift}}
 #'
@@ -52,18 +52,18 @@
 #
 #' @export
 
-ifftshift <- function (x, MARGIN = 2) {
+ifftshift <- function(x, MARGIN = 2) {
 
   y <- x
   if (is.vector(y)) {
-    xl <- length (y)
+    xl <- length(y)
     if (xl > 1) {
-      xx = floor(xl / 2)
+      xx <- floor(xl / 2)
       y <- x[c((xx + 1):xl, 1:xx)]
     }
   } else if (is.matrix(y)) {
     if (! (1 %in% MARGIN ||  2 %in% MARGIN)) {
-      stop('MARGIN must be 1, 2, or both')
+      stop("MARGIN must be 1, 2, or both")
     }
     if (1 %in% MARGIN) {
       nr <- NROW(y)

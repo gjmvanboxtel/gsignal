@@ -7,7 +7,7 @@
 xcorr(
   x,
   y = NULL,
-  maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(length(x), length(y)) - 1),
+  maxlag = if (is.matrix(x)) nrow(x) - 1 else max(length(x), length(y)) - 1,
   scale = c("none", "biased", "unbiased", "coeff")
 )
 }
@@ -85,9 +85,10 @@ requested.  If you only need a few lags, the "direct sum" method may
 be faster.
 }
 \examples{
-## Create a vector x and a vector y that is equal to x shifted by 5 elements to the right.
-## Compute and plot the estimated cross-correlation of x and y. The largest spike occurs
-## at the lag value when the elements of x and y match exactly (-5).
+## Create a vector x and a vector y that is equal to x shifted by 5
+## elements to the right. Compute and plot the estimated cross-correlation
+## of x and y. The largest spike occurs at the lag value when the elements
+## of x and y match exactly (-5).
 n <- 0:15
 x <- 0.84^n
 y <- pracma::circshift(x, 5)

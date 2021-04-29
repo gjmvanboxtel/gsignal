@@ -20,7 +20,7 @@
 # 20210319  GvB       new setup using filter.cpp to handle initial conditions
 #                     the function now also has the options to return the
 #                     final conditions
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Filter a signal
 #'
@@ -38,12 +38,12 @@
 #'  SUM a(k+1)y(n-k) + SUM b(k+1)x(n-k) = 0;   1 <= n <= length(x)
 #'  k=0                k=0
 #' }}
-#' where \code{N = length(a) - 1} and \code{M = length(b) - 1}. 
+#' where \code{N = length(a) - 1} and \code{M = length(b) - 1}.
 #'
 #' The initial and final conditions for filter delays can be used to filter data
 #' in sections, especially if memory limitations are a consideration. See the
 #' examples.
-#' 
+#'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
 #'   filter (normally called ‘b’), specified as a vector. Generically,
 #'   \code{filt} specifies an arbitrary filter operation.
@@ -67,7 +67,7 @@
 #'   case the \code{zi} input argument was specified, a list with two elements
 #'   is returned containing the variables \code{y}, which represents the output
 #'   signal, and \code{zf}, which contains the final state vector or matrix.
-#' 
+#'
 #' @examples
 #' bf <- butter(3, 0.1)                                 # 10 Hz low-pass filter
 #' t <- seq(0, 1, len = 100)                            # 1 second sample
@@ -94,7 +94,7 @@
 #'         "Filtered without initial conditions",
 #'         "Filtered with initial conditions"),
 #'        lty = 1, col = c("black", "red", "green"))
-#'        
+#'
 #' @seealso \code{\link{filter_zi}}, \code{\link{sosfilt}} (preferred because it
 #'   avoids numerical problems).
 #'
@@ -111,7 +111,8 @@ filter <- function(filt, ...) UseMethod("filter")
 
 filter.default <- function(filt, a, x, zi = NULL, ...) {
 
-  if (!is.vector(filt) || ! is.vector(a) || !is.numeric(filt) || !is.numeric(a)) {
+  if (!is.vector(filt) || ! is.vector(a) ||
+      !is.numeric(filt) || !is.numeric(a)) {
     stop("b and a must be numeric vectors")
   }
   la <- length(a)
@@ -122,7 +123,7 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
     return(NULL)
   }
   if (!is.numeric(x)) {
-    stop('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
@@ -135,10 +136,10 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   if (is.null(nrx) || nrx <= 0) {
     return(x)
   }
-  
+
   rzf <- (is.character(zi) && zi == "zf")
-  if(!is.null(zi) && !is.numeric(zi) && !rzf) {
-    stop("zi must either be NULL, a numeric vector or matrix, or the string 'zf'")
+  if (!is.null(zi) && !is.numeric(zi) && !rzf) {
+    stop("zi must be NULL, a numeric vector or matrix, or the string 'zf'")
   }
   if (is.null(zi) || rzf) {
     zi <- matrix(0, lab - 1, ncx)
@@ -154,12 +155,12 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   nrzi <- NROW(zi)
   nczi <- NCOL(zi)
   if (nrzi != lab - 1) {
-    stop('zi must be of length max(length(a), length(b)) - 1')
+    stop("zi must be of length max(length(a), length(b)) - 1")
   }
   if (nczi != ncx) {
-    stop('number of columns of zi and x must agree')
+    stop("number of columns of zi and x must agree")
   }
-  
+
   while (length(a) > 1 && a[1] == 0) {
     a <- a[2:length(a)]
   }
@@ -168,34 +169,35 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   }
   if (a[1] != 1) {
     # Normalize the coefficients so a[1] == 1.
-    filt = filt / a[1]
-    a = a / a[1]
+    filt <- filt / a[1]
+    a <- a / a[1]
   }
   if (la <= 1 && nrzi <= 0) {
-    retval <- filt[1] * x 
+    retval <- filt[1] * x
     if (vec) retval <- as.vector(retval)
     return(retval)
   }
-  
+
   y <- matrix(0, nrx, ncx)
   zf <- matrix(0, lab - 1, nczi)
   for (icol in seq_len(ncx)) {
-    l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal", filt, a, x[, icol], zi[, icol])
-    y[, icol] <- l[['y']]
-    zf[, icol] <- l[['zf']]
+    l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+               filt, a, x[, icol], zi[, icol])
+    y[, icol] <- l[["y"]]
+    zf[, icol] <- l[["zf"]]
   }
-  
+
   if (vec) {
     y <- as.vector(y)
     zf <- as.vector(zf)
   }
-  
+
   if (rzf) {
     retval <- list(y = y, zf = zf)
   } else {
     retval <- y
   }
-  
+
   retval
 }
 

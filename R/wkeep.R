@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Keep part of vector or matrix
 #'
@@ -30,10 +30,11 @@
 #'   submatrix to extract from the *matrix* \code{x}. See the examples.
 #' @param opt One of:
 #' \describe{
-#'   \item{character string}{matched against \code{c("centered", "left", "right")},
-#'     indicating the location of the *vector* \code{x} to extract}
+#'   \item{character string}{matched against \code{c("centered", "left",
+#'   "right")}, indicating the location of the *vector* \code{x} to extract}
 #'   \item{positive integer}{starting index of the input *vector* \code{x}}
-#'   \item{two-element vector}{starting row and columns from the *matrix* \code{x}}
+#'   \item{two-element vector}{starting row and columns from the *matrix*
+#'   \code{x}}
 #' }
 #' See the examples. Default: "centered".
 #'
@@ -64,11 +65,11 @@
 #
 #' @export
 
-wkeep <- function (x, l, opt = "centered") {
+wkeep <- function(x, l, opt = "centered") {
 
   if (is.vector(x) && !is.character(x)) {
     lx <- length(x)
-    if(!isPosscal(l) || l > length(x)) {
+    if (!isPosscal(l) || l > length(x)) {
       stop("l must be a positive integer <= length(x)")
     }
     if (is.character(opt)) {
@@ -90,7 +91,7 @@ wkeep <- function (x, l, opt = "centered") {
         y <- x[opt:(opt + l - 1)]
       }
     } else {
-      stop('opt must be a character string or a positive scalar value')
+      stop("opt must be a character string or a positive scalar value")
     }
   } else if (is.matrix(x)) {
     nr <- nrow(x)
@@ -103,7 +104,8 @@ wkeep <- function (x, l, opt = "centered") {
       s2 <- (lx - l[2]) / 2
     }
     if (!is.numeric(opt)) {
-      y <- x[(1 + floor(s1)):(nc - ceiling(s1)), (1 + floor(s2)):(nc - ceiling(s2))]
+      y <- x[(1 + floor(s1)):(nc - ceiling(s1)),
+             (1 + floor(s2)):(nc - ceiling(s2))]
     } else {
       if (length(opt) == 2) {
         firstr <- opt[1]
@@ -118,4 +120,3 @@ wkeep <- function (x, l, opt = "centered") {
   }
   y
 }
-

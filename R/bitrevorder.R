@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200821  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Permute input to bit-reversed order
 #'
@@ -45,7 +45,7 @@
 #'   32 - l + 1, 32)
 #' x_bin <- sapply(x, dec2bin, 4)
 #' v_bin <- sapply(v, dec2bin, 4)
-#' data.frame(x, x_bin, v, v_bin)
+#' df <- data.frame(x, x_bin, v, v_bin)
 #'
 #' @author Mike Miller.\cr
 #'  Port to to by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -54,16 +54,16 @@
 #'
 #' @export
 
-bitrevorder <- function (x, index.return = FALSE) {
+bitrevorder <- function(x, index.return = FALSE) {
 
   if (!is.vector(x)) {
-    stop("x must be a vector");
+    stop("x must be a vector")
   } else if (trunc(log2(length(x))) != log2(length(x))) {
-    stop("x must have length equal to an integer power of 2");
+    stop("x must have length equal to an integer power of 2")
   }
-  if(!is.logical(index.return)) {
+  if (!is.logical(index.return)) {
     stop("index.return must be TRUE or FALSE")
   }
 
-  digitrevorder (x, 2, index.return)
+  digitrevorder(x, 2, index.return)
 }

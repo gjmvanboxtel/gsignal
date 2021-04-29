@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191126 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Morlet Wavelet
 #'
@@ -44,14 +44,16 @@
 #' m <- morlet(-4, 4, 1000)
 #' plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 #'
-#' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.
-#' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier,
+#'   \email{<sylvain.pelissier@@gmail.com>}. Conversion to R by Geert van Boxtel
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-morlet <- function (lb = -4, ub = 4, n = 1000) {
+morlet <- function(lb = -4, ub = 4, n = 1000) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
 
   x <- seq(lb, ub, length.out =  n)
   psi <- cos(5 * x) * exp(-x^2 / 2)

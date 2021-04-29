@@ -19,7 +19,7 @@
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
 # 20200406  GvB       validated
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Transfer function to second-order sections form
 #'
@@ -34,7 +34,8 @@
 #'   matrix, whose rows contain the numerator and denominator coefficients of
 #'   the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
 #'   cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
-#'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.}
+#'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each
+#'   section.}
 #' \item{g}{Overall gain factor that effectively scales the output \code{b}
 #'   vector (or any one of the input \code{Bi} vectors).}
 #' }

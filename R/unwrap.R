@@ -18,24 +18,21 @@
 #
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+# 20210425  GvB       bugfix: handle NA, Nan, -Inf, Inf
+#                     unwrap vector or matrix along columns
+#------------------------------------------------------------------------------
 
 #' Unwrap phase angles
 #'
 #' Unwrap radian phases by adding or subtracting multiples of \code{2 * pi}.
 #'
-#' @param x Input array, specified as a vector, matrix, or multidimensional array.
+#' @param x Input array, specified as a vector or a matrix. If \code{x} is a
+#'   matrix, unwrapping along the columns of \code{x} is applied.
 #' @param tol Jump threshold to apply phase shift, specified as a scalar. A jump
 #'   threshold less than \eqn{pi} has the same effect as the threshold
 #'   \eqn{pi}. Default: \deqn{pi}.
-#' @param MARGIN A vector giving the subscripts which the function will be
-#'   applied over. E.g., for a matrix 1 indicates rows, 2 indicates columns,
-#'   c(1, 2) indicates rows and columns. Where x has named dimnames, it can be a
-#'   character vector selecting dimension names. If MARGIN is larger than the
-#'   dimensions of x, the result will have MARGIN dimensions. Default: 2
-#'   (columns).
 #'
-#' @return Unwraped phase angle, returned as a vector, matrix, or
+#' @return Unwrapped phase angle, returned as a vector, matrix, or
 #'   multidimensional array. The size of the output is always the same as the
 #'   size of the input.
 #'
@@ -57,47 +54,35 @@
 #'
 #' @export
 
-unwrap <- function(x, tol = pi, MARGIN = 2) {
+unwrap <- function(x, tol = pi) {
 
   if (is.vector(x)) {
+    x <- as.matrix(x, ncol = 1)
     vec <- TRUE
   } else {
     vec <- FALSE
-    dims <- dim(x)
-    ld <- length(dims)
-    if (is.character(MARGIN)) {
-      if (is.null(dnn <- names(dimnames(x))))
-        stop("'x' must have named dimnames")
-      MARGIN <- match(MARGIN, dnn)
-      if (anyNA(MARGIN))
-        stop("not all elements of 'MARGIN' are names of dimensions")
-    } else if(!isPosscal(MARGIN) || MARGIN > ld) {
-      stop("'MARGIN' must be a positive integer and a valid margin")
-    }
   }
+  nr <- nrow(x)
+  nc <- ncol(x)
   if (!is.numeric (x)) {
-    stop("x must be a numeric matrix or vector");
+    stop("x must be a numeric matrix or vector")
   }
-  tol = abs (tol)
+  tol <- abs (tol)
 
-  unw <- function(v, tol) {
-
-    if (length(v) == 1) {
-      y <- v
-    } else {
-      rng <- 2 * pi
-      d <- diff(v)
+  y <- x
+  if (nr > 1) {
+    rng <- 2 * pi
+    for (col in seq_len(nc)) {
+      valid <- which(is.finite(x[, col]))
+      d <- diff(x[valid, col])
       p <- round(abs(d) / rng) * rng * (((d > tol) > 0) - ((d < -tol) > 0))
       r <- cumsum(p)
-      y <- v - c(0, r)
+      y[valid, col] <- x[valid, col] - c(0, r)
     }
-    y
   }
 
   if (vec) {
-    y <- unw(x, tol)
-  } else {
-    y <- unlist(apply(x, MARGIN, unw, tol = tol))
+    y <- as.vector(y)
   }
   y
 }

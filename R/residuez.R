@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200804  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Z-transform partial fraction expansion
 #'
@@ -58,32 +58,8 @@
 
 residuez <- function(b, a) {
 
-  ## RESIDUEZ - return residues, poles, and FIR part of B(z)/A(z)
-  ##
-  ## Let nb = length(b), na = length(a), and N=na-1 = no. of poles.
-  ## If nb<na, then f will be empty, and the returned filter is
-  ##
-  ##             r(1)                      r(N)
-  ## H(z) = ----------------  + ... + ----------------- = R(z)
-  ##        [ 1-p(1)/z ]^m(1)         [ 1-p(N)/z ]^m(N)
-  ##
-  ## If, on the other hand, nb >= na, the FIR part f will not be empty.
-  ## Let M = nb-na+1 = order of f = length(f)-1). Then the returned filter is
-  ##
-  ## H(z) = f(1) + f(2)/z + f(3)/z^2 + ... + f(M+1)/z^M + R(z)
-  ##
-  ## where R(z) is the parallel one-pole filter bank defined above.
-  ## Note, in particular, that the impulse-response of the one-pole
-  ## filter bank is in parallel with that of the the FIR part.  This can
-  ## be wasteful when matching the initial impulse response is important,
-  ## since F(z) can already match the first N terms of the impulse
-  ## response. To obtain a decomposition in which the impulse response of
-  ## the IIR part R(z) starts after that of the FIR part F(z), use RESIDUED.
-  ##
-  ## J.O. Smith, 9/19/05
-
-  if(!is.vector(b) || !is.vector(a)) {
-    stop('b and a must be vectors')
+  if (!is.vector(b) || !is.vector(a)) {
+    stop("b and a must be vectors")
   }
 
   rpk <- residue(rev(b), rev(a))

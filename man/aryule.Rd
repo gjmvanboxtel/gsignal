@@ -30,7 +30,8 @@ A \code{list} containing the following elements:
   }
 }
 \description{
-compute autoregressive all-pole model parameters using the Yule-Walker method.
+compute autoregressive all-pole model parameters using the Yule-Walker
+method.
 }
 \details{
 \code{aryule} uses the Levinson-Durbin recursion on the biased estimate of
@@ -42,8 +43,8 @@ The power spectrum of the resulting filter can be plotted with
   \code{ar_psd(a,v,...)}.
 }
 \examples{
-A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
-y <- filter(A, 0.2 * rnorm(1024))
+a <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
+y <- filter(a, rnorm(1024))
 coefs <- aryule(y, 4)
 
 }

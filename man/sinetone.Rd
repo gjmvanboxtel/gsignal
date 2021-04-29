@@ -12,7 +12,8 @@ values. The length of \code{freq} should equal the length of the
 \code{ampl} vector; the shorter of the two is recycled to the longer
 vector.}
 
-\item{rate}{sampling frequency, specified as a positive scalar. Default: 8000.}
+\item{rate}{sampling frequency, specified as a positive scalar. Default:
+8000.}
 
 \item{sec}{length of the generated tone in seconds. Default: 1}
 
@@ -36,7 +37,8 @@ y <- sinetone(10, fs, sec, 1)
 plot(seq(0, sec, length.out = sec * fs), y, type = "l", xlab = "", ylab = "")
 
 y <- sinetone(c(10, 15), fs, sec, c(1, 2))
-matplot(seq(0, sec, length.out = sec * fs), y, type = "l", xlab = "", ylab = "")
+matplot(seq(0, sec, length.out = sec * fs), y, type = "l",
+        xlab = "", ylab = "")
 
 }
 \author{

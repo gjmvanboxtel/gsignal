@@ -40,10 +40,13 @@ generalized continued fractions.[1]
 }
 \examples{
 zpg <- ncauer(0.5, 40, 5)
+freqz(zpg)
+zplane(zpg)
 
 }
 \references{
-[1] \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
+[1]
+ \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
 }
 \seealso{
 \code{\link{Zpg}}, \code{\link{filter}}, \code{\link{ellip}}

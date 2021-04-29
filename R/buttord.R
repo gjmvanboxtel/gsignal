@@ -20,7 +20,7 @@
 #
 # 20200513 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Butterworth filter order and cutoff frequency
 #'
@@ -60,7 +60,8 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #'
-#' @return A list of class \code{'FilterSpecs'} with the following list elements:
+#' @return A list of class \code{'FilterSpecs'} with the following list
+#'   elements:
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
@@ -83,7 +84,7 @@
 #'
 #' @export
 
-buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
+buttord <- function(Wp, Ws, Rp, Rs, plane = c("z", "s")) {
 
   #input validation
   plane <- match.arg(plane)
@@ -176,8 +177,8 @@ buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
   }
 
   ## compute minimum n which satisfies all band edge conditions
-  qs <- log(10^(Rs / 10) - 1)
-  qp <- log(10^(Rp / 10) - 1)
+  qs <- log(10 ^ (Rs / 10) - 1)
+  qp <- log(10 ^ (Rp / 10) - 1)
   n <- ceiling(max(0.5 * (qs - qp) / log(ws / wp)))
 
   ## compute -3dB cutoff given Wp, Rp and n
@@ -195,12 +196,6 @@ buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
       w_prime_p <- exp(log(Wpw) + qp / 2 / n)       #   same formula as for HP
       w_prime_s <- exp(log(Wsw) + qs / 2 / n)       #           "
     }
-
-    ## Applying LP to BP (respectively HP to notch) transformation to -3dB
-    ## angular frequency :
-    ##   s_prime/wc = Q(s/w0+w0/s)  or  w_prime/wc = Q(w/w0-w0/w)
-    ## Here we need to inverse above equation:
-    ##   w = abs(w_prime+-sqrt(w_prime^2+4*Q^2))/(2*Q/w0);
 
     ## -3dB cutoff freq to match pass band
     w0 <- sqrt(prod(Wpw))
@@ -239,7 +234,7 @@ buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
     Wcw_s <- exp(log(Wsw) - qs / 2 / n)
   }
 
-  if (plane == "s"){
+  if (plane == "s") {
     # No prewarp in case of analog filter
     Wc_p <- Wcw_p
     Wc_s <- Wcw_s
@@ -251,4 +246,3 @@ buttord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
 
   FilterSpecs(n = n, Wc = Wc_p, type = type, Wc_s = Wc_s, plane = plane)
 }
-

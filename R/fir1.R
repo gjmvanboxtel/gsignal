@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200704 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Window-based FIR filter design
 #'
@@ -61,18 +61,18 @@
 #'
 #' @export
 
-fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
-                  window = hamming(n + 1), scale = TRUE) {
+fir1 <- function(n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
+                 window = hamming(n + 1), scale = TRUE) {
 
   type <- match.arg(type)
   if (!is.logical(scale)) {
     scale <- match.arg(scale, c("scale", "noscale"))
     scale <- scale == "scale"
   }
-  if(is.function(window)) {
-    window <- window(n+1)
-  } else if(is.character(window)) {
-    window <- do.call(window, list(n+1))
+  if (is.function(window)) {
+    window <- window(n + 1)
+  } else if (is.character(window)) {
+    window <- do.call(window, list(n + 1))
   }
 
   ## Assign default window, filter type and scale.
@@ -80,7 +80,7 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
   ## create a lowpass filter.  If multiple band edges, the first band
   ## defaults to a stop band so that the two band case defaults to a
   ## band pass filter.  Ick.
-  ftype <- tolower(type) %in% c('low','stop','dc-1')
+  ftype <- tolower(type) %in% c("low", "stop", "dc-1")
 
   ## build response function according to fir2 requirements
   bands <- length(w) + 1
@@ -103,8 +103,9 @@ fir1 <- function (n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
       if (M == 1)
         window <- c(window, window)
       else
-        window <- pracma::interp1(seq(0, 1, length = M), window, seq(0, 1, length = M + 1),
-                          if (M < 4) 'linear' else 'spline')
+        window <- pracma::interp1(seq(0, 1, length = M),
+                                  window, seq(0, 1, length = M + 1),
+                                  if (M < 4) "linear" else "spline")
     }
   }
 

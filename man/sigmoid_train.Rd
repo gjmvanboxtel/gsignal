@@ -48,7 +48,8 @@ rc <- rbind(c(1e-2, 1e-3), c(1e-3, 2e-2), c(2e-2, 1e-2))
 st <- sigmoid_train (t, ranges, rc)
 plot(t, st$y[1,], type="n", xlab = "Time(s)", ylab = "S(t)",
      main = "Vectorized use of sigmoid train")
-for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], 1, border = NA, col="pink")
+for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], 1,
+                    border = NA, col="pink")
 for (i in 1:3) lines(t, st$y[i,])
 # The colored regions show the limits defined in range.
 
@@ -62,7 +63,8 @@ y <- amp \%*\% st$y
 plot(t, y[1,], type="l", xlab = 'time', ylab = 'signal',
      main = 'Varying amplitude sigmoid train', col="blue")
 lines(t, st$s, col = "orange")
-legend("topright", legend = c("Sigmoid train", "Components"), lty = 1, col = c("blue", "orange"))
+legend("topright", legend = c("Sigmoid train", "Components"),
+       lty = 1, col = c("blue", "orange"))
 
 }
 \author{

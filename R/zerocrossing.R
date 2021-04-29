@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Zero Crossing
 #'
@@ -41,7 +41,7 @@
 #
 #' @export
 
-zerocrossing <- function (x, y) {
+zerocrossing <- function(x, y) {
 
   if (!is.vector(x) || !is.vector(y) || !is.numeric(x) || !is.numeric(y)) {
     stop("x and y must be numeric vectors")
@@ -62,9 +62,9 @@ zerocrossing <- function (x, y) {
   right_ends         <- right_ends[!right_ends %in% zero_intervals]
   left_vals          <- left_vals[!left_vals %in% zero_intervals]
   right_vals         <- right_vals[!right_vals %in% zero_intervals]
-  retval2            <- left_ends - (right_ends - left_ends) * left_vals / (right_vals - left_vals)
+  retval2            <- left_ends - (right_ends - left_ends) *
+    left_vals / (right_vals - left_vals)
   retval             <- union(retval1, retval2)
 
   retval
 }
-

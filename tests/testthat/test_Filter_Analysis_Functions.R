@@ -14,10 +14,10 @@ test_that("parameters to freqs() are correct", {
 
 test_that("freqs() tests are correct", {
   h <- freqs(1, 1, 1, plot = FALSE)
-  expect_that(h, equals(1 + 0i))
+  expect_equal(h, 1 + 0i)
 
   h <- freqs(c(1, 2), c(1, 1), 1:4, plot = FALSE)
-  expect_that(h, equals(c(1.5-0.5i, 1.2-0.4i, 1.1-0.3i, 1.058824-0.235294i), tolerance = 1e-6))
+  expect_equal(h, c(1.5-0.5i, 1.2-0.4i, 1.1-0.3i, 1.058824-0.235294i), tolerance = 1e-6)
   
 })
 
@@ -39,38 +39,38 @@ test_that("fwhm() tests are correct", {
 
   x <- seq(-pi, pi, 0.001)
   y <- cos(x)
-  expect_that(fwhm(x, y), equals(2 * pi / 3))
+  expect_equal(fwhm(x, y), 2 * pi / 3)
   
-  expect_that(fwhm(y = -10:10), equals(0L))
-  expect_that(fwhm(y = rep(1L, 50)), equals(0L))
+  expect_equal(fwhm(y = -10:10), 0L)
+  expect_equal(fwhm(y = rep(1L, 50)), 0L)
 
   x <- seq(-20, 20, 1)
   y1 <- -4 + rep(0L, length(x)); y1[4:10] <- 8
   y2 <- -2 + rep(0L, length(x)); y2[4:11] <- 2
-  y3 =  2 + rep(0L, length(x)); y3[5:13] <- 10
-  expect_that(fwhm(x, cbind(y1, y2, y3)), equals(c(20/3, 7.5, 9.25)))
+  y3 <-  2 + rep(0L, length(x)); y3[5:13] <- 10
+  expect_equal(fwhm(x, cbind(y1, y2, y3)), c(20 / 3, 7.5, 9.25))
 
   x <- 1:3
   y <- c(-1, 3, -1)
-  expect_that(fwhm(x, y), equals(0.75))
-  expect_that(fwhm(x, y, 'max'), equals(0.75))
-  expect_that(fwhm(x, y, 'zero'), equals(0.75))
-  expect_that(fwhm(x, y, 'middle'), equals(1L))
-  expect_that(fwhm(x, y, 'min'), equals(1L))
+  expect_equal(fwhm(x, y), 0.75)
+  expect_equal(fwhm(x, y, 'max'), 0.75)
+  expect_equal(fwhm(x, y, 'zero'), 0.75)
+  expect_equal(fwhm(x, y, 'middle'), 1L)
+  expect_equal(fwhm(x, y, 'min'), 1L)
 
   x <- 1:3
   y <- c(-1, 3, -1)
-  expect_that(fwhm(x, y, level = 0.1), equals(1.35))
-  expect_that(fwhm(x, y, ref = 'max', level = 0.1), equals(1.35))
-  expect_that(fwhm(x, y, ref = 'min', level = 0.1), equals(1.40))
-  expect_that(fwhm(x, y, ref = 'abs', level = 2.5), equals(0.25))
-  expect_that(fwhm(x, y, ref = 'abs', level = -0.5), equals(1.75))
+  expect_equal(fwhm(x, y, level = 0.1), 1.35)
+  expect_equal(fwhm(x, y, ref = 'max', level = 0.1), 1.35)
+  expect_equal(fwhm(x, y, ref = 'min', level = 0.1), 1.40)
+  expect_equal(fwhm(x, y, ref = 'abs', level = 2.5), 0.25)
+  expect_equal(fwhm(x, y, ref = 'abs', level = -0.5), 1.75)
   
   x <- -5:5
   y <- 18 - x * x
-  expect_that(fwhm(y = y), equals(6))
-  expect_that(fwhm(x, y), equals(6))
-  expect_that(fwhm(x, y, 'min'), equals(7))
+  expect_equal(fwhm(y = y), 6)
+  expect_equal(fwhm(x, y), 6)
+  expect_equal(fwhm(x, y, 'min'), 7)
   
 })
 
@@ -89,27 +89,27 @@ test_that("freqz() tests are correct", {
   b <- c(0.292893218813452, 0.585786437626905, 0.292893218813452)
   a <- c(1, 0, 0.171572875253810)
   hw <- freqz(b, a, 32)
-  expect_that(Re(hw$h[1]), equals(1))
-  expect_that(abs(hw$h[17])^2, equals(0.5))
-  expect_that(hw$h, equals(freqz(b, a, hw$w)$h))  # fft should be consistent with polyval
+  expect_equal(Re(hw$h[1]), 1)
+  expect_equal(abs(hw$h[17])^2, 0.5)
+  expect_equal(hw$h, freqz(b, a, hw$w)$h)  # fft should be consistent with polyval
   
   # test whole-half consistency
   b <- c(1, 1, 1)/3  # 3-sample average
   hw <- freqz(b, 1, 32, whole = TRUE)
-  expect_that(hw$h[2:16], equals(Conj(hw$h[32:18])))
+  expect_equal(hw$h[2:16], Conj(hw$h[32:18]))
   hw2 <- freqz(b, 1, 16, whole = FALSE)
-  expect_that(hw$h[1:16], equals(hw2$h))
-  expect_that(hw$w[1:16], equals(hw2$w))
+  expect_equal(hw$h[1:16], hw2$h)
+  expect_equal(hw$w[1:16], hw2$w)
   
   # test sampling frequency properly interpreted
   b <- c(1, 1, 1) / 3; a <- c(1, 0.2)
   hw <- freqz(b, a, 16, fs = 320)
-  expect_that(hw$w, equals((0:15) * 10))
+  expect_equal(hw$w, (0:15) * 10)
   hw2 <- freqz(b, a, (0:15) * 10, fs = 320)
-  expect_that(hw2$w, equals((0:15) * 10))
-  expect_that(hw$h, equals(hw2$h))
+  expect_equal(hw2$w, (0:15) * 10)
+  expect_equal(hw$h, hw2$h)
   hw3 <- freqz(b, a, 32, whole = TRUE, fs = 320)
-  expect_that(hw3$w, equals((0:31) * 10))
+  expect_equal(hw3$w, (0:31) * 10)
 })
 
 
@@ -144,7 +144,7 @@ test_that("grpdelay() tests are correct", {
   expect_equal(gd$w, 1/4 * 0:3)
 
   gd <- grpdelay(c(1, -0.9i), 1, 4, TRUE, 1)
-  gd0 = 0.447513812154696; gdm1 =0.473684210526316;
+  gd0 <- 0.447513812154696; gdm1 <- 0.473684210526316
   expect_equal(gd$gd, c(gd0, -9, gd0, gdm1))
   expect_equal(gd$w, 1/4 * 0:3)
   
@@ -157,7 +157,7 @@ test_that("grpdelay() tests are correct", {
   gd <- grpdelay(c(1, 2), c(1, 0.5, .9), 4)
   expect_equal(gd$gd, c(-0.29167, -0.24218, 0.53077, 0.40658), tolerance = 1e-5)
 
-  b1 <- c(1, 2); a1f <- c(0.25, 0.5, 1); a1 <- rev(a1f);
+  b1 <- c(1, 2); a1f <- c(0.25, 0.5, 1); a1 <- rev(a1f)
   gd1 <- grpdelay(b1, a1, 4)$gd
   gd <- grpdelay(conv(b1, a1f), 1, 4)$gd - 2
   expect_equal(gd, gd1)

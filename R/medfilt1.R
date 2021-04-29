@@ -17,7 +17,7 @@
 # Version history
 # 20200320    GvB       setup for gsignal v0.1.0
 # 20210405  GvB       changed 'dim' argument to MARGIN
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 1-D median filtering
 #'
@@ -76,9 +76,9 @@
 
 medfilt1 <- function(x, n = 3, MARGIN = 2, na.omit = FALSE, ...) {
 
-  mf <- function (x, n, na.omit, ...) {
-    if (n%%2 != 1 || n > length(x)) {
-      stop ('n must be odd and smaller than the length of x')
+  mf <- function(x, n, na.omit, ...) {
+    if (n %% 2 != 1 || n > length(x)) {
+      stop("n must be odd and smaller than the length of x")
     }
     if (any(is.na(x))) {
       if (na.omit) {

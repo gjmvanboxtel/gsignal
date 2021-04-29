@@ -12,7 +12,8 @@ wconv(
 )
 }
 \arguments{
-\item{type}{Numeric or character, specifies the type of convolution to perform:
+\item{type}{Numeric or character, specifies the type of convolution to
+  perform:
 \describe{
   \item{'1d'}{For \code{a} and \code{b} as (coerced to) vectors,
   perform 1-D convolution of \code{a} and \code{b};}
@@ -22,8 +23,8 @@ wconv(
   (coerced to) a vector, perform the 1-D convolution of the rows of \code{a}
   and \code{b};}
   \item{'column'}{For \code{a} as (coerced to) a matrix, and \code{b}
-  (coerced to) a vector, perform the 1-D convolution of the colums of \code{a}
-  and \code{b};}
+  (coerced to) a vector, perform the 1-D convolution of the colums of
+  \code{a} and \code{b};}
 }}
 
 \item{a, b}{Input vectors or matrices, coerced to numeric.}
@@ -48,11 +49,11 @@ Compute the one- or two-dimensional convolution of two vectors or matrices.
 \examples{
 a <- matrix(1:16, 4, 4)
 b <- matrix(1:9, 3,3)
-wconv('2', a, b)
-wconv('1', a, b, 'same')
-wconv('r', a, b)
-wconv('r', a, c(0,1), 'same')
-wconv('c', a, c(0,1), 'valid')
+w <- wconv('2', a, b)
+w <- wconv('1', a, b, 'same')
+w <- wconv('r', a, b)
+w <- wconv('r', a, c(0,1), 'same')
+w <- wconv('c', a, c(0,1), 'valid')
 
 }
 \seealso{

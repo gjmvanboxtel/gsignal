@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191127 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sawtooth or triangle wave
 #'
@@ -65,10 +65,12 @@
 #
 #' @export
 
-sawtooth <- function (t, width = 1) {
+sawtooth <- function(t, width = 1) {
 
-  if(length(t) <= 0) stop('t must be a vector with length > 0')
-  if (!isScalar(width) || width < 0 || width > 1) stop('width must be a scalar between 0 and 1')
+  if (length(t) <= 0)
+    stop("t must be a vector with length > 0")
+  if (!isScalar(width) || width < 0 || width > 1)
+    stop("width must be a scalar between 0 and 1")
 
   t <- (t / (2 * pi)) %% 1
   y <- rep(0L, length(t))

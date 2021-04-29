@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200622 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Pei-Tseng notch filter
 #'
@@ -56,20 +56,20 @@
 #'
 #' @export
 
-pei_tseng_notch <- function (w, bw) {
+pei_tseng_notch <- function(w, bw) {
 
   # check input arguments
   if (!is.vector(w) || !is.vector(bw)) {
-    stop( "All arguments must be vectors" )
+    stop("All arguments must be vectors")
   }
   if (length(w) != length(bw)) {
-    stop( "All arguments must be of equal length" )
+    stop("All arguments must be of equal length")
   }
   if (!all(w > 0 && bw < 1)) {
-    stop( "All frequencies must be in the range (0, 1)")
+    stop("All frequencies must be in the range (0, 1)")
   }
   if (!all(bw > 0 && bw < 1)) {
-    stop( "All bandwidths must be in the range (0, 1)")
+    stop("All bandwidths must be in the range (0, 1)")
   }
 
   ## Normalize appropriately
@@ -77,10 +77,10 @@ pei_tseng_notch <- function (w, bw) {
   bw <- bw * pi
   M2 <- 2 * length(w)
 
-  ## Splice center and offset frequencies ( Equation 11 )
+  ## Splice center and offset frequencies (Equation 11)
   omega <- as.vector(rbind(w - bw / 2, w))
 
-  ## Splice center and offset phases ( Equations 12 )
+  ## Splice center and offset phases (Equations 12)
   factors <- seq(1, M2, 2)
   phi     <- as.vector(rbind(-pi * factors + pi / 2, -pi * factors))
 
@@ -90,16 +90,16 @@ pei_tseng_notch <- function (w, bw) {
   Q <- matrix(0L, nrow = M2, ncol = M2)
 
   for (k in seq_len(M2)) {
-    Q [, k] <- sin(k * omega) - t_beta * cos (k * omega )
+    Q [, k] <- sin(k * omega) - t_beta * cos(k * omega)
   }
 
-  ## Compute coefficients of system function ( Equations 19, 20 ) ...
+  ## Compute coefficients of system function (Equations 19, 20) ...
   h_a   <- as.vector(pracma::mldivide(Q, t_beta))
   denom <- c(1, h_a)
-  num   <- c(rev(h_a ), 1)
+  num   <- c(rev(h_a), 1)
 
   ## ... and transform them to coefficients for difference equations
   a <- denom
   b <- (num + denom) / 2
-  Arma (b, a)
+  Arma(b, a)
 }

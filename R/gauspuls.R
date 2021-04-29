@@ -19,7 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191124 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Gaussian-modulated sinusoidal RF pulse
 #'
@@ -63,13 +63,15 @@
 #
 #' @export
 
-gauspuls <- function (t, fc = 1e3, bw = 0.5) {
+gauspuls <- function(t, fc = 1e3, bw = 0.5) {
 
-  if (!isPosscal(fc)) stop ("fc must be a non-negative real scalar")
-  if (!isPosscal(bw) || bw <= 0) stop ("bw must be a positive real scalar")
+  if (!isPosscal(fc))
+    stop("fc must be a non-negative real scalar")
+  if (!isPosscal(bw) || bw <= 0)
+    stop("bw must be a positive real scalar")
 
-  fv <- -(bw^2 * fc^2) / (8 * log (10 ^ (-6/20)))
+  fv <- - (bw^2 * fc^2) / (8 * log(10 ^ (-6 / 20)))
   tv <- 1 / (4 * pi^2 * fv)
-  y <- exp (-t * t / (2 * tv)) * cos (2 * pi * fc * t)
+  y <- exp(-t * t / (2 * tv)) * cos(2 * pi * fc * t)
   y
 }

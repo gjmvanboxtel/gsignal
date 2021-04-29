@@ -19,7 +19,7 @@
 # Version history
 # 20201206  GvB       setup for gsignal v0.1.0
 # 20210411  GvB       v0.3.0 bugfix in output time points
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Short-Term Fourier Transform
 #'
@@ -65,20 +65,21 @@
 #' fs <- 8000
 #' y <- chirp(seq(0, 5 - 1/fs, by = 1/fs), 200, 2, 500, "logarithmic")
 #' ft <- stft (y, fs = fs)
-#' filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
+#' filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)",
+#'                ylab = "Frequency (Hz)")
 #'
 #' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
-stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
+stft <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
                     nfft = ifelse(isScalar(window), window, length(window)),
                     fs = 1) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) && !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -88,40 +89,39 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
   nc <- ncol(x)
 
   if (!is.vector(window) || !is.numeric(window)) {
-    stop('window must be a numeric vector or scalar')
+    stop("window must be a numeric vector or scalar")
   } else {
     if (isPosscal(window)) {
       if (window <= 3) {
-        stop ('window must be a positive scalar > 3 or a vector with length > 3')
+        stop("window must be a scalar > 3 or a vector with length > 3")
       } else {
         window <- hamming(window)
       }
     } else if (length(window) <= 3) {
-      stop ('window must be a positive scalar > 3 or a vector with length > 3')
+      stop("window must be a scalar > 3 or a vector with length > 3")
     }
   }
 
   if (!isScalar(overlap) || !(overlap >= 0 && overlap < 1)) {
-    stop('overlap must be a numeric value >= 0 and < 1')
+    stop("overlap must be a numeric value >= 0 and < 1")
   }
 
-  if(!isPosscal(nfft) || !isWhole(nfft)) {
-    stop('nfft must be a positive integer')
+  if (!isPosscal(nfft) || !isWhole(nfft)) {
+    stop("nfft must be a positive integer")
   }
 
-  if(!isPosscal(fs) || fs <= 0) {
-    stop('fs must be a numeric value > 0')
+  if (!isPosscal(fs) || fs <= 0) {
+    stop("fs must be a numeric value > 0")
   }
 
   # initialize variables
-  seg_len <- length(window)                              # segment length in number of samples
-  overlap <- trunc(seg_len * overlap)                    # overlap in number of samples
-  nfft <- nextpow2(max(nfft, seg_len))                   # minimum FFT length is seg_len
-  win_meansq <- as.vector(window %*% window / seg_len)   # required for normalizing PSD amplitude
-  #num_win <- trunc((nr - win_size) / inc)
-  num_win = floor((nr - overlap) / (seg_len - overlap))
+  seg_len <- length(window)
+  overlap <- trunc(seg_len * overlap)
+  nfft <- nextpow2(max(nfft, seg_len))
+  win_meansq <- as.vector(window %*% window / seg_len)
+  num_win <- floor((nr - overlap) / (seg_len - overlap))
   if (overlap >= seg_len) {
-    stop('overlap must be smaller than windowlength')
+    stop("overlap must be smaller than window length")
   }
   # Pad data with zeros if shorter than segment. This should not happen.
   if (nr < seg_len) {
@@ -144,7 +144,7 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
       fft_x <- stats::mvfft(xx)
     }
     # accumulate periodogram
-    n_ffts = n_ffts +1;
+    n_ffts <- n_ffts + 1
     Pxx[1:nfft, n_ffts, 1:nc] <- Re(fft_x * Conj(fft_x))
     t[n_ffts] <- 0.5 * (end_seg - start_seg + 1) / fs
   }
@@ -155,14 +155,18 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
   # (half sampling) frequencies.  This keeps power equal in time and spectral
   # domains, as required by Parseval theorem.
   if (is.numeric(x)) {
-    if (nfft%%2 == 0) {    # one-sided, nfft is even
+    if (nfft %% 2 == 0) {    # one-sided, nfft is even
       psd_len <- nfft / 2 + 1
-      Pxx <- apply(Pxx, c(2, 3), function(x) x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)], 0))
+      Pxx <- apply(Pxx, c(2, 3),
+                   function(x) x[1:psd_len] +
+                     c(0, x[seq(nfft, psd_len + 1, -1)], 0))
     } else {                    # one-sided, nfft is odd
       psd_len <- (nfft + 1) / 2
-      Pxx <- apply(Pxx, c(2, 3), function(x) x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)]))
+      Pxx <- apply(Pxx, c(2, 3),
+                   function(x) x[1:psd_len] +
+                     c(0, x[seq(nfft, psd_len + 1, -1)]))
     }
-  } else {  # is.complex(x)
+  } else {
     psd_len <- nfft
   }
   # end MAIN CALCULATIONS
@@ -171,10 +175,7 @@ stft <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.75,
   scale <- n_ffts * seg_len * fs * win_meansq
   s <- Pxx / scale
   f <- seq(0, psd_len - 1) * (fs / nfft)
-  # bugfix 210411
-  #  t <- seq(0, num_win - 1) * fs
   t <- seq(0, (nr / fs) - 1 / fs, length.out = num_win)
-  
 
   if (nc == 1) {
     s <- s[, , 1]

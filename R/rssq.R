@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200111  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Root-sum-of-squares
 #'
@@ -59,32 +59,37 @@
 #' @examples
 #' ## numeric vector
 #' x <- c(1:5)
-#' rssq(x)
+#' p <- rssq(x)
+#' 
 #' ## numeric matrix
 #' x <- matrix(c(1,2,3, 100, 150, 200, 1000, 1500, 2000), 3, 3)
-#' rssq(x)
-#' rssq(x, 1)
+#' p <- rssq(x)
+#' p <- rssq(x, 1)
+#' 
 #' ## numeric array
-#' x <- array(c(1, 1.5, 2, 100, 150, 200, 1000, 1500, 2000, 10000, 15000, 20000), c(2,3,2))
-#' rssq(x, 1)
-#' rssq(x, 2)
-#' rssq(x, 3)
+#' x <- array(c(1, 1.5, 2, 100, 150, 200, 1000, 1500,
+#'             2000, 10000, 15000, 20000), c(2,3,2))
+#' p <- rssq(x, 1)
+#' p <- rssq(x, 2)
+#' p <- rssq(x, 3)
+#' 
 #' ## complex input
 #' x <- c(1+1i, 2+3i, 3+5i, 4+7i, 5+9i)
-#' rssq(x)
+#' p <- rssq(x)
 #'
 #' @author Mike Miller.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-rssq <- function (x, MARGIN = 2) {
+rssq <- function(x, MARGIN = 2) {
 
-  if (!(is.numeric(x) || is.complex(x)) || !(is.vector(x) || is.matrix(x) || is.array(x))) {
-    stop ('x must be a vector, matrix or array containing numeric or complex values.')
+  if (!(is.numeric(x) || is.complex(x)) ||
+      !(is.vector(x) || is.matrix(x) || is.array(x))) {
+    stop("x must be a numeric or complex vector, matrix or array")
   }
-  if(!isPosscal(MARGIN) || !isWhole(MARGIN)) {
-    stop ('MARGIN must be a positive scalar')
+  if (!isPosscal(MARGIN) || !isWhole(MARGIN)) {
+    stop("MARGIN must be a positive scalar")
   }
 
   if (is.vector(x)) {

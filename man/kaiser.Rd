@@ -23,7 +23,8 @@ Return the filter coefficients of a kaiser window of length \code{n}.
 The Kaiser, or Kaiser-Bessel, window is a simple approximation of the DPSS
 window using Bessel functions, discovered by James Kaiser.
 \if{latex}{
-  \deqn{w(x) = \frac{besselI(0, \beta \cdot \sqrt{(1 - (2*x/m)^{2}))}}{besselI(0, \beta)}; -m/2 <= x <= m/2}
+  \deqn{w(x) = \frac{besselI(0, \beta \cdot \sqrt{(1 -
+  (2*x/m)^{2}))}}{besselI(0, \beta)}; -m/2 <= x <= m/2}
 }
 \if{html}{\preformatted{
         besselI(0, Beta * sqrt(1-(2*x/m)^2))

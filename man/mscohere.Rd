@@ -77,7 +77,7 @@ A list containing the following elements:
   }
 }
 \description{
-Compute the magnitide-squared coherence estimates of input signals.
+Compute the magnitude-squared coherence estimates of input signals.
 }
 \details{
 \code{mscohere} estimates the magnitude-squared coherence function using

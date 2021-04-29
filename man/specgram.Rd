@@ -2,6 +2,7 @@
 % Please edit documentation in R/specgram.R
 \name{specgram}
 \alias{specgram}
+\alias{print.specgram}
 \alias{plot.specgram}
 \title{Spectrogram}
 \usage{
@@ -11,6 +12,14 @@ specgram(
   fs = 2,
   window = hanning(n),
   overlap = ceiling(n/2)
+)
+
+\method{print}{specgram}(
+  x,
+  col = grDevices::gray(0:512/512),
+  xlab = "Time",
+  ylab = "Frequency",
+  ...
 )
 
 \method{plot}{specgram}(
@@ -24,7 +33,8 @@ specgram(
 \arguments{
 \item{x}{Input signal, specified as a vector.}
 
-\item{n}{Size of the FFT window. Default: 256 (or less if \code{x} is shorter).}
+\item{n}{Size of the FFT window. Default: 256 (or less if \code{x} is
+shorter).}
 
 \item{fs}{Sample rate in Hz. Default: 2}
 
@@ -130,9 +140,10 @@ low frequencies on the bottom of the image.
 \examples{
 
 sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
-plot(sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
-"logarithmic"), fs = 8000))
+specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
+        "logarithmic"), fs = 8000)
 
+\dontrun{
 # use other color palettes than grayscale
 require(grDevices)
 jet <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
@@ -142,6 +153,7 @@ plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
 c2w <- colorRampPalette(colors = c("red", "white", "blue"))
 plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
 8000), col = c2w(50))
+}
 
 }
 \author{

@@ -19,7 +19,7 @@
 #
 # Version history
 # 20201105  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Durbin-Levinson Recursion
 #'
@@ -80,11 +80,11 @@
 #'
 #' @export
 
-levinson <- function (acf, p = NROW(acf)) {
+levinson <- function(acf, p = NROW(acf)) {
 
   # check parameters
   if (!(is.vector(acf) || is.matrix(acf))) {
-    stop('acf must be a vector or matrix')
+    stop("acf must be a vector or matrix")
   }
 
   if (is.vector(acf)) {
@@ -100,7 +100,7 @@ levinson <- function (acf, p = NROW(acf)) {
   }
 
   if (!isScalar(p) || !isWhole(p) || !is.numeric(p) || p <= 0.5) {
-    stop('p must be a positive integer > 0')
+    stop("p must be a positive integer > 0")
   }
   # end of parameter checking
 
@@ -113,7 +113,7 @@ levinson <- function (acf, p = NROW(acf)) {
     ref[1] <- g
     if (p > 1) {
       for (t in 2:p) {
-        g <- as.vector(-(acf[t + 1] + a %*% acf[seq(t, 2, -1)]) / v)
+        g <- as.vector(- (acf[t + 1] + a %*% acf[seq(t, 2, -1)]) / v)
         a <- c((a + g * Conj(a[seq(t - 1, 1, -1)])), g)
         v <- v * (1 - Re(g * Conj(g)))
         ref[t] <- g

@@ -9,10 +9,26 @@
 R implementation of the Octave signal package.
 }
 \details{
-gsignal is my own implementation of the Matlab/Octave package signal
+The package gsignal is an implementation in R of the Matlab/Octave 'signal'
+package. It provides signal processing algorithms for use with R, include the
+creation of waveforms, FIR and IIR filter design, spectral analysis, Fourier
+and other transforms, window functions, and resampling and rate changing.
+
+Octave signal package release 1.4.1 (2019-02-08) was used to port the
+functions to R. Note that compatibility of function parameters and return
+values was not explicitly pursued.
 }
 \references{
-To be filled in
+\url{https://wiki.octave.org/Signal_package},\cr
+  \url{https://octave.sourceforge.io/signal/}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/gjmvanboxtel/gsignal}
+  \item Report bugs at \url{https://github.com/gjmvanboxtel/gsignal/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com} (Maintainer)
@@ -39,7 +55,7 @@ Other contributors:
   \item Luca Citi [contributor]
   \item Dave Cogdell [contributor]
   \item Carlo de Falco [contributor]
-  \item Carnë Draug [contributor]
+  \item Carne Draug [contributor]
   \item Pascal Dupuis [contributor]
   \item John W. Eaton [contributor]
   \item R.G.H Eschauzier [contributor]

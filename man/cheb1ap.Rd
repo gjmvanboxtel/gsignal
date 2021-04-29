@@ -9,14 +9,15 @@ cheb1ap(n, Rp)
 \arguments{
 \item{n}{Order of the filter.}
 
-\item{Rp}{dB of passband ripple.}
+\item{Rp}{dB of pass-band ripple.}
 }
 \value{
 List of class \code{\link{Zpg}} containing the poles and gain of the
   filter.
 }
 \description{
-Return the poles and gain of an analog Chebyshev Type I lowpass filter prototype.
+Return the poles and gain of an analog Chebyshev Type I lowpass filter
+prototype.
 }
 \details{
 This function exists for Matlab/OCtave compatibility only, and is equivalent
@@ -30,6 +31,6 @@ freqs(zp, w)
 
 }
 \author{
-Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+Carne Draug, \email{carandraug+dev@gmail.com}.\cr
  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

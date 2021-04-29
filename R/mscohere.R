@@ -18,11 +18,11 @@
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Magnitude-squared coherence
 #'
-#' Compute the magnitide-squared coherence estimates of input signals.
+#' Compute the magnitude-squared coherence estimates of input signals.
 #'
 #' \code{mscohere} estimates the magnitude-squared coherence function using
 #' Welch’s overlapped averaged periodogram method [1]
@@ -97,10 +97,11 @@
 #' @rdname mscohere
 #' @export
 
-mscohere <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
-                      nfft = ifelse(isScalar(window), window, length(window)),
-                      fs = 1,
-                      detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
+mscohere <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
+                     nfft = ifelse(isScalar(window), window, length(window)),
+                     fs = 1,
+                     detrend = c("long-mean", "short-mean",
+                                 "long-linear", "short-linear", "none")) {
 
   pw <- pwelch(x, window, overlap, nfft, fs, detrend)
   rv <- list(freq = pw$freq, coh = pw$coh)

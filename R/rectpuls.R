@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191127 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Rectangular pulse
 #'
@@ -53,20 +53,23 @@
 #' w <- 0.3/f0  # pulse width 1/10th the distance between pulses
 #' y <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), 'rectpuls', w = w)
 #' plot (seq(0, length(y)-1) * 1000/fs, y, type ="l", xlab = "Time (ms)",
-#'       ylab = "Amplitude", main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
+#'       ylab = "Amplitude",
+#'       main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
 #'
 #' @author Paul Kienzle, Mike Miller.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-rectpuls <- function (t, w = 1) {
+rectpuls <- function(t, w = 1) {
 
-  if(length(t) <= 0) stop('t must be a vector with length > 0')
-  if (!isScalar(w) || w < 0) stop('w must be a positive scalar')
+  if (length(t) <= 0)
+    stop("t must be a vector with length > 0")
+  if (!isScalar(w) || w < 0)
+    stop("w must be a positive scalar")
 
-  y <- rep(0L, length (t))
-  idx = which ((t >= -w/2) & (t < w/2))
-  y[idx] = 1
+  y <- rep(0L, length(t))
+  idx <- which((t >= -w / 2) & (t < w / 2))
+  y[idx] <- 1
   y
 }

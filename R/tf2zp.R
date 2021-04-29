@@ -17,10 +17,10 @@
 # Version history
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       catch k == 0
-# 20200403  GvB       compute roots with the "eigen" method, and sort them (for Matlab/Octave compatibilty)
+# 20200403  GvB       compute roots with the "eigen" method, and sort them
 # 20200406  GvB       validated
 # 20210326  GvB       renamed k to g, return object of class 'Zpg'
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Transfer function to zero-pole-gain form
 #'
@@ -53,24 +53,22 @@
 tf2zp <- function(b, a) {
 
   if (!(is.vector(b) || is.matrix(b))) {
-    stop('b must be a vector or a matrix')
+    stop("b must be a vector or a matrix")
   }
   if (!is.vector(a)) {
-    stop('a must be a vector')
+    stop("a must be a vector")
   }
-  if(NCOL(b) > length(a)) {
-    stop('The number of columns of b must be <= length(a)')
+  if (NCOL(b) > length(a)) {
+    stop("The number of columns of b must be <= length(a)")
   }
 
   if (length(b) > 0) {
-    #z <- sort(roots(b, "eigen"))
     z <- pracma::roots(b)
   } else {
     z <- NULL
   }
 
   if (length(a) > 0) {
-    #p <- sort(roots(a, "eigen"))
     p <- pracma::roots(a)
   } else {
     p <- NULL

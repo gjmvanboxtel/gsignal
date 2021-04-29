@@ -1,0 +1,16 @@
+Copyrights
+==========
+
+Most of the files are translations of files from Octave Forge, and
+they are copyrighted by various authors and most are licensed under
+the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version.
+
+Some files are modifications of the signal package (Version: 0.7-6,
+Date: 2015-07-29), some of which are of which are copyright (C) 2006,
+EPRI Solutions, Inc.
+
+See each file for a copyright notice and license
+information.
+

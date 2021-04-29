@@ -12,10 +12,12 @@ cheb2ap(n, Rs)
 \item{Rs}{dB of stopband ripple.}
 }
 \value{
-list of class \code{\link{Zpg}} containing poles and gain of the filter
+list of class \code{\link{Zpg}} containing poles and gain of the
+  filter
 }
 \description{
-Return the poles and gain of an analog Chebyshev Type II lowpass filter prototype.
+Return the poles and gain of an analog Chebyshev Type II lowpass filter
+prototype.
 }
 \details{
 This function exists for Matlab/OCtave compatibility only, and is equivalent
@@ -29,6 +31,6 @@ freqs(zp, w)
 
 }
 \author{
-Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+Carne Draug, \email{carandraug+dev@gmail.com}.\cr
  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

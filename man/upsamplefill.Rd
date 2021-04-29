@@ -25,8 +25,8 @@ upsampled vector or matrix
 Upsample and fill with given values or copies of the vector elements.
 }
 \examples{
-upsamplefill(diag(2), 2, TRUE)
-upsamplefill(diag(2), rep(-1, 3))
+u <- upsamplefill(diag(2), 2, TRUE)
+u <- upsamplefill(diag(2), rep(-1, 3))
 
 }
 \seealso{

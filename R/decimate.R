@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201129  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Decrease sample rate
 #'
@@ -55,35 +55,31 @@
 #
 #' @export
 
-decimate <- function (x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
+decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
 
   if (!is.numeric(x)) {
-    stop('x must be numeric')
+    stop("x must be numeric")
   }
 
   if (is.vector(x)) {
-    ns <- 1
-    lx <- length(x)
     x <- matrix(x, ncol = 1)
     vec <- TRUE
   } else if (is.matrix(x)) {
-    ns <- ncol(x)
-    lx <- nrow(x)
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (!(isPosscal(q) && isWhole(q))) {
-    stop('q must be a positive integer')
+    stop("q must be a positive integer")
   }
   if (!(isPosscal(n) && isWhole(n))) {
-    stop('n must be a positive integer')
+    stop("n must be a positive integer")
   }
   ftype <- match.arg(ftype)
 
   if (ftype == "fir") {
-    b <- fir1 (n, 1 / q)
+    b <- fir1(n, 1 / q)
     y <- fftfilt(b, x)
   } else {
     ba <- cheby1(n, 0.05, 0.8 / q)

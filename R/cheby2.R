@@ -21,7 +21,7 @@
 # 20200519 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
 # 20210308 GvB                       added output parameter ("ba', "zpg", "Sos")
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chebyshev Type II filter design
 #'
@@ -46,7 +46,8 @@
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param output Type of output, one of:
 #' \describe{
-#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+#'   b/a)}
 #'   \item{Zpg}{Zero-pole-gain format}
 #'   \item{Sos}{Second-order sections}
 #' }
@@ -61,7 +62,8 @@
 #'   containing the filter coefficients
 #'
 #' @examples
-#' # compare the frequency responses of 5th-order Butterworth and Chebyshev filters.
+#' ## compare the frequency responses of 5th-order
+#' ## Butterworth and Chebyshev filters.
 #' bf <- butter(5, 0.1)
 #' cf <- cheby2(5, 20, 0.1)
 #' bfr <- freqz(bf)
@@ -101,8 +103,9 @@ cheby2.FilterSpecs <- function(n, ...)
 #' @rdname cheby2
 #' @export
 
-cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"),
-                            plane = c("z", "s"), output = c("Arma", "Zpg", "Sos"), ...) {
+cheby2.default <- function(n, Rs, w, type = c("low", "high", "stop", "pass"),
+                           plane = c("z", "s"),
+                           output = c("Arma", "Zpg", "Sos"), ...) {
 
   # check input arguments
   type <- match.arg(type)
@@ -117,7 +120,8 @@ cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"),
   stop <- type == "stop" || type == "high"
   digital <- plane == "z"
   if (!is.vector(w) || (length(w) != 1 && length(w) != 2)) {
-    stop("frequency w must be specified as a vector of length 1 or 2 (either w0 or c(w0, w1))")
+    stop(paste("frequency w must be specified as a vector of length 1 or 2",
+               "(either w0 or c(w0, w1))"))
   }
   if ((type == "stop" || type == "pass") &&  length(w) != 2) {
     stop("w must be two elements for stop and bandpass filters")
@@ -131,14 +135,14 @@ cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"),
   ## Prewarp to the band edges to s plane
   if (digital) {
     T <- 2                    # sampling frequency of 2 Hz
-    wc <- 2 / T * tan (pi * w / T)
+    w <- 2 / T * tan(pi * w / T)
   }
 
   ## Generate splane poles and zeros for the chebyshev type 2 filter
   ## From: Stearns, SD; David, RA; (1988). Signal Processing Algorithms.
   ##       New Jersey: Prentice-Hall.
   C <- 1             # default cutoff frequency
-  lambda <- 10^(Rs / 20)
+  lambda <- 10 ^ (Rs / 20)
   phi <- log(lambda + sqrt(lambda^2 - 1)) / n
   theta <- pi * ((1:n) - 0.5) / n
   alpha <- -sinh(phi) * sin(theta)
@@ -175,7 +179,7 @@ cheby2.default <- function (n, Rs, w, type = c("low", "high", "stop", "pass"),
   } else {
     retval <- zpg
   }
-  
+
   retval
-  
+
 }

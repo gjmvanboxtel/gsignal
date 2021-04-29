@@ -29,11 +29,11 @@ effects.
 }
 \examples{
 x <- seq_len(10)
-downsample(x, 3)
-downsample(x, 3, 2)
+xd <- downsample(x, 3)     # returns 1  4  7 10
+xd <- downsample(x, 3, 2)  # returns 3 6 9
 
 x <- matrix(seq_len(12), 4, 3, byrow = TRUE)
-downsample(x, 3)
+xd <- downsample(x, 3)
 
 }
 \seealso{

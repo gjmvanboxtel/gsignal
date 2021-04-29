@@ -35,7 +35,8 @@ is also known as the Marr wavelet (source: Wikipedia)
 \examples{
 
 mh <- mexihat(-5, 5, 1000)
-plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet", xlab = "", ylab = "")
+plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet",
+     xlab = "", ylab = "")
 
 }
 \author{

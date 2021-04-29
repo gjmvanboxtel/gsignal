@@ -18,7 +18,8 @@
 #
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+# 20210423  GvB       on.exit(par(op))
+#------------------------------------------------------------------------------
 
 #' Plot frequency response
 #'
@@ -43,19 +44,19 @@
 
 freqs_plot <- function(w, h, ...) {
 
-  n <- length(w)
-  mag <- 20*log10(abs(h))
+  mag <- 20 * log10(abs(h))
   phase <- unwrap(Arg(h))
 
   op <- graphics::par(mfrow = c(2, 1))
+  on.exit(graphics::par(op))
 
   graphics::plot(w, mag, type = "l", xlab = "", ylab = "dB", ...)
-  graphics::legend ("topright", "Magnitude (dB)", lty = 1)
-  graphics::title('Frequency response plot by freqs')
+  graphics::legend("topright", "Magnitude (dB)", lty = 1)
+  graphics::title("Frequency response plot by freqs")
 
-  graphics::plot(w, phase / (2 * pi), type = "l", xlab = "Frequency (rad/s)", ylab = "Phase", ...)
-  graphics::legend ("topright", "Phase (radians / 2 pi)", lty = 1)
+  graphics::plot(w, phase / (2 * pi), type = "l",
+                 xlab = "Frequency (rad/s)", ylab = "Phase", ...)
+  graphics::legend("topright", "Phase (radians / 2 pi)", lty = 1)
   graphics::title("")
 
-  graphics::par(op)
 }

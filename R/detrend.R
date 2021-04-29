@@ -18,11 +18,12 @@
 #
 # Version history
 # 20200104  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Remove Polynomial Trend
 #'
-#' \code{detrend} removes the polynomial trend of order \code{p} from the data \code{x}.
+#' \code{detrend} removes the polynomial trend of order \code{p} from the data
+#' \code{x}.
 #'
 #' If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a
 #' polynomial of order \code{p} from the data \code{x}. If \code{x} is a matrix,
@@ -34,7 +35,7 @@
 #'   \code{"constant"} (corresponds to \code{p = 0}) or \code{"linear"}
 #'   (corresponds to \code{p = 1}).
 #'
-#' @return The detrended data, of same type and dimnsions as \code{x}
+#' @return The detrended data, of same type and dimensions as \code{x}
 #'
 #' @examples
 #' t <- 0:20
@@ -51,26 +52,28 @@
 #
 #' @export
 
-detrend <- function (x, p = 1) {
+detrend <- function(x, p = 1) {
 
   if (!is.numeric(x)) {
-    stop ('input argument x must be a numeric vector, array or matrix')
+    stop("input argument x must be a numeric vector, array or matrix")
   } else {
     x <- as.matrix(x)
   }
 
   if (is.character(p)) {
     p <- match.arg(p, c("constant", "linear"))
-    if (p == 'constant') {
+    if (p == "constant") {
       p <- 0
-    } else if (p == 'linear') {
+    } else if (p == "linear") {
       p <- 1
     } else {
-      stop ('input argument p must be "constant", "linear" or a positive integer')
+      stop(paste("input argument p must be 'constant',",
+                  "'linear', or a positive integer"))
     }
   } else {
     if (!isPosscal(p) || !isWhole(p)) {
-      stop ('input argument p must be "constant", "linear" or a positive integer')
+      stop(paste("input argument p must be 'constant',",
+                  "'linear', or a positive integer"))
     }
   }
 
@@ -80,7 +83,8 @@ detrend <- function (x, p = 1) {
   }
 
   r <- nrow(x)
-  b <- (as.matrix(1:r) %*% matrix(1L, 1, (p + 1))) ^ (matrix(1L, r, 1) %*% as.matrix(t(0:p)))
+  b <- (as.matrix(1:r) %*% matrix(1L, 1, (p + 1))) ^
+     (matrix(1L, r, 1) %*% as.matrix(t(0:p)))
   y <- x - b %*% pracma::mldivide(b, x)
 
   class(y) <- class(x)

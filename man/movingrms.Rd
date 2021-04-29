@@ -16,10 +16,10 @@ Default: 0.1}
 \item{rc}{Rise time (time constant) of the sigmoid window, in units relative
 to \code{fs}. Default: 1e-3}
 
-\item{fs}{Sampling frequency. Deafult: 1}
+\item{fs}{Sampling frequency. Default: 1}
 }
 \value{
-A \code{\link{list}} containg 2 variables:
+A \code{\link{list}} containing 2 variables:
 \describe{
   \item{rmsx}{Output signal with the same dimensions as \code{x}}
   \item{w}{Window, returned as a vector}

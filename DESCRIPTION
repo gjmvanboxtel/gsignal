@@ -2,7 +2,7 @@ Package: gsignal
 Type: Package
 Title: Signal Processing
 Version: 0.3-1
-Date: 2021-04-14
+Date: 2021-04-29
 Authors@R: c(person("Geert", "van Boxtel", role = c("aut", "cre"), email="G.J.M.vanBoxtel@gmail.com", comment = "Maintainer"),
  person("Tom", "Short", role = "aut", email = "tshort@eprisolutions.com", comment="Author of signal package"),
  person("Paul", "Kienzle", role = "aut", comment="Majority of the original sources"),
@@ -20,7 +20,7 @@ Authors@R: c(person("Geert", "van Boxtel", role = c("aut", "cre"), email="G.J.M.
  person("Luca", "Citi", role = "ctb"),
  person("Dave", "Cogdell", role = "ctb"),
  person("Carlo", "de Falco", role = "ctb"),
- person("Carnë", "Draug", role = "ctb"),
+ person("Carne", "Draug", role = "ctb"),
  person("Pascal", "Dupuis", role = "ctb"),
  person("John W.", "Eaton", role = "ctb"),
  person("R.G.H", "Eschauzier", role = "ctb"),
@@ -65,7 +65,10 @@ LinkingTo: Rcpp
 Imports: pracma, Rcpp
 License: GPL-3
 Encoding: UTF-8
+Language: en-US
+URL: https://github.com/gjmvanboxtel/gsignal
+BugReports: https://github.com/gjmvanboxtel/gsignal/issues
 LazyData: true
 RoxygenNote: 7.1.1
-Suggests: 
-    testthat
+Suggests: knitr, rmarkdown, testthat, ggplot2, gridExtra, microbenchmark
+VignetteBuilder: knitr

@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191202 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Shift data to operate on specified dimension
 #'
@@ -44,15 +44,16 @@
 #'   Default: NULL (shift the first nonsingleton dimension)
 #'
 #' @return A list containing 3 variables; \code{x}, the shifted data,
-#'   \code{perm}, the permuation vector, and \code{nshifts}, the number of
+#'   \code{perm}, the permutation vector, and \code{nshifts}, the number of
 #'   shifts
 #'
 #' @examples
 #'
 #' ## create a 3x3 magic square
 #' x <- pracma::magic(3)
-#' ## Shift the matrix x to work along the second dimension. The permutation vector,
-#' ## perm, and the number of shifts, nshifts, are returned along with the shifted matrix.
+#' ## Shift the matrix x to work along the second dimension.
+#' ## The permutation vector, perm, and the number of shifts, nshifts,
+#' ## are returned along with the shifted matrix.
 #' sd <- shiftdata(x, 2)
 #'
 #' ## Shift the matrix back to its original shape.
@@ -70,7 +71,7 @@
 #'
 #' @export
 
-shiftdata <- function (x, dimx) {
+shiftdata <- function(x, dimx) {
 
   x <- as.array(x)   # needed for aperm
 
@@ -81,20 +82,22 @@ shiftdata <- function (x, dimx) {
     shift <- FALSE
   }
 
-  if (!isScalar(dimx) || !isWhole(dimx)) stop('dimx must be an integer')
-  if (dimx > length(dim(x))) stop(paste('dimx should be between 1 and', length(dim(x))))
+  if (!isScalar(dimx) || !isWhole(dimx))
+    stop("dimx must be an integer")
+  if (dimx > length(dim(x)))
+    stop(paste("dimx should be between 1 and", length(dim(x))))
 
   perm <- dimx
   if (dimx - 1 >= 1) {
     perm <- c(dimx, 1:(dimx - 1))
   }
   d1 <- dimx + 1
-  d2 <- (length(dim(x)))
+  d2 <- length(dim(x))
   if (d1 <= d2) perm <- c(perm, d1:d2)
-  out <- aperm (x, perm)
+  out <- aperm(x, perm)
 
   if (shift) {
-    perm = NA
+    perm <- NA
     nshifts <- dimx - 1
   } else {
     nshifts <- NA

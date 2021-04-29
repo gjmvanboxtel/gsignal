@@ -58,7 +58,8 @@ model or filter. Generically, \code{filt} specifies an arbitrary model or
 filter operation.}
 
 \item{...}{for methods of \code{freqz}, arguments are passed to the default
-method. For \code{freqz_plot}, additional arguments are passed through to plot.}
+method. For \code{freqz_plot}, additional arguments are passed through to
+plot.}
 
 \item{a}{the autoregressive (recursive) coefficients of an ARMA filter.}
 
@@ -119,7 +120,7 @@ a <- c(1, 0, 0, 0, 0.25)
 freqz(b, a)
 
 hw <- freqz(b, a)
-summary(hw)
+## summary(hw)
 
 }
 \author{

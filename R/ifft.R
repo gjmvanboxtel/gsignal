@@ -17,7 +17,7 @@
 # Version history
 # 20200113  GvB       setup for gsignal v0.1.0
 # 20200123  GvB       adapted rest for Imaginary component == 0 using zapsmall
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse Fourier Transform
 #'
@@ -49,9 +49,9 @@
 #' vector-valued series.
 #'
 #' @examples
-#' ifft(stats::fft(1:5))
-#' ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i)))
-#' imvfft(stats::mvfft(matrix(1:20, 4, 5)))
+#' res <- ifft(stats::fft(1:5))
+#' res <- ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i)))
+#' res <- imvfft(stats::mvfft(matrix(1:20, 4, 5)))
 #'
 #' @seealso \code{\link[stats]{fft}}
 #'
@@ -59,11 +59,10 @@
 #
 #' @export
 
-ifft <- function (x) {
+ifft <- function(x) {
 
   y <- stats::fft(x, inverse = TRUE) / length(x)
-  if (all(Im(z <- zapsmall(y)) == 0)) y <- Re(y)
-  y
+  zapIm(y)
 }
 
 #' @rdname ifft
@@ -72,6 +71,5 @@ ifft <- function (x) {
 imvfft <- function(x) {
 
   y <- stats::mvfft(x, inverse = TRUE) / nrow(x)
-  if (all(Im(z <- zapsmall(y)) == 0)) y <- Re(y)
-  y
+  zapIm(y)
 }

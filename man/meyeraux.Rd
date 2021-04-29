@@ -28,7 +28,8 @@ dimensions. The range of \code{meyeraux} is the closed interval c(0, 1).
 
 x <- seq(0, 1, length.out = 100)
 y <- meyeraux(x)
-plot(x, y, type="l", main = "Meyer wavelet auxiliary function", xlab = "", ylab = "")
+plot(x, y, type="l", main = "Meyer wavelet auxiliary function",
+     xlab = "", ylab = "")
 
 }
 \author{

@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Moving Root Mean Square
 #'
@@ -34,9 +34,9 @@
 #'   Default: 0.1
 #' @param rc Rise time (time constant) of the sigmoid window, in units relative
 #'   to \code{fs}. Default: 1e-3
-#' @param fs Sampling frequency. Deafult: 1
+#' @param fs Sampling frequency. Default: 1
 #'
-#' @return A \code{\link{list}} containg 2 variables:
+#' @return A \code{\link{list}} containing 2 variables:
 #' \describe{
 #'   \item{rmsx}{Output signal with the same dimensions as \code{x}}
 #'   \item{w}{Window, returned as a vector}
@@ -67,42 +67,42 @@
 movingrms <- function(x, width = 0.1, rc = 1e-3, fs = 1) {
 
   if (is.vector(x)) {
-    N <- length(x)
+    n <- length(x)
   } else if (is.matrix(x)) {
-    N <- nrow(x)
+    n <- nrow(x)
   } else {
-    stop('x must be a vector or a matrix')
+    stop("x must be a vector or a matrix")
   }
-  if(!isPosscal(width)) {
-    stop('width must be a positive scalar')
+  if (!isPosscal(width)) {
+    stop("width must be a positive scalar")
   }
-  if(!isPosscal(rc)) {
-    stop('rc must be a positive scalar')
+  if (!isPosscal(rc)) {
+    stop("rc must be a positive scalar")
   }
-  if(!isPosscal(fs)) {
-    stop('fs must be a positive scalar')
+  if (!isPosscal(fs)) {
+    stop("fs must be a positive scalar")
   }
 
-  if (width * fs > N / 2) {
-    idx <- c(1, N)
-    w <- rep(1L, N)
+  if (width * fs > n / 2) {
+    idx <- c(1, n)
+    w <- rep(1L, n)
   } else {
-    idx <- round((N + width * fs * c(-1, 1)) / 2)
-    w <- sigmoid_train((1:N), idx, rc * fs)$y
+    idx <- round((n + width * fs * c(-1, 1)) / 2)
+    w <- sigmoid_train((1:n), idx, rc * fs)$y
   }
 
-  rmsx_singleChan <- function (x, w, N, idx) {
+  rmsx_single <- function(x, w, n, idx) {
     fx    <- stats::fft(as.vector(x)^2)
     fw    <- stats::fft(as.vector(w)^2)
-    out  <- ifft(fx * fw) / (N-1)
+    out  <- ifft(fx * fw) / (n - 1)
     out[out < .Machine$double.eps * max(out)] <- 0
-    out <- pracma::circshift (sqrt(out), round(mean(idx)))
+    out <- pracma::circshift(sqrt(out), round(mean(idx)))
   }
 
   if (is.vector(x)) {
-    rmsx <- rmsx_singleChan(x, w, N, idx)
+    rmsx <- rmsx_single(x, w, n, idx)
   } else {
-    rmsx <- apply(x, 2, rmsx_singleChan, w, N, idx)
+    rmsx <- apply(x, 2, rmsx_single, w, n, idx)
   }
 
   list(rmsx = rmsx, w = w)

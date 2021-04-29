@@ -16,8 +16,8 @@ bilinear(Sz, ...)
 \method{bilinear}{default}(Sz, Sp, Sg, T = 2 * tan(1/2), ...)
 }
 \arguments{
-\item{Sz}{In the generic case, a model to be transformed. In the default case,
-a vector containing the zeros in a pole-zero-gain model.}
+\item{Sz}{In the generic case, a model to be transformed. In the default
+case, a vector containing the zeros in a pole-zero-gain model.}
 
 \item{...}{arguments passed to the generic function.}
 

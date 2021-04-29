@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200612  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Partial fraction expansion
 #'
@@ -61,14 +61,14 @@
 
 residue <- function(b, a, tol = 0.001) {
 
-  if(!is.vector(b) || !is.vector(a)) {
-    stop('b and a must be vectors')
+  if (!is.vector(b) || !is.vector(a)) {
+    stop("b and a must be vectors")
   }
   tol <- abs(tol[1])
 
   ## Make sure both polynomials are in reduced form.
   a <- polyreduce(a)
-  b <- polyreduce (b)
+  b <- polyreduce(b)
 
   b <- b / a[1]
   a <- a / a[1]
@@ -97,19 +97,19 @@ residue <- function(b, a, tol = 0.001) {
   ## the resulting poles.
   p_group <- cumsum(mn$m == 1)
   for (ng in seq_len(length(p_group))) {
-    m = which(p_group == ng)
-    p[m] = mean(p[m])
+    m <- which(p_group == ng)
+    p[m] <- mean(p[m])
   }
 
   ## Find the direct term if there is one.
   if (lb >= la) {
     ## Also return the reduced numerator.
-    qr <- pracma::deconv (b, a)
+    qr <- pracma::deconv(b, a)
     k <- qr$q
     b <- qr$r
-    lb = length (b)
+    lb <- length(b)
   } else {
-    k = NULL
+    k <- NULL
   }
 
   ## Determine if the poles are (effectively) zero.
@@ -120,17 +120,17 @@ residue <- function(b, a, tol = 0.001) {
   ## Determine if the poles are (effectively) real, or imaginary.
   index <- (abs(Im(p)) < small)
   if (any(index)) {
-    p[index] = Re(p[index])
+    p[index] <- Re(p[index])
   }
   index <- (abs(Re(p)) < small)
   if (any(index)) {
-    p[index] = 1i * Im(p[index])
+    p[index] <- 1i * Im(p[index])
   }
 
   ## The remainder determines the residues.  The case of one pole
   ## is trivial.
   if (lp == 1) {
-    r <- pracma::polyval (b, p)
+    r <- pracma::polyval(b, p)
   } else {
 
     ## Determine the order of the denominator and remaining numerator.
@@ -161,14 +161,14 @@ residue <- function(b, a, tol = 0.001) {
 #' @rdname residue
 #' @export
 
-rresidue <- function (r, p, k, tol = 0.001) {
+rresidue <- function(r, p, k, tol = 0.001) {
 
-  if(!is.vector(r) || !is.vector(p)) {
-    stop('r and p must be vectors')
+  if (!is.vector(r) || !is.vector(p)) {
+    stop("r and p must be vectors")
   }
   tol <- abs(tol[1])
 
-  mn <- mpoles (p, tol, reorder = FALSE, index.return = TRUE)
+  mn <- mpoles(p, tol, reorder = FALSE, index.return = TRUE)
   indx <- mn$n
   p <- p[indx]
   r <- r[indx]
@@ -179,7 +179,7 @@ rresidue <- function (r, p, k, tol = 0.001) {
     if (n == 1) {
       pden <- pn
     } else {
-      pden <- fftconv (pden, pn)
+      pden <- fftconv(pden, pn)
     }
   }
 
@@ -218,7 +218,7 @@ rresidue <- function (r, p, k, tol = 0.001) {
   }
 
   ## Add the direct term.
-  if (length(k)){
+  if (length(k)) {
     pnum <- pnum + fftconv(pden, k)
   }
 

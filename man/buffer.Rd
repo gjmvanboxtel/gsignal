@@ -51,15 +51,15 @@ rows and \code{ceil(L / n)} columns. If \code{L} is not evenly divisible by
 output matrix by \code{p} samples.
 \itemize{
 \item {For \code{0 < p < n} (overlap), buffer repeats the final \code{p}
-  samples of each segment at the beginning of the following segment. See the
-  example where \code{x = 1:30}, \code{n = 7}, and an overlap of \code{p = 3}.
-  In this case, the first segment starts with \code{p} zeros (the default
-  initial condition), and the number of columns in \code{y} is \code{ceil(L /
-  (n - p))}.}
+samples of each segment at the beginning of the following segment. See the
+example where \code{x = 1:30}, \code{n = 7}, and an overlap of \code{p = 3}.
+In this case, the first segment starts with \code{p} zeros (the default
+initial condition), and the number of columns in \code{y} is \code{ceil(L /
+(n - p))}.}
 \item  {For \code{p < 0} (underlap), buffer skips \code{p} samples between
-  consecutive segments. See the example where \code{x = 1:30}, \code{n = 7},
-  and \code{p = -3}. The number of columns in \code{y} is \code{ceil(L / (n -
-  p))}.}
+consecutive segments. See the example where \code{x = 1:30}, \code{n = 7},
+and \code{p = -3}. The number of columns in \code{y} is \code{ceil(L / (n -
+p))}.}
 }
 
 In \code{y <- buffer(x, n, p, opt)}, \code{opt} specifies a vector of samples
@@ -67,16 +67,16 @@ to precede \code{x[1]} in an overlapping buffer, or the number of initial
 samples to skip in an underlapping buffer.
 \itemize{
   \item {For \code{0 < p < n} (overlap), \code{opt} specifies a vector of
-    length \code{p} to insert before \code{x[1]} in the buffer. This vector can
-    be considered an initial condition, which is needed when the current
-    buffering operation is one in a sequence of consecutive buffering
-    operations. To maintain the desired segment overlap from one buffer to the
-    next, \code{opt} should contain the final \code{p} samples of the previous
-    buffer in the sequence. Set \code{opt} to \code{'nodelay'} to skip the
-    initial condition and begin filling the buffer immediately with
-    \code{x[1]}. In this case, \code{L} must be \code{length(p)} or longer. See
-    the example where \code{x = 1:30}, \code{n = 7}, \code{p = 3}, and
-    \code{opt = 'nodelay'}.}
+  length \code{p} to insert before \code{x[1]} in the buffer. This vector can
+  be considered an initial condition, which is needed when the current
+  buffering operation is one in a sequence of consecutive buffering
+  operations. To maintain the desired segment overlap from one buffer to the
+  next, \code{opt} should contain the final \code{p} samples of the previous
+  buffer in the sequence. Set \code{opt} to \code{'nodelay'} to skip the
+  initial condition and begin filling the buffer immediately with
+  \code{x[1]}. In this case, \code{L} must be \code{length(p)} or longer. See
+  the example where \code{x = 1:30}, \code{n = 7}, \code{p = 3}, and
+  \code{opt = 'nodelay'}.}
   \item {For \code{p < 0} (underlap), \code{opt} is an integer value in the
     range \code{0 : -p} specifying the number of initial input samples,
     \code{x[1:opt]}, to skip before adding samples to the buffer. The first
@@ -99,26 +99,26 @@ between frames (\code{-p}) and the number of points in \code{x} that were
 available to be skipped after filling the last frame:
 \itemize{
   \item {For \code{0 < p < n} (overlap), \code{buf$opt} contains the final
-    \code{p} samples in the last frame of the buffer. This vector can be used
-    as the initial condition for a subsequent buffering operation in a sequence
-    of consecutive buffering operations. This allows the desired frame overlap
-    to be maintained from one buffer to the next. See Continuous Buffering
-    below.}
+  \code{p} samples in the last frame of the buffer. This vector can be used
+  as the initial condition for a subsequent buffering operation in a sequence
+  of consecutive buffering operations. This allows the desired frame overlap
+  to be maintained from one buffer to the next. See Continuous Buffering
+  below.}
   \item {For \code{p < 0} (underlap), \code{buf$opt} is the difference
-    between the total number of points to skip between frames \code{(-p)} and
-    the number of points in \code{x} that were available to be skipped after
-    filling the last frame: \code{buf$opt = m*(n-p) + opt - L} where \code{opt}
-    on the right is the input argument to buffer, and \code{buf$opt} on the
-    left is the output argument. Note that for an underlapping buffer output
-    \code{buf$opt} is always zero when output \code{buf$z} contains data.\cr
-    The opt output for an underlapping buffer is especially useful when the
-    current buffering operation is one in a sequence of consecutive buffering
-    operations. The \code{buf$opt} output from each buffering operation
-    specifies the number of samples that need to be skipped at the start of the
-    next buffering operation to maintain the desired frame underlap from one
-    buffer to the next. If fewer than \code{p} points were available to be
-    skipped after filling the final frame of the current buffer, the remaining
-    opt points need to be removed from the first frame of the next buffer.}
+  between the total number of points to skip between frames \code{(-p)} and
+  the number of points in \code{x} that were available to be skipped after
+  filling the last frame: \code{buf$opt = m*(n-p) + opt - L} where \code{opt}
+  on the right is the input argument to buffer, and \code{buf$opt} on the
+  left is the output argument. Note that for an underlapping buffer output
+  \code{buf$opt} is always zero when output \code{buf$z} contains data.\cr
+  The opt output for an underlapping buffer is especially useful when the
+  current buffering operation is one in a sequence of consecutive buffering
+  operations. The \code{buf$opt} output from each buffering operation
+  specifies the number of samples that need to be skipped at the start of the
+  next buffering operation to maintain the desired frame underlap from one
+  buffer to the next. If fewer than \code{p} points were available to be
+  skipped after filling the final frame of the current buffer, the remaining
+  opt points need to be removed from the first frame of the next buffer.}
 }
 In a sequence of buffering operations, the \code{buf$opt} output from each
 operation should be used as the \code{opt} input to the subsequent buffering

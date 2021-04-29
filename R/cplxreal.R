@@ -17,9 +17,10 @@
 # Version history
 # 20200327  GvB       setup for gsignal v0.1.0
 # 20200331  GvB       return only positive imaginary numbers in zc
-# 20200402  GvB       only test Im(v) against tol to determine whether complex or real
+# 20200402  GvB       only test Im(v) against tol to determine whether
+#                     complex or real
 # 20210405  GvB       changed 'dim' argument to MARGIN
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sort complex conjugate pairs and real
 #'
@@ -40,14 +41,14 @@
 #'
 #' @return A list containing two variables:
 #' \describe{
-#'   \item{zc}{Vector, matrix or array containing ordered complex conjugate pairs
-#'   by increasing real parts. Only the positive imaginary complex numbers of each
-#'   complex conjugate pair are returned.}
-#'   \item{zr}{Vector, matrix or array containg ordered real numbers.}
+#'   \item{zc}{Vector, matrix or array containing ordered complex conjugate
+#'   pairs by increasing real parts. Only the positive imaginary complex numbers
+#'   of each complex conjugate pair are returned.}
+#'   \item{zr}{Vector, matrix or array containing ordered real numbers.}
 #' }
 #'
 #' @examples
-#' cplxreal(c(1, 1 + 3i, 2 - 5i, 1-3i, 2 + 5i, 4, 3))
+#' r <- cplxreal(c(1, 1 + 3i, 2 - 5i, 1-3i, 2 + 5i, 4, 3))
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
@@ -55,11 +56,11 @@
 #'
 #' @export
 
-cplxreal <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
+cplxreal <- function(z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
 
-  y <- cplxpair (z, tol, MARGIN)
+  y <- cplxpair(z, tol, MARGIN)
 
-  getr <- function (v) {
+  getr <- function(v) {
     lv <- length(v)
     ix <- rep(NA, lv)
     for (i in 1:lv) {
@@ -67,7 +68,7 @@ cplxreal <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
     }
     Re(v[which(!is.na(ix))])
   }
-  getc <- function (v) {
+  getc <- function(v) {
     lv <- length(v)
     ix <- rep(NA, lv)
     for (i in 1:lv) {

@@ -18,9 +18,9 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191211 GvB          First version for v0.1.0
-# 20210405 GvB          v0.3.0 corrected numerical rounding error when called by chebwin(7)
-#                       by limiting acosh tot 15 significant digits
-#---------------------------------------------------------------------------------------------------------------------------------
+# 20210405 GvB          v0.3.0 corrected numerical rounding error
+#                       when called by chebwin(7)
+#------------------------------------------------------------------------------
 
 #' Chebyshev polynomials
 #'
@@ -35,8 +35,8 @@
 #'   Tn(x) = cos(n . acos(x),    |x|<= 1
 #'   Tn(x) = cosh(n . acosh(x),  |x|> 1
 #' }}
-#' If \code{x} is a vector, the output is a vector of the same size, where each element is calculated
-#' as \eqn{y(i) = Tn(x(i))}.
+#' If \code{x} is a vector, the output is a vector of the same size, where each
+#' element is calculated as \eqn{y(i) = Tn(x(i))}.
 #'
 #' @param n Order of the polynomial, specified as a positive integer.
 #' @param x Point or points at which to calculate the Chebyshev polynomial
@@ -53,12 +53,12 @@
 #
 #' @export
 
-cheb <- function (n, x) {
+cheb <- function(n, x) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
 
   T <- rep(0, length(x))
-#  acosh <- function(x) log(x + sqrt(x^2 + 1))
 
   idx <- abs(x) <= 1
   if (any(idx)) {
@@ -72,4 +72,3 @@ cheb <- function (n, x) {
 
   Re(T)
 }
-

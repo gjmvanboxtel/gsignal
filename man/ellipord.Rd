@@ -25,7 +25,8 @@ second.}
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-A list of class \code{'FilterSpecs'} with the following list elements:
+A list of class \code{'FilterSpecs'} with the following list
+  elements:
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}
@@ -53,7 +54,8 @@ lines(hf$w, 20*log10(abs(hf$h)))
 
 }
 \seealso{
-\code{\link{buttord}}, \code{\link{cheb1ord}}, \code{\link{cheb2ord}}, \code{\link{ellip}}
+\code{\link{buttord}}, \code{\link{cheb1ord}},
+  \code{\link{cheb2ord}}, \code{\link{ellip}}
 }
 \author{
 Paulo Neis, \email{p_neis@yahoo.com.br},\cr

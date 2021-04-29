@@ -35,6 +35,7 @@ plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 
 }
 \author{
-Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.
-Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Original Matlab/Octave code Copyright (C) 2007 Sylvain Pelissier,
+  \email{<sylvain.pelissier@gmail.com>}. Conversion to R by Geert van Boxtel
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

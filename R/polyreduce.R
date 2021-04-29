@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200606  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Reduce polynomial
 #'
@@ -30,7 +30,7 @@
 #' @return Vector of reduced polynomial coefficients.
 #'
 #' @examples
-#' polyreduce(c(0, 0, 1, 2, 3))
+#' p <- polyreduce(c(0, 0, 1, 2, 3))
 #'
 #' @author Tony Richardson, \email{arichard@@stark.cc.oh.us},\cr
 #'  adapted by John W. Eaton.\cr

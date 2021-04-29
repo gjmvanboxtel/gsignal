@@ -16,42 +16,42 @@
 #
 # Version history
 # 20210319  GvB       setup for gsignal v0.3.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Filter initial conditions
-#' 
+#'
 #' Construct initial conditions for a filter
-#' 
+#'
 #' This function computes an initial state for the filter function that
 #' corresponds to the steady state of the step response. In other words, it
 #' finds the initial condition for which the response to an input of all ones is
 #' a constant. Therefore, the results returned by this function can also be
 #' obtained using the function \code{\link{filtic}} by setting \code{x} and
 #' \code{y} to all 1's (see the examples).
-#' 
+#'
 #' A typical use of this function is to set the initial state so that the output
 #' of the filter starts at the same value as the first element of the signal to
 #' be filtered.
-#' 
+#'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
 #'   filter (normally called ‘b’), specified as a vector.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
 #'   specified as a vector.
 #' @param ... additional arguments (ignored).
-#' 
+#'
 #' @return The initial state for the filter, returned as a vector.
-#' 
-#' @examples 
+#'
+#' @examples
 #' ## taken from Python scipy.signal.lfilter_zi documentation
-#' 
+#'
 #' h <- butter(5, 0.25)
 #' zi <- filter_zi(h)
 #' y <- filter(h, rep(1, 10), zi)
-#' ## output is all 1, as expected. 
+#' ## output is all 1, as expected.
 #' y2 <- filter(h, rep(1, 10))
-#' ## if the zi argument is not given, the output 
+#' ## if the zi argument is not given, the output
 #' ## does not return the final conditions
-#' 
+#'
 #' x <- c(0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0)
 #' y <- filter(h, x, zi = zi*x[1])
 #' ## Note that the zi argument to filter was computed using
@@ -61,17 +61,17 @@
 #' ## obtain the same results with filtic
 #' lab <- max(length(h$b), length(h$a)) - 1
 #' ic <- filtic(h, rep(1, lab), rep(1, lab))
-#' all.equal(zi, ic)
+#' ## all.equal(zi, ic)
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com},
-#'  ported from Python scipy.signal.filter_zi.
-#'  
+#'  converted to R from Python scipy.signal.lfilter_zi.
+#'
 #' @seealso \code{\link{filtic}}
 #'
 #' @references Gustafsson, F. (1996). Determining the initial states in
 #'   forward-backward filtering. IEEE Transactions on Signal Processing, 44(4),
 #'   988 - 992.
-#'   
+#'
 #' @rdname filter_zi
 #' @export
 
@@ -81,27 +81,28 @@ filter_zi <- function(filt, ...) UseMethod("filter_zi")
 #' @method filter_zi default
 #' @export
 
-filter_zi.default <- function (filt, a, ...) {
-  
-  if (!is.vector(filt) || ! is.vector(a) || !is.numeric(filt) || !is.numeric(a)) {
+filter_zi.default <- function(filt, a, ...) {
+
+  if (!is.vector(filt) || ! is.vector(a) ||
+      !is.numeric(filt) || !is.numeric(a)) {
     stop("b and a must be numeric vectors")
   }
-  
+
   while (length(a) > 1 && a[1] == 0) {
     a <- a[2:length(a)]
   }
   if (length(a) < 1) {
     stop("There must be at least one nonzero element in the vector a")
   }
-  
+
   if (a[1] != 1) {
     # Normalize the coefficients so a[1] == 1.
-    filt = filt / a[1]
-    a = a / a[1]
+    filt <- filt / a[1]
+    a <- a / a[1]
   }
-  
+
   n <- max(length(a), length(filt))
-  
+
   # Pad a or b with zeros so they are the same length.
   filt <- postpad(filt, n)
   a <- postpad(a, n)
@@ -132,13 +133,13 @@ filter_zi.Sos <- function(filt, ...) { # Second-order sections
   if (filt$g != 1) {
     filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
   }
-  L = NROW(filt$sos)
+  L <- NROW(filt$sos)
   zi <- matrix(0, L, 2)
-  scale = 1.0
+  scale <- 1.0
   for (l in seq_len(L)) {
     b <- filt$sos[l, 1:3]
     a <- filt$sos[l, 4:6]
-    zi[l, ] = scale * filter_zi.default(b, a)
+    zi[l, ] <- scale * filter_zi.default(b, a)
     # If H(z) = B(z)/A(z) is this section's transfer function, then
     # b.sum()/a.sum() is H(1), the gain at omega=0.  That's the steady
     # state value of this section's step response.

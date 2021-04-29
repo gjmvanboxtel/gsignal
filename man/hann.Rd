@@ -14,7 +14,8 @@ hanning(n, method = c("symmetric", "periodic"))
 
 \item{method}{Character string. Window sampling method, specified as:
 \describe{
-  \item{'symmetric'}{(Default). Use this option when using windows for filter design.}
+  \item{'symmetric'}{(Default). Use this option when using windows for filter
+  design.}
   \item{'periodic'}{This option is useful for spectral analysis because it
   enables a windowed signal to have the perfect periodic extension implicit
   in the discrete Fourier transform. When 'periodic' is specified, the

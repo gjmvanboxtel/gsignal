@@ -41,10 +41,10 @@ fs <- 1000                                           # sampling frequency
 secs <- 10                                           # number of seconds
 t <- seq(0, secs, 1/fs)                              # time series
 x <- sin(100 * 2 * pi * t) + runif(length(t))        # 100 Hz signal + noise
-m <- 32                                              # number of points desired
-f0 <- 75; f1 <- 175;                                 # desired frequency range
+m <- 32                                              # n of points desired
+f0 <- 75; f1 <- 175;                                 # desired freq range
 w <- exp(-1i * 2 * pi * (f1 - f0) / ((m - 1) * fs))  # freq step of f1-f0/m
-a <- exp(1i * 2 * pi * f0 / fs);                     # starting at frequency f0
+a <- exp(1i * 2 * pi * f0 / fs);                     # starting at freq f0
 y <- czt(x, m, w, a)
 
 # compare DFT and FFT

@@ -28,12 +28,15 @@ Return the filter coefficients of a flat top window.
 }
 \details{
 The Flat Top window is defined by the function:
-\deqn{f(w) = 1 - 1.93 cos(2 \pi w) + 1.29 cos(4 \pi w) - 0.388 cos(6 \pi w) + 0.0322 cos(8 \pi w)}
-where \code{w = i/(n-1)} for \code{i=0:n-1} for a symmetric window, or \code{w = i/n} for \code{i=0:n-1} for
-a periodic window. The default is symmetric. The returned window is normalized to a peak of 1 at w = 0.5.
+\deqn{f(w) = 1 - 1.93 cos(2 \pi w) + 1.29 cos(4 \pi w) - 0.388 cos(6 \pi w) +
+0.0322 cos(8 \pi w)}
+where \code{w = i/(n-1)} for \code{i=0:n-1} for a symmetric window, or
+\code{w = i/n} for \code{i=0:n-1} for a periodic window. The default is
+symmetric. The returned window is normalized to a peak of 1 at w = 0.5.
 
-Flat top windows have very low passband ripple (< 0.01 dB) and are used primarily for calibration purposes.
-Their bandwidth is approximately 2.5 times wider than a Hann window.
+Flat top windows have very low passband ripple (< 0.01 dB) and are used
+primarily for calibration purposes. Their bandwidth is approximately 2.5
+times wider than a Hann window.
 }
 \examples{
 

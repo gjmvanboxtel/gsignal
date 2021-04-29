@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200616  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Impulse invariance method for A/D filter conversion
 #'
@@ -61,7 +61,7 @@ impinvar <- function(b, ...) UseMethod("impinvar")
 #' @export
 
 impinvar.Arma <- function(b, ...)
-  impinvar (b$b, b$a, ...)
+  impinvar(b$b, b$a, ...)
 
 #' @rdname impinvar
 #' @export
@@ -76,135 +76,114 @@ impinvar.default <- function(b, a, fs = 1, tol = 0.0001, ...) {
   }
   ts <- 1 / fs
 
-  rpk_in <- residue(b, a)                # partial fraction expansion
-  n <- length(rpk_in$r)                  # Number of poles/residues
+  rpk_in <- residue(b, a)
+  n <- length(rpk_in$r)
 
-  if (length(rpk_in$k) > 0) {            # Greater than zero means we cannot do impulse invariance
+  if (length(rpk_in$k) > 0) {
     stop("Order numerator >= order denominator")
   }
 
-  r_out <- rep(0L, n)                        # Residues of H(z)
-  p_out <- rep(0L, n)                        # Poles of H(z)
-  k_out <- 0                                 # Constant term of H(z)
+  r_out <- rep(0L, n)
+  p_out <- rep(0L, n)
+  k_out <- 0
 
   i <- 1
   while (i <= n) {
     m <- 1
-    first_pole <- rpk_in$p[i]                                   # Pole in the s-domain
-    while (i < n && abs(first_pole - rpk_in$p[i + 1]) < tol) {  # Multiple poles at p(i)
-      i <- i + 1          # Next residue
-      m <- m + 1          # Next multiplicity
+    first_pole <- rpk_in$p[i]
+    while (i < n && abs(first_pole - rpk_in$p[i + 1]) < tol) {
+      i <- i + 1
+      m <- m + 1
     }
-    rpk_out <- z_res(rpk_in$r[(i - m + 1):i], first_pole, ts)   # Find z-domain residues
-    k_out                <- k_out + rpk_out$k                   # Add direct term to output
-    p_out[(i - m + 1):i] <- rpk_out$p                           # Copy z-domain pole(s) to output
-    r_out[(i - m + 1):i] <- rpk_out$r                           # Copy z-domain residue(s) to output
+    rpk_out <- z_res(rpk_in$r[(i - m + 1):i], first_pole, ts)
+    k_out                <- k_out + rpk_out$k
+    p_out[(i - m + 1):i] <- rpk_out$p
+    r_out[(i - m + 1):i] <- rpk_out$r
 
-    i <- i + 1       # Next s-domain residue/pole
+    i <- i + 1
   }
 
-  ba      <- inv_residue(r_out, p_out, k_out, tol)
-  a    <- zapIm(ba$a)                                        # Get rid of spurious imaginary part
-  b    <- zapIm(ba$b)
+  ba <- inv_residue(r_out, p_out, k_out, tol)
+  a <- zapIm(ba$a)
+  b <- zapIm(ba$b)
 
-  ## Shift results right to account for calculating in z instead of z^-1
   b <- b[1:(length(b) - 1)]
   Arma(b, a)
 }
-## Convert residue vector for single and multiple poles in s-domain (located at sm) to
-## residue vector in z-domain. The variable k is the direct term of the result.
 
-z_res <- function (r_in, sm, ts) {
+z_res <- function(r_in, sm, ts) {
 
-  p_out <- exp(ts * sm)        # z-domain pole
-  n     <- length(r_in)        # Multiplicity of the pole
-  r_out <- rep(0L, n)          # Residue vector
+  p_out <- exp(ts * sm)
+  n     <- length(r_in)
+  r_out <- rep(0L, n)
 
-  ## First pole (no multiplicity)
-  k_out    <- r_in[1] * ts         # PFE of z/(z-p) = p/(z-p)+1; direct part
-  r_out[1] = r_in[1] * ts * p_out  # pole part of PFE
+  k_out    <- r_in[1] * ts
+  r_out[1] <- r_in[1] * ts * p_out
 
   if (n > 1) {
-    for (i in 2:n) {           # Go through s-domain residues for multiple pole
-      r_out[1:i] <- r_out[1:i] + r_in[i] * rev(h1_z_deriv(i - 1, p_out, ts)) # Add z-domain residues
+    for (i in 2:n) {
+      r_out[1:i] <- r_out[1:i] + r_in[i] *
+        rev(h1_z_deriv(i - 1, p_out, ts))
     }
   }
 
   list(r = r_out, p = p_out, k = k_out)
 }
-# The following functions are # Copyright (C) 2007 R.G.H. Eschauzier <reschauzier@yahoo.com>
+
+# The following functions are
+# Copyright (C) 2007 R.G.H. Eschauzier <reschauzier@yahoo.com>
 # Conversion to R by Geert van Boxtel
 
-## Find (z^n)*(d/dz)^n*H1(z), where H1(z)=ts*z/(z-p), ts=sampling period,
-## p=exp(sm*ts) and sm is the s-domain pole with multiplicity n+1.
-## The result is (ts^(n+1))*(b(1)*p/(z-p)^1 + b(2)*p^2/(z-p)^2 + b(n+1)*p^(n+1)/(z-p)^(n+1)),
-## where b(i) is the binomial coefficient bincoeff(n,i) times n!. Works for n>0.
-h1_deriv <- function (n) {
+h1_deriv <- function(n) {
 
-  b  <- pracma::fact(n) * sapply(0:n, function(k) pracma::nchoosek(n, k))      # Binomial coefficients: [1], [1 1], [1 2 1], [1 3 3 1], etc.
+  b  <- pracma::fact(n) *
+    sapply(0:n, function(k) pracma::nchoosek(n, k))
   b  <- b * (-1)^n
   b
 }
 
-## Find {-zd/dz}^n*H1(z). I.e., first differentiate, then multiply by -z, then differentiate, etc.
-## The result is (ts^(n+1))*(b(1)*p/(z-p)^1 + b(2)*p^2/(z-p)^2 + b(n+1)*p^(n+1)/(z-p)^(n+1)).
-## Works for n>0.
-
-h1_z_deriv <- function (n, p, ts) {
-
-  ## Build the vector d that holds coefficients for all the derivatives of H1(z)
-  ## The results reads d(n)*z^(1)*(d/dz)^(1)*H1(z) + d(n-1)*z^(2)*(d/dz)^(2)*H1(z) +...+ d(1)*z^(n)*(d/dz)^(n)*H1(z)
-  d <- (-1)^n                                           # Vector with the derivatives of H1(z)
-  for (i in 1:(n-1)) {
-    d <- c(d, 0)                                        # Shift result right (multiply by -z)
-    d <- d + prepad(pracma::polyder(d), i + 1, 0, 2)    # Add the derivative
+h1_z_deriv <- function(n, p, ts) {
+  d <- (-1)^n
+  for (i in 1:(n - 1)) {
+    d <- c(d, 0)
+    d <- d + prepad(pracma::polyder(d), i + 1, 0, 2)
   }
-
-  ## Build output vector
   b <- rep(0L, n + 1)
   for (i in 1:n) {
-    b  <- b + d[i] * prepad(h1_deriv(n-i+1), n+1, 0, 2)
+    b  <- b + d[i] * prepad(h1_deriv(n - i + 1), n + 1, 0, 2)
   }
-
-  b <- b * ts^(n + 1) / pracma::fact(n)
-
-  ## Multiply coefficients with p^i, where i is the index of the coeff.
+  b <- b * ts ^ (n + 1) / pracma::fact(n)
   b <- b * p^seq(n + 1, 1, -1)
-
   b
 }
 
 inv_residue <- function(r_in, p_in, k_in, tol) {
 
-  n <- length(r_in) # Number of poles/residues
-
-  k <- 0 # Capture constant term
-  if (length(k_in) == 1) {         # A single direct term (order N = order D)
-    k <- k_in[1]                   # Capture constant term
-  } else if (length(k_in) > 1) {   # Greater than one means non-physical system
+  n <- length(r_in)
+  k <- 0
+  if (length(k_in) == 1) {
+    k <- k_in[1]
+  } else if (length(k_in) > 1) {
     stop("Order numerator > order denominator")
   }
-
   a_out <- poly(p_in)
-
   b_out  <- rep(0L, n + 1)
-  b_out <- b_out + k * a_out       # Constant term: add k times denominator to numerator
+  b_out <- b_out + k * a_out
   i <- 1
   while (i <= n) {
-    term   <- c(1, -p_in[i])                          # Term to be factored out
-    p      <- r_in[i] * pracma::deconv(a_out, term)$q # Residue times resulting polynomial
-    p      <- prepad(p, n + 1, 0, 2)                  # Pad for proper length
+    term   <- c(1, -p_in[i])
+    p      <- r_in[i] * pracma::deconv(a_out, term)$q
+    p      <- prepad(p, n + 1, 0, 2)
     b_out <- b_out + p
-
     m          <- 1
     mterm      <- term
     first_pole <- p_in[i]
-    while (i < n && abs(first_pole - p_in[i+1]) < tol){  # Multiple poles at p(i)
-      i <- i + 1 # Next residue
+    while (i < n && abs(first_pole - p_in[i + 1]) < tol) {
+      i <- i + 1
       m <- m + 1
-      mterm  <- conv(mterm, term)                        # Next multiplicity to be factored out
-      p      <- r_in[i] * pracma::deconv(a_out, mterm)$q # Resulting polynomial
-      p      <- prepad(p, n + 1, 0, 2)                   # Pad for proper length
+      mterm  <- conv(mterm, term)
+      p      <- r_in[i] * pracma::deconv(a_out, mterm)$q
+      p      <- prepad(p, n + 1, 0, 2)
       b_out  <- b_out + p
     }
     i <- i + 1

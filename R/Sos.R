@@ -17,7 +17,7 @@
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
 # 20210306  GvB       as.Sos.Zpg()): x$g instead of x$k
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Second-order sections
 #'
@@ -44,6 +44,10 @@
 #' @seealso \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}}
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' 
+#' @examples 
+#' ba <- butter(3, 0.2)
+#' sos <- as.Sos(ba)
 #'
 #' @rdname Sos
 #' @export

@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191210 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Modified Bartlett-Hann window
 #'
@@ -49,16 +49,19 @@
 #
 #' @export
 
-barthannwin <- function (n) {
+barthannwin <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
 
   if (n == 1) {
     w <- 1
   } else {
-    N <- n - 1;
-    m = 0:N;
-    w = 0.62 - 0.48 * abs(m / (n-1) - 0.5) + 0.38 * cos(2 * pi * (m / (n-1) - 0.5))
+    N <- n - 1
+    m <- 0:N
+    w <- 0.62 - 0.48 * abs(m / (n - 1) - 0.5) +
+      0.38 * cos(2 * pi * (m / (n - 1) - 0.5))
   }
   w
 }

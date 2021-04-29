@@ -6,6 +6,7 @@
 \alias{impz.Arma}
 \alias{impz.Ma}
 \alias{impz.Sos}
+\alias{impz.Zpg}
 \alias{impz.default}
 \title{Impulse response of digital filter}
 \usage{
@@ -19,6 +20,8 @@ impz(filt, ...)
 
 \method{impz}{Sos}(filt, ...)
 
+\method{impz}{Zpg}(filt, ...)
+
 \method{impz}{default}(filt, a = 1, n = NULL, fs = 1, ...)
 }
 \arguments{
@@ -27,7 +30,8 @@ model or filter. Generically, \code{filt} specifies an arbitrary model or
 filter operation.}
 
 \item{...}{for methods of \code{freqz}, arguments are passed to the default
-method. For \code{plot.impz}, additional arguments are passed through to plot.}
+method. For \code{plot.impz}, additional arguments are passed through to
+plot.}
 
 \item{x}{object to be printed or plotted.}
 
@@ -63,8 +67,7 @@ When results of \code{impz} are printed, \code{plot} will be called to
 elp <- ellip(4, 0.5, 20, 0.4)
 impz(elp)
 
-## or:
-(xt <- impz(elp))
+xt <- impz(elp)
 
 
 }

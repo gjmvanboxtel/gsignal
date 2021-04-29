@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191126 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Pulse train
 #'
@@ -37,7 +37,8 @@
 #' delayed pulse. The interpolation method defaults to linear, but it can be any
 #' interpolation method accepted by the function \code{interp1}
 #'
-#' @param t Time values at which \code{func} is evaluated, specified as a vector.
+#' @param t Time values at which \code{func} is evaluated, specified as a
+#'   vector.
 #' @param d Offset removed from the values of the array \code{t}, specified as a
 #'   real vector, matrix, or array. You can apply an optional gain factor to
 #'   each delayed evaluation by specifying \code{d} as a two-column matrix, with
@@ -54,7 +55,8 @@
 #'   this interval. By default, linear interpolation is used for generating
 #'   delays.
 #' @param fs Sample rate in Hz, specified as a real scalar.
-#' @param method Interpolation method, specified as one of the following options:
+#' @param method Interpolation method, specified as one of the following
+#'   options:
 #' \describe{
 #'   \item{linear}{(default). Linear interpolation. The interpolated value at a
 #'   query point is based on linear interpolation of the values at neighboring
@@ -124,30 +126,32 @@
 #'
 #' ## Generate the pulse train again, but now use the generating
 #' ## function as an input argument. Include the frequency and damping
-#' ## parameter in the function call. In this case, pulstran generates the pulse
-#' ## so that it is centered about zero.
+#' ## parameter in the function call. In this case, pulstran generates
+#' ## the pulse so that it is centered about zero.
 #' y <- pulstran(t, dd, 'fnx', fn = 30)
 #' plot(t, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
 #'      main = "Custom pulse train")
 #'
 #' ## Change Interpolation Method with Custom Pulse
-#' ## Generate a custom exponentially decaying sawtooth waveform of frequency 0.25 Hz.
-#' ## The generating function has a second input argument that specifies a single
-#' ## value for the sawtooth frequency and the damping factor. Display a generated
-#' ## pulse, sampled at 0.1 kHz for 1 second, with a frequency and damping value equal to 50.
+#' ## Generate a custom exponentially decaying sawtooth waveform of
+#' ## requency 0.25 Hz. The generating function has a second input argument
+#' ## that specifies a single value for the sawtooth frequency and the damping
+#' ## factor. Display a generated pulse, sampled at 0.1 kHz for 1 second, with
+#' ## a frequency and damping value equal to 50.
 #'
-#' fnx <- function (x, fn) sawtooth(2 * pi * fn * 0.25 * x) * exp(-2 * fn * x^2)
+#' fnx <- function(x, fn) sawtooth(2 * pi * fn * 0.25 * x) * exp(-2 * fn * x^2)
 #' fs <- 100
 #' t <- seq(0, 1, 1/fs)
 #' pp <- fnx(t, 50)
 #' plot(t, pp, type = "l", xlab = "Time (s)", ylab = "Waveform")
 #'
 #' ## Use the pulstran function to generate a train of custom pulses.
-#' ## The train is sampled at 0.1 kHz for 125 seconds. The pulses occur every 25 seconds
-#' ## and have exponentially decreasing amplitudes. Specify the generated pulse as a
-#' ## prototype. Generate three pulse trains using the default linear interpolation method,
-#' ## nearest neighbor interpolation and piecewise cubic interpolation.
-#' ## Compare the pulse trains on a single plot.
+#' ## The train is sampled at 0.1 kHz for 125 seconds. The pulses occur
+#' ## every 25 seconds and have exponentially decreasing amplitudes. Specify
+#' ## the generated pulse as a prototype. Generate three pulse trains using the
+#' ## default linear interpolation method, nearest neighbor interpolation
+#' ## and piecewise cubic interpolation. Compare the pulse trains on a
+#' ##  single plot.
 #' d <- cbind(seq(0, 125, 25), exp(-0.015 * seq(0, 125, 25)))
 #' ffs <- 100
 #' tp <- seq(0, 125, 1/ffs)
@@ -162,38 +166,40 @@
 #'         legend=c("linear", "nearest neighbor", "spline"),
 #'         col=1:3)
 #'
-#'
 #' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
-pulstran <- function (t, d, func, fs = 1, method = c('linear', 'nearest', 'cubic', 'spline'), ...) {
+pulstran <- function(t, d, func, fs = 1,
+                     method = c("linear", "nearest", "cubic", "spline"), ...) {
 
-  if (missing(t) || length(t) <= 0) stop ("t must be an array")
+  if (missing(t) || length(t) <= 0)
+    stop("t must be an array")
 
   y <- rep(0L, length(t))
-  if (missing(d) || length(d) <= 0) return (y)
+  if (missing(d) || length(d) <= 0) return(y)
   if (is.vector(d) || (is.array(d) && length(dim(d)) == 1)) {
     a <- rep(1L, length(d))
   } else if ((is.matrix(d) || is.array(d)) && ncol(d) == 2) {
     a <- d[, 2]
     d <- d[, 1]
-  } else stop('invalid value specified for d')
+  } else stop("invalid value specified for d")
 
   if (is.character(func)) {
-    for (i in 1:length(d)) {
+    for (i in seq_along(d)) {
       y <- y + a[i] * do.call(func, list(t - d[i], ...))
     }
   } else {
     method <- match.arg(method)
     span <- (length(func) - 1) / fs
     t_pulse <- (0:(length(func) - 1)) / fs
-    for (i in 1:length(d)) {
+    for (i in seq_along(d)) {
       dt <- t - d[i]
       idx <- which(dt >= 0 & dt <= span)
       if (length(idx) > 0) {
-        y[idx] <- y[idx] + a[i] * pracma::interp1(t_pulse, func, dt[idx], method)
+        y[idx] <- y[idx] + a[i] *
+          pracma::interp1(t_pulse, func, dt[idx], method)
       }
     }
   }

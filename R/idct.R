@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201015  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse Discrete Cosine Transform
 #'
@@ -61,25 +61,25 @@
 #'
 #' @export
 
-idct <- function (x, n = NROW(x)) {
+idct <- function(x, n = NROW(x)) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   } else {
     realx <- is.numeric(x)
   }
 
   if (is.vector(x)) {
-    vec = TRUE
+    vec <- TRUE
     x <- as.matrix(x, ncol = 1)
   } else {
-    vec = FALSE
+    vec <- FALSE
   }
   nr <- nrow(x)
   ns <- ncol(x)
 
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
 
@@ -88,8 +88,9 @@ idct <- function (x, n = NROW(x)) {
     x <- postpad(x, n)
   }
 
-  if (realx && n%%2 == 0) {
-    w <- c(sqrt(n / 4), sqrt(n / 2) * exp((1i * pi / 2 / n) * seq_len(n - 1))) %o% rep(1, ns)
+  if (realx && n %% 2 == 0) {
+    w <- c(sqrt(n / 4), sqrt(n / 2) * exp((1i * pi / 2 / n) *
+                                            seq_len(n - 1))) %o% rep(1, ns)
     y <- imvfft(w * x)
     y[c(seq(1, n, 2), seq(n, 1, -2)), ] <- 2 * Re(y)
   } else if (n == 1) {
@@ -97,11 +98,13 @@ idct <- function (x, n = NROW(x)) {
   } else {
     ## reverse the steps of dct using inverse operations
     ## 1. undo post-fft scaling
-    w <- c(sqrt(4 * n), sqrt(2 * n) * exp((1i * pi / 2 /n) * seq_len(n - 1))) %o% rep(1, ns)
-    y = x * w
+    w <- c(sqrt(4 * n), sqrt(2 * n) * exp((1i * pi / 2 / n) *
+                                            seq_len(n - 1))) %o% rep(1, ns)
+    y <- x * w
     ## 2. reconstruct fft result and invert it
     w <- exp(-1i * pi * seq(n - 1, 1, -1) / n) %o% rep(1, ns)
-    y <- imvfft(rbind(y, rep(0, ns), matrix(y[seq(n, 2, -1), ], ncol = ns) * w))
+    y <- imvfft(rbind(y, rep(0, ns),
+                      matrix(y[seq(n, 2, -1), ], ncol = ns) * w))
     ## 3. keep only the original data; toss the reversed copy
     y <- y[1:n, ]
   }

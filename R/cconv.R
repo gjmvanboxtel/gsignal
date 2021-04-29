@@ -17,8 +17,9 @@
 #
 # Version history
 # 20200209  GvB       setup for gsignal v0.1.0
-# 20200212  GvB       use stats::nextn to ensure that the length is a highly compositite number
-#---------------------------------------------------------------------------------------------------------------------
+# 20200212  GvB       use stats::nextn to ensure that the length is
+#                     a highly compositite number
+#------------------------------------------------------------------------------
 
 #' Circular convolution
 #'
@@ -34,7 +35,7 @@
 #' For the circular convolution of \code{x} and \code{y} to be equivalent to
 #' their linear convolution, the vectors must be padded with zeros to length at
 #' least \code{n + l - 1} before taking the DFT. After inverting the product of
-#' the DFTs, only the first \code{n + n - 1} elements should be retained.
+#' the DFTs, only the first \code{n + l - 1} elements should be retained.
 #'
 #' For long sequences circular convolution may be more efficient than linear
 #' convolution. You can also use \code{cconv} to compute the circular
@@ -51,7 +52,7 @@
 #' b <- c(1, 1, 2, 1, 2, 2, 1, 1)
 #' c <- cconv(a, b)       # Circular convolution
 #' cref = conv(a, b)      # Linear convolution
-#' all.equal(max(c - cref), 0)
+#' ## all.equal(max(c - cref), 0)
 #'
 #' cconv(a, b, 6)
 #'
@@ -62,7 +63,7 @@
 #
 #' @export
 
-cconv <- function (a, b, n = length(a) + length(b) -1) {
+cconv <- function(a, b, n = length(a) + length(b) - 1) {
 
   a <- as.vector(a)
   b <- as.vector(b)
@@ -70,8 +71,8 @@ cconv <- function (a, b, n = length(a) + length(b) -1) {
     stop("n must be a positive integer")
   }
 
-  la <- length (a)
-  lb <- length (b)
+  la <- length(a)
+  lb <- length(b)
 
   if (la < lb) {
     a <- postpad(a, lb)
@@ -79,7 +80,7 @@ cconv <- function (a, b, n = length(a) + length(b) -1) {
     b <- postpad(b, la)
   }
 
-  N <- length (a)
+  N <- length(a)
   if (n < N) {
     an <- bn <- rep(0L, n)
     for (i in 0:(N - 1)) {
@@ -94,6 +95,7 @@ cconv <- function (a, b, n = length(a) + length(b) -1) {
     b <- postpad(b, n)
   }
 
-  y <- ifft(stats::fft(postpad(a, stats::nextn(length(a)))) * stats::fft(postpad(b, stats::nextn(length(b)))))
+  y <- ifft(stats::fft(postpad(a, stats::nextn(length(a)))) *
+              stats::fft(postpad(b, stats::nextn(length(b)))))
   y[1:n]
 }

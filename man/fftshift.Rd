@@ -26,19 +26,19 @@ frequencies \code{f = c(-seq(ceiling((N-1)/2), 1, -1), 0, (1:floor((N-1)/2)))
 * df}, where \code{df = 1 / (N * dt)}. In other words, the left and right
 halves of \code{x} are swapped.
 
-If \code{x} is a matrix, then \code{fftshift} operates on the rows or
-columns of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the
-the upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
-right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN = c(1, 2)}
-swaps along both dimensions, i.e., swaps the first quadrant with the fourth,
-and the second with the third.
+If \code{x} is a matrix, then \code{fftshift} operates on the rows or columns
+of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the the
+upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
+right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN =
+c(1, 2)} swaps along both dimensions, i.e., swaps the first quadrant with the
+fourth, and the second with the third.
 }
 \examples{
 Xeven <- 1:6
-fftshift(Xeven)
+ev <- fftshift(Xeven)   # returns 4 5 6 1 2 3
 
 Xodd <- 1:7
-fftshift(Xodd)
+fftshift(Xodd)          # returns 5 6 7 1 2 3 4
 
 fs <- 100                      # sampling frequency
 t <- seq(0, 10 - 1/fs, 1/fs)   # time vector

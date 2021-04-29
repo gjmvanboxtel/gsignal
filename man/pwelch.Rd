@@ -9,10 +9,10 @@ pwelch(
   x,
   window = nextpow2(sqrt(NROW(x))),
   overlap = 0.5,
-  nfft = ifelse(isScalar(window), window, length(window)),
+  nfft = if (isScalar(window)) window else length(window),
   fs = 1,
   detrend = c("long-mean", "short-mean", "long-linear", "short-linear", "none"),
-  range = ifelse(is.numeric(x), "half", "whole")
+  range = if (is.numeric(x)) "half" else "whole"
 )
 
 \method{plot}{pwelch}(
@@ -187,7 +187,8 @@ etfm <- pwelch(cbind(xn, yn), fs = fs)
 op <- par(mfrow = c(2, 1))
 xl <- "Frequency (Hz)"; yl <- "Magnitude"
 plot(atfm$w, abs(atfm$h), type = "l", main = "Actual", xlab = xl, ylab = yl)
-plot(etfm$freq, abs(etfm$trans), type = "l", main = "Estimated", xlab = xl, ylab = yl)
+plot(etfm$freq, abs(etfm$trans), type = "l", main = "Estimated",
+     xlab = xl, ylab = yl)
 par(op)
 
 }

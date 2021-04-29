@@ -18,7 +18,8 @@
 #
 # Version history
 # 20200423  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+# 20210420  GvB       bugfix, added impz.Zpg
+#------------------------------------------------------------------------------
 
 #' Impulse response of digital filter
 #'
@@ -42,7 +43,8 @@
 #'   frequencies are in radians.
 #' @param x	object to be printed or plotted.
 #' @param ...	 for methods of \code{freqz}, arguments are passed to the default
-#'   method. For \code{plot.impz}, additional arguments are passed through to plot.
+#'   method. For \code{plot.impz}, additional arguments are passed through to
+#'   plot.
 #'
 #' @return For \code{impz}, a list of class \code{impz} with items:
 #' \describe{
@@ -55,8 +57,7 @@
 #' elp <- ellip(4, 0.5, 20, 0.4)
 #' impz(elp)
 #'
-#' ## or:
-#' (xt <- impz(elp))
+#' xt <- impz(elp)
 #'
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
@@ -78,44 +79,54 @@ print.impz <- plot.impz <- function(x, ...) {
   op <- graphics::par(mfrow = c(2, 1), mar = c(4, 4, 1.5, 1))
   on.exit(graphics::par(op))
   graphics::plot(x$t, x$x, type = "l", xlab = "", ylab = "Impulse response",
-                 ylim=c(min(0, mini), max(1, maxi)), main = "", yaxp = c(0, 1, 1), ...)
-  graphics::abline(h = 0, col="red")
+                 ylim = c(min(0, mini), max(1, maxi)),
+                 main = "", yaxp = c(0, 1, 1), ...)
+  graphics::abline(h = 0, col = "red")
   graphics::arrows(0, 0, 0, 1, col = "red", length = 0.1)
 
   step <- cumsum(x$x)
   mini <- min(step)
   maxi <- max(step)
-  graphics::plot(x$t, cumsum(x$x), type = "l", xlab = "", ylab = "Step response",
-                 ylim=c(min(0, mini), max(1, maxi)), main = "", yaxp = c(0, 1, 1), ...)
-  graphics::segments(0, 0, 0, 1, col="red", lty = 2)
-  graphics::segments(0, 1, x$t[length(x$t)], 1, col="red", lty = 2)
+  graphics::plot(x$t, cumsum(x$x), type = "l",
+                 xlab = "", ylab = "Step response",
+                 ylim = c(min(0, mini), max(1, maxi)),
+                 main = "", yaxp = c(0, 1, 1), ...)
+  graphics::segments(0, 0, 0, 1, col = "red", lty = 2)
+  graphics::segments(0, 1, x$t[length(x$t)], 1, col = "red", lty = 2)
 
 }
 
 #' @rdname impz
 #' @export
 
-impz.Arma <- function(filt, ...) # IIR
+impz.Arma <- function(filt, ...)
   impz(filt$b, filt$a, ...)
 
 #' @rdname impz
 #' @export
 
-impz.Ma <- function(filt, ...) # FIR
+impz.Ma <- function(filt, ...)
   impz(filt$b, 1, ...)
 
 #' @rdname impz
 #' @export
 
-impz.Sos <- function(filt, ...) # second-order sections
+impz.Sos <- function(filt, ...)
   impz(as.Arma(filt), ...)
+
+#' @rdname impz
+#' @export
+
+impz.Zpg <- function(filt, ...)
+  impz(as.Arma(filt), ...)
+
 
 #' @rdname impz
 #' @export
 
 impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
 
-  b = filt
+  b <- filt
 
   if (length(n) == 0 && length(a) > 1) {
     precision <- 1e-6
@@ -132,7 +143,7 @@ impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
       ## cutoff after 5 cycles (w=10*pi)
       rperiodic <- r[abs(r) >= 1 - precision & abs(Arg(r)) > 0]
       if (!is.null(rperiodic) && length(rperiodic) > 0) {
-        n_periodic <- ceiling( 10 * pi / min(abs(Arg(rperiodic))))
+        n_periodic <- ceiling(10 * pi / min(abs(Arg(rperiodic))))
         if (n_periodic > n) {
           n <- n_periodic
         }
@@ -141,7 +152,7 @@ impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
       ## find most damped pole
       ## cutoff at -60 dB
       rdamped <- r[abs(r) < 1 - precision]
-      if (!is.null(rdamped) && length(rdamped) > 0 ) {
+      if (!is.null(rdamped) && length(rdamped) > 0) {
         n_damped <- floor(-3 / log10(max(abs(rdamped))))
       }
       if (n_damped > n) {
@@ -160,11 +171,11 @@ impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
   } else {
     x <- filter(b, a, c(1, numeric(n - 1)))
   }
-  if(!exists("t", mode = "numeric")) {
-    t <- (0:(n-1)) / fs
+  if (!exists("t", mode = "numeric")) {
+    t <- (0:(n - 1)) / fs
   }
 
   res <- list(x = x, t = t)
-  class(res) = "impz"
+  class(res) <- "impz"
   res
 }

@@ -18,12 +18,12 @@ Marcum Q function.
 Compute the generalized Marcum Q function
 }
 \details{
-The code for this function was taken from the help file of the
-\code{cdfkmu} function in the in the \code{lmomco} package,
-based on a suggestion of Daniel Wollschlaeger.
+The code for this function was taken from the help file of the \code{cdfkmu}
+function in the \code{lmomco} package, based on a suggestion of Daniel
+Wollschlaeger.
 }
 \examples{
-marcumq(12.4, 12.5)
+mq <- marcumq(12.4, 12.5)
 
 }
 \references{

@@ -25,11 +25,11 @@ Upsample a signal by an integer factor.
 }
 \examples{
 x <- seq_len(4)
-upsample(x, 3)
-upsample(x, 3, 2)
+u <- upsample(x, 3)
+u <- upsample(x, 3, 2)
 
 x <- matrix(seq_len(6), 3, byrow = TRUE)
-upsample(x, 3)
+u <- upsample(x, 3)
 
 }
 \seealso{

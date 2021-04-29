@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Savitzky-Golay filter design
 #'
@@ -52,7 +52,7 @@
 #' @examples
 #' ## Generate a signal that consists of a 0.2 Hz sinusoid embedded
 #' ## in white Gaussian noise and sampled five times a second for 200 seconds.
-#' dt <- 1/5
+#' dt <- 1 / 5 
 #' t <- seq(0, 200 - dt, dt)
 #' x <- 5 * sin(2 * pi * 0.2 * t) + rnorm(length(t))
 #' ## Use sgolay to smooth the signal.
@@ -66,7 +66,8 @@
 #' ## Compute the transients. Use the last rows of b for the startup
 #' ## and the first rows of b for the terminal.
 #' ybegin <- sg[seq(nrow(sg), (n + 3) / 2, -1), ] %*% x[seq(n, 1, -1)]
-#' yend <- sg[seq((n - 1)/2, 1, -1), ] %*% x[seq(length(x), (length(x) - (n - 1)), -1)]
+#' yend <- sg[seq((n - 1)/2, 1, -1), ] %*%
+#'         x[seq(length(x), (length(x) - (n - 1)), -1)]
 #' ## Concatenate the transients and the steady-state portion to
 #' ## generate the complete smoothed signal.
 #' ## Plot the original signal and the Savitzky-Golay estimate.
@@ -88,24 +89,24 @@
 sgolay <- function(p, n, m = 0, ts = 1) {
 
   if (!(isPosscal(p) && isWhole(p))) {
-    stop('p must be a positive integer')
+    stop("p must be a positive integer")
   }
-  if (!(isPosscal(n) && isWhole(n) && n%%2 == 1 && n > p)) {
-    stop('n must be an odd positive integer > p')
+  if (!(isPosscal(n) && isWhole(n) && n %% 2 == 1 && n > p)) {
+    stop("n must be an odd positive integer > p")
   }
 
   Fm <- matrix(0L, n, n)
   k <- floor(n / 2)
-  for (row  in  1:(k+1)) {
+  for (row in 1:(k + 1)) {
     ## Construct a matrix of weights Cij = xi ^ j.  The points xi are
     ## equally spaced on the unit grid, with past points using negative
     ## values and future points using positive values.
-    Ce <- (((1:n) - row) %*% matrix(1, 1, p + 1))^(matrix(1, n) %*% (0:p))
+    Ce <- (((1:n) - row) %*% matrix(1, 1, p + 1)) ^ (matrix(1, n) %*% (0:p))
     ## A = pseudo-inverse (C), so C*A = I; this is constructed from the SVD
     A <- pracma::pinv(Ce, tol = .Machine$double.eps)
     ## Take the row of the matrix corresponding to the derivative
     ## you want to compute.
-    Fm[row,] <- A[(1 + m),]
+    Fm[row, ] <- A[(1 + m), ]
   }
   ## The filters shifted to the right are symmetric with those to the left.
   Fm[((k + 2):n), ] <- (-1)^m * Fm[k:1, n:1]

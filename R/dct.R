@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201015  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Discrete Cosine Transform
 #'
@@ -69,11 +69,11 @@
 #'
 #' @export
 
- dct <- function (x, n = NROW(x)) {
+ dct <- function(x, n = NROW(x)) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   } else {
     realx <- is.numeric(x)
   }
@@ -85,9 +85,9 @@
     vec <- FALSE
   }
   nr <- nrow(x)
-  ns <- ncol(x)
+  nc <- ncol(x)
 
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
 
@@ -98,13 +98,16 @@
   if (n == 1) {
     w <- 1 / 2
   } else {
-    w <- c(sqrt(1 / 4 / n), sqrt(1 / 2 / n) * exp((-1i * pi / 2 / n) * seq_len(n - 1))) %o% rep(1, ns)
+    w <- c(sqrt(1 / 4 / n),
+           sqrt(1 / 2 / n) * exp((-1i * pi / 2 / n) * seq_len(n - 1))) %o%
+      rep(1, nc)
   }
-  if (realx && n%%2 == 0) {
-    y <- stats::mvfft(rbind(matrix(x[seq(1, n, 2), ], ncol = ns), matrix(x[seq(n, 1, -2), ], ncol = ns)))
+  if (realx && n %% 2 == 0) {
+    y <- stats::mvfft(rbind(matrix(x[seq(1, n, 2), ], ncol = nc),
+                            matrix(x[seq(n, 1, -2), ], ncol = nc)))
     y <- 2 * Re(w * y)
   } else {
-    y <- stats::mvfft(rbind(x, matrix(pracma::flipud(x), ncol = ns)))
+    y <- stats::mvfft(rbind(x, matrix(pracma::flipud(x), ncol = nc)))
     y <- w * y[1:n, ]
   }
 

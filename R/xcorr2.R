@@ -3,7 +3,7 @@
 # Octave version:
 # Copyright (C) 2000 Dave Cogdell <cogdelld@asme.org>
 # Copyright (C) 2000 Paul Kienzle <pkienzle@users.sf.net>
-# Copyright (C) 2012 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2012 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 2-D cross-correlation
 #'
@@ -32,7 +32,7 @@
 #' @param a Input matrix, coerced to numeric. Must not be missing.
 #' @param b Input matrix, coerced to numeric. Default: \code{a}.
 #' @param scale Character string. Specifies the type of scaling applied to the
-#'   correlationmatrix. matched to one of:
+#'   correlation matrix. matched to one of:
 #'   \describe{
 #'     \item{'none'}{no scaling}
 #'     \item{'biased'}{Scales the raw cross-correlation by the maximum number of
@@ -62,15 +62,16 @@
 #'
 #' @author Dave Cogdell, \email{cogdelld@@asme.org},\cr
 #' Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
-#' Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#' Carne Draug, \email{carandraug+dev@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @export
 
-xcorr2 <- function (a, b = a, scale = c("none", "biased", "unbiased", "coeff")) {
+xcorr2 <- function(a, b = a,
+                   scale = c("none", "biased", "unbiased", "coeff")) {
 
   if (!is.matrix(a) || !is.matrix(b)) {
-    stop ("input matrices must must have 2 dimensions");
+    stop("input matrices must must have 2 dimensions")
   }
   scale <- match.arg(scale)
 
@@ -84,22 +85,22 @@ xcorr2 <- function (a, b = a, scale = c("none", "biased", "unbiased", "coeff")) 
   # bias routines by Dave Cogdell (cogdelld@asme.org)
   # optimized by Paul Kienzle (pkienzle@users.sf.net)
   # coeff routine by Carnë Draug (carandraug+dev@gmail.com)
-  if (scale == 'biased') {
+  if (scale == "biased") {
     R <- R / (min(ma, mb) * min(na, nb))
   } else if (scale == "unbiased") {
     lo <- min(na, nb)
     hi <- max(na, nb)
-    row  <- c(1:(lo - 1), rep(lo, (hi -lo + 1)), rev(1:(lo - 1)))
-    lo  <- min (ma, mb)
-    hi <- max (ma, mb)
-    col <- c(1:(lo - 1), rep(lo, (hi -lo + 1)), rev(1:(lo - 1)))
+    row  <- c(1:(lo - 1), rep(lo, (hi - lo + 1)), rev(1:(lo - 1)))
+    lo  <- min(ma, mb)
+    hi <- max(ma, mb)
+    col <- c(1:(lo - 1), rep(lo, (hi - lo + 1)), rev(1:(lo - 1)))
     bias <- outer(col, row)
     R <- R / bias
   } else if (scale == "coeff") {
       a <- Re(a)
       b <- Re(b)
-      a <- conv2 (a^2, matrix(1L, nrow(b), ncol(b)))
-      b <- ssq (as.vector(b))
+      a <- conv2(a^2, matrix(1L, nrow(b), ncol(b)))
+      b <- ssq(as.vector(b))
       R <- R / sqrt(a * b)
   }
   R

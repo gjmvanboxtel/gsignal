@@ -33,9 +33,9 @@ Identify unique poles and their associated multiplicity.
 \examples{
 p <- c(2, 3, 1, 1, 2)
 ret <- mpoles(p, index = TRUE)
-ret$m         # returns 1 1 2 1 2
-ret$n         # returns 2 5 1 4 3
-p[ret$n]      # returns 3 2 2 1 1
+## ret$m         # returns 1 1 2 1 2
+## ret$n         # returns 2 5 1 4 3
+## p[ret$n]      # returns 3 2 2 1 1
 
 }
 \seealso{

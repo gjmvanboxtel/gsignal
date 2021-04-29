@@ -24,11 +24,13 @@ version, a single scalar will work just as well.}
 c(0, 1) range, where 1 corresponds to the Nyquist frequency, \code{fs / 2}.}
 }
 \value{
-A list of class \code{\link{FilterSpecs}} with the following list elements:
+A list of class \code{\link{FilterSpecs}} with the following list
+  elements:
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}
-  \item{type}{filter type, one of "low", "high", "stop", "pass", "DC-0", or "DC-1".}
+  \item{type}{filter type, one of "low", "high", "stop", "pass", "DC-0", or
+  "DC-1".}
   \item{beta}{shape parameter}
 }
 }
@@ -90,8 +92,10 @@ for (i in 1:4) {
     d <<- max(1, trunc(n/10))
     if (mag[length(mag)] == 1 && (d \%\% 2) == 1)
       d <<- d + 1
-    f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta), scale = FALSE), fs = fs)
-    f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta), scale = FALSE), fs = fs)
+    f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta),
+                 scale = FALSE), fs = fs)
+    f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta),
+                 scale = FALSE), fs = fs)
   })
   plot(f1$w, abs(f1$h), col = "blue", type = "l",  xlab = "", ylab = "")
   lines(f2$w, abs(f2$h), col = "red")

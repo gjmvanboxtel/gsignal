@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191207 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Uniform encoder
 #'
@@ -72,7 +72,7 @@
 #'   \code{v} before saturating them. Default 1.
 #' @param signed Logical indicating signed or unsigned output. See Details.
 #'
-#' @return Multidimensional array of the same siza as \code{u} containing signed
+#' @return Multidimensional array of the same size as \code{u} containing signed
 #'   or unsigned integers.
 #'
 #' @examples
@@ -86,15 +86,19 @@
 #'
 #' @export
 
-uencode <- function (u, n, v = 1, signed = FALSE) {
+uencode <- function(u, n, v = 1, signed = FALSE) {
 
-  if (!isScalar(n) || n < 2 || n > 32 || !isWhole(n)) stop ("n must be an integer in the range 2 to 32")
-  if (!isPosscal(v) || !isWhole(v) || v <= 0) stop ("v must be a positive integer")
-  if (!is.logical(signed)) stop ("signed must be a logical")
+  if (!isScalar(n) || n < 2 || n > 32 || !isWhole(n))
+    stop("n must be an integer in the range 2 to 32")
+  if (!isPosscal(v) || !isWhole(v) || v <= 0)
+    stop("v must be a positive integer")
+  if (!is.logical(signed))
+    stop("signed must be a logical")
 
-  # R does not do comparisons with complex numbers (that makes some sense). In Matlab, only the real parts
-  # of complex numbers are used for comparison. This is done here as well. It would perhaps also make sense
-  # to use the magnitide of the numbers to be compared. Oh well...
+  # R does not do comparisons with complex numbers (that makes some sense).
+  # In Matlab, only the real parts of complex numbers are used for comparison.
+  # This is done here as well. It would perhaps also make sense
+  # to use the magnitide of the numbers to be compared...
   if (is.complex(u)) u <- Re(u)
 
   y <- u
@@ -105,6 +109,6 @@ uencode <- function (u, n, v = 1, signed = FALSE) {
   y[u >= v] <- (2^n) - 1
   idx <- (u > -v) & (u < v)
   y[idx] <- floor((u[idx] + v) / width)
-  if (signed) y <- y - 2^(n - 1)
+  if (signed) y <- y - 2 ^ (n - 1)
   y
 }

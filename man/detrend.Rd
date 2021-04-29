@@ -15,10 +15,11 @@ also be given as a string, in which case \code{p} must be either
 (corresponds to \code{p = 1}).}
 }
 \value{
-The detrended data, of same type and dimnsions as \code{x}
+The detrended data, of same type and dimensions as \code{x}
 }
 \description{
-\code{detrend} removes the polynomial trend of order \code{p} from the data \code{x}.
+\code{detrend} removes the polynomial trend of order \code{p} from the data
+\code{x}.
 }
 \details{
 If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a

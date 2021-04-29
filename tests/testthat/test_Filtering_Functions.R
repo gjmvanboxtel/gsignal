@@ -13,16 +13,16 @@ test_that("parameters to filtfilt() are correct", {
 })
 
 test_that("filtfilt() tests are correct", {
-  expect_that(filtfilt(1, 1, 1:2), equals(c(1,2)))
-  expect_that(filtfilt(1, 2, 1:2), equals(c(0.25, 0.50)))
-  expect_that(filtfilt(2, 1, 1:2), equals(c(4, 8)))
+  expect_equal(filtfilt(1, 1, 1:2), c(1,2))
+  expect_equal(filtfilt(1, 2, 1:2), c(0.25, 0.50))
+  expect_equal(filtfilt(2, 1, 1:2), c(4, 8))
   x <- runif(100)
   y <- filtfilt(1, 1, x)
-  expect_that(length(y), equals(length(x)))
+  expect_equal(length(y), length(x))
   x <- matrix(runif(200), 100, 2)
   y <- filtfilt(1, 1, x)
-  expect_that(ncol(y), equals(ncol(x)))
-  expect_that(nrow(y), equals(nrow(x)))
+  expect_equal(ncol(y), ncol(x))
+  expect_equal(nrow(y), nrow(x))
 })
 
 # -----------------------------------------------------------------------
@@ -41,26 +41,26 @@ test_that("filtic() tests are correct", {
   # Simple low pass filter
   b <- c(0.25, 0.25)
   a <- c(1.0, -0.5)
-  expect_that(filtic(b, a, 1, 1), equals(0.75))
+  expect_equal(filtic(b, a, 1, 1), 0.75)
   
   # Simple high pass filter
   b <- c(0.25, -0.25)
   a <- c(1.0, 0.5)
-  expect_that(filtic(b, a, 0, 1), equals(-0.25))
+  expect_equal(filtic(b, a, 0, 1), -0.25)
 
   # Second order cases
   # bs <- butter(2, 0.4)
   b <- c(0.2065721, 0.4131442, 0.2065721)
   a <- c(1.0000000, -0.3695274,  0.1958157)
   x <- y <- c(1, 1)
-  expect_that(filtic(b, a, y, x), equals(c(0.7934280, 0.0107564), tolerance = 1e-7))
-  N <- 1000;
+  expect_equal(filtic(b, a, y, x), c(0.7934280, 0.0107564), tolerance = 1e-7)
+  N <- 1000
   xx <- cos(2 * pi * seq(0, N-1, length.out = N)/8)
   yy <- filter(b, a, xx)
   x <- xx[seq(N, N - 1, -1)]
   y <- yy[seq(N, N - 1, -1)]
   zf <- filtic(b, a, y, x)
-  expect_that(filtic(b, a, y, x), equals(c( 0.4039015, 0.1625113), tolerance = 1e-7))
+  expect_equal(filtic(b, a, y, x), c( 0.4039015, 0.1625113), tolerance = 1e-7)
   
 })
 
@@ -80,12 +80,16 @@ test_that("parameters to medfilt1() are correct", {
 })
 
 test_that("medfilt1() tests are correct", {
-  expect_that(medfilt1(1:10), equals(1:10))
-  expect_that(medfilt1(c(1, 1, 2, 3, 3, 4, 4, 4, 5)), equals(c(1, 1, 2, 3, 3, 4, 4, 4, 4)))
-  expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5)), equals(c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = 1e-7))
-  expect_that(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5), na.omit = TRUE), equals(c(1, 1, 2, 3, 4, 4, 4, 4)))
-  expect_that(medfilt1(cbind(1:5, 1:5)), equals(cbind(1:5, 1:5)))
-  expect_that(medfilt1(cbind(1:5, 1:5), n = 1, MARGIN = 1), equals(rbind(1:5, 1:5)))
+  expect_equal(medfilt1(1:10), 1:10)
+  expect_equal(medfilt1(c(1, 1, 2, 3, 3, 4, 4, 4, 5)), 
+               c(1, 1, 2, 3, 3, 4, 4, 4, 4))
+  expect_equal(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5)),
+               c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = 1e-7)
+  expect_equal(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5), na.omit = TRUE),
+               c(1, 1, 2, 3, 4, 4, 4, 4))
+  expect_equal(medfilt1(cbind(1:5, 1:5)), cbind(1:5, 1:5))
+  expect_equal(medfilt1(cbind(1:5, 1:5), n = 1, MARGIN = 1),
+              rbind(1:5, 1:5))
 })
 
 # -----------------------------------------------------------------------
@@ -102,13 +106,13 @@ test_that("parameters to movingrms() are correct", {
 
 test_that("movingrms() tests are correct", {
   r <- movingrms(1, 1)
-  expect_that(r$rmsx, equals(Inf))
-  expect_that(r$w, equals(1))
+  expect_equal(r$rmsx, Inf)
+  expect_equal(r$w, 1)
 
   r <- movingrms(matrix(1:100, 50), 1)
-  expect_that(ncol(r$rmsx), equals(2))
-  expect_that(nrow(r$rmsx), equals(50))
-  expect_that(r$w, equals(c(rep(0, 23), 0.5, 1, 0.5, rep(0, 24))))
+  expect_equal(ncol(r$rmsx), 2)
+  expect_equal(nrow(r$rmsx), 50)
+  expect_equal(r$w, c(rep(0, 23), 0.5, 1, 0.5, rep(0, 24)))
   
 })
 
@@ -128,35 +132,35 @@ test_that("parameters to sosfilt() are correct", {
 })
 
 test_that("sosfilt() tests are correct", {
-  expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), 1), equals(0))
-  expect_that(sosfilt(c(0, 0, 0, 1, 0, 0), c(1, 1)), equals(c(0, 0)))
+  expect_equal(sosfilt(c(0, 0, 0, 1, 0, 0), 1), 0)
+  expect_equal(sosfilt(c(0, 0, 0, 1, 0, 0), c(1, 1)), c(0, 0))
 
   sos <- rbind(c(0,1,0,1,-1,0),c(1,2,1,1,-2,1))
-  x=1:10
-  y=sosfilt(sos,x)
-  expect_that(y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
+  x <- 1:10
+  y <- sosfilt(sos,x)
+  expect_equal(y, c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365))
 
   # initial conditions  
   sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
   x1 <- 1:10
   y1 <- sosfilt(sos, x1, "zf")
-  expect_that(y1$y, equals(c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365)))
-  expect_that(y1$zf, equals(matrix(c(55, 1980, 0, -1320), ncol = 2)))
+  expect_equal(y1$y, c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365))
+  expect_equal(y1$zf, matrix(c(55, 1980, 0, -1320), ncol = 2))
   x2 <- 11:20
   y2 <- sosfilt(sos, x2, y1$zf)
-  expect_that(y2$y, equals(c(2035,2926,4082,5551,7385,9640,12376,15657,19551,24130)))
-  expect_that(y2$zf, equals(matrix(c(210, 29260, 0, -23940), ncol = 2)))
+  expect_equal(y2$y, c(2035,2926,4082,5551,7385,9640,12376,15657,19551,24130))
+  expect_equal(y2$zf, matrix(c(210, 29260, 0, -23940), ncol = 2))
   x <- 1:20
   y <- sosfilt(sos, x)
-  expect_that(y, equals(c(y1$y, y2$y)))
+  expect_equal(y, c(y1$y, y2$y))
 
   # multidimensional
   sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
   x <- cbind(1:10, 11:20)
   y <- sosfilt(sos, x, "zf")
-  expect_that(y$y, equals(cbind(c(0,1,7,26,70,155,301,532,876,1365),
-                                c(0,11,67,216,510,1005,1761,2842,4316,6255))))
-  expect_that(y$zf, equals(array(c(55,1980,0,-1320,155,8580,0,-6120), c(2,2,2))))
+  expect_equal(y$y, cbind(c(0,1,7,26,70,155,301,532,876,1365),
+                          c(0,11,67,216,510,1005,1761,2842,4316,6255)))
+  expect_equal(y$zf, array(c(55,1980,0,-1320,155,8580,0,-6120), c(2,2,2)))
 })
 
 # -----------------------------------------------------------------------
@@ -176,38 +180,39 @@ test_that("fftfilt() tests are correct", {
   b <- c(1, 1)
   x <- c(1L, rep(0L, 9))
   res <- c(rep(1L, 2), rep(0L, 8))
-  expect_that(fftfilt(b, x), equals(res))
-  expect_that(fftfilt(b, replicate(2, x)), equals(replicate(2,res)))
-  expect_that(fftfilt(b, replicate(2, x + 2 *.Machine$double.eps)), equals(replicate(2,res)))
+  expect_equal(fftfilt(b, x), res)
+  expect_equal(fftfilt(b, replicate(2, x)), replicate(2,res))
+  expect_equal(fftfilt(b, replicate(2, x + 2 *.Machine$double.eps)),
+               replicate(2,res))
   
   r <- sqrt (1/2) * (1+1i)
   b <-  c(1, 1) * r
   x <- c(1L, rep(0L, 9))
   res <- c(rep(1L, 2), rep(0L, 8))
-  expect_that(fftfilt(b, x), equals(r * res))
-  expect_that(fftfilt(b, r * x), equals(r * r * res))
+  expect_equal(fftfilt(b, x), r * res)
+  expect_equal(fftfilt(b, r * x), r * r * res)
 
   b  <- c(1, 1)
   x  <- matrix(rep(0L, 30), 10, 3); x[1, 1] <--1; x[1, 2] <- 1
-  y0 <- matrix(rep(0L, 30), 10, 3); y0[1:2, 1] = -1; y0[1:2, 2] <- 1
+  y0 <- matrix(rep(0L, 30), 10, 3); y0[1:2, 1] <- -1; y0[1:2, 2] <- 1
   y  <- fftfilt(b, x)
-  expect_that(y0, equals(y))
+  expect_equal(y0, y)
   y  <- fftfilt(b * 1i, x)
-  expect_that(y0 * 1i, equals(y))
+  expect_equal(y0 * 1i, y)
   y  <- fftfilt(b, x * 1i)
-  expect_that(y0 * 1i, equals(y))
+  expect_equal(y0 * 1i, y)
   y  <- fftfilt(b * 1i, x * 1i)
-  expect_that(-y0, equals(y))
+  expect_equal(-y0, y)
   x  <- runif(10)
   y  <- fftfilt(b, cbind(x, x * 1i))
-  expect_that(all(abs(Im(y[, 1])) < .Machine$double.eps), equals(TRUE))
-  expect_that(all(abs(Re(y[, 2])) < .Machine$double.eps), equals(TRUE))
+  expect_equal(all(abs(Im(y[, 1])) < .Machine$double.eps), TRUE)
+  expect_equal(all(abs(Re(y[, 2])) < .Machine$double.eps), TRUE)
   
   b  <- runif(10)
   x  <- runif(10)
   y0 <- filter(b, 1, x)
   y  <- fftfilt(b, x)
-  expect_that(y0, equals(y))
+  expect_equal(y0, y, tolerance =  1e-6)
   
 })
 
@@ -227,6 +232,6 @@ test_that("filter_zi() tests are correct", {
   h <- butter(2, 0.4)
   l <- max(length(h$b), length(h$a)) - 1
   x <- y <- rep(1, l)
-  expect_that(filtic(h, y, x), equals(filter_zi(h)))
+  expect_equal(filtic(h, y, x), filter_zi(h))
 
 })

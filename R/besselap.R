@@ -19,7 +19,7 @@
 #
 # 20200426 Geert van Boxtel          First version for v0.1.0
 # 20205001 Geert van Boxtel          return Zpg$z = complex(0) instead of NULL
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Bessel analog low-pass filter prototype
 #'
@@ -54,7 +54,8 @@
 #'
 #' @param n order of the filter; must be < 25.
 #'
-#' @return List of class \code{\link{Zpg}} containing poles and gain of the filter
+#' @return List of class \code{\link{Zpg}} containing poles and gain of the
+#'   filter
 #'
 #' @examples
 #' ## 6th order Bessel low-pass analog filter
@@ -69,9 +70,11 @@
 #
 #' @export
 
-besselap <- function (n) {
+besselap <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n)) {
+    stop("n must be an integer strictly positive")
+  }
 
   if (n == 1) {
     p <- -1
@@ -89,9 +92,8 @@ besselap <- function (n) {
     ## p1 now contains the reverse bessel polynomial for n
 
     ## scale it by replacing s->s/w0 so that the gain becomes 1
-    p1 <- p1 * p1[length(p1)]^(seq(length(p1) - 1, 0, -1) / (length(p1) - 1))
+    p1 <- p1 * p1[length(p1)] ^ (seq(length(p1) - 1, 0, -1) / (length(p1) - 1))
     p <- pracma::roots(p1)
   }
   Zpg(complex(0), p, 1)
 }
-

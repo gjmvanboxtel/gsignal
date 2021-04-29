@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191130 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Complex Shannon Wavelet
 #'
@@ -53,8 +53,9 @@
 #' n <- 1000
 #' sw <- shanwavf(lb, ub, n, fb, fc)
 #' op <- par(mfrow = c(2,1))
-#' plot (sw$x, Re(sw$psi), type="l", main = "Complex Shannon Wavelet", xlab = "real part", ylab = "")
-#' plot (sw$x, Im(sw$psi), type="l", xlab = "imaginary part", ylab = "")
+#' plot(sw$x, Re(sw$psi), type="l", main = "Complex Shannon Wavelet",
+#'      xlab = "real part", ylab = "")
+#' plot(sw$x, Im(sw$psi), type="l", xlab = "imaginary part", ylab = "")
 #' par(op)
 #'
 #' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
@@ -62,11 +63,14 @@
 #'
 #' @export
 
-shanwavf <- function (lb = -8, ub = 8, n = 1000, fb = 5, fc = 1) {
+shanwavf <- function(lb = -8, ub = 8, n = 1000, fb = 5, fc = 1) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
-  if (!isPosscal(fb) || fb <= 0) stop('fb must be a positive scalar > 0')
-  if (!isPosscal(fc) || fc <= 0) stop('fc must be a positive scalar > 0')
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
+  if (!isPosscal(fb) || fb <= 0)
+    stop("fb must be a positive scalar > 0")
+  if (!isPosscal(fc) || fc <= 0)
+    stop("fc must be a positive scalar > 0")
 
   x <- seq(lb, ub, length.out = n)
   psi <- (fb^0.5) * (sinc(fb * x) * exp(2 * 1i * pi * fc * x))

@@ -17,10 +17,10 @@ postpad(x, l, c = 0, MARGIN = 2)
 
 \item{l}{Length of output data along the padding dimension. If \code{length
 (x) > l}, elements from the beginning (\code{dimension = "pre"}) or the end
-(\code{direction = "post"}) of \code{x} are removed until a vector of length
-\code{l} is obtained. If \code{direction = "both"}, values are removed from
-both ends, and in case of an uneven length the smallest number of elements
-is removed from the beginning of vector.}
+(\code{direction = "post"}) of \code{x} are removed until a vector of
+length \code{l} is obtained. If \code{direction = "both"}, values are
+removed from both ends, and in case of an uneven length the smallest number
+of elements is removed from the beginning of vector.}
 
 \item{c}{Value to be used for the padding (scalar). Must be of the same type
 as the elements in \code{x}. Default: 0}
@@ -53,21 +53,21 @@ Unlike the Matlab/Octave \code{postpad} function, this implementation
 }
 \examples{
 v <- 1:24
-postpad(v, 30)
-postpad(v, 20)
-prepad(v, 30)
-prepad(v, 20)
+res <- postpad(v, 30)
+res <- postpad(v, 20)
+res <- prepad(v, 30)
+res <- prepad(v, 20)
 
 m <- matrix(1:24, 4, 6)
-postpad(m, 8, 100)
-postpad(m, 8, 100, MARGIN = 1)
-prepad(m, 8, 100)
-prepad(m, 8, 100, MARGIN = 1)
+res <- postpad(m, 8, 100)
+res <- postpad(m, 8, 100, MARGIN = 1)
+res <- prepad(m, 8, 100)
+res <- prepad(m, 8, 100, MARGIN = 1)
 
-postpad(m, 2)
-postpad(m, 2, MARGIN = 1)
-prepad(m, 2)
-prepad(m, 2, MARGIN = 1)
+res <- postpad(m, 2)
+res <- postpad(m, 2, MARGIN = 1)
+res <- prepad(m, 2)
+res <- prepad(m, 2, MARGIN = 1)
 
 }
 \author{

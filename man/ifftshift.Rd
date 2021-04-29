@@ -25,11 +25,11 @@ Undo the action of the fftshift function. For even length \code{x},
 }
 \examples{
 Xeven <- 1:6
-fftshift(fftshift(Xeven))
+res <- fftshift(fftshift(Xeven))
 
 Xodd <- 1:7
-fftshift(fftshift(Xodd))
-ifftshift(fftshift(Xodd))
+res <- fftshift(fftshift(Xodd))
+res <- ifftshift(fftshift(Xodd))
 
 }
 \seealso{

@@ -33,7 +33,7 @@ efficiency.
 }
 \examples{
 
-digitrevorder(0:8, 3)
+res <- digitrevorder(0:8, 3)
 
 }
 \seealso{

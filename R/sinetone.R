@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20201201 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sine tone
 #'
@@ -28,7 +28,8 @@
 #'   values. The length of \code{freq} should equal the length of the
 #'   \code{ampl} vector; the shorter of the two is recycled to the longer
 #'   vector.
-#' @param rate sampling frequency, specified as a positive scalar. Default: 8000.
+#' @param rate sampling frequency, specified as a positive scalar. Default:
+#'   8000.
 #' @param sec length of the generated tone in seconds. Default: 1
 #' @param ampl amplitude of the tone, specified as a vector of positive numeric
 #'   values. The length of \code{ampl} should equal the length of the
@@ -46,14 +47,15 @@
 #' plot(seq(0, sec, length.out = sec * fs), y, type = "l", xlab = "", ylab = "")
 #'
 #' y <- sinetone(c(10, 15), fs, sec, c(1, 2))
-#' matplot(seq(0, sec, length.out = sec * fs), y, type = "l", xlab = "", ylab = "")
+#' matplot(seq(0, sec, length.out = sec * fs), y, type = "l",
+#'         xlab = "", ylab = "")
 #'
 #' @author Friedrich Leisch.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-sinetone <- function (freq, rate = 8000, sec = 1, ampl = 64) {
+sinetone <- function(freq, rate = 8000, sec = 1, ampl = 64) {
 
   if (!is.vector(freq) || !is.numeric(freq) || !all(freq >= 0)) {
     stop("freq must be a numeric vector > 0")
@@ -82,7 +84,7 @@ sinetone <- function (freq, rate = 8000, sec = 1, ampl = 64) {
   y <- matrix(0, ns, maxl)
 
   for (k in seq_len(maxl)) {
-    y[, k] <- ampl[k] * sin (2 * pi * seq(1, ns) / rate * freq[k])
+    y[, k] <- ampl[k] * sin(2 * pi * seq(1, ns) / rate * freq[k])
   }
 
   if (maxl == 1) {

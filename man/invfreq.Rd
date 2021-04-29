@@ -99,6 +99,7 @@ title(paste('L2 norm of frequency response error =', err))
 \url{https://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html}
 }
 \author{
-Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.\cr
-  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal
+  Dupuis.\cr Conversion to R by Geert van Boxtel,
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

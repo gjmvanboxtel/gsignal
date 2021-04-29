@@ -17,7 +17,7 @@
 # Version history
 # 20200227  GvB       setup for gsignal v0.1.0
 # 20200228  GvB       coerce inputs a and to to matrices instead of checking
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 2-D convolution
 #'
@@ -31,8 +31,8 @@
 #'   as A. The central part of the convolution begins at the indices
 #'   \code{floor(c(nrow(b), ncol(b)) / 2 + 1)}}
 #'   \item{valid}{Return only the parts which do not include zero-padded edges.
-#'   The size of the result is \code{max(c(nrow(a), ncol(b)) - c(nrow(b),
-#'   ncol(b)) + 1, 0)}}
+#'   The size of the result is \code{max(nrow(a) - nrow(a) + 1, 0)} by
+#'   \code{max(ncol(A) - ncol(B) + 1, 0)}}
 #' }
 #'
 #' @return Convolution of input matrices, returned as a matrix.
@@ -40,9 +40,9 @@
 #' @examples
 #' a <- matrix(1:16, 4, 4)
 #' b <- matrix(1:9, 3,3)
-#' conv2(a, b)
-#' conv2(a, b, 'same')
-#' conv2(a, b, 'valid')
+#' cnv <- conv2(a, b)
+#' cnv <- conv2(a, b, 'same')
+#' cnv <- conv2(a, b, 'valid')
 #'
 #' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
 #'
@@ -50,22 +50,25 @@
 #'
 #' @export
 
-conv2 <- function (a, b, shape = c("full", "same", "valid")) {
+conv2 <- function(a, b, shape = c("full", "same", "valid")) {
 
   a <- as.matrix(a)
   b <- as.matrix(b)
   shape <- match.arg(shape)
 
-  if(length(a) < length(b)) {
+  if (length(a) < length(b)) {
     x <- a
     a <- b
     b <- x
   }
 
   y <- switch(shape,
-              'full'  = .Call("_gsignal_conv2df", PACKAGE = "gsignal", Re(a), Re(b)),
-              'same'  = .Call("_gsignal_conv2ds", PACKAGE = "gsignal", Re(a), Re(b)),
-              'valid' = .Call("_gsignal_conv2dv", PACKAGE = "gsignal", Re(a), Re(b))
+              "full"  = .Call("_gsignal_conv2df",
+                              PACKAGE = "gsignal", Re(a), Re(b)),
+              "same"  = .Call("_gsignal_conv2ds",
+                              PACKAGE = "gsignal", Re(a), Re(b)),
+              "valid" = .Call("_gsignal_conv2dv",
+                              PACKAGE = "gsignal", Re(a), Re(b))
               )
   y
 }

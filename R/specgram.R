@@ -19,8 +19,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191204  Geert van Boxtel          First version for v0.1.0
-# 20210411  GvB                       v0.3.0 plotting via S3 method
-#---------------------------------------------------------------------------------------------------------------------------------
+# 20210418  GvB                       v0.3.0 plotting via S3 method
+#------------------------------------------------------------------------------
 
 #' Spectrogram
 #'
@@ -99,7 +99,8 @@
 #' low frequencies on the bottom of the image.
 #'
 #' @param x Input signal, specified as a vector.
-#' @param n Size of the FFT window. Default: 256 (or less if \code{x} is shorter).
+#' @param n Size of the FFT window. Default: 256 (or less if \code{x} is
+#'   shorter).
 #' @param fs Sample rate in Hz. Default: 2
 #' @param window Either an integer indicating the length of a Hanning window, or
 #'   a vector of values representing the shape of the FFT tapering window.
@@ -121,9 +122,10 @@
 #' @examples
 #'
 #' sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
-#' plot(sp <- specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
-#' "logarithmic"), fs = 8000))
+#' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
+#'         "logarithmic"), fs = 8000)
 #'
+#'\dontrun{
 #' # use other color palettes than grayscale
 #' require(grDevices)
 #' jet <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
@@ -133,6 +135,7 @@
 #' c2w <- colorRampPalette(colors = c("red", "white", "blue"))
 #' plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
 #' 8000), col = c2w(50))
+#'}
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Tom Short\cr
@@ -141,31 +144,33 @@
 #' @rdname specgram
 #' @export
 
-specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n),
-                      overlap = ceiling(n / 2)) {
+specgram <- function(x, n = min(256, length(x)), fs = 2, window = hanning(n),
+                     overlap = ceiling(n / 2)) {
 
   if (!is.numeric(x) || !is.vector(x)) stop("x must be a numeric vector")
-  if (!isPosscal (n) || !isWhole(n)) stop('n must be a positive integer')
+  if (!isPosscal(n) || !isWhole(n)) stop("n must be a positive integer")
   if (n > length(x)) {
     n <- length(x)
-    warning (paste("FFT segment size adjusted to", n))
+    warning(paste("FFT segment size adjusted to", n))
   }
 
   ## if only the window length is given, generate hanning window
-  if (isScalar (window)) {
-    if (!isPosscal(window) || !isWhole(window)) stop('if window is a scalar, it must be a positive integer')
-    window <- hanning (window)
+  if (isScalar(window)) {
+    if (!isPosscal(window) || !isWhole(window))
+      stop("if window is a scalar, it must be a positive integer")
+    window <- hanning(window)
   }
 
-  if (!isPosscal(overlap) || !isWhole(overlap)) stop('if window is a scalar, it must be a positive integer')
+  if (!isPosscal(overlap) || !isWhole(overlap))
+    stop("if window is a scalar, it must be a positive integer")
 
   ## compute window offsets
   win_size <- length(window)
   if (win_size > n) {
     n <- win_size
-    warning (paste("FFT segment size adjusted to", n))
+    warning(paste("FFT segment size adjusted to", n))
   }
-  if (overlap >= n) stop('overlap should be smaller than n')
+  if (overlap >= n) stop("overlap should be smaller than n")
   step <- win_size - overlap
 
   ## build matrix of windowed data slices
@@ -186,11 +191,11 @@ specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n),
   if (n %% 2 == 1) {
     ret_n <- (n + 1) / 2
   } else {
-    ret_n = n / 2
+    ret_n <- n / 2
   }
   S <- S[1:ret_n, ]
 
-  f <- (0:(ret_n-1)) * fs / n
+  f <- (0:(ret_n - 1)) * fs / n
   t <- offset / fs
 
   ret <- list(S = S, f = f, t = t)
@@ -201,8 +206,17 @@ specgram <- function (x, n = min(256, length(x)), fs = 2, window = hanning(n),
 #' @rdname specgram
 #' @export
 
-plot.specgram <- print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
-                                            xlab = "Time", ylab = "Frequency", ...) {
-  graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))), col = col, xlab = xlab, ylab = ylab, ...)
+print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
+                           xlab = "Time", ylab = "Frequency", ...) {
+  graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))),
+                  col = col, xlab = xlab, ylab = ylab, ...)
 }
-  
+
+#' @rdname specgram
+#' @export
+
+plot.specgram <- function(x, col = grDevices::gray(0:512 / 512),
+                           xlab = "Time", ylab = "Frequency", ...) {
+  graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))),
+                  col = col, xlab = xlab, ylab = ylab, ...)
+}

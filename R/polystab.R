@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200623  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Stabilize polynomial
 #'
@@ -35,8 +35,9 @@
 #' stable <- polystab(unstable)
 #' zplane(stable, 1)
 #'
-#' @author Original Octave version by Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
-#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
+#' @author Original Octave version by Paul Kienzle,
+#'   \email{pkienzle@@users.sf.net}.\cr Conversion to R by Geert van Boxtel,
+#'   \email{G.J.M.vanBoxtel@@gmail.com}
 #
 #' @export
 
@@ -45,7 +46,7 @@ polystab <- function(a) {
   r <- pracma::roots(a)
   v <- which(abs(r) > 1)
   if (length(v)) {
-    r[v] = 1 / Conj(r[v])
+    r[v] <- 1 / Conj(r[v])
     b <- a[1] * poly(r)
     if (is.numeric(a)) {
       b <- Re(b)

@@ -38,14 +38,16 @@ t <- seq(0, 10, length = 256)
 z <- hilbert(sin(2 * pi * 0.5 * t))
 plot(t, Re(z), type = "l", col="blue")
 lines (t, Im(z), col = "red")
-legend('topright', lty = 1, legend = c("Real", "Imag"), col = c("blue", "red"))
+legend('topright', lty = 1, legend = c("Real", "Imag"),
+       col = c("blue", "red"))
 
 ## the magnitude of the hilbert transform eliminates the carrier
 t <- seq(0, 10, length = 1024)
 x <- 5 * cos(0.2 * t) * sin(100 * t)
 plot(t, x, type = "l", col = "green")
 lines (t, abs(hilbert(x)), col = "blue")
-legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"), col = c("green", "blue"))
+legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"),
+        col = c("green", "blue"))
 
 }
 \references{

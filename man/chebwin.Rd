@@ -21,7 +21,8 @@ Return the filter coefficients of a Dolph-Chebyshev window.
 \details{
 The window is described in frequency domain by the expression:
 \if{latex}{
-  \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1, \beta)}}
+  \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1,
+  \beta)}}
 }
 \if{html}{\preformatted{
                 Cheb(m-1, Beta * cos(\pi * k/m))

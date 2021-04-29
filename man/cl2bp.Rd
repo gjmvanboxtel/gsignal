@@ -44,9 +44,9 @@ freqz(h)
 
 }
 \references{
-Selesnick, I.W., Lang, M., and Burrus, C.S. (1998) A modified algorithm
-  for constrained least square design of multiband FIR filters without
-  specified transition bands. IEEE Trans. on Signal Processing,
+Selesnick, I.W., Lang, M., and Burrus, C.S. (1998) A modified
+  algorithm for constrained least square design of multiband FIR filters
+  without specified transition bands. IEEE Trans. on Signal Processing,
   46(2), 497-501. \cr
   \url{https://www.ece.rice.edu/dsp/software/cl2.shtml}
 }

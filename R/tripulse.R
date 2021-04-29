@@ -19,7 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191127 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sampled aperiodic triangle
 #'
@@ -51,7 +51,8 @@
 #' t <- seq(-0.1, 0.1, 1/fs)
 #' w <- 40e-3
 #' y <- tripuls(t, w)
-#' plot(t, y, type="l", xlab = "", ylab = "", main = "Symmetric triangular pulse")
+#' plot(t, y, type="l", xlab = "", ylab = "",
+#'      main = "Symmetric triangular pulse")
 #'
 #' ## displace into paste and future
 #' tpast <- -45e-3
@@ -69,23 +70,24 @@
 #
 #' @export
 
-tripuls <- function (t, w = 1, skew = 0) {
+tripuls <- function(t, w = 1, skew = 0) {
 
-  if(length(t) <= 0) stop('t must be a vector with length > 0')
-  if (!isScalar(w)) stop('w must be a scalar')
-  if (!isScalar(skew) || skew < -1 || skew > 1) stop('skew must be a scalar between 0 and 1')
+  if (length(t) <= 0) stop("t must be a vector with length > 0")
+  if (!isScalar(w)) stop("w must be a scalar")
+  if (!isScalar(skew) || skew < -1 || skew > 1)
+    stop("skew must be a scalar between 0 and 1")
 
   y <- rep(0L, length(t))
   peak <- skew * w / 2
 
-  idx <- which((t >= -w/2) & (t <= peak))
+  idx <- which((t >= -w / 2) & (t <= peak))
   if (length(idx) > 0) {
-    y[idx] <- (t[idx] + w/2) / (peak + w/2)
+    y[idx] <- (t[idx] + w / 2) / (peak + w / 2)
   }
 
-  idx = which((t > peak) & (t < w/2))
+  idx <- which((t > peak) & (t < w / 2))
   if (length(idx) > 0) {
-    y[idx] <- (t[idx] - w/2) / (peak - w/2)
+    y[idx] <- (t[idx] - w / 2) / (peak - w / 2)
   }
 
   y

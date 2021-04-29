@@ -17,78 +17,79 @@ test_that("parameters to buffer() are correct", {
 })
 
 test_that("buffer() tests returning only y are correct", {
-  expect_that(buffer(1:10, 4), equals(matrix(c(1:10, 0, 0), 4, 3)))
-  expect_that(buffer(1:10, 4, 1), equals(matrix(c(0:3, 3:6, 6:9, 9, 10, 0, 0), 4, 4)))
-  expect_that(buffer(1:10, 4, 2), equals(matrix(c(0, 0:2, 1:4, 3:6, 5:8, 7:10), 4, 5)))
-  expect_that(buffer(1:10, 4, 3), equals(rbind(c(0, 0, 0:7), c(0, 0:8), 0:9, 1:10)))
-  expect_that(buffer(1:10, 4, -1), equals(matrix(c(1:4, 6:9), 4, 2)))
-  expect_that(buffer(1:10, 4, -2), equals(matrix(c(1:4, 7:10), 4, 2)))
-  expect_that(buffer(1:10, 4, -3), equals(matrix(c(1:4, 8:10, 0), 4, 2)))
-  expect_that(buffer(1:10, 4, 1, 11), equals(matrix(c(11,1:3,3:6,6:9,9,10,0,0), 4, 4)))
-  expect_that(buffer(1:10, 4, 1, 'nodelay'), equals(matrix(c(1:4,4:7,7:10), 4, 3)))
-  expect_that(buffer(1:10, 4, 2, 'nodelay'), equals(matrix(c(1:4,3:6,5:8,7:10), 4, 4)))
-  expect_that(buffer(1:10, 4, 3, c(11, 12, 13)), equals(rbind(c(11:13, 1:7), c(12:13, 1:8), c(13, 1:9), 1:10)))
-  expect_that(buffer(1:10, 4, 3, 'nodelay'), equals(rbind(1:8, 2:9, 3:10, c(4:10, 0))))
-  expect_that(buffer(1:11, 4, -2, 1), equals(matrix(c(2:5, 8:11), 4, 2)))
+  expect_equal(buffer(1:10, 4), matrix(c(1:10, 0, 0), 4, 3))
+  expect_equal(buffer(1:10, 4, 1), matrix(c(0:3, 3:6, 6:9, 9, 10, 0, 0), 4, 4))
+  expect_equal(buffer(1:10, 4, 2), matrix(c(0, 0:2, 1:4, 3:6, 5:8, 7:10), 4, 5))
+  expect_equal(buffer(1:10, 4, 3), rbind(c(0, 0, 0:7), c(0, 0:8), 0:9, 1:10))
+  expect_equal(buffer(1:10, 4, -1), matrix(c(1:4, 6:9), 4, 2))
+  expect_equal(buffer(1:10, 4, -2), matrix(c(1:4, 7:10), 4, 2))
+  expect_equal(buffer(1:10, 4, -3), matrix(c(1:4, 8:10, 0), 4, 2))
+  expect_equal(buffer(1:10, 4, 1, 11), matrix(c(11,1:3,3:6,6:9,9,10,0,0), 4, 4))
+  expect_equal(buffer(1:10, 4, 1, 'nodelay'), matrix(c(1:4,4:7,7:10), 4, 3))
+  expect_equal(buffer(1:10, 4, 2, 'nodelay'), matrix(c(1:4,3:6,5:8,7:10), 4, 4))
+  expect_equal(buffer(1:10, 4, 3, c(11, 12, 13)),
+               rbind(c(11:13, 1:7), c(12:13, 1:8), c(13, 1:9), 1:10))
+  expect_equal(buffer(1:10, 4, 3, 'nodelay'), rbind(1:8, 2:9, 3:10, c(4:10, 0)))
+  expect_equal(buffer(1:11, 4, -2, 1), matrix(c(2:5, 8:11), 4, 2))
 })
 
 test_that("buffer() tests returning y, and z are correct", {
   buf <- buffer(1:12, 4, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(1:12, 4, 3)))
-  expect_that(buf$z, equals(NULL))
+  expect_equal(buf$y, matrix(1:12, 4, 3))
+  expect_equal(buf$z, NULL)
   
   buf <- buffer(1:11, 4, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(1:8, 4, 2)))
-  expect_that(buf$z, equals(9:11))
+  expect_equal(buf$y, matrix(1:8, 4, 2))
+  expect_equal(buf$z, 9:11)
   
   buf <- buffer(t(1:12), 4, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(1:12, 4, 3)))
-  expect_that(buf$z, equals(NULL))
+  expect_equal(buf$y, matrix(1:12, 4, 3))
+  expect_equal(buf$z, NULL)
   
   # slightly different from Matlab implementation (column vector)
   # not sure if this matters - find field tests for this situation
   buf <- buffer(t(1:11), 4, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(1:8, 4, 2)))
-  expect_that(buf$z, equals(9:11))
+  expect_equal(buf$y, matrix(1:8, 4, 2))
+  expect_equal(buf$z, 9:11)
 })
 
 test_that("buffer() tests returning y, z, and opt are correct", {
   buf <- buffer(1:15, 4, -2, 1, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
-  expect_that(buf$z, equals(c(14,15)))
-  expect_that(buf$opt, equals(0L))
+  expect_equal(buf$y, matrix(c(2:5,8:11), 4, 2))
+  expect_equal(buf$z, c(14,15))
+  expect_equal(buf$opt, 0L)
   
   buf <- buffer(1:11, 4, -2, 1, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
-  expect_that(buf$z, equals(NULL))
-  expect_that(buf$opt, equals(2))
+  expect_equal(buf$y, matrix(c(2:5,8:11), 4, 2))
+  expect_equal(buf$z, NULL)
+  expect_equal(buf$opt, 2)
   
   # slightly different from Matlab implementation (column vector)
   # not sure if this matters - find field tests for this situation
   buf <- buffer(t(1:15), 4, -2, 1, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
-  expect_that(buf$z, equals(c(14,15)))
-  expect_that(buf$opt, equals(0L))
+  expect_equal(buf$y, matrix(c(2:5,8:11), 4, 2))
+  expect_equal(buf$z, c(14,15))
+  expect_equal(buf$opt, 0L)
   
   buf <- buffer(t(1:11), 4, -2, 1, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(2:5,8:11), 4, 2)))
-  expect_that(buf$z, equals(NULL))
-  expect_that(buf$opt, equals(2))
+  expect_equal(buf$y, matrix(c(2:5,8:11), 4, 2))
+  expect_equal(buf$z, NULL)
+  expect_equal(buf$opt, 2)
   
   buf <- buffer(1:11, 5, 2, c(-1,0), zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(-1:3,2:6,5:9), 5, 3)))
-  expect_that(buf$z, equals(c(10, 11)))
-  expect_that(buf$opt, equals(c(8, 9)))
+  expect_equal(buf$y, matrix(c(-1:3,2:6,5:9), 5, 3))
+  expect_equal(buf$z, c(10, 11))
+  expect_equal(buf$opt, c(8, 9))
   
   buf <- buffer(t(1:11), 5, 2, c(-1,0), zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(-1:3,2:6,5:9), 5, 3)))
-  expect_that(buf$z, equals(c(10, 11)))
-  expect_that(buf$opt, equals(c(8, 9)))
+  expect_equal(buf$y, matrix(c(-1:3,2:6,5:9), 5, 3))
+  expect_equal(buf$z, c(10, 11))
+  expect_equal(buf$opt, c(8, 9))
   
   buf <- buffer(t(1:10), 6, 4, zopt = TRUE)
-  expect_that(buf$y, equals(matrix(c(rep(0, 4), 1:2, rep(0, 2), 1:4, 1:6, 3:8, 5:10), 6, 5)))
-  expect_that(buf$z, equals(NULL))
-  expect_that(buf$opt, equals(7:10))
+  expect_equal(buf$y, matrix(c(rep(0, 4), 1:2, rep(0, 2), 1:4, 1:6, 3:8, 5:10), 6, 5))
+  expect_equal(buf$z, NULL)
+  expect_equal(buf$opt, 7:10)
   
 })
 
@@ -99,26 +100,26 @@ test_that("buffer() works correctly with continuous buffering", {
   n <- 4
   p <- 1
   buf <- list(y = NULL, z = NULL, opt = -5)
-  for (i in 1:ncol(data)) {
+  for (i in seq_len(ncol(data))) {
     x <- data[,i]
     buf <- buffer(x = c(buf$z,x), n, p, opt=buf$opt, zopt = TRUE)
   }
-  expect_that(buf$y, equals(matrix(c(1089:1092, 1092:1095, 1095:1098), 4, 3)))
-  expect_that(buf$z, equals(c(1099, 1100)))
-  expect_that(buf$opt, equals(1098))
+  expect_equal(buf$y, matrix(c(1089:1092, 1092:1095, 1095:1098), 4, 3))
+  expect_equal(buf$z, c(1099, 1100))
+  expect_equal(buf$opt, 1098)
   
   # underlap
   data <- buffer(1:1100, 11)
   n <- 4
   p <- -2
   buf <- list(y = NULL, z = NULL, opt = 1)
-  for (i in 1:ncol(data)) {
+  for (i in seq_len(ncol(data))) {
     x <- data[,i]
     buf <- buffer(x = c(buf$z,x), n, p, opt=buf$opt, zopt = TRUE)
   }
-  expect_that(buf$y, equals(matrix(c(1088:1091, 1094:1097), 4, 2)))
-  expect_that(buf$z, equals(1100))
-  expect_that(buf$opt, equals(0))
+  expect_equal(buf$y, matrix(c(1088:1091, 1094:1097), 4, 2))
+  expect_equal(buf$z, 1100)
+  expect_equal(buf$opt, 0)
   
 })
 
@@ -135,18 +136,18 @@ test_that("chirp() works for linear, quadratic and logarithmic shapes", {
   
   t <- seq(0, 5, 0.001)
   y <- chirp (t)
-  expect_that(sum(head(y)), equals(5.999952, tolerance = 1e-6))
-  expect_that(sum(tail(y)), equals(2.146626e-05, tolerance = 1e-6))
+  expect_equal(sum(head(y)), 5.999952, tolerance = 1e-6)
+  expect_equal(sum(tail(y)), 2.146626e-05, tolerance = 1e-6)
   
   t <- seq(-2, 15, 0.001)
   y <- chirp (t, 400, 10, 100, "quadratic")
-  expect_that(sum(head(y)), equals(0.8976858, tolerance = 1e-6))
-  expect_that(sum(tail(y)), equals(0.4537373, tolerance = 1e-6))
+  expect_equal(sum(head(y)), 0.8976858, tolerance = 1e-6)
+  expect_equal(sum(tail(y)), 0.4537373, tolerance = 1e-6)
   
   t <- seq(0, 5, 1/8000)
   y <- chirp (t, 200, 2, 500, "logarithmic")
-  expect_that(sum(head(y)), equals(-4.56818, tolerance = 1e-6))
-  expect_that(sum(tail(y)), equals(0.8268064, tolerance = 1e-6))
+  expect_equal(sum(head(y)), -4.56818, tolerance = 1e-6)
+  expect_equal(sum(tail(y)), 0.8268064, tolerance = 1e-6)
   
 })
 
@@ -163,8 +164,8 @@ test_that("parameters to cmorwavf() are correct", {
 })
 
 test_that("cmorwavf() works correctly", {
-  expect_that(round(mean(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), equals(0))
-  expect_that(round(mean(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), equals(0))
+  expect_equal(round(mean(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), 0)
+  expect_equal(round(mean(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 4), 0)
   expect_lt(max(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 1L)
   expect_lt(max(Im(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), 1L)
   expect_gt(min(Re(cmorwavf(-8, 8, 1000, 1.5, 1)$psi)), -1L)
@@ -236,10 +237,10 @@ test_that("parameters to pulstran() are correct", {
 test_that("rectpuls() works correctly", {
   t <- seq(0, 1, 0.01)
   d <- seq(0, 1, 0.1)
-  expect_that(pulstran(NA, d, 'sin'), equals(NA_integer_))
-  expect_that(pulstran(t, NULL, 'sin'), equals(rep(0L, length(t))))
-  expect_that(pulstran(seq(0, 0.1, 0.001)), equals(rep(0L, length(seq(0, 0.1, 0.001)))))
-  expect_that(length(pulstran(t, d, 'sin')), equals(length(t)))
+  expect_equal(pulstran(NA, d, 'sin'), NA_integer_)
+  expect_equal(pulstran(t, NULL, 'sin'), rep(0L, length(t)))
+  expect_equal(pulstran(seq(0, 0.1, 0.001)), rep(0L, length(seq(0, 0.1, 0.001))))
+  expect_equal(length(pulstran(t, d, 'sin')), length(t))
 })
 
 # -----------------------------------------------------------------------
@@ -254,11 +255,11 @@ test_that("parameters to rectpuls() are correct", {
 })
 
 test_that("rectpuls() works correctly", {
-  expect_that(rectpuls(0, 0), equals(0))
-  expect_that(rectpuls(0, 0.1), equals(1))
-  expect_that(rectpuls(rep(0L, 10)), equals(rep(1L, 10)))
-  expect_that(rectpuls(-1:1), equals(c(0, 1, 0)))
-  expect_that(rectpuls(-5:5, 9), equals(c(0, rep(1L, 9), 0)))
+  expect_equal(rectpuls(0, 0), 0L)
+  expect_equal(rectpuls(0, 0.1), 1L)
+  expect_equal(rectpuls(rep(0L, 10)), rep(1L, 10))
+  expect_equal(rectpuls(-1:1), c(0, 1, 0))
+  expect_equal(rectpuls(-5:5, 9), c(0, rep(1L, 9), 0))
 })
 
 # -----------------------------------------------------------------------
@@ -274,9 +275,9 @@ test_that("parameters to sawtooth() are correct", {
 })
 
 test_that("sawtooth() works correctly", {
-  expect_that(sawtooth(0, 0), equals(1))
-  expect_that(sawtooth(0, 1), equals(-1))
-  expect_that(sawtooth(rep(0L, 10)), equals(rep(-1L, 10)))
+  expect_equal(sawtooth(0, 0), 1L)
+  expect_equal(sawtooth(0, 1), -1L)
+  expect_equal(sawtooth(rep(0L, 10)), rep(-1L, 10))
 })
 
 # -----------------------------------------------------------------------
@@ -292,10 +293,10 @@ test_that("parameters to square() are correct", {
 })
 
 test_that("square() works correctly", {
-  expect_that(square(0, 0), equals(-1))
-  expect_that(square(0, 1), equals(1))
-  expect_that(square(rep(0L, 10)), equals(rep(1L, 10)))
-  expect_that(square(1:12, 50), equals(rep(c(rep(1,3), rep(-1, 3)), 2)))
+  expect_equal(square(0, 0), -1L)
+  expect_equal(square(0, 1), 1L)
+  expect_equal(square(rep(0L, 10)), rep(1L, 10))
+  expect_equal(square(1:12, 50), rep(c(rep(1,3), rep(-1, 3)), 2))
 })
 
 # -----------------------------------------------------------------------
@@ -311,8 +312,8 @@ test_that("parameters to tripuls() are correct", {
 })
 
 test_that("tripuls() works correctly", {
-  expect_that(tripuls(0, 1), equals(1))
-  expect_that(tripuls(rep(0L, 10)), equals(rep(1L, 10)))
+  expect_equal(tripuls(0, 1), 1L)
+  expect_equal(tripuls(rep(0L, 10)), rep(1L, 10))
 })
 
 # -----------------------------------------------------------------------
@@ -346,14 +347,14 @@ test_that("parameters to shiftdata() are correct", {
 
 test_that("shiftdata() works correctly", {
   sd <- shiftdata(matrix(1:9, 3, 3, byrow = TRUE), 2)
-  expect_that(sd$x, equals(matrix(c(1, 4, 7, 2, 5, 8, 3, 6, 9), 3, 3, byrow = TRUE)))
-  expect_that(sd$perm, equals(c(2,1)))
-  expect_that(sd$nshifts, equals(NA))
+  expect_equal(sd$x, matrix(c(1, 4, 7, 2, 5, 8, 3, 6, 9), 3, 3, byrow = TRUE))
+  expect_equal(sd$perm, c(2,1))
+  expect_equal(sd$nshifts, NA)
   
   sd <- shiftdata(array(c(27, 63, 67, 42, 48, 74, 11, 5, 93, 15, 34, 70, 23, 60, 54, 81, 28, 38), c(3, 3, 2)), 2)
-  expect_that(sd$x, equals(array(c(27, 42, 11, 63, 48, 5, 67, 74, 93, 15, 23, 81, 34, 60, 28, 70, 54, 38), c(3, 3, 2))))
-  expect_that(sd$perm, equals(c(2, 1, 3)))
-  expect_that(sd$nshifts, equals(NA))
+  expect_equal(sd$x, array(c(27, 42, 11, 63, 48, 5, 67, 74, 93, 15, 23, 81, 34, 60, 28, 70, 54, 38), c(3, 3, 2)))
+  expect_equal(sd$perm, c(2, 1, 3))
+  expect_equal(sd$nshifts, NA)
 
   X <- array(round(runif(4 * 4 * 4 * 4) * 100), c(4, 4, 4, 4))
   Y <- shiftdata(X, 3)
@@ -367,7 +368,7 @@ test_that("shiftdata() works correctly", {
       }
     }
   }
-  expect_that(T, equals(rep(0L, length(T))))
+  expect_equal(T, rep(0L, length(T)))
 })
 
 # -----------------------------------------------------------------------
@@ -387,22 +388,22 @@ test_that("unshiftdata() works correctly", {
   x <- 1:5
   sd <- shiftdata(x)
   x2 <- unshiftdata(sd)
-  expect_that(array(x), equals(x2))
+  expect_equal(array(x), x2)
   
   x <- array(round(runif(3 * 3) * 100), c(3, 3))
   sd <- shiftdata(x, 2)
   x2 <- unshiftdata(sd)
-  expect_that(x, equals(x2))
+  expect_equal(x, x2)
   
   x <- array(round(runif(4 * 4 * 4 * 4) * 100), c(4, 4, 4, 4))
   sd <- shiftdata(x, 3)
   x2 <- unshiftdata(sd)
-  expect_that(x, equals(x2))
+  expect_equal(x, x2)
 
   x <- array(round(runif(1 * 1 * 3 * 4) * 100), c(1, 1, 3, 4))
   sd <- shiftdata(x)
   x2 <- unshiftdata(sd)
-  expect_that(x, equals(x2))
+  expect_equal(x, x2)
   
 })
 
@@ -418,9 +419,9 @@ test_that("parameters to sigmoid_train() are correct", {
 
 test_that("sigmoid_train() works correctly", {
   st <- sigmoid_train(1:10, rbind(c(2,3)), 1)
-  expect_that(st$y, equals(st$s))
+  expect_equal(st$y, st$s)
   st <- sigmoid_train(1:10, c(2,3), 1)
-  expect_that(st$y, equals(st$s))
+  expect_equal(st$y, st$s)
 })
 
 # -----------------------------------------------------------------------
@@ -437,10 +438,10 @@ test_that("parameters to specgram() are correct", {
 
 test_that("specgram() works correctly", {
   sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
-  expect_that(length(sp$f), equals(128))
-  expect_that(length(sp$t), equals(131))
-  expect_that(nrow(sp$S), equals(length(sp$f)))
-  expect_that(ncol(sp$S), equals(length(sp$t)))
+  expect_equal(length(sp$f), 128L)
+  expect_equal(length(sp$t), 131L)
+  expect_equal(nrow(sp$S), length(sp$f))
+  expect_equal(ncol(sp$S), length(sp$t))
 })
 
 # -----------------------------------------------------------------------
@@ -457,15 +458,20 @@ test_that("parameters to uencode() are correct", {
 })
 
 test_that("uencode() works correctly", {
-  expect_that(uencode(seq(-3, 3, 0.5), 2), equals(c(0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3)))
-  expect_that(uencode(seq(-4, 4, 0.5), 3, 4), equals(c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7)))
-  expect_that(uencode(seq(-8, 8, 0.5), 4, 8, FALSE),
-              equals(c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15)))
-  expect_that(uencode(seq(-8, 8, 0.5), 4, 8, TRUE),
-              equals(c(-8, -8, -7, -7, -6, -6, -5, -5, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7)))
-  expect_that(uencode(matrix(c(-2, 1, -1, 2), 2, 2), 2), equals(matrix(c(0, 3, 0, 3), 2, 2)))
-  expect_that(uencode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
-              equals(matrix(rep(3, 9), 3, 3)))
+  expect_equal(uencode(seq(-3, 3, 0.5), 2), 
+               c(0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3))
+  expect_equal(uencode(seq(-4, 4, 0.5), 3, 4), 
+               c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7))
+  expect_equal(uencode(seq(-8, 8, 0.5), 4, 8, FALSE),
+              c(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10,
+                10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15))
+  expect_equal(uencode(seq(-8, 8, 0.5), 4, 8, TRUE),
+              c(-8, -8, -7, -7, -6, -6, -5, -5, -4, -4, -3, -3, -2, -2, -1, -1, 0,
+                0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7))
+  expect_equal(uencode(matrix(c(-2, 1, -1, 2), 2, 2), 2),
+               matrix(c(0, 3, 0, 3), 2, 2))
+  expect_equal(uencode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
+              matrix(rep(3, 9), 3, 3))
 })
 
 # -----------------------------------------------------------------------
@@ -482,15 +488,21 @@ test_that("parameters to udecode() are correct", {
 })
 
 test_that("udecode() works correctly", {
-  expect_that(udecode(c(rep(0, 5), 1, 2, rep(3, 6)), 2), equals(c(-1, -1, -1, -1, -1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)))
-  expect_that(udecode(0:10, 2, 1, TRUE), equals(c(-1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)))
-  expect_that(udecode(0:10, 2, 1, FALSE), equals(c(-1, -0.5, 0, 0.5, -1, -0.5, 0, 0.5, -1, -0.5, 0)))
-  expect_that(udecode(-4:3, 3, 2),  equals(c(-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5)))
-  expect_that(udecode(-7:7, 3, 2, TRUE), equals(c(-2, -2, -2, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.5, 1.5, 1.5, 1.5)))
-  expect_that(udecode(-7:7, 3, 2, FALSE), equals(c(0.5, 1, 1.5, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, -2, -1.5, -1, -0.5)))
-  expect_that(udecode(matrix(c(-2, 1, -1, 2), 2, 2), 2), equals(matrix(c(-1, 0.5, -0.5, 0.5), 2, 2)))
-  expect_that(udecode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
-              equals(matrix(complex(real = c(-0.5, 0.0, rep(0.5, 7)), imaginary = c(rep(-0.5, 3), rep(0, 3), rep(0.5,3))), 3, 3)))
+  expect_equal(udecode(c(rep(0, 5), 1, 2, rep(3, 6)), 2),
+               c(-1, -1, -1, -1, -1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
+  expect_equal(udecode(0:10, 2, 1, TRUE),
+               c(-1, -0.5, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
+  expect_equal(udecode(0:10, 2, 1, FALSE),
+               c(-1, -0.5, 0, 0.5, -1, -0.5, 0, 0.5, -1, -0.5, 0))
+  expect_equal(udecode(-4:3, 3, 2),  c(-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5))
+  expect_equal(udecode(-7:7, 3, 2, TRUE),
+               c(-2, -2, -2, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 1.5, 1.5, 1.5, 1.5))
+  expect_equal(udecode(-7:7, 3, 2, FALSE),
+               c(0.5, 1, 1.5, -2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, -2, -1.5, -1, -0.5))
+  expect_equal(udecode(matrix(c(-2, 1, -1, 2), 2, 2), 2),
+               matrix(c(-1, 0.5, -0.5, 0.5), 2, 2))
+  expect_equal(udecode(matrix(c(1+1i, 2+1i, 3+1i, 4+2i, 5+2i, 6+2i, 7+3i, 8+3i, 9+3i), 3, 3, byrow = TRUE), 2),
+               matrix(complex(real = c(-0.5, 0.0, rep(0.5, 7)), imaginary = c(rep(-0.5, 3), rep(0, 3), rep(0.5,3))), 3, 3))
 })
 
 # -----------------------------------------------------------------------

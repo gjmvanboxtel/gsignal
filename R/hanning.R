@@ -20,7 +20,7 @@
 # 20191209 GbB            First version for v0.1.0
 # 20200413 GvB            corrected definition of hanning
 # 20200606 GvB            exported hanning from namespace
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Hann window
 #'
@@ -33,7 +33,8 @@
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
 #' \describe{
-#'   \item{'symmetric'}{(Default). Use this option when using windows for filter design.}
+#'   \item{'symmetric'}{(Default). Use this option when using windows for filter
+#'   design.}
 #'   \item{'periodic'}{This option is useful for spectral analysis because it
 #'   enables a windowed signal to have the perfect periodic extension implicit
 #'   in the discrete Fourier transform. When 'periodic' is specified, the
@@ -59,28 +60,29 @@
 #' @rdname hann
 #' @export
 
-hann <- function (n, method = c('symmetric', 'periodic')) {
+hann <- function(n, method = c("symmetric", "periodic")) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
   method <- match.arg(method)
 
   if (method == "periodic") {
     N <- n
-  } else if (method == 'symmetric') {
+  } else if (method == "symmetric") {
     N <- n - 1
   } else {
-    stop ("method must be either 'periodic' or 'symmetric'")
+    stop("method must be either 'periodic' or 'symmetric'")
   }
 
   if (n == 1) {
     w <- 1
   } else {
     n <- n - 1
-    w <- 0.5 - 0.5 * cos (2 * pi * (0:n) / N)
+    w <- 0.5 - 0.5 * cos(2 * pi * (0:n) / N)
   }
   w
 }
 
 #' @rdname hann
 #' @export
-hanning <- function(n, method = c('symmetric', 'periodic')) hann(n, method)
+hanning <- function(n, method = c("symmetric", "periodic")) hann(n, method)

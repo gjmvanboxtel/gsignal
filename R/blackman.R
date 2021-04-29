@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191210 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Blackman window
 #'
@@ -29,10 +29,13 @@
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
 #' \itemize{
-#'   \item 'symmetric' (Default). Use this option when using windows for filter design.
-#'   \item 'periodic'. This option is useful for spectral analysis because it enables a windowed signal to have the perfect
-#'    periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
-#'    window of length \code{n + 1} and returns the first \code{n} points.
+#'   \item 'symmetric' (Default). Use this option when using windows for filter
+#'   design.
+#'   \item 'periodic'. This option is useful for spectral analysis because it
+#'   enables a windowed signal to have the perfect periodic extension implicit
+#'   in the discrete Fourier transform. When 'periodic' is specified, the
+#'   function computes a window of length \code{n + 1} and returns the first
+#'   \code{n} points.
 #' }
 #'
 #' @return Blackman window, returned as a vector.
@@ -52,17 +55,19 @@
 #
 #' @export
 
-blackman <- function (n, method = c('symmetric', 'periodic')) {
+blackman <- function(n, method = c("symmetric", "periodic")) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
   method <- match.arg(method)
 
   if (method == "periodic") {
     N <- n
-  } else if (method == 'symmetric') {
+  } else if (method == "symmetric") {
     N <- n - 1
   } else {
-    stop ("method must be either 'periodic' or 'symmetric'")
+    stop("method must be either 'periodic' or 'symmetric'")
   }
 
   if (n == 1) {

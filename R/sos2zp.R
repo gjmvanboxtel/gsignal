@@ -21,7 +21,7 @@
 # 20200405  GvB       replaced roots() by pracma::roots()
 # 20200406  GvB       validated
 # 20210326  GvB       return object of class 'Zpg'
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sos to zero-pole-gain
 #'
@@ -59,13 +59,13 @@ sos2zp <- function(sos, g = 1) {
   n <- nrow(sos)
   m <- ncol(sos)
   if (m != 6) {
-    stop('sos must be a nrow-by-6 matrix')
+    stop("sos must be a nrow-by-6 matrix")
   }
 
   gains <- sos[, 1]             # All b0 coeffs
   g <- prod(gains) * g          # pole-zero gain
   if (g == 0) {
-    stop('one or more section gains is zero')
+    stop("one or more section gains is zero")
   }
   sos[, 1:3] <- sos[, 1:3] / c(gains, gains, gains)
 

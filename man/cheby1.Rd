@@ -41,7 +41,8 @@ or \code{"pass"}.}
 
 \item{output}{Type of output, one of:
 \describe{
-  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+  b/a)}
   \item{Zpg}{Zero-pole-gain format}
   \item{Sos}{Second-order sections}
 }
@@ -66,7 +67,8 @@ Because \code{cheby1} is generic, it can be extended to accept other inputs,
 using \code{cheb1ord} to generate filter criteria for example.
 }
 \examples{
-# compare the frequency responses of 5th-order Butterworth and Chebyshev filters.
+## compare the frequency responses of 5th-order
+## Butterworth and Chebyshev filters.
 bf <- butter(5, 0.1)
 cf <- cheby1(5, 3, 0.1)
 bfr <- freqz(bf)

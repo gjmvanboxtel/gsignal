@@ -70,7 +70,7 @@ linear time-invariant difference equation:
  SUM a(k+1)y(n-k) + SUM b(k+1)x(n-k) = 0;   1 <= n <= length(x)
  k=0                k=0
 }}
-where \code{N = length(a) - 1} and \code{M = length(b) - 1}. 
+where \code{N = length(a) - 1} and \code{M = length(b) - 1}.
 
 The initial and final conditions for filter delays can be used to filter data
 in sections, especially if memory limitations are a consideration. See the
@@ -102,7 +102,7 @@ legend("bottomright", legend = c("Original signal",
         "Filtered without initial conditions",
         "Filtered with initial conditions"),
        lty = 1, col = c("black", "red", "green"))
-       
+
 }
 \seealso{
 \code{\link{filter_zi}}, \code{\link{sosfilt}} (preferred because it

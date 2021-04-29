@@ -15,7 +15,7 @@ Default: NULL (shift the first nonsingleton dimension)}
 }
 \value{
 A list containing 3 variables; \code{x}, the shifted data,
-  \code{perm}, the permuation vector, and \code{nshifts}, the number of
+  \code{perm}, the permutation vector, and \code{nshifts}, the number of
   shifts
 }
 \description{
@@ -40,8 +40,9 @@ creating functions that work along a certain dimension, like
 
 ## create a 3x3 magic square
 x <- pracma::magic(3)
-## Shift the matrix x to work along the second dimension. The permutation vector,
-## perm, and the number of shifts, nshifts, are returned along with the shifted matrix.
+## Shift the matrix x to work along the second dimension.
+## The permutation vector, perm, and the number of shifts, nshifts,
+## are returned along with the shifted matrix.
 sd <- shiftdata(x, 2)
 
 ## Shift the matrix back to its original shape.

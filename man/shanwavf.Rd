@@ -44,8 +44,9 @@ ub <- 20
 n <- 1000
 sw <- shanwavf(lb, ub, n, fb, fc)
 op <- par(mfrow = c(2,1))
-plot (sw$x, Re(sw$psi), type="l", main = "Complex Shannon Wavelet", xlab = "real part", ylab = "")
-plot (sw$x, Im(sw$psi), type="l", xlab = "imaginary part", ylab = "")
+plot(sw$x, Re(sw$psi), type="l", main = "Complex Shannon Wavelet",
+     xlab = "real part", ylab = "")
+plot(sw$x, Im(sw$psi), type="l", xlab = "imaginary part", ylab = "")
 par(op)
 
 }

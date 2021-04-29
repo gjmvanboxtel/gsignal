@@ -21,7 +21,7 @@
 # 20200527 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
 # 20210308 GvB                       added output parameter ("ba', "zpg", "Sos")
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Elliptic filter design
 #'
@@ -38,8 +38,8 @@
 #' becomes a type II Chebyshev filter and finally, as both ripple values
 #' approach zero, the filter becomes a Butterworth filter.
 #'
-#' Because \code{ellip} is generic, it can be extended to accept other inputs, using
-#' \code{ellipord} to generate filter criteria for example.
+#' Because \code{ellip} is generic, it can be extended to accept other inputs,
+#' using \code{ellipord} to generate filter criteria for example.
 #'
 #' @param n filter order.
 #' @param Rp dB of passband ripple.
@@ -54,7 +54,8 @@
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param output Type of output, one of:
 #' \describe{
-#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+#'   b/a)}
 #'   \item{Zpg}{Zero-pole-gain format}
 #'   \item{Sos}{Second-order sections}
 #' }
@@ -69,18 +70,24 @@
 #'   containing the filter coefficients
 #'
 #' @examples
-#' # compare the frequency responses of 5th-order Butterworth and elliptic filters.
+#' ## compare the frequency responses of 5th-order Butterworth
+#' ## and elliptic filters.
 #' bf <- butter(5, 0.1)
 #' ef <- ellip(5, 3, 40, 0.1)
 #' bfr <- freqz(bf)
 #' efr <- freqz(ef)
 #' plot(bfr$w, 20 * log10(abs(bfr$h)), type = "l", ylim = c(-80, 0),
-#'      xlab = "Frequency (Rad)", ylab = c("dB"))
-#' lines(efr$w, 20 * log10(abs(efr$h)), col = "red")
+#'      xlab = "Frequency (Rad)", ylab = c("dB"), lwd = 2,
+#'      main = paste("Elliptic versus Butterworth filter",
+#'      "low-pass -3 dB cutoff at 0.1 rad", sep = "\n"))
+#' lines(efr$w, 20 * log10(abs(efr$h)), col = "red", lwd = 2)
+#' legend ("topright", legend = c("Butterworh", "Elliptic"),
+#'         lty = 1, lwd = 2, col = 1:2)
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Elliptic_filter}
 #'
-#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{\link{cheby1}}, \code{\link{ellipord}}
+#' @seealso \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}},
+#'   \code{\link{cheby1}}, \code{\link{ellipord}}
 #'
 #' @author Paulo Neis, \email{p_neis@@yahoo.com.br},\cr
 #'   adapted by Doug Stewart, \email{dastew@@sympatico.ca}.\cr
@@ -95,14 +102,17 @@ ellip <- function(n, ...) UseMethod("ellip")
 #' @rdname ellip
 #' @export
 
-ellip.FilterSpecs <- function(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc, type = n$type, plane = n$plane, ...)
+ellip.FilterSpecs <- function(n, Rp = n$Rp, Rs = n$Rs, w = n$Wc,
+                              type = n$type, plane = n$plane, ...)
   ellip(n$n, Rp, Rs, w, type, plane, ...)
 
 #' @rdname ellip
 #' @export
 
-ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass"), 
-                           plane = c("z", "s"), output = c("Arma", "Zpg", "Sos"), ...) {
+ellip.default <- function(n, Rp, Rs, w,
+                          type = c("low", "high", "stop", "pass"),
+                          plane = c("z", "s"),
+                          output = c("Arma", "Zpg", "Sos"), ...) {
 
   # check input arguments
   type <- match.arg(type)
@@ -120,7 +130,8 @@ ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass")
   stop <- type == "stop" || type == "high"
   digital <- plane == "z"
   if (!is.vector(w) || (length(w) != 1 && length(w) != 2)) {
-    stop("frequency w must be specified as a vector of length 1 or 2 (either w0 or c(w0, w1))")
+    stop(paste("frequency w must be specified as a vector of length 1 or 2",
+               "(either w0 or c(w0, w1))"))
   }
   if ((type == "stop" || type == "pass") &&  length(w) != 2) {
     stop("w must be two elements for stop and bandpass filters")
@@ -134,7 +145,7 @@ ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass")
   ## Prewarp to the band edges to s plane
   if (digital) {
     T <- 2                    # sampling frequency of 2 Hz
-    w <- 2 / T * tan (pi * w / T)
+    w <- 2 / T * tan(pi * w / T)
   }
 
   ## Generate splane poles, zeros and gain
@@ -155,7 +166,7 @@ ellip.default <- function (n, Rp, Rs, w, type = c("low", "high", "stop", "pass")
   } else {
     retval <- zpg
   }
-  
+
   retval
-  
+
 }

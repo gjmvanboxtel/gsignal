@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201016  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse Discrete Sine Transform
 #'
@@ -40,8 +40,7 @@
 #' x <- seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40)
 #' X <- dst(x)
 #' xx <- idst(X)
-#' all.equal(x, xx)
-#' # [1] TRUE
+#' ## all.equal(x, xx)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -50,27 +49,25 @@
 #'
 #' @export
 
-idst <- function (x, n = NROW(x)) {
+idst <- function(x, n = NROW(x)) {
 
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   } else {
     realx <- is.numeric(x)
   }
 
   if (is.vector(x)) {
-    vec = TRUE
+    vec <- TRUE
     x <- as.matrix(x, ncol = 1)
   } else {
-    vec = FALSE
+    vec <- FALSE
   }
   nr <- nrow(x)
-  ns <- ncol(x)
 
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
-
 
   if (n != nr) {
     x <- postpad(x, n)

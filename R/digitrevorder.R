@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200821  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Permute input to digit-reversed order
 #'
@@ -43,7 +43,7 @@
 #'
 #' @examples
 #'
-#' digitrevorder(0:8, 3)
+#' res <- digitrevorder(0:8, 3)
 #'
 #' @author Mike Miller.\cr
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -52,19 +52,19 @@
 #'
 #' @export
 
-digitrevorder <- function (x, r, index.return = FALSE) {
+digitrevorder <- function(x, r, index.return = FALSE) {
 
-  if (!is.vector (x)) {
+  if (!is.vector(x)) {
     stop("x must be a vector")
-  } else if (!isPosscal (r) || !isWhole(r) || !(r >= 2 && r <= 36)) {
-    stop("r must be an integer between 2 and 36");
+  } else if (!isPosscal(r) || !isWhole(r) || !(r >= 2 && r <= 36)) {
+    stop("r must be an integer between 2 and 36")
   } else {
-    tmp <- log(length(x)) / log (r)
+    tmp <- log(length(x)) / log(r)
     if (trunc(tmp) != tmp) {
       stop(paste("x must have length equal to an integer power of", r))
     }
   }
-  if(!is.logical(index.return)) {
+  if (!is.logical(index.return)) {
     stop("index.return must be TRUE or FALSE")
   }
 
@@ -80,7 +80,7 @@ digitrevorder <- function (x, r, index.return = FALSE) {
   } else {
     retval <- y
   }
-  y
+  retval
 }
 # R version of Octave function dec2base, simplified and adapted for use with
 # digitrevorder, not exported to the namespace)
@@ -94,7 +94,7 @@ gdec2base <- function(d, base, len = 0) {
   # better safe than sorry
   d <- as.vector(round(abs(as.numeric(d))))
 
-  symbols = c(as.character(0:9), LETTERS)
+  symbols <- c(as.character(0:9), LETTERS)
   if (is.character(base)) {
     symbols <- unique(unlist(strsplit(gsub("[[:space:]]", "", base), "")))
     base <- length(symbols)
@@ -117,7 +117,9 @@ gdec2base <- function(d, base, len = 0) {
   }
 
   ## convert digits to symbols
-  retval <- matrix(symbols[digits + 1], nrow = NCOL(digits), ncol = NROW(digits), byrow = TRUE)
+  retval <- matrix(symbols[digits + 1],
+                   nrow = NCOL(digits), ncol = NROW(digits),
+                   byrow = TRUE)
 
   ## Check if the first element is the zero symbol.  It seems possible
   ## that LEN is provided, and is less than the computed MAX_LEN and
@@ -125,7 +127,7 @@ gdec2base <- function(d, base, len = 0) {
   ## have a leading zero to remove.  But if LEN >= MAX_LEN, we should
   ## not remove any leading zeros.
   if ((len == 0 || (len != 0 && max_len > len))
-      && NROW(retval) != 1 && !any (retval[1, ] != symbols[1])) {
+      && NROW(retval) != 1 && !any(retval[1, ] != symbols[1])) {
     retval <- retval[-1, ]
   }
 

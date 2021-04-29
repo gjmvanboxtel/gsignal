@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Upsample and Fill
 #'
@@ -36,8 +36,8 @@
 #' @return upsampled vector or matrix
 #'
 #' @examples
-#' upsamplefill(diag(2), 2, TRUE)
-#' upsamplefill(diag(2), rep(-1, 3))
+#' u <- upsamplefill(diag(2), 2, TRUE)
+#' u <- upsamplefill(diag(2), rep(-1, 3))
 #'
 #' @seealso \code{\link{upsample}}
 #'
@@ -46,10 +46,10 @@
 #
 #' @export
 
-upsamplefill <- function (x, v, copy = FALSE) {
+upsamplefill <- function(x, v, copy = FALSE) {
 
   if (!is.numeric(x)) {
-    stop('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -58,16 +58,16 @@ upsamplefill <- function (x, v, copy = FALSE) {
   } else if (is.matrix(x)) {
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
   nc <- ncol(x)
   nr <- nrow(x)
 
   if (!is.numeric(v) || !is.vector(v)) {
-    stop('v must be a numeric vector')
+    stop("v must be a numeric vector")
   }
   if (!is.logical(copy)) {
-    stop('copy must be a logical value TRUE or FALSE')
+    stop("copy must be a logical value TRUE or FALSE")
   }
 
   if (copy) {
@@ -75,11 +75,11 @@ upsamplefill <- function (x, v, copy = FALSE) {
     if (v < 0) {
       stop("v must be a scalar value >= 0")
     }
-    y = pracma::kron(x, rep(1, v + 1))
+    y <- pracma::kron(x, rep(1, v + 1))
   } else {
     n <- length(v) + 1
-    N <- n *nr
-    if (any(c(nr, nc)==1)) {
+    N <- n * nr
+    if (any(c(nr, nc) == 1)) {
       N        <- N * nc
       idx      <- seq(1, N, n)
       idx_c    <- setdiff(seq(1, N), seq(1, N, n))
@@ -101,4 +101,3 @@ upsamplefill <- function (x, v, copy = FALSE) {
   y
 
 }
-

@@ -21,7 +21,7 @@
 # 20201112  GvB       bug in assigning colnames when ns > 1
 # 20210302  GvB       bug when x is matrix: xx[1:seg_len] -> xx[1:seg_len, ]
 # 20210408  GvB       added range parameter ('half' o 'whole')
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
 #'
@@ -168,7 +168,8 @@
 #' op <- par(mfrow = c(2, 1))
 #' xl <- "Frequency (Hz)"; yl <- "Magnitude"
 #' plot(atfm$w, abs(atfm$h), type = "l", main = "Actual", xlab = xl, ylab = yl)
-#' plot(etfm$freq, abs(etfm$trans), type = "l", main = "Estimated", xlab = xl, ylab = yl)
+#' plot(etfm$freq, abs(etfm$trans), type = "l", main = "Estimated",
+#'      xlab = xl, ylab = yl)
 #' par(op)
 #'
 #' @note Unlike the Octave function \code{pwelch}, the current implementation
@@ -187,15 +188,17 @@
 #' @rdname pwelch
 #' @export
 
-pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
-                    nfft = ifelse(isScalar(window), window, length(window)),
-                    fs = 1,
-                    detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none'),
-                    range = ifelse(is.numeric(x), "half", "whole")) {
+pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
+                   nfft = if (isScalar(window)) window else length(window),
+                   fs = 1,
+                   detrend = c("long-mean", "short-mean",
+                               "long-linear", "short-linear", "none"),
+                  range = if (is.numeric(x)) "half" else "whole") {
 
   # check parameters
-  if (!(is.vector(x) || is.matrix(x)) && !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+  if (!(is.vector(x) || is.matrix(x)) &&
+      !(is.numeric(x) || is.complex(x))) {
+    stop("x must be a numeric or complex vector or matrix")
   }
 
   series <- deparse(substitute(x))
@@ -212,54 +215,54 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   }
 
   if (!is.vector(window) || !is.numeric(window)) {
-    stop('window must be a numeric vector or scalar')
+    stop("window must be a numeric vector or scalar")
   } else {
     if (isPosscal(window)) {
       if (window <= 3) {
-        stop ('window must be a positive scalar > 3 or a vector with length > 3')
+        stop("window must be a scalar > 3 or a vector with length > 3")
       } else {
         window <- hamming(window)
       }
     } else if (length(window) <= 3) {
-      stop ('window must be a positive scalar > 3 or a vector with length > 3')
+      stop("window must be a scalar > 3 or a vector with length > 3")
     }
   }
 
   if (!isScalar(overlap) || !(overlap >= 0 && overlap < 1)) {
-    stop('overlap must be a numeric value >= 0 and < 1')
+    stop("overlap must be a numeric value >= 0 and < 1")
   }
 
-  if(!isPosscal(nfft) || !isWhole(nfft)) {
-    stop('nfft must be a positive integer')
+  if (!isPosscal(nfft) || !isWhole(nfft)) {
+    stop("nfft must be a positive integer")
   }
 
-  if(!isPosscal(fs) || fs <= 0) {
-    stop('fs must be a numeric value > 0')
+  if (!isPosscal(fs) || fs <= 0) {
+    stop("fs must be a numeric value > 0")
   }
 
   detrend <- match.arg(detrend)
   range <- match.arg(range, c("half", "whole"))
-  
+
   # initialize variables
-  seg_len <- length(window)                              # segment length in number of samples
-  overlap <- trunc(seg_len * overlap)                    # overlap in number of samples
-  nfft <- nextpow2(max(nfft, seg_len))                   # minimum FFT length is seg_len
-  win_meansq <- as.vector(window %*% window / seg_len)   # required for normalizing PSD amplitude
+  seg_len <- length(window)
+  overlap <- trunc(seg_len * overlap)
+  nfft <- nextpow2(max(nfft, seg_len))
+  win_meansq <- as.vector(window %*% window / seg_len)
   if (overlap >= seg_len) {
-    stop('overlap must be smaller than windowlength')
+    stop("overlap must be smaller than windowlength")
   }
   # Pad data with zeros if shorter than segment. This should not happen.
   if (x_len < seg_len) {
-    x = c(x, rep(0, seg_len - x_len))
+    x <- c(x, rep(0, seg_len - x_len))
     x_len <- seg_len
   }
 
   # MAIN CALCULATIONS
   # remove overall mean or linear trend
-  if (detrend == 'long-mean' || detrend == 'long-linear') {
+  if (detrend == "long-mean" || detrend == "long-linear") {
     n_ffts <- max(0, trunc((x_len - seg_len) / (seg_len - overlap))) + 1
     x_len  <- min(x_len, (seg_len - overlap) * (n_ffts - 1) + seg_len)
-    if(detrend == 'long-mean') {
+    if (detrend == "long-mean") {
       x <- detrend(x, p = 0)
     } else if (detrend == "long-linear") {
       x <- detrend(x, p = 1)
@@ -275,9 +278,9 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   for (start_seg in seq(1, x_len - seg_len + 1, seg_len - overlap)) {
     end_seg <- start_seg + seg_len - 1
     # Don't truncate/remove the zero padding in xx
-    if (detrend == 'short-mean') {
+    if (detrend == "short-mean") {
       xx[1:seg_len, ] <- window * detrend(x[start_seg:end_seg, ], p = 0)
-    } else if (detrend == 'short-linear') {
+    } else if (detrend == "short-linear") {
       xx[1:seg_len, ] <- window * detrend(x[start_seg:end_seg, ], p = 1)
     } else {
       xx[1:seg_len, ] <- window * x[start_seg:end_seg, ]
@@ -294,30 +297,39 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
         }
       }
     }
-    n_ffts = n_ffts +1;
+    n_ffts <- n_ffts + 1
   }
 
-  # Convert two-sided spectra to one-sided spectra if range == 'half' 
-  # (normally if the input is numeric). For one-sided spectra, contributions 
+  # Convert two-sided spectra to one-sided spectra if range == 'half'
+  # (normally if the input is numeric). For one-sided spectra, contributions
   # from negative frequencies are added to the positive side of the spectrum
   # -- but not at zero or Nyquist (half sampling) frequencies.
   # This keeps power equal in time and spectral domains, as required by
   # Parseval theorem.
-  if (range == 'half') {
-    if (nfft%%2 == 0) {    # one-sided, nfft is even
+  if (range == "half") {
+    if (nfft %% 2 == 0) {    # one-sided, nfft is even
       psd_len <- nfft / 2 + 1
-      Pxx <- apply(Pxx, 2, function(x) x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)], 0))
+      Pxx <- apply(Pxx, 2,
+                   function(x)
+                     x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)], 0))
       if (ns > 1) {
-        Pxy <- apply(Pxy, 2, function(x) x[1:psd_len] + Conj(c(0, x[seq(nfft, psd_len + 1, -1)], 0)))
+        Pxy <- apply(Pxy, 2,
+                     function(x)
+                       x[1:psd_len] +
+                       Conj(c(0, x[seq(nfft, psd_len + 1, -1)], 0)))
       }
     } else {                    # one-sided, nfft is odd
       psd_len <- (nfft + 1) / 2
-      Pxx <- apply(Pxx, 2, function(x) x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)]))
+      Pxx <- apply(Pxx, 2,
+                   function(x)
+                     x[1:psd_len] + c(0, x[seq(nfft, psd_len + 1, -1)]))
       if (ns > 1) {
-        Pxy = apply(Pxy, 2, function(x) x[1:psd_len] + Conj(c(0, x[seq(nfft, psd_len + 1, -1)])))
+        Pxy <- apply(Pxy, 2,
+                    function(x)
+                      x[1:psd_len] + Conj(c(0, x[seq(nfft, psd_len + 1, -1)])))
       }
     }
-  } else {  # range == 'whole'
+  } else {  # range equals 'whole'
     psd_len <- nfft
   }
   # end MAIN CALCULATIONS
@@ -336,10 +348,11 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
         coh[, ptr] <- Mod(Pxy[, ptr])^2 / Pxx[, i] / Pxx[, j]
         phase[, ptr] <- Arg(Pxy[, ptr])
         trans[, ptr] <- Pxy[, ptr] / Pxx[, i]
-        cn <- c(cn, paste(snames[i], snames[j], sep = '-'))
+        cn <- c(cn, paste(snames[i], snames[j], sep = "-"))
       }
     }
-    colnames(phase) <- colnames(cross)  <- colnames(trans) <- colnames(coh) <- cn
+    colnames(phase) <- colnames(cross)  <-
+      colnames(trans) <- colnames(coh) <- cn
   } else {
     cross <- coh <- phase <- trans <- NULL
   }
@@ -348,29 +361,33 @@ pwelch <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   if (ns == 1) {
     spec <- as.vector(spec)
   }
-  all <- list(freq = freq, spec = spec, cross = cross, phase = phase, coh = coh, trans = trans,
-              x_len = x_len, seg_len = seg_len, psd_len = psd_len, nseries = ns, series = series, snames = snames,
-              window = window, fs = fs, detrend = detrend)
-  class(all) = "pwelch"
+  all <- list(freq = freq, spec = spec, cross = cross, phase = phase,
+              coh = coh, trans = trans, x_len = x_len, seg_len = seg_len,
+              psd_len = psd_len, nseries = ns, series = series,
+              snames = snames, window = window, fs = fs, detrend = detrend)
+  class(all) <- "pwelch"
   all
 }
 #' @rdname pwelch
 #' @export
 
-plot.pwelch <- print.pwelch <- function(x, plot.type = c("spectrum", "cross-spectrum",
-                                                         "phase", "coherence", "transfer"),
-                                        yscale = c("linear", "log", "dB"),
-                                        xlab = NULL, ylab = NULL, main = NULL, ...) {
+plot.pwelch <-
+  print.pwelch <-
+  function(x, plot.type = c("spectrum", "cross-spectrum",
+                            "phase", "coherence", "transfer"),
+           yscale = c("linear", "log", "dB"),
+           xlab = NULL, ylab = NULL, main = NULL, ...) {
 
-  if(class(x) != 'pwelch') {
-    stop('invalid object type')
+  if (!("pwelch" %in% class(x))) {
+    stop("invalid object type")
   }
   plot.type <- match.arg(plot.type)
   yscale <- match.arg(yscale)
 
   if (is.null(xlab)) {
     if (x$fs == 1) {
-      xlab <- expression(paste("Normalized frequency (\u00D7 ", pi, " rad/sample)"))
+      xlab <- expression(paste("Normalized frequency (\u00D7 ", pi,
+                               " rad/sample)"))
     } else if (x$fs == pi) {
       xlab <- "Frequency (rad/sample)"
     } else {
@@ -379,37 +396,39 @@ plot.pwelch <- print.pwelch <- function(x, plot.type = c("spectrum", "cross-spec
   }
   sub <- paste("Resolution:", format(x$fs / x$psd_len, digits = 6, nsmall = 6))
 
-  if(plot.type == "spectrum" || plot.type == "cross-spectrum") {
-    if(is.null(ylab)) {
+  if (plot.type == "spectrum" || plot.type == "cross-spectrum") {
+    if (is.null(ylab)) {
       ylab <- switch(yscale,
                      "linear" = "Power/Frequency",
                      "log" = expression(paste("log"[10], "(Power/Frequency)")),
                      "dB" = "Power/Frequency (dB)")
     }
-    if(plot.type == "spectrum") {
+    if (plot.type == "spectrum") {
       if (is.null(main)) {
-        main <- paste("Welch Power Spectral Density Estimate\nSeries:", x$series)
+        main <- paste("Welch Power Spectral Density Estimate\nSeries:",
+                      x$series)
       }
       plt <- switch(yscale,
                     "linear" = x$spec,
                     "log" = log10(x$spec),
-                    "dB" = 10*log10(x$spec))
+                    "dB" = 10 * log10(x$spec))
     }
     if (plot.type == "cross-spectrum") {
       if (is.null(main)) {
-        main <- paste("Welch Cross Power Spectral Density Estimate\nSeries:", x$series)
+        main <- paste("Welch Cross Power Spectral Density Estimate\nSeries:",
+                      x$series)
       }
       plt <- switch(yscale,
                     "linear" = x$cross,
                     "log" = log10(x$cross),
-                    "dB" = 10*log10(x$cross))
+                    "dB" = 10 * log10(x$cross))
     }
   }
   if (plot.type == "phase") {
     if (is.null(main)) {
       main <- paste("Welch Cross Spectrum Phase\nSeries:", x$series)
     }
-    if(is.null(ylab)) {
+    if (is.null(ylab)) {
       ylab <- expression(paste(theta, " / Frequency"))
     }
     plt <- x$phase
@@ -418,7 +437,7 @@ plot.pwelch <- print.pwelch <- function(x, plot.type = c("spectrum", "cross-spec
     if (is.null(main)) {
       main <- paste("Squared coherence\nSeries:", x$series)
     }
-    if(is.null(ylab)) {
+    if (is.null(ylab)) {
       ylab <- "Magnitude Squared Coherence"
     }
     plt <- x$coh
@@ -427,7 +446,7 @@ plot.pwelch <- print.pwelch <- function(x, plot.type = c("spectrum", "cross-spec
     if (is.null(main)) {
       main <- paste("Welch Transfer Function Estimate\nSeries:", x$series)
     }
-    if(is.null(ylab)) {
+    if (is.null(ylab)) {
       ylab <- switch(yscale,
                      "linear" = "Magnitude",
                      "log" = expression(paste("log"[10], "(Magnitude)")),
@@ -436,15 +455,15 @@ plot.pwelch <- print.pwelch <- function(x, plot.type = c("spectrum", "cross-spec
     plt <- switch(yscale,
                   "linear" = Mod(x$trans),
                   "log" = log10(Mod(x$trans)),
-                  "dB" = 10*log10(Mod(x$trans)))
+                  "dB" = 10 * log10(Mod(x$trans)))
 
   }
-  graphics::matplot(x$freq, plt, type = "l", xlab = xlab, ylab = '', ...)
-  graphics::title (main, sub = sub)
+  graphics::matplot(x$freq, plt, type = "l", xlab = xlab, ylab = "", ...)
+  graphics::title(main, sub = sub)
   graphics::title(ylab = ylab, line = 2)
 
   if (plot.type == "phase") {
-    graphics::abline(h = c(-pi, -pi/2, 0, pi/2, pi), col = "red", lty = 2)
+    graphics::abline(h = c(-pi, -pi / 2, 0, pi / 2, pi), col = "red", lty = 2)
     graphics::text(-1, -3, expression(-pi), col = "red")
     graphics::text(-1, -1.4, expression(-pi / 2), col = "red")
     graphics::text(-1, 1.4, expression(pi / 2), col = "red")

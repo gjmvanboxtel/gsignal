@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191123 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Dirichlet function
 #'
@@ -43,13 +43,14 @@
 #'
 #' @examples
 #'
-#' ## Compute and plot the Dirichlet function between -2pi and 2pi for N = 7 and N = 8.
-#' ## The function has a period of 2pi for odd N and 4pi for even N.
+#' ## Compute and plot the Dirichlet function between -2pi and 2pi for N = 7
+#' ## and N = 8. The function has a period of 2pi for odd N and 4pi for even N.
 #' x <- seq(-2*pi, 2*pi, len = 301)
 #' d7 <- diric(x, 7)
 #' d8 <- diric(x, 8)
 #' op <- par(mfrow = c(2,1))
-#' plot(x/pi, d7, type="l", main = "Dirichlet function", xlab = "", ylab = "N = 7")
+#' plot(x/pi, d7, type="l", main = "Dirichlet function",
+#'      xlab = "", ylab = "N = 7")
 #' plot(x/pi, d8, type="l", ylab = "N = 8", xlab = expression(x / pi))
 #' par(op)
 #'
@@ -58,11 +59,12 @@
 #
 #' @export
 
-diric <- function (x, n) {
+diric <- function(x, n) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
 
   y <- sin(n * x / 2) / (n * sin(x / 2))
-  y[x %% (2 * pi) == 0] <- (-1)^((n-1) * x[x %% (2*pi) == 0] / (2 * pi))
+  y[x %% (2 * pi) == 0] <- (-1) ^ ((n - 1) * x[x %% (2 * pi) == 0] / (2 * pi))
   y
 }

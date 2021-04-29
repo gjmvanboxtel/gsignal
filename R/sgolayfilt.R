@@ -19,7 +19,7 @@
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
 # 20210405    GvB       if x is a matrix, filter its columns
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Savitzky-Golay filtering
 #'
@@ -42,11 +42,12 @@
 #' @param n Filter length; must a an odd positive integer.
 #' @param m Return the m-th derivative of the filter coefficients. Default: 0
 #' @param ts Scaling factor. Default: 1
-#' @param filt Filter characteristics, usually the result of a call to \code{sgolay}
+#' @param filt Filter characteristics, usually the result of a call to
+#'   \code{sgolay}
 #' @param ... Additional arguments (ignored)
 #'
 #' @return The filtered signal, of the same dimensions as the input signal.
-#' 
+#'
 #' @examples
 #' # Compare a 5 sample averager, an order-5 butterworth lowpass
 #' # filter (cutoff 1/3) and sgolayfilt(x, 3, 5), the best cubic
@@ -78,13 +79,13 @@ filter.sgolayFilter <- function(filt, x, ...) {
 #' @rdname sgolayfilt
 #' @export
 
-sgolayfilt <- function(x, p = 3, n = p + 3 - p%%2, m = 0, ts = 1) {
+sgolayfilt <- function(x, p = 3, n = p + 3 - p %% 2, m = 0, ts = 1) {
 
   if (is.null(x)) {
     return(NULL)
   }
   if (!is.numeric(x)) {
-    stop('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
@@ -98,7 +99,7 @@ sgolayfilt <- function(x, p = 3, n = p + 3 - p%%2, m = 0, ts = 1) {
     return(x)
   }
   y <- matrix(0, nrx, ncx)
-  
+
   ## The first k rows of F are used to filter the first k points
   ## of the data set based on the first n points of the data set.
   ## The last k rows of F are used to filter the last k points
@@ -107,15 +108,15 @@ sgolayfilt <- function(x, p = 3, n = p + 3 - p%%2, m = 0, ts = 1) {
   ## As the filter coefficients are used in the reverse order of what
   ## seems the logical notation, reverse F[k+1,] so that antisymmetric
   ## sequences are used with the right sign.
-  if (class(p) == "sgolayFilter" || (!is.null(dim(p)) && dim(p) > 1)) {
+  if ("sgolayFilter" %in% class(p) || (!is.null(dim(p)) && dim(p) > 1)) {
     Fm <- p
     n <- nrow(Fm)
   } else {
     Fm <- sgolay(p, n, m, ts)
   }
-  k <- floor(n/2)
+  k <- floor(n / 2)
   z <- filter(Fm[(k + 1), n:1], 1, x)
-  for (icol in seq_len(ncx)){
+  for (icol in seq_len(ncx)) {
     y[, icol] <- c(Fm[1:k, ] %*% x[1:n, icol],
                    z[n:nrx, icol],
                    Fm[(k + 2):n, ] %*% x[(nrx - n + 1):nrx, icol]

@@ -24,7 +24,7 @@
 # Version history
 # 20200425  GvB       setup for gsignal v0.1.0
 # 20201214  GvB       changes to S3 setup: do them all via as.Zpg
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Zero-pole plot
 #'
@@ -90,7 +90,8 @@ zplane.Zpg <- function(filt, ...) {
   r <- exp(2i * pi * (0:100) / 100)
   xlim <- range(c(-1.1, 1.1, Re(x$p), Re(x$z)))
   ylim <- range(c(-1.1, 1.1, Im(x$p), Im(x$z)))
-  graphics::plot(Re(r), Im(r), col = "red", xlab = "", ylab = "", xlim = xlim, ylim = ylim, type = "l", asp = 1, ...)
+  graphics::plot(Re(r), Im(r), col = "red", xlab = "", ylab = "",
+                 xlim = xlim, ylim = ylim, type = "l", asp = 1, ...)
   graphics::points(Re(x$p), Im(x$p), pch = 4)
   graphics::points(Re(x$z), Im(x$z), pch = 1)
 }
@@ -99,5 +100,6 @@ zplane.Zpg <- function(filt, ...) {
 #' @export
 
 zplane.default <- function(filt, a, ...) {
-  zplane(Zpg(pracma::roots(as.numeric(filt)), pracma::roots(as.numeric(a)), 1), ...)
+  zplane(Zpg(pracma::roots(as.numeric(filt)),
+             pracma::roots(as.numeric(a)), 1), ...)
 }

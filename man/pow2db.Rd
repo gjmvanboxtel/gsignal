@@ -20,8 +20,8 @@ Converted data, same type and dimensions as \code{x}.
 Convert power to decibel and decibel to power.
 }
 \examples{
-pow2db(c(0, 10, 100))
-db2pow(c(-10, 0, 10))
+db <- pow2db(c(0, 10, 100))
+pow <- db2pow(c(-10, 0, 10))
 
 }
 \author{

@@ -17,7 +17,7 @@
 #
 # Version history
 # 20200212  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Convolution matrix
 #'
@@ -47,7 +47,7 @@
 #' d <- cm %*% a
 #'
 #' cref = conv(a, b)
-#' all.equal(max(d - cref), 0)
+#' ## all.equal(max(d - cref), 0)
 #'
 #' @seealso \code{\link[gsignal]{conv}}
 #'
@@ -56,11 +56,11 @@
 #
 #' @export
 
-convmtx <- function (h, n) {
+convmtx <- function(h, n) {
 
   h <- as.vector(h)
   if (!isPosscal(n) || !isWhole(n)) {
-    stop('n must be a positive integer.')
+    stop("n must be a positive integer.")
   }
 
   y <- pracma::Toeplitz(c(h, rep(0L, (n - 1))), c(h[1], rep(0L, (n - 1))))

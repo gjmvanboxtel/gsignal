@@ -16,7 +16,7 @@
 #
 # Version history
 # 20200121  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Pad data
 #'
@@ -26,10 +26,10 @@
 #' @param x Vector, array, or matrix to be padded
 #' @param l Length of output data along the padding dimension. If \code{length
 #'   (x) > l}, elements from the beginning (\code{dimension = "pre"}) or the end
-#'   (\code{direction = "post"}) of \code{x} are removed until a vector of length
-#'   \code{l} is obtained. If \code{direction = "both"}, values are removed from
-#'   both ends, and in case of an uneven length the smallest number of elements
-#'   is removed from the beginning of vector.
+#'   (\code{direction = "post"}) of \code{x} are removed until a vector of
+#'   length \code{l} is obtained. If \code{direction = "both"}, values are
+#'   removed from both ends, and in case of an uneven length the smallest number
+#'   of elements is removed from the beginning of vector.
 #' @param c Value to be used for the padding (scalar). Must be of the same type
 #'   as the elements in \code{x}. Default: 0
 #' @param MARGIN A vector giving the subscripts which the function will be
@@ -53,26 +53,27 @@
 #'
 #' @examples
 #' v <- 1:24
-#' postpad(v, 30)
-#' postpad(v, 20)
-#' prepad(v, 30)
-#' prepad(v, 20)
+#' res <- postpad(v, 30)
+#' res <- postpad(v, 20)
+#' res <- prepad(v, 30)
+#' res <- prepad(v, 20)
 #'
 #' m <- matrix(1:24, 4, 6)
-#' postpad(m, 8, 100)
-#' postpad(m, 8, 100, MARGIN = 1)
-#' prepad(m, 8, 100)
-#' prepad(m, 8, 100, MARGIN = 1)
+#' res <- postpad(m, 8, 100)
+#' res <- postpad(m, 8, 100, MARGIN = 1)
+#' res <- prepad(m, 8, 100)
+#' res <- prepad(m, 8, 100, MARGIN = 1)
 #'
-#' postpad(m, 2)
-#' postpad(m, 2, MARGIN = 1)
-#' prepad(m, 2)
-#' prepad(m, 2, MARGIN = 1)
+#' res <- postpad(m, 2)
+#' res <- postpad(m, 2, MARGIN = 1)
+#' res <- prepad(m, 2)
+#' res <- prepad(m, 2, MARGIN = 1)
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #' @export
 
-pad <- function (x, l, c = 0, MARGIN = 2, direction = c("both", "pre", "post")) {
+pad <- function(x, l, c = 0, MARGIN = 2,
+                direction = c("both", "pre", "post")) {
 
   vec <- FALSE
   if (is.vector(x)) vec <- TRUE
@@ -84,12 +85,12 @@ pad <- function (x, l, c = 0, MARGIN = 2, direction = c("both", "pre", "post")) 
   xdim <- dim(x)
   ld <- length(xdim)
 
-  if(!isPosscal(l) && !isWhole(l)) {
-    stop('l must be a positive integer')
+  if (!isPosscal(l) && !isWhole(l)) {
+    stop("l must be a positive integer")
   }
 
-  if(!isScalar(c)) {
-    stop('c must be a scalar')
+  if (!isScalar(c)) {
+    stop("c must be a scalar")
   }
 
   # handle character dimnames (adapted from apply source code)
@@ -99,7 +100,7 @@ pad <- function (x, l, c = 0, MARGIN = 2, direction = c("both", "pre", "post")) 
     MARGIN <- match(MARGIN, dnn)
     if (anyNA(MARGIN))
       stop("not all elements of 'MARGIN' are names of dimensions")
-  } else if(!isPosscal(MARGIN) || MARGIN > ld || MARGIN < 1 || MARGIN > 2) {
+  } else if (!isPosscal(MARGIN) || MARGIN > ld || MARGIN < 1 || MARGIN > 2) {
     stop("'MARGIN' must be a positive integer and a valid margin (1 or 2)")
   }
 
@@ -134,23 +135,24 @@ pad <- function (x, l, c = 0, MARGIN = 2, direction = c("both", "pre", "post")) 
   }
 
   direction <- match.arg(direction)
-  y <- unlist(apply(X = x, MARGIN = MARGIN, FUN = pd, l = l, c = c, dir = direction))
+  y <- unlist(apply(X = x, MARGIN = MARGIN, FUN = pd,
+                    l = l, c = c, dir = direction))
 
   if (MARGIN == 1) y <- t(y)
-  if(vec) y <- as.vector(y)
+  if (vec) y <- as.vector(y)
   y
 }
 
 #' @rdname pad
 #' @export
-prepad <- function (x, l, c = 0, MARGIN = 2) {
+prepad <- function(x, l, c = 0, MARGIN = 2) {
 
   pad(x, l, c, MARGIN, direction = "pre")
 
 }
 #' @rdname pad
 #' @export
-postpad <- function (x, l, c = 0, MARGIN = 2) {
+postpad <- function(x, l, c = 0, MARGIN = 2) {
 
   pad(x, l, c, MARGIN, direction = "post")
 

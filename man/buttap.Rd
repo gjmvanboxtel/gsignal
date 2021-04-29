@@ -28,6 +28,6 @@ freqs(zp, w)
 
 }
 \author{
-Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+Carne Draug, \email{carandraug+dev@gmail.com}.\cr
  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

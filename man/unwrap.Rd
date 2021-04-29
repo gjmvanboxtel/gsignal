@@ -4,24 +4,18 @@
 \alias{unwrap}
 \title{Unwrap phase angles}
 \usage{
-unwrap(x, tol = pi, MARGIN = 2)
+unwrap(x, tol = pi)
 }
 \arguments{
-\item{x}{Input array, specified as a vector, matrix, or multidimensional array.}
+\item{x}{Input array, specified as a vector or a matrix. If \code{x} is a
+matrix, unwrapping along the columns of \code{x} is applied.}
 
 \item{tol}{Jump threshold to apply phase shift, specified as a scalar. A jump
 threshold less than \eqn{pi} has the same effect as the threshold
 \eqn{pi}. Default: \deqn{pi}.}
-
-\item{MARGIN}{A vector giving the subscripts which the function will be
-applied over. E.g., for a matrix 1 indicates rows, 2 indicates columns,
-c(1, 2) indicates rows and columns. Where x has named dimnames, it can be a
-character vector selecting dimension names. If MARGIN is larger than the
-dimensions of x, the result will have MARGIN dimensions. Default: 2
-(columns).}
 }
 \value{
-Unwraped phase angle, returned as a vector, matrix, or
+Unwrapped phase angle, returned as a vector, matrix, or
   multidimensional array. The size of the output is always the same as the
   size of the input.
 }

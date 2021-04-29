@@ -20,7 +20,7 @@
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Cross-correlation
 #'
@@ -92,9 +92,10 @@
 #' @seealso \code{\link{xcov}}.
 #'
 #' @examples
-#' ## Create a vector x and a vector y that is equal to x shifted by 5 elements to the right.
-#' ## Compute and plot the estimated cross-correlation of x and y. The largest spike occurs
-#' ## at the lag value when the elements of x and y match exactly (-5).
+#' ## Create a vector x and a vector y that is equal to x shifted by 5
+#' ## elements to the right. Compute and plot the estimated cross-correlation
+#' ## of x and y. The largest spike occurs at the lag value when the elements
+#' ## of x and y match exactly (-5).
 #' n <- 0:15
 #' x <- 0.84^n
 #' y <- pracma::circshift(x, 5)
@@ -123,8 +124,10 @@
 #'
 #' @export
 
-xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(length(x), length(y)) - 1),
-                   scale = c("none", "biased", "unbiased", "coeff")) {
+xcorr <- function(x, y = NULL,
+                  maxlag = if (is.matrix(x)) nrow(x) - 1
+                  else max(length(x), length(y)) - 1,
+                  scale = c("none", "biased", "unbiased", "coeff")) {
 
   if (is.array(x)) {
     ld <- length(dim(x))
@@ -133,7 +136,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     } else if (ld == 2) {
       x <- as.matrix(x)
     } else {
-      stop ('multidimensional arrays are not supported (x)')
+      stop("multidimensional arrays are not supported (x)")
     }
   }
   if (!is.null(y) && is.array(y)) {
@@ -143,7 +146,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     } else if (ld == 2) {
       y <- as.matrix(y)
     } else {
-      stop ('multidimensional arrays are not supported (y)')
+      stop("multidimensional arrays are not supported (y)")
     }
   }
 
@@ -156,16 +159,16 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
 
   ## check argument values
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop ('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   }
   if (!is.null(y) && is.matrix(y) && !(is.numeric(y) || is.complex(y))) {
-    stop ('y must be a vector')
+    stop("y must be a vector")
   }
   if (!is.null(y) && !is.vector(x)) {
-    stop ('x must be a vector if y is specified')
+    stop("x must be a vector if y is specified")
   }
-  if (!isPosscal(maxlag) || !isWhole(maxlag) ) {
-    stop ('maxlag must be a non-negative integer')
+  if (!isPosscal(maxlag) || !isWhole(maxlag)) {
+    stop("maxlag must be a non-negative integer")
   }
 
   # Correlations for lags in excess of +/-(N-1)
@@ -179,8 +182,9 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     pad_result <- 0
   }
 
-  if (is.vector(x) && is.vector(y) && length(x) != length(y) && scale != 'none') {
-    stop ("scale must be 'none' if length(x) != length(y)")
+  if (is.vector(x) && is.vector(y) &&
+      length(x) != length(y) && scale != "none") {
+    stop("scale must be 'none' if length(x) != length(y)")
   }
 
   P <- ncol(x)
@@ -189,20 +193,21 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     # correlate each column "i" with all other "j" columns
     R <- matrix(0L, 2 * maxlag + 1, P^2)
     # do FFTs of padded column vectors
-    pre <- stats::mvfft (postpad(prepad(x, N + maxlag), M))
+    pre <- stats::mvfft(postpad(prepad(x, N + maxlag), M))
     post <- Conj(stats::mvfft(postpad(x, M)))
     # do autocorrelations (each column with itself)
     cor <- imvfft(post * pre)
     R[, seq(1, P^2, P + 1)] <- cor[1:(2 * maxlag + 1), ]
     # do the cross correlations
-    for (i in 1:(P-1)) {
+    for (i in 1:(P - 1)) {
       j <- (i + 1):P
       if (length(j) > 1) {
-        cor <- imvfft(pre[, i * rep(1L, length(j))] * post[ ,j])
+        cor <- imvfft(pre[, i * rep(1L, length(j))] * post[, j])
         R[, ((i - 1) * P + j)] <- cor[1:(2 * maxlag + 1), ]
-        R[, ((j - 1) * P + i)] <- Conj(pracma::flipud(cor[1:(2 * maxlag + 1), ]))
+        R[, ((j - 1) * P + i)] <-
+          Conj(pracma::flipud(cor[1:(2 * maxlag + 1), ]))
       } else {
-        cor <- ifft(pre[, i * rep(1L, length(j))] * post[ ,j])
+        cor <- ifft(pre[, i * rep(1L, length(j))] * post[, j])
         R[, ((i - 1) * P + j)] <- cor[1:(2 * maxlag + 1)]
         R[, ((j - 1) * P + i)] <- Conj(rev(cor[1:(2 * maxlag + 1)]))
       }
@@ -210,7 +215,7 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
     }
   } else if (is.null(y)) {
     # compute autocorrelation of a single vector
-    post <- stats::fft(postpad(x,M))
+    post <- stats::fft(postpad(x, M))
     cor <- ifft(post * Conj(post))
     R <- c(Conj(cor[seq((maxlag + 1), 2, -1)]), cor[1:(maxlag + 1)])
   } else {
@@ -230,11 +235,12 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
   }
 
   # correct for bias
-  if (scale == 'biased') {
+  if (scale == "biased") {
     R <- R / N
-  } else if (scale == 'unbiased') {
-    R <- R / (c((N - maxlag):(N - 1), N, rev((N - maxlag):(N - 1)))) * rep(1L, NCOL(R))
-  } else if (scale == 'coeff') {
+  } else if (scale == "unbiased") {
+    R <- R / (c((N - maxlag):(N - 1), N,
+                rev((N - maxlag):(N - 1)))) * rep(1L, NCOL(R))
+  } else if (scale == "coeff") {
     ## R = R ./ R(maxlag+1) works only for autocorrelation
     ## For cross correlation coeff, divide by rms(X)*rms(Y).
     if (!is.vector(x)) {
@@ -264,4 +270,3 @@ xcorr <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(l
 
   list(R = R, lags = lags)
 }
-

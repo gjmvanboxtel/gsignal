@@ -23,8 +23,8 @@ filtfilt(filt, ...)
 }
 \arguments{
 \item{filt}{For the default case, the moving-average coefficients of an ARMA
-filter (normally called ‘b’). Generically, \code{filt} specifies an arbitrary
-filter operation.}
+filter (normally called ‘b’). Generically, \code{filt} specifies an
+arbitrary filter operation.}
 
 \item{...}{additional arguments (ignored).}
 
@@ -78,8 +78,8 @@ legend("bottomleft", legend = c("original", "filter", "filtfilt"), lty = 1,
   \code{\link{Sos}}, \code{\link{Zpg}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net},\cr
- Francesco Potortì, \email{pot@gnu.org},\cr
- Luca Citi, \email{lciti@essex.ac.uk}.\cr
- Conversion to R and adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net},\cr Francesco Potortì,
+  \email{pot@gnu.org},\cr Luca Citi, \email{lciti@essex.ac.uk}.\cr
+  Conversion to R and adapted by Geert van Boxtel
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

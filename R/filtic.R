@@ -20,7 +20,7 @@
 # 20200317    GvB       setup for gsignal v0.1.0
 # 20210322    GvB       adapted to accept missing x and y parameters (all 1's)
 #                       defined S3 methods and added method for Sos
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Filter Initial Conditions
 #'
@@ -43,7 +43,7 @@
 #'   \code{filt} specifies an arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
 #' @param y output vector, with the most recent values first.
-#' @param x input vector, with teh most recent values first. Default: 0 
+#' @param x input vector, with the most recent values first. Default: 0
 #' @param ... additional arguments (ignored).
 #'
 #' @return Initial conditions for filter specified by \code{filt}, input vector
@@ -59,7 +59,7 @@
 #' b <- c(0.25, -0.25)
 #' a <- c(1.0, 0.5)
 #' ic <- filtic(b, a, 0, 1)
-#' 
+#'
 #' ## Example from Python scipy.signal.lfilter() documentation
 #' t <- seq(-1, 1, length.out =  201)
 #' x <- (sin(2 * pi * 0.75 * t * (1 - t) + 2.1)
@@ -91,7 +91,7 @@ filtic.default <- function(filt, a, y, x = 0, ...) {
   b <- filt
   nz <- max(length(a), length(b)) - 1
   zi <- numeric(nz)
-  
+
   # Pad arrays a and b to length nz+1 if required
   if (length(a) < (nz + 1)) {
     a <- postpad(a, nz + 1)
@@ -109,14 +109,15 @@ filtic.default <- function(filt, a, y, x = 0, ...) {
   }
 
   for (i in seq(nz, 1, -1)) {
-    for (j in i:(nz-1)) {
+    for (j in i:(nz - 1)) {
       zi[j] <- b[j + 1] * x[i] - a[j + 1] * y[i] + zi[j + 1]
     }
     zi[nz] <- b[nz + 1] * x[i] - a[nz + 1] * y[i]
   }
 
-  zi = zi / a[1]
-  zi}
+  zi <- zi / a[1]
+  zi
+}
 
 #' @rdname filtic
 #' @method filtic Arma
@@ -138,13 +139,13 @@ filtic.Sos <- function(filt, y, x = 0, ...) { # Second-order sections
   if (filt$g != 1) {
     filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g
   }
-  L = NROW(filt$sos)
+  L <- NROW(filt$sos)
   zi <- matrix(0, L, 2)
-  scale = 1.0
+  scale <- 1.0
   for (l in seq_len(L)) {
     b <- filt$sos[l, 1:3]
     a <- filt$sos[l, 4:6]
-    zi[l, ] = scale * filtic.default(b, a, y, x)
+    zi[l, ] <- scale * filtic.default(b, a, y, x)
     # If H(z) = B(z)/A(z) is this section's transfer function, then
     # b.sum()/a.sum() is H(1), the gain at omega=0.  That's the steady
     # state value of this section's step response.

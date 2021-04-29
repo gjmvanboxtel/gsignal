@@ -1,6 +1,7 @@
 # buffer.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
-# Matlab/Octave signal package Copyright (C) 2008 David Bateman <adb014@gmail.com>
+# Matlab/Octave signal package:
+# Copyright (C) 2008 David Bateman <adb014@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191120 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Buffer signal vector into matrix of data segments
 #'
@@ -34,15 +35,15 @@
 #' output matrix by \code{p} samples.
 #' \itemize{
 #' \item {For \code{0 < p < n} (overlap), buffer repeats the final \code{p}
-#'   samples of each segment at the beginning of the following segment. See the
-#'   example where \code{x = 1:30}, \code{n = 7}, and an overlap of \code{p = 3}.
-#'   In this case, the first segment starts with \code{p} zeros (the default
-#'   initial condition), and the number of columns in \code{y} is \code{ceil(L /
-#'   (n - p))}.}
+#' samples of each segment at the beginning of the following segment. See the
+#' example where \code{x = 1:30}, \code{n = 7}, and an overlap of \code{p = 3}.
+#' In this case, the first segment starts with \code{p} zeros (the default
+#' initial condition), and the number of columns in \code{y} is \code{ceil(L /
+#' (n - p))}.}
 #' \item  {For \code{p < 0} (underlap), buffer skips \code{p} samples between
-#'   consecutive segments. See the example where \code{x = 1:30}, \code{n = 7},
-#'   and \code{p = -3}. The number of columns in \code{y} is \code{ceil(L / (n -
-#'   p))}.}
+#' consecutive segments. See the example where \code{x = 1:30}, \code{n = 7},
+#' and \code{p = -3}. The number of columns in \code{y} is \code{ceil(L / (n -
+#' p))}.}
 #' }
 #'
 #' In \code{y <- buffer(x, n, p, opt)}, \code{opt} specifies a vector of samples
@@ -50,16 +51,16 @@
 #' samples to skip in an underlapping buffer.
 #' \itemize{
 #'   \item {For \code{0 < p < n} (overlap), \code{opt} specifies a vector of
-#'     length \code{p} to insert before \code{x[1]} in the buffer. This vector can
-#'     be considered an initial condition, which is needed when the current
-#'     buffering operation is one in a sequence of consecutive buffering
-#'     operations. To maintain the desired segment overlap from one buffer to the
-#'     next, \code{opt} should contain the final \code{p} samples of the previous
-#'     buffer in the sequence. Set \code{opt} to \code{'nodelay'} to skip the
-#'     initial condition and begin filling the buffer immediately with
-#'     \code{x[1]}. In this case, \code{L} must be \code{length(p)} or longer. See
-#'     the example where \code{x = 1:30}, \code{n = 7}, \code{p = 3}, and
-#'     \code{opt = 'nodelay'}.}
+#'   length \code{p} to insert before \code{x[1]} in the buffer. This vector can
+#'   be considered an initial condition, which is needed when the current
+#'   buffering operation is one in a sequence of consecutive buffering
+#'   operations. To maintain the desired segment overlap from one buffer to the
+#'   next, \code{opt} should contain the final \code{p} samples of the previous
+#'   buffer in the sequence. Set \code{opt} to \code{'nodelay'} to skip the
+#'   initial condition and begin filling the buffer immediately with
+#'   \code{x[1]}. In this case, \code{L} must be \code{length(p)} or longer. See
+#'   the example where \code{x = 1:30}, \code{n = 7}, \code{p = 3}, and
+#'   \code{opt = 'nodelay'}.}
 #'   \item {For \code{p < 0} (underlap), \code{opt} is an integer value in the
 #'     range \code{0 : -p} specifying the number of initial input samples,
 #'     \code{x[1:opt]}, to skip before adding samples to the buffer. The first
@@ -82,26 +83,26 @@
 #' available to be skipped after filling the last frame:
 #' \itemize{
 #'   \item {For \code{0 < p < n} (overlap), \code{buf$opt} contains the final
-#'     \code{p} samples in the last frame of the buffer. This vector can be used
-#'     as the initial condition for a subsequent buffering operation in a sequence
-#'     of consecutive buffering operations. This allows the desired frame overlap
-#'     to be maintained from one buffer to the next. See Continuous Buffering
-#'     below.}
+#'   \code{p} samples in the last frame of the buffer. This vector can be used
+#'   as the initial condition for a subsequent buffering operation in a sequence
+#'   of consecutive buffering operations. This allows the desired frame overlap
+#'   to be maintained from one buffer to the next. See Continuous Buffering
+#'   below.}
 #'   \item {For \code{p < 0} (underlap), \code{buf$opt} is the difference
-#'     between the total number of points to skip between frames \code{(-p)} and
-#'     the number of points in \code{x} that were available to be skipped after
-#'     filling the last frame: \code{buf$opt = m*(n-p) + opt - L} where \code{opt}
-#'     on the right is the input argument to buffer, and \code{buf$opt} on the
-#'     left is the output argument. Note that for an underlapping buffer output
-#'     \code{buf$opt} is always zero when output \code{buf$z} contains data.\cr
-#'     The opt output for an underlapping buffer is especially useful when the
-#'     current buffering operation is one in a sequence of consecutive buffering
-#'     operations. The \code{buf$opt} output from each buffering operation
-#'     specifies the number of samples that need to be skipped at the start of the
-#'     next buffering operation to maintain the desired frame underlap from one
-#'     buffer to the next. If fewer than \code{p} points were available to be
-#'     skipped after filling the final frame of the current buffer, the remaining
-#'     opt points need to be removed from the first frame of the next buffer.}
+#'   between the total number of points to skip between frames \code{(-p)} and
+#'   the number of points in \code{x} that were available to be skipped after
+#'   filling the last frame: \code{buf$opt = m*(n-p) + opt - L} where \code{opt}
+#'   on the right is the input argument to buffer, and \code{buf$opt} on the
+#'   left is the output argument. Note that for an underlapping buffer output
+#'   \code{buf$opt} is always zero when output \code{buf$z} contains data.\cr
+#'   The opt output for an underlapping buffer is especially useful when the
+#'   current buffering operation is one in a sequence of consecutive buffering
+#'   operations. The \code{buf$opt} output from each buffering operation
+#'   specifies the number of samples that need to be skipped at the start of the
+#'   next buffering operation to maintain the desired frame underlap from one
+#'   buffer to the next. If fewer than \code{p} points were available to be
+#'   skipped after filling the final frame of the current buffer, the remaining
+#'   opt points need to be removed from the first frame of the next buffer.}
 #' }
 #' In a sequence of buffering operations, the \code{buf$opt} output from each
 #' operation should be used as the \code{opt} input to the subsequent buffering
@@ -193,18 +194,19 @@
 #'
 #' @export
 
-buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
+buffer <- function(x, n, p = 0, opt, zopt = FALSE) {
 
   # parameter checking etc.
-  if (is.data.frame(x)) x <- as.vector(x[,1])
+  if (is.data.frame(x)) x <- as.vector(x[, 1])
   else x <- as.vector(x)
   if (!isScalar(n) || !isWhole(n)) stop("n must be an integer")
-  if (!isScalar(p) || !isWhole(p) || p >= n) stop("p must be an integer less than n")
-  if (missing (opt)) {
+  if (!isScalar(p) || !isWhole(p) || p >= n)
+    stop("p must be an integer less than n")
+  if (missing(opt)) {
     if (p < 0) {
       opt <- 0
     } else {
-      opt <- matrix (0L, 1, p)
+      opt <- matrix(0L, 1, p)
     }
   }
   if (p < 0) {
@@ -219,12 +221,12 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
   if (!is.logical(zopt)) stop("zopt must be a logical")
 
   l <- length(x)
-  m <- ceiling ((l - lopt) / (n - p))
-  y <- matrix (0L, n - p, m)
+  m <- ceiling((l - lopt) / (n - p))
+  y <- matrix(0L, n - p, m)
   y [1:(l - lopt)] <- x[(lopt + 1):l]
 
   if (p < 0) {
-    y <- y[-((nrow(y) + p + 1):nrow(y)),]
+    y <- y[- ((nrow(y) + p + 1):nrow(y)), ]
   } else if (p > 0) {
     if (is.character(opt)) {
       if (opt == "nodelay") {
@@ -246,17 +248,17 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
           }
           i <- ((l - 1) %% (n - p)) + 1
           j <- floor((l - 1) / (n - p)) + 1
-          if (all(c(i, j) == c(n-p, m))) {
-            off <- off -1
+          if (all(c(i, j) == c(n - p, m))) {
+            off <- off - 1
           }
           y <- y[, -c((ncol(y) - off + 2):ncol(y))]
-        } else { # p>n/2
+        } else {
           y[(nrow(y) - p + 1):nrow(y), 1:(ncol(y) - 1)] <- y[(1:p), 2:ncol(y)]
-          if ((m-1)*(n-p) + p >= l) {
+          if ((m - 1) * (n - p) + p >= l) {
             y <- y[, -ncol(y)]
           }
         }
-      } else { #is.character(opt)
+      } else {
         stop(paste("Unexpected string argument to 'opt':", opt))
       }
     } else if (is.numeric(opt)) {
@@ -278,7 +280,8 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
           iis <- p - iin + 1
           off <- 1
           while (iie > 0) {
-            y[iis:iie, (1 + off):ncol(y)] <- y[(nrow(y) - iin + 1):nrow(y), 1:(ncol(y) - off)]
+            y[iis:iie, (1 + off):ncol(y)] <-
+              y[(nrow(y) - iin + 1):nrow(y), 1:(ncol(y) - off)]
             off <- off + 1
             iie <- iis - 1
             iis <- iis - iin
@@ -291,10 +294,10 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
           y[1:p, 2:ncol(y)] <- y[(nrow(y) - p + 1):nrow(y), 1:(ncol(y) - 1)]
         }
       } else {
-        stop ("'opt' vector should be of length 'p'")
+        stop("'opt' vector should be of length 'p'")
       }
     } else {
-      stop ("Unrecognized 'opt' argument")
+      stop("Unrecognized 'opt' argument")
     }
   }
 
@@ -302,7 +305,7 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
     if (p >= 0) {
       i <- (((l + lopt + p * (ncol(y) - 1)) - 1) %% nrow(y)) + 1
       j <- floor(((l + lopt + p * (ncol(y) - 1)) - 1) / nrow(y)) + 1
-      if (any(c(i,j) != c(nrow(y), ncol(y)))) {
+      if (any(c(i, j) != c(nrow(y), ncol(y)))) {
         z <- y[(1 + p):i, ncol(y)]
         y <- y[, -ncol(y)]
       } else {
@@ -317,15 +320,12 @@ buffer <- function (x, n, p = 0, opt, zopt = FALSE) {
         z <- NULL
       }
     }
-    # if (nrow (x)) {
-    #   z = t(z)
-    # }
     if (p < 0) {
       opt <- max(0, ncol(y) * (n - p) + opt - l)
     } else if (p > 0) {
       opt <- y[(nrow(y) - p + 1):nrow(y), ncol(y)]
     } else {
-      opt = NA
+      opt <- NA
     }
     return(list(y = y, z = z, opt = opt))
   } else {

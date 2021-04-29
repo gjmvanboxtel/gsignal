@@ -1,7 +1,7 @@
 # cheb1ap.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
-# Copyright (C) 2013 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2013 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,17 +18,18 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200519 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chebyshev Type I filter prototype
 #'
-#' Return the poles and gain of an analog Chebyshev Type I lowpass filter prototype.
+#' Return the poles and gain of an analog Chebyshev Type I lowpass filter
+#' prototype.
 #'
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
 #' to \code{cheby1(n, Rp, 1, "low", "s")}.
 #'
 #' @param n Order of the filter.
-#' @param Rp dB of passband ripple.
+#' @param Rp dB of pass-band ripple.
 #'
 #' @return List of class \code{\link{Zpg}} containing the poles and gain of the
 #'   filter.
@@ -39,14 +40,15 @@
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#' @author Carne Draug, \email{carandraug+dev@@gmail.com}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-cheb1ap <- function (n, Rp) {
+cheb1ap <- function(n, Rp) {
 
-  if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n))
+    stop("n must be an integer strictly positive")
   if (!isPosscal(Rp) || !is.numeric(Rp)) {
     stop("passband ripple Rp must a non-negative scalar")
   }
@@ -54,4 +56,3 @@ cheb1ap <- function (n, Rp) {
   cheby1(n, Rp, 1, "low", "s", "Zpg")
 
 }
-

@@ -25,6 +25,11 @@ Sample EEG and ECG data.
 }
 \examples{
 data(signals)
+time <- seq(0, 10, length.out = nrow(signals))
+op <- par(mfcol = c(2, 1))
+plot(time, signals[, 1], type = "l", xlab = "Time", ylab = "EEG (uV)")
+plot(time, signals[, 2], type = "l", xlab = "Time", ylab = "ECG (uV)")
+par(op)
 
 }
 \author{

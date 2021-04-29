@@ -17,13 +17,14 @@
 #
 # Version history
 # 20200228  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 1-D or 2-D convolution
 #'
 #' Compute the one- or two-dimensional convolution of two vectors or matrices.
 #'
-#' @param type Numeric or character, specifies the type of convolution to perform:
+#' @param type Numeric or character, specifies the type of convolution to
+#'   perform:
 #' \describe{
 #'   \item{'1d'}{For \code{a} and \code{b} as (coerced to) vectors,
 #'   perform 1-D convolution of \code{a} and \code{b};}
@@ -33,8 +34,8 @@
 #'   (coerced to) a vector, perform the 1-D convolution of the rows of \code{a}
 #'   and \code{b};}
 #'   \item{'column'}{For \code{a} as (coerced to) a matrix, and \code{b}
-#'   (coerced to) a vector, perform the 1-D convolution of the colums of \code{a}
-#'   and \code{b};}
+#'   (coerced to) a vector, perform the 1-D convolution of the colums of
+#'   \code{a} and \code{b};}
 #' }
 #' @param a,b Input vectors or matrices, coerced to numeric.
 #' @param shape Subsection of convolution, partially matched to:
@@ -53,11 +54,11 @@
 #' @examples
 #' a <- matrix(1:16, 4, 4)
 #' b <- matrix(1:9, 3,3)
-#' wconv('2', a, b)
-#' wconv('1', a, b, 'same')
-#' wconv('r', a, b)
-#' wconv('r', a, c(0,1), 'same')
-#' wconv('c', a, c(0,1), 'valid')
+#' w <- wconv('2', a, b)
+#' w <- wconv('1', a, b, 'same')
+#' w <- wconv('r', a, b)
+#' w <- wconv('r', a, c(0,1), 'same')
+#' w <- wconv('c', a, c(0,1), 'valid')
 #'
 #' @seealso \code{\link[gsignal]{conv}}, \code{\link[gsignal]{conv}}
 #'
@@ -66,16 +67,17 @@
 #'
 #' @export
 
-wconv <- function (type = c('1d', '2d', 'row', 'column'), a, b, shape = c("full", "same", "valid")) {
+wconv <- function(type = c("1d", "2d", "row", "column"),
+                  a, b, shape = c("full", "same", "valid")) {
 
   type <- match.arg(type)
   shape <- match.arg(shape)
 
-  y <- switch (type,
-               '1d' = conv(as.vector(a), as.vector(b), shape),
-               '2d' = conv2(as.matrix(a), as.matrix(b), shape),
-               'row' = conv2(as.matrix(a), t(as.vector(b)), shape),
-               'column' = t(conv2(t(as.matrix(a)), t(as.vector(b)), shape))
+  y <- switch(type,
+              "1d" = conv(as.vector(a), as.vector(b), shape),
+              "2d" = conv2(as.matrix(a), as.matrix(b), shape),
+              "row" = conv2(as.matrix(a), t(as.vector(b)), shape),
+              "column" = t(conv2(t(as.matrix(a)), t(as.vector(b)), shape))
   )
   y
 }

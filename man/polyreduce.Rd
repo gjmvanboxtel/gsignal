@@ -17,7 +17,7 @@ Reduce a polynomial coefficient vector to a minimum number of terms by
 stripping off any leading zeros.
 }
 \examples{
-polyreduce(c(0, 0, 1, 2, 3))
+p <- polyreduce(c(0, 0, 1, 2, 3))
 
 }
 \author{

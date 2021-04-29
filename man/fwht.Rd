@@ -38,9 +38,7 @@ Compute the (inverse) Fast Walsh-Hadamard transform of a signal.
 \examples{
 x <- c(19, -1, 11, -9, -7, 13, -15, 5)
 X <- fwht(x)
-
-all.equal(x, ifwht(X))
-# [1] TRUE
+## all.equal(x, ifwht(X))
 
 }
 \references{

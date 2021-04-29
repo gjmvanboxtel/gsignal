@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201015  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' 2-D Discrete Cosine Transform
 #'
@@ -50,19 +50,19 @@
 #'
 #' @export
 
- dct2 <- function (x, m = NROW(x), n = NCOL(x)) {
+ dct2 <- function(x, m = NROW(x), n = NCOL(x)) {
 
   # check parameters
   if (!is.matrix(x) || !is.numeric(x)) {
-    stop('x must be a numeric matrix')
+    stop("x must be a numeric matrix")
   }
   nr <- nrow(x)
   nc <- ncol(x)
 
-  if(!isPosscal(m) || !isWhole(m)) {
+  if (!isPosscal(m) || !isWhole(m)) {
     stop("m must be a positive integer")
   }
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
 
@@ -76,7 +76,7 @@
   if (m == 1) {
     y <- t(dct(t(x), n))
   } else if (n == 1) {
-    y <- dct(x, m);
+    y <- dct(x, m)
   } else {
     y <- t(dct(t(dct(x, m)), n))
   }

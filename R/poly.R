@@ -20,7 +20,7 @@
 #
 # Version history
 # 20200126  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Polynomial with specified roots
 #'
@@ -40,9 +40,9 @@
 #'   to lowest polynomial power.
 #'
 #' @examples
-#' poly(c(1, -1))
-#' poly(pracma::roots(1:3))
-#' poly(matrix(1:9, 3, 3))
+#' p <- poly(c(1, -1))
+#' p <- poly(pracma::roots(1:3))
+#' p <- poly(matrix(1:9, 3, 3))
 #'
 #' @seealso \code{\link{roots}}
 #'
@@ -68,13 +68,11 @@ poly <- function(x) {
     stop("x must be a vector or a square matrix")
   }
 
-  y <- numeric(n+1)
+  y <- numeric(n + 1)
   y[1] <- 1
   for (j in seq_len(n)) {
     y[2:(j + 1)] <- y[2:(j + 1)] - v[j] * y[1:j]
   }
 
-  if (all(Im(z <- zapsmall(y)) == 0)) y <- Re(y)
-
-  y
+  zapIm(y)
 }

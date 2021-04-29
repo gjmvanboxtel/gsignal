@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200501 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Bilinear transformation
 #'
@@ -50,8 +50,8 @@
 #' of poles is smaller than the number of zeros. The analytic design methods all
 #' yield more poles than zeros, so this will not be a problem.
 #'
-#' @param Sz In the generic case, a model to be transformed. In the default case,
-#'   a vector containing the zeros in a pole-zero-gain model.
+#' @param Sz In the generic case, a model to be transformed. In the default
+#'   case, a vector containing the zeros in a pole-zero-gain model.
 #' @param Sp a vector containing the poles in a pole-zero-gain model.
 #' @param Sg a vector containing the gain in a pole-zero-gain model.
 #' @param T the sampling frequency represented in the z plane. Default:
@@ -94,19 +94,19 @@ bilinear <- function(Sz, ...) UseMethod("bilinear")
 #' @rdname bilinear
 #' @export
 
-bilinear.Zpg <- function(Sz, T = 2 * tan(1/2), ...)
+bilinear.Zpg <- function(Sz, T = 2 * tan(1 / 2), ...)
   bilinear(Sz$z, Sz$p, Sz$g, T)
 
 #' @rdname bilinear
 #' @export
 
-bilinear.Arma <- function(Sz, T = 2 * tan(1/2), ...)
+bilinear.Arma <- function(Sz, T = 2 * tan(1 / 2), ...)
   as.Arma(bilinear(as.Zpg(Sz), T))
 
 #' @rdname bilinear
 #' @export
 
-bilinear.default <- function(Sz, Sp, Sg, T = 2 * tan(1/2), ...)  {
+bilinear.default <- function(Sz, Sp, Sg, T = 2 * tan(1 / 2), ...)  {
   p <- length(Sp)
   z <- length(Sz)
   if (z > p || p == 0)
@@ -117,12 +117,12 @@ bilinear.default <- function(Sz, Sp, Sg, T = 2 * tan(1/2), ...)  {
   ## S -> - ---        gain: (2-xT)/T             gain: (2-xT)/T
   ##      T z+1
   ## ----------------  -------------------------  ------------------------
-  Zg <- Re(Sg * prod((2-Sz*T)/T) / prod((2-Sp*T)/T))
-  Zp <- (2+Sp*T) / (2-Sp*T)
+  Zg <- Re(Sg * prod((2 - Sz * T) / T) / prod((2 - Sp * T) / T))
+  Zp <- (2 + Sp * T) / (2 - Sp * T)
   if (is.null(Sz))
     Zz <- rep.int(-1, length(Zp))
   else {
-    Zz <- (2+Sz*T) / (2-Sz*T)
+    Zz <- (2 + Sz * T) / (2 - Sz * T)
     Zz <- c(Zz, rep.int(-1, p - z))
   }
   Zpg(z = Zz, p = Zp, g = Zg)

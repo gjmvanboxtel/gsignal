@@ -44,7 +44,8 @@ or \code{"pass"}.}
 
 \item{output}{Type of output, one of:
 \describe{
-  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+  b/a)}
   \item{Zpg}{Zero-pole-gain format}
   \item{Sos}{Second-order sections}
 }
@@ -72,25 +73,31 @@ Chebyshev filter. As the ripple in the passband approaches zero, the filter
 becomes a type II Chebyshev filter and finally, as both ripple values
 approach zero, the filter becomes a Butterworth filter.
 
-Because \code{ellip} is generic, it can be extended to accept other inputs, using
-\code{ellipord} to generate filter criteria for example.
+Because \code{ellip} is generic, it can be extended to accept other inputs,
+using \code{ellipord} to generate filter criteria for example.
 }
 \examples{
-# compare the frequency responses of 5th-order Butterworth and elliptic filters.
+## compare the frequency responses of 5th-order Butterworth
+## and elliptic filters.
 bf <- butter(5, 0.1)
 ef <- ellip(5, 3, 40, 0.1)
 bfr <- freqz(bf)
 efr <- freqz(ef)
 plot(bfr$w, 20 * log10(abs(bfr$h)), type = "l", ylim = c(-80, 0),
-     xlab = "Frequency (Rad)", ylab = c("dB"))
-lines(efr$w, 20 * log10(abs(efr$h)), col = "red")
+     xlab = "Frequency (Rad)", ylab = c("dB"), lwd = 2,
+     main = paste("Elliptic versus Butterworth filter",
+     "low-pass -3 dB cutoff at 0.1 rad", sep = "\n"))
+lines(efr$w, 20 * log10(abs(efr$h)), col = "red", lwd = 2)
+legend ("topright", legend = c("Butterworh", "Elliptic"),
+        lty = 1, lwd = 2, col = 1:2)
 
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Elliptic_filter}
 }
 \seealso{
-\code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}}, \code{\link{cheby1}}, \code{\link{ellipord}}
+\code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}},
+  \code{\link{cheby1}}, \code{\link{ellipord}}
 }
 \author{
 Paulo Neis, \email{p_neis@yahoo.com.br},\cr

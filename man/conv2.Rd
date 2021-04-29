@@ -16,8 +16,8 @@ conv2(a, b, shape = c("full", "same", "valid"))
   as A. The central part of the convolution begins at the indices
   \code{floor(c(nrow(b), ncol(b)) / 2 + 1)}}
   \item{valid}{Return only the parts which do not include zero-padded edges.
-  The size of the result is \code{max(c(nrow(a), ncol(b)) - c(nrow(b),
-  ncol(b)) + 1, 0)}}
+  The size of the result is \code{max(nrow(a) - nrow(a) + 1, 0)} by
+  \code{max(ncol(A) - ncol(B) + 1, 0)}}
 }}
 }
 \value{
@@ -29,9 +29,9 @@ Compute the two-dimensional convolution of two matrices.
 \examples{
 a <- matrix(1:16, 4, 4)
 b <- matrix(1:9, 3,3)
-conv2(a, b)
-conv2(a, b, 'same')
-conv2(a, b, 'valid')
+cnv <- conv2(a, b)
+cnv <- conv2(a, b, 'same')
+cnv <- conv2(a, b, 'valid')
 
 }
 \seealso{

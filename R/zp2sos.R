@@ -19,10 +19,12 @@
 # Version history
 # 20200331  GvB       setup for gsignal v0.1.0
 # 20200401  GvB       handle NULL input
-# 20200403  GvB       use 'relaxed' tolerance 1e-7 for cplxreal, flipud sos for compatibility with Matlab/Octave
+# 20200403  GvB       use 'relaxed' tolerance 1e-7 for cplxreal,
+#                     flipud sos for compatibility with Matlab/Octave
 # 20200406  GvB       validated
-# 20210326  GvB       renamed k to g; added 'order' argument; return class 'Sos' argument
-#---------------------------------------------------------------------------------------------------------------------
+# 20210326  GvB       renamed k to g; added 'order' argument;
+#                     return class 'Sos' argument
+#------------------------------------------------------------------------------
 
 #' Zero-pole-gain to second-order section format
 #'
@@ -47,9 +49,9 @@
 #'   matrix, whose rows contain the numerator and denominator coefficients of
 #'   the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
 #'   cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
-#'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.}
-#'   \item{g}{Overall gain factor that effectively scales the output \code{b}
-#'   vector (or any one of the input \code{Bi} vectors).}
+#'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each
+#'   section.} \item{g}{Overall gain factor that effectively scales the output
+#'   \code{b} vector (or any one of the input \code{Bi} vectors).}
 #' }
 #'
 #' @seealso See also \code{\link{as.Sos}}, \code{\link{filter}},
@@ -64,10 +66,10 @@
 #'
 #' @export
 
-zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
+zp2sos <- function(z, p, g = 1, order = c("down", "up")) {
 
   order <- match.arg(order)
-  
+
   if (!is.null(z)) {
     zcr <- cplxreal(z, tol = 1e-7)
     if (is.null(zcr$zc)) {
@@ -95,7 +97,7 @@ zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
       pc <- pcr$zc
       npc <- length(pc)
     }
-    if(is.null(pcr$zr)) {
+    if (is.null(pcr$zr)) {
       pr <- npr <- 0
     } else {
       pr <- pcr$zr
@@ -108,7 +110,7 @@ zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
 
   # Pair up real zeros
   if (nzr > 0) {
-    if (nzr%%2 == 1) {
+    if (nzr %% 2 == 1) {
       zr <- c(zr, 0)
       nzr <- nzr + 1
     }
@@ -121,7 +123,7 @@ zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
 
   # Pair up real poles:
   if (npr > 0) {
-    if (npr%%2 == 1) {
+    if (npr %% 2 == 1) {
       pr <- c(pr, 0)
       npr <- npr + 1
     }
@@ -138,12 +140,12 @@ zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
   # Convert complex zeros and poles to real 2nd-order section form:
   zcm2r <- -2 * Re(zc)
   zca2 <- abs(zc)^2
-  pcm2r = -2 * Re(pc)
-  pca2 = abs(pc)^2
+  pcm2r <- -2 * Re(pc)
+  pca2 <- abs(pc)^2
 
   sos <- matrix(0L, nsecs, 6)
-  sos[, 1] = rep(1L, nsecs)    # all 2nd-order polynomials are monic
-  sos[, 4] = rep(1L, nsecs)
+  sos[, 1] <- rep(1L, nsecs)    # all 2nd-order polynomials are monic
+  sos[, 4] <- rep(1L, nsecs)
 
   nzrl <- nzc + nzrsec    # index of last real zero section
   nprl <- npc + nprsec    # index of last real pole section
@@ -163,7 +165,7 @@ zp2sos <- function(z, p, g = 1, order = c('down', 'up')) {
     }
   }
 
-  if (order == 'down') {
+  if (order == "down") {
     rv <- Sos(sos = sos, g = g)
   } else {
     rv <- Sos(sos = sos[rev(seq_len(nsecs)), ], g = g)

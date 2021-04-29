@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191208 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Uniform decoder
 #'
@@ -78,18 +78,19 @@
 #' @param saturate Logical indicating to saturate (TRUE, default) or to wrap
 #'   (FALSE) overflows. See Details.
 #'
-#' @return Multidimensional array of the same siza as \code{u} containing
+#' @return Multidimensional array of the same size as \code{u} containing
 #'   floating point numbers.
 #'
-#' @note The real and imaginary components of complex inputs are decoded independently.
+#' @note The real and imaginary components of complex inputs are decoded
+#'   independently.
 #'
 #' @examples
 #'
 #' u <- c(-1, 1, 2, -5)
 #' ysat <- udecode(u, 3)
 #'
-#' # Notice the last entry in u saturates to 1, the default peak input magnitude.
-#' # Change the peak input magnitude to 6.
+#' # Notice the last entry in u saturates to 1, the default peak input
+#' # magnitude. Change the peak input magnitude to 6.
 #' ysatv <- udecode(u, 3, 6)
 #'
 #' # The last input entry still saturates. Wrap the overflows.
@@ -103,15 +104,18 @@
 #'
 #' @export
 
-udecode <- function (u, n, v = 1, saturate = TRUE) {
+udecode <- function(u, n, v = 1, saturate = TRUE) {
 
-  if (!isScalar(n) || n < 2 || n > 32 || !isWhole(n)) stop ("n must be an integer in the range 2 to 32")
-  if (!isPosscal(v) || !isWhole(v) || v <= 0) stop ("v must be a positive integer")
-  if (!is.logical(saturate)) stop ("signed must be a logical")
+  if (!isScalar(n) || n < 2 || n > 32 || !isWhole(n))
+    stop("n must be an integer in the range 2 to 32")
+  if (!isPosscal(v) || !isWhole(v) || v <= 0)
+    stop("v must be a positive integer")
+  if (!is.logical(saturate))
+    stop("signed must be a logical")
 
   # function to do the actual decoding.
   # needed because it is run twice for complex input (real + imaginary)
-  decode_it <- function (x) {
+  decode_it <- function(x) {
 
     if (all(x >= 0)) {
       signed <- FALSE
@@ -133,9 +137,9 @@ udecode <- function (u, n, v = 1, saturate = TRUE) {
     } else {
       if (signed) {
         idx <- which(x < lowerlevel | x > upperlevel)
-        x[idx] <- ((x[idx] + 2^(n - 1)) %% (2^n)) - 2^(n - 1)
+        x[idx] <- ((x[idx] + 2 ^ (n - 1)) %% (2^n)) - 2 ^ (n - 1)
       } else {
-        idx = which(x > upperlevel)
+        idx <- which(x > upperlevel)
         x[idx] <- x[idx] %% 2^n
       }
     }

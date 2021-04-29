@@ -32,7 +32,7 @@ Increase sample rate by integer factor.
 t <- seq(0, 2, 0.01)
 x <- chirp(t, 2, .5, 10,'quadratic') + sin(2 * pi * t * 0.4)
 w <- seq(1, 121, 4)
-plot(t[w] * 1000, x[w], type = "h", xlab = "", yllab = "")
+plot(t[w] * 1000, x[w], type = "h", xlab = "", ylab = "")
 points(t[w] * 1000, x[w])
 abline (h = 0)
 y <- interp(x[seq(1, length(x), 4)], 4, 4, 1)

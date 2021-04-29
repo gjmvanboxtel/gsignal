@@ -9,7 +9,8 @@ square(t, duty = 50)
 \arguments{
 \item{t}{Time array, specified as a vector.}
 
-\item{duty}{Duty cycle, specified as a real scalar from 0 to 100. Default: 50.}
+\item{duty}{Duty cycle, specified as a real scalar from 0 to 100. Default:
+50.}
 }
 \value{
 Square wave, returned as a vector.
@@ -36,7 +37,8 @@ square wave is positive.
 }}
 }
 \note{
-The input argument \code{width} is called \code{xmax} in the Matlab signal package
+The input argument \code{width} is called \code{xmax} in the Matlab
+  signal package
 }
 \examples{
 
@@ -47,11 +49,13 @@ y <- square(t)
 plot(t/pi, y, type="l", xlab = expression(t/pi), ylab = "")
 lines (t/pi, sin(t), col = "red")
 
-## Generate a 30 Hz square wave sampled at 1 kHz for 70 ms. Specify a duty cycle of 37\%.
+## Generate a 30 Hz square wave sampled at 1 kHz for 70 ms.
+## Specify a duty cycle of 37\%.
 ## Add white Gaussian noise with a variance of 1/100.
 t <- seq(0, 0.07, 1/1e3)
 y <- square(2 * pi * 30 * t, 37) + rnorm(length(t)) / 10
 plot(t, y, type="l", xlab = "", ylab = "")
+
 }
 \author{
 Paul Kienzle.\cr

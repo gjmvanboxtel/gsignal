@@ -19,15 +19,15 @@
 #
 # Version history
 # 20200929  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Change sampling rate
 #'
 #' Resample using a polyphase algorithm.
 #'
 #' If \code{h} is not specified, this function will design an optimal FIR filter
-#' using a Kaiser-Bessel window. The filter length and the parameter \eqn{\beta} are
-#' computed based on ref [2], Chapter 7, Eq. 7.63 (p. 476), and Eq. 7.62 (p.
+#' using a Kaiser-Bessel window. The filter length and the parameter \eqn{\beta}
+#' are computed based on ref [2], Chapter 7, Eq. 7.63 (p. 476), and Eq. 7.62 (p.
 #' 474), respectively.
 #'
 #' @param x input data, specified as a numeric vector or matrix. In case of a
@@ -81,11 +81,10 @@
 #
 #' @export
 
-resample <- function (x, p, q, h) {
+resample <- function(x, p, q, h) {
 
-  # x and h must be numeric
   if (!is.numeric(x)) {
-    stop('x must be numeric')
+    stop("x must be numeric")
   }
 
   if (is.vector(x)) {
@@ -98,19 +97,19 @@ resample <- function (x, p, q, h) {
     lx <- nrow(x)
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (!(isPosscal(p) && isWhole(p)) ||
       !(isPosscal(q) && isWhole(q))) {
-    stop('p and q must be positive integers')
+    stop("p and q must be positive integers")
   }
 
   # simplify decimation and interpolation factors
   great_common_divisor <- pracma::gcd(p, q)
   if (great_common_divisor > 1) {
     p <- as.double(p) / as.double(great_common_divisor)
-    q <- as.double(q) / as.double(great_common_divisor);
+    q <- as.double(q) / as.double(great_common_divisor)
   } else {
     p <- as.double(p)
     q <- as.double(q)
@@ -136,11 +135,12 @@ resample <- function (x, p, q, h) {
     # determine parameter of Kaiser window
     # use empirical formula from [2] Chap 7, Eq. (7.62) p 474
     if ((rejection_dB >= 21) && (rejection_dB <= 50)) {
-      beta <- 0.5842 * (rejection_dB - 21.0)^0.4 + 0.07886 * (rejection_dB - 21.0)
+      beta <- 0.5842 * (rejection_dB - 21.0)^0.4 +
+        0.07886 * (rejection_dB - 21.0)
     } else if (rejection_dB > 50) {
       beta <- 0.1102 * (rejection_dB - 8.7)
     } else {
-      beta <- 0.0;
+      beta <- 0.0
     }
 
     # apodize ideal filter response
@@ -159,11 +159,11 @@ resample <- function (x, p, q, h) {
   ly <- ceiling(lx * p / q)
 
   # pre and postpad filter response
-  nz_pre <- floor(q - L%%q)
+  nz_pre <- floor(q - L %% q)
   hpad <- prepad(h, lh + nz_pre)
   offset <- floor((L + nz_pre) / q)
   nz_post <- 0
-  while (ceiling(((lx - 1) * p + nz_pre + lh + nz_post ) / q ) - offset < ly) {
+  while (ceiling(((lx - 1) * p + nz_pre + lh + nz_post) / q) - offset < ly) {
     nz_post <- nz_post + 1
   }
   hpad <- postpad(hpad, lh + nz_pre + nz_post)

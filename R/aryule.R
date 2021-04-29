@@ -19,11 +19,12 @@
 #
 # Version history
 # 20201106  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Autoregressive model coefficients - Yule-Walker method
 #'
-#' compute autoregressive all-pole model parameters using the Yule-Walker method.
+#' compute autoregressive all-pole model parameters using the Yule-Walker
+#' method.
 #'
 #' \code{aryule} uses the Levinson-Durbin recursion on the biased estimate of
 #' the sample autocorrelation sequence to compute the parameters.
@@ -53,8 +54,8 @@
 #'   \code{ar_psd(a,v,...)}.
 #'
 #' @examples
-#' A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
-#' y <- filter(A, 0.2 * rnorm(1024))
+#' a <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
+#' y <- filter(a, rnorm(1024))
 #' coefs <- aryule(y, 4)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
@@ -69,7 +70,7 @@ aryule <- function(x, p)  {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
-    stop('x must be a numeric or vector or matrix')
+    stop("x must be a numeric or vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -82,10 +83,10 @@ aryule <- function(x, p)  {
   nc <- ncol(x)
 
   if (!isScalar(p) || !isWhole(p) || !is.numeric(p) || p <= 0.5) {
-    stop('p must be a positive integer')
+    stop("p must be a positive integer")
   }
   if (p >= nr - 1) {
-    stop(paste0('p must be less than the length of x (', nr, ') - 1'))
+    stop(paste0("p must be less than the length of x (", nr, ") - 1"))
   }
   # end of parameter checking
 
@@ -93,9 +94,10 @@ aryule <- function(x, p)  {
   aggr_a <- aggr_e <- aggr_k <- NULL
   for (icol in seq_len(nc)) {
 
-    xc <- xcorr(x[, icol], maxlag = p + 1, scale = 'biased')
-    R <- xc$R[-(1:(p + 1))]     # remove negative autocorrelation lags
-    R[1] = Re(R[1])             # levinson/toeplitz requires exactly R[1]==Conj(R[1])
+    xc <- xcorr(x[, icol], maxlag = p + 1, scale = "biased")
+    R <- xc$R[-c(1:(p + 1))]    # remove negative autocorrelation lags
+    R[1] <- Re(R[1])            # levinson/toeplitz requires
+                                # exactly R[1]==Conj(R[1])
     lev <- levinson(R, p)
     aggr_a <- rbind(aggr_a, lev$a)
     aggr_e <- c(aggr_e, lev$e)

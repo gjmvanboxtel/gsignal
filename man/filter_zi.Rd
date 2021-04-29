@@ -51,9 +51,9 @@ be filtered.
 h <- butter(5, 0.25)
 zi <- filter_zi(h)
 y <- filter(h, rep(1, 10), zi)
-## output is all 1, as expected. 
+## output is all 1, as expected.
 y2 <- filter(h, rep(1, 10))
-## if the zi argument is not given, the output 
+## if the zi argument is not given, the output
 ## does not return the final conditions
 
 x <- c(0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0)
@@ -65,7 +65,7 @@ y <- filter(h, x, zi = zi*x[1])
 ## obtain the same results with filtic
 lab <- max(length(h$b), length(h$a)) - 1
 ic <- filtic(h, rep(1, lab), rep(1, lab))
-all.equal(zi, ic)
+## all.equal(zi, ic)
 
 }
 \references{
@@ -78,5 +78,5 @@ Gustafsson, F. (1996). Determining the initial states in
 }
 \author{
 Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com},
- ported from Python scipy.signal.filter_zi.
+ converted to R from Python scipy.signal.lfilter_zi.
 }

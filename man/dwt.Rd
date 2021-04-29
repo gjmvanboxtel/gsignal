@@ -28,11 +28,11 @@ vector. \code{hi} must be the same length as \code{lo}, Ignored when
 \code{wname != NULL}.}
 }
 \value{
-A list containng two numeric vectors:
+A list containing two numeric vectors:
 \describe{
   \item{a}{approximation (average) coefficients, obtained from convolving
     \code{x} with the scaling (low-pass) filter \code{lo}, and then
-    downsamppled (keep the even-indexed elements).}
+    downsampled (keep the even-indexed elements).}
   \item{d}{detail (difference) coefficients, obtained from convolving
     \code{x} with the wavelet (high-pass) filter \code{hi}, and then
     downsampled (keep the even-indexed elements).}
@@ -98,7 +98,8 @@ par (op)
 
 [3] \url{https://en.wikipedia.org/wiki/Coiflet}
 
-[4] \url{https://en.wikipedia.org/wiki/Discrete_wavelet_transform}
+[4]
+  \url{https://en.wikipedia.org/wiki/Discrete_wavelet_transform}
 }
 \author{
 Lukas F. Reichlin.\cr

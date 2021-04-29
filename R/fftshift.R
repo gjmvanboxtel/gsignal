@@ -20,7 +20,7 @@
 #
 # Version history
 # 20200823  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Zero-frequency shift
 #'
@@ -32,12 +32,12 @@
 #' * df}, where \code{df = 1 / (N * dt)}. In other words, the left and right
 #' halves of \code{x} are swapped.
 #'
-#' If \code{x} is a matrix, then \code{fftshift} operates on the rows or
-#' columns of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the
-#' the upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
-#' right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN = c(1, 2)}
-#' swaps along both dimensions, i.e., swaps the first quadrant with the fourth,
-#' and the second with the third.
+#' If \code{x} is a matrix, then \code{fftshift} operates on the rows or columns
+#' of \code{x}, according to the \code{MARGIN} argument, i.e. it swaps the the
+#' upper and lower halves of the matrix \code{(MARGIN = 1)}, or the left and
+#' right halves of the matrix \code{(MARGIN = 2)}. Specifying \code{MARGIN =
+#' c(1, 2)} swaps along both dimensions, i.e., swaps the first quadrant with the
+#' fourth, and the second with the third.
 #'
 #' @param x input data, specified as a vector or matrix.
 #' @param MARGIN dimension to operate along, 1 = row, 2 = columns (default).
@@ -48,10 +48,10 @@
 #'
 #' @examples
 #' Xeven <- 1:6
-#' fftshift(Xeven)
+#' ev <- fftshift(Xeven)   # returns 4 5 6 1 2 3
 #'
 #' Xodd <- 1:7
-#' fftshift(Xodd)
+#' fftshift(Xodd)          # returns 5 6 7 1 2 3 4
 #'
 #' fs <- 100                      # sampling frequency
 #' t <- seq(0, 10 - 1/fs, 1/fs)   # time vector
@@ -74,18 +74,18 @@
 #
 #' @export
 
-fftshift <- function (x, MARGIN = 2) {
+fftshift <- function(x, MARGIN = 2) {
 
   y <- x
   if (is.vector(y)) {
-    xl <- length (y)
+    xl <- length(y)
     if (xl > 1) {
-      xx = ceiling(xl / 2)
+      xx <- ceiling(xl / 2)
       y <- x[c((xx + 1):xl, 1:xx)]
     }
   } else if (is.matrix(y)) {
     if (! (1 %in% MARGIN ||  2 %in% MARGIN)) {
-      stop('MARGIN must be 1, 2, or both')
+      stop("MARGIN must be 1, 2, or both")
     }
     if (1 %in% MARGIN) {
       nr <- NROW(y)

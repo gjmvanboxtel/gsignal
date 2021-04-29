@@ -12,7 +12,7 @@ xcorr2(a, b = a, scale = c("none", "biased", "unbiased", "coeff"))
 \item{b}{Input matrix, coerced to numeric. Default: \code{a}.}
 
 \item{scale}{Character string. Specifies the type of scaling applied to the
-correlationmatrix. matched to one of:
+correlation matrix. matched to one of:
 \describe{
   \item{'none'}{no scaling}
   \item{'biased'}{Scales the raw cross-correlation by the maximum number of
@@ -53,6 +53,6 @@ R <- xcorr2(m1, m2)
 \author{
 Dave Cogdell, \email{cogdelld@asme.org},\cr
 Paul Kienzle, \email{pkienzle@users.sf.net},\cr
-Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+Carne Draug, \email{carandraug+dev@gmail.com}.\cr
 Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

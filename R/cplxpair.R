@@ -17,8 +17,8 @@
 # Version history
 # 20200327  GvB       setup for gsignal v0.1.0
 # 20210405  GvB       changed 'dim' argument to MARGIN
-# 20210506  GvB       bugfix in Check if real parts occur in pairs. 
-#---------------------------------------------------------------------------------------------------------------------
+# 20210506  GvB       bugfix in Check if real parts occur in pairs.
+#------------------------------------------------------------------------------
 
 #' Complex conjugate pairs
 #'
@@ -48,7 +48,8 @@
 #'   increasing real parts.
 #'
 #' @examples
-#' rbind(t(cplxpair(exp(2i * pi * 0:4 / 5))), t(exp(2i * pi *c(3, 2, 4, 1, 0) / 5)))
+#' r <- rbind(t(cplxpair(exp(2i * pi * 0:4 / 5))),
+#'            t(exp(2i * pi *c(3, 2, 4, 1, 0) / 5)))
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
@@ -56,7 +57,7 @@
 #'
 #' @export
 
-cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
+cplxpair <- function(z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
 
   vec <- FALSE
   if (is.vector(z)) {
@@ -64,8 +65,8 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
     z <- as.matrix(z)
   }
 
-  if (!isPosscal(tol) || tol > 1 ) {
-    stop('tol must be a positive scalar between 0 and 1')
+  if (!isPosscal(tol) || tol > 1) {
+    stop("tol must be a positive scalar between 0 and 1")
   }
 
   d <- dim(z)
@@ -74,9 +75,8 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
     if (vec) y <- as.vector(y)
     return(y)
   }
-  nd <- length(d)
 
-  sort_vec <- function (v) {
+  sort_vec <- function(v) {
 
     v <- as.vector(v)
     l <- length(v)
@@ -84,7 +84,7 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
 
     # Find real values and put them (sorted) at the end of y
     idx <- which(abs(Im(v)) <= tol * abs(v))
-    n = length(idx)
+    n <- length(idx)
     if (n > 0) {
       y[(l - n + 1):l] <- sort(Re(v[idx]))
       v <- v[-idx]
@@ -94,8 +94,8 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
     nv <- length(v)
     if (nv > 0) {
 
-      if (nv%%2 == 1) {
-        stop('Could not pair all complex numbers')
+      if (nv %% 2 == 1) {
+        stop("Could not pair all complex numbers")
       }
 
       # Sort v based on real part
@@ -105,7 +105,7 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
       # Check if real parts occur in pairs. If not: error
       a <- matrix(s$x, ncol = 2, byrow = TRUE)
       if (any(abs(a[, 1] - a[, 2]) > tol * abs(a[, 1]))) {
-        stop('Could not pair all complex numbers')
+        stop("Could not pair all complex numbers")
       }
 
       # Check if imag part of real part pairs are conjugates
@@ -113,27 +113,27 @@ cplxpair <- function (z, tol = 100 * .Machine$double.eps, MARGIN = 2) {
       while (length(v) > 0) {
 
         # Find all real parts equal to to real(v[1])
-        idx = which(abs(Re(v) - Re(v[1])) <= tol * abs(Re(v)))
+        idx <- which(abs(Re(v) - Re(v[1])) <= tol * abs(Re(v)))
         nn <- length(idx)
         if (nn <= 1) {
-          stop('Could not pair all complex numbers')
+          stop("Could not pair all complex numbers")
         }
 
         # Sort the imag parts of those values
-        si = sort(Im(v[idx]), index.return = TRUE)
+        si <- sort(Im(v[idx]), index.return = TRUE)
         q <- v[si$ix]    # Get values with identical real parts,
         lq <- length(q)  # now sorted by imaginary parts
 
         # Verify conjugate-pairing of imag parts
         if (any(abs(si$x + rev(si$x)) > tol * abs(q))) {
-          stop('Could not pair all complex numbers')
+          stop("Could not pair all complex numbers")
         }
 
         # Keep value with positive imag part, and compute conjugate
         # Value with smallest neg imag part first, then its conj
         y[yix:(yix + nn - 1)] <-
           as.vector(t(cbind(Conj(q[seq(lq, (nn / 2 + 1), -1)]),
-                            q[seq(lq, (nn/2+1), -1)])))
+                            q[seq(lq, (nn / 2 + 1), -1)])))
 
         yix <- yix + nn # update y index
         v <- v[-idx]    # Remove entries from v

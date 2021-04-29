@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201124  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Signal reconstruction
 #'
@@ -33,7 +33,7 @@
 #' @param fs sampling frequency in Hz used in collecting \code{x}, specified as
 #'   a positive scalar value. Default: 1
 #' @param t time points at which data is to be reconstructed, specified as a
-#'   vector relatove to \code{x[0]} (not real time).
+#'   vector relative to \code{x[0]} (not real time).
 #'
 #' @return Reconstructed signal x(t), returned as a vector.
 #'
@@ -67,13 +67,13 @@
 
 sampled2continuous <- function(xn, fs, t) {
 
-  if(!is.vector(xn)) {
+  if (!is.vector(xn)) {
     stop("xn must be a vector")
-  }<
-  if(!isPosscal(fs) || fs <= 0) {
+  }
+  if (!isPosscal(fs) || fs <= 0) {
     stop("fs must be a positive scalar")
   }
-  if(!is.vector(t)) {
+  if (!is.vector(t)) {
     stop("t must be a vector")
   }
 

@@ -20,7 +20,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200803 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Parks-McClellan optimal FIR filter design
 #'
@@ -71,18 +71,19 @@
 #'   Conversion to R Tom Short\cr
 #'   adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references Rabiner, L.R., McClellan, J.H., and Parks, T.W. (1975). FIR Digital
-#'   Filter Design Techniques Using Weighted Chebyshev Approximations, IEEE
-#'   Proceedings, vol. 63, pp. 595 - 610.\cr
+#' @references Rabiner, L.R., McClellan, J.H., and Parks, T.W. (1975). FIR
+#'   Digital Filter Design Techniques Using Weighted Chebyshev Approximations,
+#'   IEEE Proceedings, vol. 63, pp. 595 - 610.\cr
 #'   \url{https://en.wikipedia.org/wiki/Parks-McClellan_filter_design_algorithm}
 #'
 #' @export
 
 remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
-                  ftype = c('bandpass', 'differentiator', 'hilbert'),
+                  ftype = c("bandpass", "differentiator", "hilbert"),
                   density = 16) {
 
-  ftype <- as.integer(factor(match.arg(ftype), c('bandpass', 'differentiator', 'hilbert')))
+  ftype <- as.integer(factor(match.arg(ftype),
+                             c("bandpass", "differentiator", "hilbert")))
 
   if (!isPosscal(n) || !isWhole(n) || n < 4) {
     stop("Filter length n must be an integer greater than 3")
@@ -90,16 +91,16 @@ remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
   if (!is.vector(f) || length(f) %% 2 == 1) {
     stop("f must be a vector of even length")
   }
-  if (any(diff(f) < 0)){
+  if (any(diff(f) < 0)) {
     stop("f must be a vector of increasing numbers")
   }
-  if (any(f < 0) || any(f > 1)){
+  if (any(f < 0) || any(f > 1)) {
     stop("f must be in the range [0,1]")
   }
   if (length(a) != length(f)) {
     stop("length(a) must equal length(f)")
   }
-  if (2*length(w) != length(f)){
+  if (2 * length(w) != length(f)) {
     stop("length(w) must be half of length(f)")
   }
   if (density < 16) {
@@ -108,7 +109,7 @@ remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
 
   z <- .Call("_gsignal_remez",
           h = as.double(rep(0, n + 1)),
-          as.integer(n+1),
+          as.integer(n + 1),
           as.integer(length(f) / 2),
           as.double(f / 2),
           as.double(a),
@@ -118,5 +119,4 @@ remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
           PACKAGE = "gsignal")
 
   Ma(z)
-
 }

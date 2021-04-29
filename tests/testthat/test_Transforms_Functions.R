@@ -95,11 +95,11 @@ test_that("fftshift() tests are correct", {
   
   x <- 0:3
   x <- matrix(c(x, 2 * x, 3 * x + 1, 4 * x + 1), 4, byrow = TRUE)
-  y = fftshift(x, 1)
+  y <- fftshift(x, 1)
   expect_equal(y, matrix(c(1, 4, 7, 10, 1, 5, 9, 13, 0, 1, 2, 3, 0, 2, 4, 6), 4, byrow = TRUE))
-  y = fftshift(x, 2)
+  y <- fftshift(x, 2)
   expect_equal(y, matrix(c(2, 3, 0, 1, 4, 6, 0, 2, 7, 10, 1, 4, 9, 13, 1, 5), 4, byrow = TRUE))
-  y = fftshift(x, c(1, 2))
+  y <- fftshift(x, c(1, 2))
   expect_equal(y, matrix(c(7, 10, 1, 4, 9, 13, 1, 5, 2, 3, 0, 1, 4, 6, 0, 2), 4, byrow = TRUE))
   
 })
@@ -131,13 +131,13 @@ test_that("ifftshift() tests are correct", {
   
   x <- 0:3
   x <- matrix(c(x, 2 * x, 3 * x + 1, 4 * x + 1), 4, byrow = TRUE)
-  y = ifftshift(x, 1)
+  y <- ifftshift(x, 1)
   expect_equal(y, matrix(c(1, 4, 7, 10, 1, 5, 9, 13, 0, 1, 2, 3, 0, 2, 4, 6), 4, byrow = TRUE))
   expect_equal(ifftshift(y, 1), x)
-  y = ifftshift(x, 2)
+  y <- ifftshift(x, 2)
   expect_equal(y, matrix(c(2, 3, 0, 1, 4, 6, 0, 2, 7, 10, 1, 4, 9, 13, 1, 5), 4, byrow = TRUE))
   expect_equal(ifftshift(y, 2), x)
-  y = ifftshift(x, c(1, 2))
+  y <- ifftshift(x, c(1, 2))
   expect_equal(y, matrix(c(7, 10, 1, 4, 9, 13, 1, 5, 2, 3, 0, 1, 4, 6, 0, 2), 4, byrow = TRUE))
   expect_equal(ifftshift(y, c(1, 2)), x)
   
@@ -199,7 +199,7 @@ test_that("parameters to czt() are correct", {
 })
 
 test_that("czt() tests are correct", {
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
   expect_equal(stats::fft(x), czt(x))
   expect_equal(stats::mvfft(cbind(x, x)), czt(cbind(x, x)))
 })
@@ -220,11 +220,11 @@ test_that("parameters to dct() and idct() are correct", {
 
 test_that("dct() and idct() tests are correct", {
   # even-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
   expect_equal(x, idct(dct(x)))
   expect_equal(unname(cbind(x, x)), idct(dct(cbind(x, x))))
   #uneven-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
   expect_equal(x, idct(dct(x)))
   expect_equal(unname(cbind(x, x)), idct(dct(unname(cbind(x, x)))))
   
@@ -248,10 +248,10 @@ test_that("parameters to dct2() and idct2() are correct", {
 
 test_that("dct2() and idct2() tests are correct", {
   # even-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
   expect_equal(unname(cbind(x, x)), idct2(dct2(cbind(x, x))))
   #uneven-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
   expect_equal(unname(cbind(x, x)), idct2(dct2(cbind(x, x))))
   
 })
@@ -272,11 +272,11 @@ test_that("parameters to dst() and idst() are correct", {
 
 test_that("dst() and idst() tests are correct", {
   # even-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
   expect_equal(x, idst(dst(x)))
   expect_equal(cbind(x, x), idst(dst(cbind(x, x))))
   #uneven-length series
-  x = c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
+  x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5)
   expect_equal(x, idst(dst(x)))
   expect_equal(cbind(x, x), idst(dst(cbind(x, x))))
   

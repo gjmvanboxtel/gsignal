@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200703 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Frequency sampling-based FIR filter design
 #'
@@ -68,7 +68,8 @@
 #'
 #' @export
 
-fir2 <- function (n, f, m, grid_n = 512, ramp_n = NULL, window = hamming(n + 1)) {
+fir2 <- function(n, f, m, grid_n = 512, ramp_n = NULL,
+                 window = hamming(n + 1)) {
 
   # filter length must be a scalar > 0
   if (!isPosscal(n) || !isWhole(n) || n <= 0) {
@@ -77,8 +78,9 @@ fir2 <- function (n, f, m, grid_n = 512, ramp_n = NULL, window = hamming(n + 1))
 
   ## verify frequency and magnitude vectors are reasonable
   t <- length(f)
-  if (!is.vector(f) || t < 2 || f[1] != 0 || f[t] != 1 || any(diff(f) < 0)) {
-    stop("frequency vector f must be nondecreasing starting from 0 and ending at 1")
+  if (!is.vector(f) || t < 2 || f[1] != 0 ||
+      f[t] != 1 || any(diff(f) < 0)) {
+    stop("frequency vector f must be nondecreasing between 0 and 1")
   }
   if (t != length(m)) {
     stop("frequency vector f and magnitude vector m must be the same length")
@@ -90,7 +92,7 @@ fir2 <- function (n, f, m, grid_n = 512, ramp_n = NULL, window = hamming(n + 1))
   }
 
   ## find the window parameter, or default to hamming
-  if (length(window) != n+1) {
+  if (length(window) != n + 1) {
     stop("window must be of length n+1")
   }
 
@@ -125,22 +127,24 @@ fir2 <- function (n, f, m, grid_n = 512, ramp_n = NULL, window = hamming(n + 1))
     f <- sort(unique(c(f, basef[idx])))
 
     ## preserve window shape even though f may have changed
-    m <- stats::approx(basef, basem, f, method = "linear", ties="ordered")$y
+    m <- stats::approx(basef, basem, f, method = "linear", ties = "ordered")$y
   }
 
   ## interpolate between grid points
-  grid <- stats::approx(f, m, seq(0, 1, length = grid_n + 1), method = "linear", ties = "ordered")$y
+  grid <- stats::approx(f, m, seq(0, 1, length = grid_n + 1),
+                        method = "linear", ties = "ordered")$y
 
   ## Transform frequency response into time response and
   ## center the response about n/2, truncating the excess
-  if((n %% 2) == 0) {
+  if ((n %% 2) == 0) {
     b <- ifft(c(grid, grid[seq(grid_n, 2, by = -1)]))
     mid <- (n + 1) / 2
     b <- Re(c(b[(2 * grid_n - floor(mid) + 1):(2 * grid_n)], b[1:ceiling(mid)]))
   } else {
     ## Add zeros to interpolate by 2, then pick the odd values below.
     b <- ifft(c(grid, rep(0L, grid_n * 2), grid[seq(grid_n, 2, by = -1)]))
-    b <- 2 * Re(c(b[seq(length(b) - n + 1, length(b), by = 2)], b[seq(2, n + 1, by = 2)]))
+    b <- 2 * Re(c(b[seq(length(b) - n + 1, length(b), by = 2)],
+                  b[seq(2, n + 1, by = 2)]))
   }
 
   ## Multiplication in the time domain is convolution in frequency,

@@ -20,7 +20,7 @@
 # 20200417  GvB       setup for gsignal v0.1.0
 # 20200420  GvB       adapted slightly (rounding in case of whole numbers)
 # 20201121  GvB       done away with FFTfilt, only method for Ma()
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' FFT-based FIR filtering
 #'
@@ -78,10 +78,10 @@
 #' ## use 'filter' with different classes
 #' t <- seq(0, 1, len = 10000)                          # 1 second sample
 #' x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
-#' ma <- Ma(rep(0.1, 10))                               # filter kernel class 'Ma' object
+#' ma <- Ma(rep(0.1, 10))                               # filter kernel
 #' y1 <- filter(ma, x)                                  # convulution filter
 #' y2 <- fftfilt(ma, x)                                 # FFT filter
-#' all.equal(y1, y2)                                    # same result
+#' ## all.equal(y1, y2)                                 # same result
 #'
 #' @seealso \code{\link{filter}}
 #'
@@ -133,7 +133,7 @@ fftfilt.default <- function(b, x, n = NULL) {
   } else {
     ## Use overlap-add method ...
     if (!isPosscal(n) || !isWhole(n)) {
-      stop("'n' must be a positive integer");
+      stop("'n' must be a positive integer")
     }
     n <- nextpow2(max(n, lb))
     L <- n - lb + 1
@@ -143,7 +143,7 @@ fftfilt.default <- function(b, x, n = NULL) {
       y <- rep(0L, lx)
       for (r in seq_len(R)) {
         lo <- (r - 1) * L + 1
-        hi <- min (r * L, nrx)
+        hi <- min(r * L, nrx)
         tmp <- rep(0L, n)
         tmp[1:(hi - lo + 1)] <- x[lo:hi]
         tmp <- ifft(stats::fft(postpad(tmp, n)) * B)
@@ -155,29 +155,29 @@ fftfilt.default <- function(b, x, n = NULL) {
       y <- matrix(0L, nrx, ncx)
       for (r in seq_len(R)) {
         lo <- (r - 1) * L + 1
-        hi <- min (r * L, nrx)
+        hi <- min(r * L, nrx)
         tmp <- matrix(0L, n, ncx)
         tmp[1:(hi - lo + 1), ] <- x[lo:hi, ]
         tmp <- imvfft(stats::mvfft(postpad(tmp, n)) * replicate(ncx, B))
-        hi <- min(lo + n - 1, nrx);
+        hi <- min(lo + n - 1, nrx)
         y[lo:hi, ] <- y[lo:hi, ] + tmp[1:(hi - lo + 1), ]
       }
     }
   }
 
-  if(is.vector(x)) {
+  if (is.vector(x)) {
     y <- y[1:lx]
   } else {
-    y = y[1:nrx, ]
+    y <- y[1:nrx, ]
   }
 
   ## Final cleanups: if both x and b are real respectively integer, y
   ## should also be
   if (is.numeric(b) && is.numeric(x))
-    y = Re(y)
+    y <- Re(y)
   if (!any(as.logical(b - round(b)))) {
-    idx = !any(as.logical(x - round(x)))
-    y[idx] = round(y[idx])
+    idx <- !any(as.logical(x - round(x)))
+    y[idx] <- round(y[idx])
   }
   y
 }

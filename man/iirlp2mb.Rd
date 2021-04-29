@@ -57,7 +57,8 @@ are possible[1].
 Filters with multiple passbands may be obtained by applying the general
 transformation described in [2].
 
-Because \code{iirlp2mb} is generic, it can be extended to accept other inputs.
+Because \code{iirlp2mb} is generic, it can be extended to accept other
+inputs.
 }
 \examples{
 ## Design a prototype real IIR lowpass elliptic filter with a gain of about
@@ -76,7 +77,8 @@ plot(hfl$w, 20 * log10(abs(hfl$h)), type = "l",
     ylab = "Magnitude (dB)")
 lines(hf1$w, 20 * log10(abs(hf1$h)), col="red")
 lines(hf2$w, 20 * log10(abs(hf2$h)), col="blue")
-legend('bottomleft', legend = c('Prototype', 'Two passbands', 'Two Stopbands'),
+legend('bottomleft',
+       legend = c('Prototype', 'Two passbands', 'Two Stopbands'),
        col=c("black", "red", "blue"), lty = 1)
 
 }

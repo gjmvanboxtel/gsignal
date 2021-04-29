@@ -13,10 +13,10 @@ test_that("parameters to cheb() are correct", {
 })
 
 test_that("cheb() tests are correct", {
-  expect_that(cheb(1, 1), equals(1))
-  expect_that(cheb(2, 1), equals(1))
-  expect_that(cheb(5, 2), equals(362))
-  expect_that(cheb(5, c(2,3)), equals(c(362, 3363)))
+  expect_equal(cheb(1, 1), 1)
+  expect_equal(cheb(2, 1), 1)
+  expect_equal(cheb(5, 2), 362)
+  expect_equal(cheb(5, c(2,3)), c(362, 3363))
 })
   
 # -----------------------------------------------------------------------
@@ -257,7 +257,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(9204, 10700), 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 4)
   expect_equal(round(Wc), c(9477, 9773))
   expect_equal(round(Wc_s), c(9425, 9826))
@@ -266,7 +266,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(8500, 10052), 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9469, 9782))
   expect_equal(round(Wc_s), c(9468, 9782))
@@ -275,7 +275,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(9500, 9750), 2 / fs * c(9203, 10700), 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9469, 9782))
   expect_equal(round(Wc_s), c(9468, 9782))
@@ -284,7 +284,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * 10987, 2 / fs * 4000, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 4)
   expect_equal(round(Wc), 9808)
   expect_equal(round(Wc_s), 7780)
@@ -293,7 +293,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 9421)
   expect_equal(round(Wc_s), 9421)
@@ -302,7 +302,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * 4000, 2 / fs * 10987, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 4)
   expect_equal(round(Wc), 4686)
   expect_equal(round(Wc_s), 6176)
@@ -311,7 +311,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 4936)
   expect_equal(round(Wc_s), 4936)
@@ -320,7 +320,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(8500, 10833), 2 / fs * c(9875, 10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 4)
   expect_equal(round(Wc), c(9369, 10640))
   expect_equal(round(Wc_s), c(9605, 10400))
@@ -329,7 +329,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(9183, 11000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 4)
   expect_equal(round(Wc), c(9370, 10640))
   expect_equal(round(Wc_s), c(9605, 10400))  
@@ -338,7 +338,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(8500, 10834), 2 / fs * c(9875, 10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9421, 10587))
   expect_equal(round(Wc_s), c(9422, 10587))  
@@ -347,7 +347,7 @@ test_that("buttord() tests are correct", {
   fs <- 44100
   res <- buttord (2 / fs * c(9182, 11000), 2 / fs * c(9875, 10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9421, 10587))
   expect_equal(round(Wc_s), c(9422, 10587))  
@@ -480,7 +480,7 @@ test_that("cheb1ord() tests are correct", {
   fs <- 44100
   res <- cheb1ord (2 / fs * c(9500, 9750), 2 / fs * c(9182, 12000), 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9500, 9750))
   expect_equal(round(Wc_s), c(9428, 9823))
@@ -489,7 +489,7 @@ test_that("cheb1ord() tests are correct", {
   fs <- 44100
   res <- cheb1ord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 10988)
   expect_equal(round(Wc_s), 8197)
@@ -498,7 +498,7 @@ test_that("cheb1ord() tests are correct", {
   fs <- 44100
   res <- cheb1ord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 4000)
   expect_equal(round(Wc_s), 5829)
@@ -507,7 +507,7 @@ test_that("cheb1ord() tests are correct", {
   fs <- 44100
   res <- cheb1ord (2 / fs * c(8500, 10834), 2 / fs * c(9875,  10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9182, 10834))
   expect_equal(round(Wc_s), c(9475, 10532))
@@ -516,7 +516,7 @@ test_that("cheb1ord() tests are correct", {
   fs <- 44100
   res <- cheb1ord (2 / fs * c(9182, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9182, 10834))
   expect_equal(round(Wc_s), c(9475, 10532))  
@@ -602,7 +602,7 @@ test_that("cheb2ord() tests are correct", {
   fs <- 44100
   res <- cheb2ord (2 / fs * c(9500, 9750), 2 / fs * c(9182, 12000), 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9344, 9908))
   expect_equal(round(Wc_s), c(9182, 10073))
@@ -611,7 +611,7 @@ test_that("cheb2ord() tests are correct", {
   fs <- 44100
   res <- cheb2ord (2 / fs * 10988, 2 / fs * 4000, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 5829)
   expect_equal(round(Wc_s), 4000)
@@ -620,7 +620,7 @@ test_that("cheb2ord() tests are correct", {
   fs <- 44100
   res <- cheb2ord (2 / fs * 4000, 2 / fs * 10988, 1, 26)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), 8197)
   expect_equal(round(Wc_s), 10988)
@@ -629,7 +629,7 @@ test_that("cheb2ord() tests are correct", {
   fs <- 44100
   res <- cheb2ord (2 / fs * c(8500, 10834), 2 / fs * c(9875,  10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9804, 10198))
   expect_equal(round(Wc_s), c(9875, 10127))
@@ -638,7 +638,7 @@ test_that("cheb2ord() tests are correct", {
   fs <- 44100
   res <- cheb2ord (2 / fs * c(9182, 12000), 2 / fs * c(9875,  10126.5823), 0.5, 40)
   Wc <- res$Wc * fs / 2
-  Wc_s = res$Wc_s * fs / 2
+  Wc_s <- res$Wc_s * fs / 2
   expect_equal(res$n, 3)
   expect_equal(round(Wc), c(9804, 10198))
   expect_equal(round(Wc_s), c(9875, 10127))  

@@ -32,13 +32,14 @@ the N-point rectangular window.
 }
 \examples{
 
-## Compute and plot the Dirichlet function between -2pi and 2pi for N = 7 and N = 8.
-## The function has a period of 2pi for odd N and 4pi for even N.
+## Compute and plot the Dirichlet function between -2pi and 2pi for N = 7
+## and N = 8. The function has a period of 2pi for odd N and 4pi for even N.
 x <- seq(-2*pi, 2*pi, len = 301)
 d7 <- diric(x, 7)
 d8 <- diric(x, 8)
 op <- par(mfrow = c(2,1))
-plot(x/pi, d7, type="l", main = "Dirichlet function", xlab = "", ylab = "N = 7")
+plot(x/pi, d7, type="l", main = "Dirichlet function",
+     xlab = "", ylab = "N = 7")
 plot(x/pi, d8, type="l", ylab = "N = 8", xlab = expression(x / pi))
 par(op)
 

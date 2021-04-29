@@ -19,7 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200415 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Full width at half maximum
 #'
@@ -60,43 +60,44 @@
 #
 #' @export
 
-fwhm <- function (x = seq_len(length(y)), y, ref = c('max', 'zero', 'middle', 'min', 'absolute'), level = 0.5) {
+fwhm <- function(x = seq_len(length(y)), y,
+                 ref = c("max", "zero", "middle", "min", "absolute"),
+                 level = 0.5) {
 
   if (!is.vector(x)) {
-    stop('x must be a vector')
+    stop("x must be a vector")
   }
   if (length(x) != NROW(y)) {
-    stop('length of x must match length or number of rows in y')
+    stop("length of x must match length or number of rows in y")
   }
   if (is.vector(y)) {
     y <- as.matrix(y)
   }
   if (is.array(y) && length(dim(y)) > 2) {
-    stop('y must be a vector or a matrix')
+    stop("y must be a vector or a matrix")
   }
   nc <- ncol(y)
   ref <- match.arg(ref)
   if (!is.numeric(level)) {
-    stop('level must be numeric')
+    stop("level must be numeric")
   }
 
   w <- rep(0L, nc)
   for (icol in seq_len(nc)) {
     yy <- y[, icol]
     ly <- length(yy)
-    if (ref == 'absolute') {
+    if (ref == "absolute") {
       yy <- yy - level
-    } else if (ref == 'max' || ref == 'zero') {
+    } else if (ref == "max" || ref == "zero") {
       yy <- yy - level * max(yy)
-    } else if (ref == 'middle' || ref == 'min') {
+    } else if (ref == "middle" || ref == "min") {
       yy <- yy - level * (max(yy) + min(yy))
     }
     ind <- which(yy[1:(ly - 1)] * yy[2:ly] <= 0)
-    if (length(ind) >= 2 && yy[ind[1]] > 0) { # must start ascending
+    if (length(ind) >= 2 && yy[ind[1]] > 0) {
       ind <- ind[2:length(ind)]
     }
-    mx <- max(yy)
-    imax <- which.max(yy)[1] # protection against constant or (almost) monotonous functions
+    imax <- which.max(yy)[1]
     li <- length(ind)
     if (li >= 2 && imax >= ind[1] && imax <= ind[li]) {
       ind1 <- ind[1]

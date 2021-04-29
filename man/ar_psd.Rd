@@ -30,9 +30,9 @@ element is the zero-lag coefficient, which always has a value of 1.}
 \item{v}{square of the moving average coefficient, specified as a positive
 scalar Default: 1}
 
-\item{freq}{vector of frequencies at which power spectral density is calculated, or
-a scalar indicating the number of uniformly distributed frequency values at
-which spectral density is calculated. Default: 256.}
+\item{freq}{vector of frequencies at which power spectral density is
+calculated, or a scalar indicating the number of uniformly distributed
+frequency values at which spectral density is calculated. Default: 256.}
 
 \item{fs}{sampling frequency (Hz). Default: 1}
 
@@ -91,7 +91,7 @@ where \code{x(n)} is the output of the model and \code{e(n)} is white noise.
 }
 \examples{
 a <- c(1, -2.7607, 3.8106, -2.6535, 0.9238)
-ar_psd(a)
+psd <- ar_psd(a)
 
 }
 \author{

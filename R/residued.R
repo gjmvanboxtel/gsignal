@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200805  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' delayed z-transform partial fraction expansion
 #'
@@ -58,31 +58,6 @@
 
 residued <- function(b, a) {
 
-  ## RESIDUED - return residues, poles, and FIR part of B(z)/A(z)
-  ##
-  ## Let nb = length(b), na = length(a), and N=na-1 = no. of poles.
-  ## If nb<na, then f will be empty, and the returned filter is
-  ##
-  ##             r(1)                      r(N)
-  ## H(z) = ----------------  + ... + ----------------- = R(z)
-  ##        [ 1-p(1)/z ]^e(1)         [ 1-p(N)/z ]^e(N)
-  ##
-  ## This is the same result as returned by RESIDUEZ.
-  ## Otherwise, the FIR part f will be nonempty,
-  ## and the returned filter is
-  ##
-  ## H(z) = f(1) + f(2)/z + f(3)/z^2 + ... + f(nf)/z^M + R(z)/z^M
-  ##
-  ## where R(z) is the parallel one-pole filter bank defined above,
-  ## and M is the order of F(z) = length(f)-1 = nb-na.
-  ##
-  ## Note, in particular, that the impulse-response of the parallel
-  ## (complex) one-pole filter bank starts AFTER that of the the FIR part.
-  ## In the result returned by RESIDUEZ, R(z) is not divided by z^M,
-  ## so its impulse response starts at time 0 in parallel with f(n).
-  ##
-  ## J.O. Smith, 9/19/05
-
   num <- Conj(b)
   den <- Conj(a)
   nb <- length(num)
@@ -95,7 +70,7 @@ residued <- function(b, a) {
   }
   rpk <- residuez(num, den)
   if (!is.null(rpk$k)) {
-    stop('rpk$f not empty as expected')
+    stop("rpk$f not empty as expected")
   }
 
   r <- zapIm(rpk$r)

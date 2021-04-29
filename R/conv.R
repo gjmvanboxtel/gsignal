@@ -17,7 +17,7 @@
 #
 # Version history
 # 2020209  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Convolution and polynomial multiplication
 #'
@@ -72,7 +72,7 @@
 #'
 #' @export
 
-conv <- function (a, b, shape = c("full", "same", "valid")) {
+conv <- function(a, b, shape = c("full", "same", "valid")) {
 
   a <- as.vector(a)
   b <- as.vector(b)
@@ -101,7 +101,7 @@ conv <- function (a, b, shape = c("full", "same", "valid")) {
       x <- postpad(x, ly)
     }
 
-    y <- filter (a, 1, x)
+    y <- filter(a, 1, x)
 
     if (shape == "same") {
       idx <- ceiling((ly - la) / 2)

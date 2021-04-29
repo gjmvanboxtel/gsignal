@@ -10,7 +10,8 @@ besselap(n)
 \item{n}{order of the filter; must be < 25.}
 }
 \value{
-List of class \code{\link{Zpg}} containing poles and gain of the filter
+List of class \code{\link{Zpg}} containing poles and gain of the
+  filter
 }
 \description{
 Return the poles and gain of a Bessel analog low-pass filter prototype.

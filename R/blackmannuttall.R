@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191210 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Blackman-Nuttall window
 #'
@@ -55,17 +55,19 @@
 #
 #' @export
 
-blackmannuttall <- function (n, method = c('symmetric', 'periodic')) {
+blackmannuttall <- function(n, method = c("symmetric", "periodic")) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
   method <- match.arg(method)
 
   if (method == "periodic") {
     N <- n
-  } else if (method == 'symmetric') {
+  } else if (method == "symmetric") {
     N <- n - 1
   } else {
-    stop ("method must be either 'periodic' or 'symmetric'")
+    stop("method must be either 'periodic' or 'symmetric'")
   }
 
   if (n == 1) {
@@ -75,8 +77,9 @@ blackmannuttall <- function (n, method = c('symmetric', 'periodic')) {
     a1 <- 0.4891775
     a2 <- 0.1365995
     a3 <- 0.0106411
-    k <- 0:(n-1)
-    w = a0 - a1 * cos(2 * pi * k / N) + a2 * cos(4 * pi * k / N) - a3 * cos(6 * pi * k / N)
+    k <- 0:(n - 1)
+    w <- a0 - a1 * cos(2 * pi * k / N) +
+      a2 * cos(4 * pi * k / N) - a3 * cos(6 * pi * k / N)
   }
   w
 }

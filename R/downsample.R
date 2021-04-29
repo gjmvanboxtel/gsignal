@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201129  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Decrease sample rate
 #'
@@ -39,11 +39,11 @@
 #'
 #' @examples
 #' x <- seq_len(10)
-#' downsample(x, 3)
-#' downsample(x, 3, 2)
+#' xd <- downsample(x, 3)     # returns 1  4  7 10
+#' xd <- downsample(x, 3, 2)  # returns 3 6 9
 #'
 #' x <- matrix(seq_len(12), 4, 3, byrow = TRUE)
-#' downsample(x, 3)
+#' xd <- downsample(x, 3)
 #'
 #' @seealso \code{\link{decimate}}, \code{\link{resample}}
 #'s
@@ -52,26 +52,24 @@
 #
 #' @export
 
-downsample <- function (x, n, phase = 0) {
+downsample <- function(x, n, phase = 0) {
 
   if (is.vector(x)) {
-    ns <- 1
     lx <- length(x)
     x <- matrix(x, ncol = 1)
     vec <- TRUE
   } else if (is.matrix(x)) {
-    ns <- ncol(x)
     lx <- nrow(x)
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (!(isPosscal(n) && isWhole(n))) {
-    stop('n must be a positive integer')
+    stop("n must be a positive integer")
   }
   if (!(isPosscal(phase) && isWhole(phase)) || phase > n - 1) {
-    stop('phase must be a positive integer between 0 and n - 1')
+    stop("phase must be a positive integer between 0 and n - 1")
   }
 
   y <- x[seq(phase + 1, lx, n), ]

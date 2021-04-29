@@ -18,9 +18,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191204 Geert van Boxtel          First version for v0.1.0
-# 20200322 Geert van Boxtel          used NROW and NCOL instead to nrow and ncol to allow
-#                                    vectors; expand rc to same number of columns as ranges
-#---------------------------------------------------------------------------------------------------------------------------------
+# 20200322 Geert van Boxtel          used NROW and NCOL; expand rc
+#------------------------------------------------------------------------------
 
 #' Sigmoid Train
 #'
@@ -60,7 +59,8 @@
 #' st <- sigmoid_train (t, ranges, rc)
 #' plot(t, st$y[1,], type="n", xlab = "Time(s)", ylab = "S(t)",
 #'      main = "Vectorized use of sigmoid train")
-#' for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], 1, border = NA, col="pink")
+#' for (i in 1:3) rect(ranges[i, 1], 0, ranges[i, 2], 1,
+#'                     border = NA, col="pink")
 #' for (i in 1:3) lines(t, st$y[i,])
 #' # The colored regions show the limits defined in range.
 #'
@@ -74,14 +74,15 @@
 #' plot(t, y[1,], type="l", xlab = 'time', ylab = 'signal',
 #'      main = 'Varying amplitude sigmoid train', col="blue")
 #' lines(t, st$s, col = "orange")
-#' legend("topright", legend = c("Sigmoid train", "Components"), lty = 1, col = c("blue", "orange"))
+#' legend("topright", legend = c("Sigmoid train", "Components"),
+#'        lty = 1, col = c("blue", "orange"))
 #'
 #' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-sigmoid_train <- function (t, ranges, rc) {
+sigmoid_train <- function(t, ranges, rc) {
 
   t <- as.vector(t)
 
@@ -91,11 +92,13 @@ sigmoid_train <- function (t, ranges, rc) {
   }
   nr <- NROW(ranges)
   nc <- NCOL(ranges)
-  if (is.null(nr) || nr <= 0) stop('ranges must be a vector, or an array or matrix with at least 1 row')
-  if (is.null(nc) || nc != 2) stop('ranges must be a vector, or an array or matrix with 2 columns')
+  if (is.null(nr) || nr <= 0)
+    stop("ranges must be a vector, or an array or matrix with at least 1 row")
+  if (is.null(nc) || nc != 2)
+    stop("ranges must be a vector, or an array or matrix with 2 columns")
 
   ## Parse time constants
-  if (isScalar (rc)) {
+  if (isScalar(rc)) {
     # All sigmoids have the same time constant and are symmetric
     rc <- rc * matrix(1L, nr, 2)
   } else if (is.vector(rc)) {
@@ -105,21 +108,23 @@ sigmoid_train <- function (t, ranges, rc) {
     if (nrow(rc) == 1) {
       rc <- t(rc)
     }
-    if (nrow(rc) != nr) stop('Length of time constant must equal number of ranges')
+    if (nrow(rc) != nr)
+      stop("length of time constant must equal number of ranges")
     rc <- cbind(rc, rc)
   }
 
-  a_up <- apply(t(apply(t(ranges[,1]), 2, function(x) x - t)), 2, function(x) x/rc[, 1])
-  a_dw <- apply(t(apply(t(ranges[,2]), 2, function(x) x - t)), 2, function(x) x/rc[, 2])
+  a_up <- apply(t(apply(t(ranges[, 1]), 2,
+                        function(x) x - t)), 2, function(x) x / rc[, 1])
+  a_dw <- apply(t(apply(t(ranges[, 2]), 2,
+                        function(x) x - t)), 2, function(x) x / rc[, 2])
 
   ## Evaluate the sigmoids and mix them
-  y <- 1 / (1 + exp (a_up)) * (1 - 1 / (1 + exp (a_dw)))
+  y <- 1 / (1 + exp(a_up)) * (1 - 1 / (1 + exp(a_dw)))
   if (nr == 1) {
     s <- y
   } else {
     s <- apply(y, 2, max)
   }
 
-  list (y = y, s = s)
+  list(y = y, s = s)
 }
-

@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200827  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Real cepstrum
 #'
@@ -101,7 +101,7 @@
 #'   xlab = "Frequency (Hz)", ylab = "Phase",
 #'   main = "Unwrapped phase")
 #' lines(hxm$w, phym, col = "red")
-#' legend("topright", legend = c("original", "reconstructed"),
+#' legend("bottomright", legend = c("original", "reconstructed"),
 #'   lty = 1, col = c(1, 2))
 #' par(op)
 #'
@@ -119,7 +119,7 @@
 #
 #' @export
 
-rceps <- function (x, minphase = FALSE) {
+rceps <- function(x, minphase = FALSE) {
 
   if (!is.vector(x) || !is.numeric(x)) {
     stop("x must be a numeric vector")
@@ -130,14 +130,14 @@ rceps <- function (x, minphase = FALSE) {
 
   X <- abs(stats::fft(x))
   if (min(X) == 0) {
-    stop("signal has Fourier coefficients equal to 0");
+    stop("signal has Fourier coefficients equal to 0")
   }
 
   y <- Re(ifft(log(X)))
 
   if (minphase) {
-    n <- length (x)
-    if (n%%2 == 1) {
+    n <- length(x)
+    if (n %% 2 == 1) {
       ym <- c(y[1], 2 * y[2:(trunc(n / 2) + 1)], rep(0, trunc(n / 2)))
     } else {
       ym <- c(y[1], 2 * y[2:(n / 2)], y[n / 2 + 1], rep(0, n / 2 - 1))

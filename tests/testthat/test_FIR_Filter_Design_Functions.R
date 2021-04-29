@@ -34,16 +34,16 @@ test_that("sgolay() tests are correct", {
   d3x <- (d3d - 3 * w^2 * dd) * sin(w * t) + (3 * w * d2d - w^3 * d) * cos(w * t)
 
   y <- sgolayfilt(x, sgolay(8, 41, 0, dt))
-  expect_that(norm(y - x, '2') / norm(x, '2'), equals(0, tolerance = 5e-6))
+  expect_equal(norm(y - x, '2') / norm(x, '2'), 0, tolerance = 5e-6)
 
   y <- sgolayfilt(x, sgolay(8, 41, 1, dt))
-  expect_that(norm(y - dx, '2') / norm(dx, '2'), equals(0, tolerance = 5e-6))
+  expect_equal(norm(y - dx, '2') / norm(dx, '2'), 0, tolerance = 5e-6)
 
   y <- sgolayfilt(x,sgolay(8, 41, 2, dt))
-  expect_that(norm(y - d2x, '2') / norm(d2x, '2'), equals(0, tolerance = 1e-5))
+  expect_equal(norm(y - d2x, '2') / norm(d2x, '2'), 0, tolerance = 1e-5)
 
   y <- sgolayfilt(x, sgolay(8, 41, 3, dt))
-  expect_that(norm(y - d3x, '2') / norm(d3x, '2'), equals(0, tolerance = 1e-4))
+  expect_equal(norm(y - d3x, '2') / norm(d3x, '2'), 0, tolerance = 1e-4)
 })
 
 # -----------------------------------------------------------------------

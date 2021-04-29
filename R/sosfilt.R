@@ -17,12 +17,12 @@
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
 # 20210329  GvB       different setup for v0.3.0 including initial conditions
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Second-order sections filtering
 #'
 #' One-dimensional second-order (biquadratic) sections IIR digital filtering.
-#' 
+#'
 #' The filter function is implemented as a series of second-order filters
 #' with direct-form II transposed structure. It is designed to minimize
 #' numerical precision errors for high-order filters [1].
@@ -47,24 +47,24 @@
 #'   case the \code{zi} input argument was specified, a list with two elements
 #'   is returned containing the variables \code{y}, which represents the output
 #'   signal, and \code{zf}, which contains the final state vector or matrix.
-#' 
+#'
 #' @examples
-#' fs <- 1000                                           # sampling frequency
-#' t <- seq(0, 1, 1/fs)                                 # 1 second sample
-#' s <- sin(2* pi * t * 6)                              # 6 Hz sinus
-#' x <- s + rnorm(length(t))                            # add noise
+#' fs <- 1000
+#' t <- seq(0, 1, 1/fs)
+#' s <- sin(2* pi * t * 6)
+#' x <- s + rnorm(length(t))
 #' plot(t, x, type = "l", col="light gray")
 #' lines(t, s, col="black")
-#' sosg <- butter(3, 0.02, output = "Sos")                # low-pass 0.02 * 1000 = 20 Hz
+#' sosg <- butter(3, 0.02, output = "Sos")
 #' sos <- sosg$sos
-#' sos[1, 1:3] <- sos[1, 1:3] * sosg$g                  # apply gain factor
-#' y <- sosfilt(matrix(sos, ncol=6), x)                 # apply filter
+#' sos[1, 1:3] <- sos[1, 1:3] * sosg$g
+#' y <- sosfilt(matrix(sos, ncol=6), x)
 #' lines(t, y, col="red")
-#' 
+#'
 #' ## using 'filter' will handle the gain for you
 #' y2 <- filter(sosg, x)
-#' all.equal(y, y2)
-#' 
+#' ## all.equal(y, y2)
+#'
 #' ## The following example is from Python scipy.signal.sosfilt
 #' ## It shows the instability that results from trying to do a
 #' ## 13th-order filter in a single stage (the numerical error
@@ -79,7 +79,7 @@
 #' legend("topleft", legend = c("Arma", "Sos"), lty = 1, col = 1:2)
 #'
 #' @seealso \code{\link{filter}}, \code{\link{filtfilt}}, \code{\link{Sos}}
-#' 
+#'
 #' @references Smith III, J.O. (2012). Introduction to digital filters, with
 #'   audio applications (3rd Ed.). W3K Publishing.
 #'
@@ -94,14 +94,14 @@ sosfilt <- function(sos, x, zi = NULL) {
     if (length(sos) == 6) {
       sos <- matrix(sos, ncol = 6)
     } else {
-      stop('sos must a matrix with 6 columns')
+      stop("sos must a matrix with 6 columns")
     }
   } else if (is.matrix(sos)) {
-    if(ncol(sos) != 6) {
-      stop('sos must a matrix with 6 columns')
+    if (ncol(sos) != 6) {
+      stop("sos must a matrix with 6 columns")
     }
   } else {
-    stop('sos must a matrix with 6 columns')
+    stop("sos must a matrix with 6 columns")
   }
   a0 <- sos[, 4]
   if (any(a0 == 0)) {
@@ -116,7 +116,7 @@ sosfilt <- function(sos, x, zi = NULL) {
     return(NULL)
   }
   if (!is.numeric(x)) {
-    stop('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
@@ -129,11 +129,11 @@ sosfilt <- function(sos, x, zi = NULL) {
   if (is.null(nrx) || nrx <= 0) {
     return(x)
   }
-  
+
   # check zi, coerce to 3d array
   rzf <- (is.character(zi) && zi == "zf")
-  if(!is.null(zi) && !is.numeric(zi) && !rzf) {
-    stop("zi must either be NULL, a numeric vector or matrix, or the string 'zf'")
+  if (!is.null(zi) && !is.numeric(zi) && !rzf) {
+    stop("zi must be NULL, a numeric vector or matrix, or the string 'zf'")
   }
   if (is.null(zi) || rzf) {
     zi <- array(0, dim = c(nrow(sos), 2, ncx))
@@ -153,23 +153,24 @@ sosfilt <- function(sos, x, zi = NULL) {
     }
   }
   if (dims_zi[1] != nrow(sos)) {
-    stop('zi must equal the number of sections in sos')
+    stop("zi must equal the number of sections in sos")
   }
   if (dims_zi[2] != 2) {
-    stop('number of columns of zi must be 2')
+    stop("number of columns of zi must be 2")
   }
   if (dims_zi[3] != ncx) {
-    stop('third dimension of zi must be equal the number of columns in x')
+    stop("third dimension of zi must be equal the number of columns in x")
   }
-  
+
   y <- matrix(0, nrx, ncx)
   zf <- array(0, dim = dims_zi)
   for (icol in seq_len(ncx)) {
-    l <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal", sos, x[, icol], matrix(zi[, , icol], ncol = 2))
-    y[, icol] <- l[['y']]
-    zf[, , icol] <- l[['zf']]
+    l <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal",
+               sos, x[, icol], matrix(zi[, , icol], ncol = 2))
+    y[, icol] <- l[["y"]]
+    zf[, , icol] <- l[["zf"]]
   }
-  
+
   if (vec) {
     y <- as.vector(y)
     dim(zf) <- dims_zi[1:2]

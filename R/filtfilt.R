@@ -22,7 +22,7 @@
 # 20200217  GvB       setup for gsignal v0.1
 # 20200413  GvB       added S3 method method for Sos
 # 20210402  GvB       use padding and Gustafsson method for initial conditions
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
 #'
@@ -38,10 +38,10 @@
 #' ends of the signal. The length of this extension is 3 times the filter order.
 #' Gustafsson's [1] method is then used to specify the initial conditions used
 #' to further handle the edges of the signal.
-#' 
+#'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’). Generically, \code{filt} specifies an arbitrary
-#'   filter operation.
+#'   filter (normally called ‘b’). Generically, \code{filt} specifies an
+#'   arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
 #'   specified as a vector. If \code{a[1]} is not equal to 1, then filter
 #'   normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
@@ -68,15 +68,15 @@
 #' @seealso \code{\link{filter}}, \code{\link{filter_zi}}, \code{\link{Arma}},
 #'   \code{\link{Sos}}, \code{\link{Zpg}}
 #'
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
-#'  Francesco Potortì, \email{pot@@gnu.org},\cr
-#'  Luca Citi, \email{lciti@@essex.ac.uk}.\cr
-#'  Conversion to R and adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr Francesco Potortì,
+#'   \email{pot@@gnu.org},\cr Luca Citi, \email{lciti@@essex.ac.uk}.\cr
+#'   Conversion to R and adapted by Geert van Boxtel
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @references [1] Gustafsson, F. (1996). Determining the initial states in
 #'   forward-backward filtering. IEEE Transactions on Signal Processing, 44(4),
 #'   988 - 992.
-#'   
+#'
 #' @rdname filtfilt
 #' @export
 
@@ -88,14 +88,15 @@ filtfilt <- function(filt, ...) UseMethod("filtfilt")
 
 filtfilt.default <- function(filt, a, x, ...) {
 
-  if (!is.vector(filt) || ! is.vector(a) || !is.numeric(filt) || !is.numeric(a)) {
+  if (!is.vector(filt) || ! is.vector(a) ||
+      !is.numeric(filt) || !is.numeric(a)) {
     stop("b and a must be numeric vectors")
   }
   la <- length(a)
   lb <- length(filt)
   lab <- max(la, lb)
   nfact <- max(1, 3 * (lab - 1))  #length of edge transients
-  
+
   # Compute initial conditions as per [1]
   if (lab > 1) {
     zi <- filter_zi(filt, a)
@@ -112,13 +113,13 @@ filtfilt.default <- function(filt, a, x, ...) {
   nrx <- nrow(x)
   ncx <- ncol(x)
   nfact <- min(nfact - 1, nrx)
-  
+
   y <- matrix(0, nrx, ncx)
 
   for (icol in seq_len(ncx)) {
-    if(nfact > 0) {
-      temp <- c(2 * x[1, icol] - x[seq(nfact + 1, 2, -1), icol], x[, icol],
-                2 * x[nrx, icol] - x[seq(nrx - 1, nrx - nfact, -1), icol])
+    if (nfact > 0) {
+      temp <- c(x[seq(nfact + 1, 2, -1), icol], x[, icol],
+                x[seq(nrx - 1, nrx - nfact, -1), icol])
       temp <- filter(filt, a, temp, zi * temp[1])$y
       temp <- rev(temp)
       temp <- rev(filter(filt, a, temp, zi * temp[1])$y)
@@ -128,10 +129,10 @@ filtfilt.default <- function(filt, a, x, ...) {
       temp <- rev(temp)
       temp <- rev(filter(filt, a, temp))
     }
-    
+
     y[, icol] <- temp[(nfact + 1):(length(temp) - nfact)]
   }
-  
+
   if (vec) {
     y <- as.vector(y)
   }
@@ -155,10 +156,10 @@ filtfilt.Ma <- function(filt, x, ...) # FIR
 #' @export
 filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
 
-  if(!is.matrix(filt$sos) || !is.numeric(filt$sos)) {
+  if (!is.matrix(filt$sos) || !is.numeric(filt$sos)) {
     stop("sos must be a numeric matrix")
   }
-  nfact = max(1, 3 * length(as.Zpg(filt)$p)) # filter order
+  nfact <- max(1, 3 * length(as.Zpg(filt)$p)) # filter order
 
   # Compute initial conditions as per [1]
   if (nfact > 1) {
@@ -166,7 +167,7 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
   } else {
     zi <- NULL
   }
-  
+
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
     vec <- TRUE
@@ -176,9 +177,9 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
   nrx <- nrow(x)
   ncx <- ncol(x)
   nfact <- min(nfact - 1, nrx)
-    
+
   y <- matrix(0, nrx, ncx)
-  
+
   for (icol in seq_len(ncx)) {
     if (nfact > 0) {
       temp <- c(2 * x[1, icol] - x[seq(nfact + 1, 2, -1), icol], x[, icol],
@@ -194,7 +195,7 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
     }
     y[, icol] <- temp[(nfact + 1):(length(temp) - nfact)]
   }
-  
+
   if (vec) {
     y <- as.vector(y)
   }

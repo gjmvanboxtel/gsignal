@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201121  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Increase sample rate
 #'
@@ -36,11 +36,11 @@
 #'
 #' @examples
 #' x <- seq_len(4)
-#' upsample(x, 3)
-#' upsample(x, 3, 2)
+#' u <- upsample(x, 3)
+#' u <- upsample(x, 3, 2)
 #'
 #' x <- matrix(seq_len(6), 3, byrow = TRUE)
-#' upsample(x, 3)
+#' u <- upsample(x, 3)
 #'
 #' @seealso \code{\link{downsample}}, \code{\link{interp}},
 #'   \code{\link{decimate}}, \code{\link{resample}}
@@ -50,7 +50,7 @@
 #
 #' @export
 
-upsample <- function (x, n, phase = 0) {
+upsample <- function(x, n, phase = 0) {
 
   if (is.vector(x)) {
     ns <- 1
@@ -62,14 +62,14 @@ upsample <- function (x, n, phase = 0) {
     lx <- nrow(x)
     vec <- FALSE
   } else {
-    stop ('x must be a numeric vector or matrix')
+    stop("x must be a numeric vector or matrix")
   }
 
   if (!(isPosscal(n) && isWhole(n))) {
-    stop('n must be a positive integer')
+    stop("n must be a positive integer")
   }
   if (!(isPosscal(phase) && isWhole(phase)) || phase > n - 1) {
-    stop('phase must be a positive integer between 0 and n - 1')
+    stop("phase must be a positive integer between 0 and n - 1")
   }
 
   y <- matrix(0, n * lx, ns)

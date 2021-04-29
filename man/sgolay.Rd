@@ -42,7 +42,7 @@ each time you added a new sample.
 \examples{
 ## Generate a signal that consists of a 0.2 Hz sinusoid embedded
 ## in white Gaussian noise and sampled five times a second for 200 seconds.
-dt <- 1/5
+dt <- 1 / 5 
 t <- seq(0, 200 - dt, dt)
 x <- 5 * sin(2 * pi * 0.2 * t) + rnorm(length(t))
 ## Use sgolay to smooth the signal.
@@ -56,7 +56,8 @@ ycenter <- conv(x, sg[(n + 1)/2, ], 'valid')
 ## Compute the transients. Use the last rows of b for the startup
 ## and the first rows of b for the terminal.
 ybegin <- sg[seq(nrow(sg), (n + 3) / 2, -1), ] \%*\% x[seq(n, 1, -1)]
-yend <- sg[seq((n - 1)/2, 1, -1), ] \%*\% x[seq(length(x), (length(x) - (n - 1)), -1)]
+yend <- sg[seq((n - 1)/2, 1, -1), ] \%*\%
+        x[seq(length(x), (length(x) - (n - 1)), -1)]
 ## Concatenate the transients and the steady-state portion to
 ## generate the complete smoothed signal.
 ## Plot the original signal and the Savitzky-Golay estimate.

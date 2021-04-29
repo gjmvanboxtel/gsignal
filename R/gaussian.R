@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191211 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Gaussian convolution window
 #'
@@ -52,11 +52,13 @@
 #
 #' @export
 
-gaussian <- function (n, a = 1) {
+gaussian <- function(n, a = 1) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  if (!isScalar(a)) stop ("a must be a scalar")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
+  if (!isScalar(a))
+    stop("a must be a scalar")
 
-  w <- exp(-0.5 * ((0:(n-1) - (n-1) / 2) * a)^2)
+  w <- exp(-0.5 * ((0:(n - 1) - (n - 1) / 2) * a)^2)
   w
 }

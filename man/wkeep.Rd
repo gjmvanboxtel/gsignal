@@ -15,10 +15,11 @@ submatrix to extract from the *matrix* \code{x}. See the examples.}
 
 \item{opt}{One of:
 \describe{
-  \item{character string}{matched against \code{c("centered", "left", "right")},
-    indicating the location of the *vector* \code{x} to extract}
+  \item{character string}{matched against \code{c("centered", "left",
+  "right")}, indicating the location of the *vector* \code{x} to extract}
   \item{positive integer}{starting index of the input *vector* \code{x}}
-  \item{two-element vector}{starting row and columns from the *matrix* \code{x}}
+  \item{two-element vector}{starting row and columns from the *matrix*
+  \code{x}}
 }
 See the examples. Default: "centered".}
 }

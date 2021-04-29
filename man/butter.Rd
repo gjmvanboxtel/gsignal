@@ -38,7 +38,8 @@ frequency.}
 
 \item{output}{Type of output, one of:
 \describe{
-  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+  b/a)}
   \item{Zpg}{Zero-pole-gain format}
   \item{Sos}{Second-order sections}
 }

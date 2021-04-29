@@ -52,6 +52,11 @@ Create or convert filter models to second-order sections form.
 \code{as.Sos} converts from other forms, including \code{Arma}, \code{Ma},
 and \code{Zpg}.
 }
+\examples{
+ba <- butter(3, 0.2)
+sos <- as.Sos(ba)
+
+}
 \seealso{
 \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}}
 }

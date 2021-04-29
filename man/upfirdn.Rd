@@ -18,7 +18,7 @@ column is a separate FIR impulse response.}
 
 \item{p}{Upsampling factor, specified as a positive integer (default: 1).}
 
-\item{q}{downsamppling factor, specified as a positive integer (default: 1).}
+\item{q}{downsampling factor, specified as a positive integer (default: 1).}
 }
 \value{
 output signal, returned as a vector or matrix. Each column has length
@@ -47,8 +47,8 @@ This function uses a polyphase implementation, which is generally
   factor, since it only calculates the needed outputs.
 }
 \examples{
-## Change the sample rate of a signal by a rational conversion factor from the
-## DAT rate of 48 kHz to the CD sample rate of 44.1 kHz.
+## Change the sample rate of a signal by a rational conversion factor
+## from the DAT rate of 48 kHz to the CD sample rate of 44.1 kHz.
 Fdat <- 48e3
 Fcd <- 44.1e3
 LM <- scan(text = capture.output(pracma::rats(Fcd / Fdat)), sep = '/',

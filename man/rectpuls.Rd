@@ -40,7 +40,8 @@ f0 <- 100    # pulse train sample rate
 w <- 0.3/f0  # pulse width 1/10th the distance between pulses
 y <- pulstran (seq(0, 4/f0, 1/fs), seq(0, 4/f0, 1/f0), 'rectpuls', w = w)
 plot (seq(0, length(y)-1) * 1000/fs, y, type ="l", xlab = "Time (ms)",
-      ylab = "Amplitude", main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
+      ylab = "Amplitude",
+      main = "Rectangular pulse train of 3 ms pulses at 10 ms intervals")
 
 }
 \seealso{

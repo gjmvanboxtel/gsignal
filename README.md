@@ -8,3 +8,5 @@ library(devtools)
 install_github("gjmvanboxtel/gsignal")
 ```
 
+[![codecov](https://codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg?token=7ZAU9VV73X)](https://codecov.io/gh/gjmvanboxtel/gsignal)
+

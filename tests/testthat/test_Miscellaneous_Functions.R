@@ -304,8 +304,6 @@ test_that("parameters to unwrap() are correct", {
   expect_error(unwrap('invalid'))
   expect_error(unwrap(1 + 0i, 0))
   expect_error(unwrap(matrix(1), 2, 3))
-  expect_error(unwrap(1, 2, 3, 4))
-  
 })
 
 test_that("unwrap() tests are correct", {
@@ -317,28 +315,25 @@ test_that("unwrap() tests are correct", {
   w <- r - 2 * pi * floor((r + pi) / (2 * pi))
   tol <- 1e3 * .Machine$double.eps
   
-  expect_that(unwrap(w), equals(r, tolerance = tol))
+  expect_equal(unwrap(w), r, tolerance = tol)
   expect_equivalent(unwrap(cbind(w, w)), cbind(r, r))
-  expect_equivalent(unwrap(rbind(w, w), MARGIN = 1), cbind(r, r))
-  
+
   ## Test that small values of tol have the same effect as tol = pi
-  expect_that(unwrap(w, 0.1), equals(r))
-  expect_that(unwrap(w, tol), equals(r))
+  expect_equal(unwrap(w, 0.1), r)
+  expect_equal(unwrap(w, tol), r)
 
   ## Test that phase changes larger than 2*pi unwrap properly
-  expect_that(unwrap(c(0, 1)), equals(c(0, 1)))
-  expect_that(unwrap(c(0, 4)), equals(c(0, 4 - 2 * pi)))
-  expect_that(unwrap(c(0, 7)), equals(c(0, 7 - 2 * pi)))
-  expect_that(unwrap(c(0, 10)), equals(c(0, 10 - 4 * pi)))
-  expect_that(unwrap(c(0, 13)), equals(c(0, 13 - 4 * pi)))
-  expect_that(unwrap(c(0, 16)), equals(c(0, 16 - 6 * pi)))
-  expect_that(unwrap(c(0, 19)), equals(c(0, 19 - 6 * pi)))
+  expect_equal(unwrap(c(0, 1)), c(0, 1))
+  expect_equal(unwrap(c(0, 4)), c(0, 4 - 2 * pi))
+  expect_equal(unwrap(c(0, 7)), c(0, 7 - 2 * pi))
+  expect_equal(unwrap(c(0, 10)), c(0, 10 - 4 * pi))
+  expect_equal(unwrap(c(0, 13)), c(0, 13 - 4 * pi))
+  expect_equal(unwrap(c(0, 16)), c(0, 16 - 6 * pi))
+  expect_equal(unwrap(c(0, 19)), c(0, 19 - 6 * pi))
   expect_lt(max(abs(diff(unwrap(100 * pi * runif(1000, 1))))), pi)
  
   A <- c(pi*(-4), pi*(-2+1/6), pi/4, pi*(2+1/3), pi*(4+1/2), pi*(8+2/3), pi*(16+1), pi*(32+3/2), pi*64)
-  expect_that(unwrap(A), equals(unwrap(A, pi)))
-  expect_that(unwrap(A, pi), equals(unwrap(A, pi, 2)))
-  expect_that(unwrap(A, pi), equals(as.vector(t(unwrap(t(A), pi, 1)))))
+  expect_equal(unwrap(A), unwrap(A, pi))
 
 })
 

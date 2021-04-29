@@ -39,7 +39,8 @@ There is no defined order for pairs with identical real parts but
   differing imaginary parts.
 }
 \examples{
-rbind(t(cplxpair(exp(2i * pi * 0:4 / 5))), t(exp(2i * pi *c(3, 2, 4, 1, 0) / 5)))
+r <- rbind(t(cplxpair(exp(2i * pi * 0:4 / 5))),
+           t(exp(2i * pi *c(3, 2, 4, 1, 0) / 5)))
 
 }
 \seealso{

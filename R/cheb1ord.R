@@ -21,7 +21,7 @@
 #
 # 20200517 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chebyshev Type I filter order
 #'
@@ -42,7 +42,8 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #'
-#' @return A list of class \code{'FilterSpecs'} with the following list elements:
+#' @return A list of class \code{'FilterSpecs'} with the following list
+#'   elements:
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
@@ -65,7 +66,7 @@
 #'
 #' @export
 
-cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
+cheb1ord <- function(Wp, Ws, Rp, Rs, plane = c("z", "s")) {
 
   #input validation
   plane <- match.arg(plane)
@@ -160,14 +161,14 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
   Wa <- ws / wp
 
   ## compute minimum n which satisfies all band edge conditions
-  stop_atten <- 10^(abs(Rs) / 10)
-  pass_atten <- 10^(abs(Rp) / 10)
-  n <- ceiling(acosh(sqrt((stop_atten - 1) / (pass_atten - 1))) / acosh (Wa))
+  stop_atten <- 10 ^ (abs(Rs) / 10)
+  pass_atten <- 10 ^ (abs(Rp) / 10)
+  n <- ceiling(acosh(sqrt((stop_atten - 1) / (pass_atten - 1))) / acosh(Wa))
 
   ## compute stopband frequency limits to make the the filter characteristic
   ## touch either at least one stop band corner or one pass band corner.
-  epsilon <- 1 / sqrt (10^(.1 * abs(Rs)) - 1)
-  k <- cosh(1 / n * acosh(sqrt(1 / (10^(.1 * abs(Rp)) - 1)) / epsilon))
+  epsilon <- 1 / sqrt(10 ^ (.1 * abs(Rs)) - 1)
+  k <- cosh(1 / n * acosh(sqrt(1 / (10 ^ (.1 * abs(Rp)) - 1)) / epsilon))
   # or k = fstop / fpass
 
   ## compute -3dB cutoff given Wp, Rp and n
@@ -185,12 +186,6 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
       w_prime_p <- Wpw                        #   same formula as for HP
       w_prime_s <- k * Wsw                    #           "
     }
-
-    ## Applying LP to BP (respectively HP to notch) transformation to -3dB
-    ## angular frequency :
-    ##   s_prime/wc = Q(s/w0+w0/s)  or  w_prime/wc = Q(w/w0-w0/w)
-    ## Here we need to inverse above equation:
-    ##   w = abs(w_prime+-sqrt(w_prime^2+4*Q^2))/(2*Q/w0);
 
     ## freq to be returned to match pass band
     w0 <- sqrt(prod(Wpw))
@@ -225,7 +220,7 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
     Wcw_s <- Wsw / k                          #   to match stop band
   }
 
-  if (plane == "s"){
+  if (plane == "s") {
     # No prewarp in case of analog filter
     Wc_p <- Wcw_p
     Wc_s <- Wcw_s
@@ -235,6 +230,6 @@ cheb1ord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
     Wc_s <- atan(Wcw_s * (T / 2)) * (T / pi)
   }
 
-  FilterSpecs(n = n, Wc = Wc_p, type = type, Wc_s = Wc_s, plane = plane, Rp = Rp)
+  FilterSpecs(n = n, Wc = Wc_p, type = type,
+              Wc_s = Wc_s, plane = plane, Rp = Rp)
 }
-

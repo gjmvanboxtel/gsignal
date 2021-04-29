@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200527 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' ncauer analog filter design
 #'
@@ -50,8 +50,11 @@
 #'
 #' @examples
 #' zpg <- ncauer(0.5, 40, 5)
+#' freqz(zpg)
+#' zplane(zpg)
 #'
-#' @references [1] \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
+#' @references [1]
+#'  \url{https://en.wikipedia.org/wiki/Network_synthesis_filters#Cauer_filter}
 #'
 #' @seealso \code{\link{Zpg}}, \code{\link{filter}}, \code{\link{ellip}}
 #'
@@ -61,7 +64,7 @@
 #'
 #' @export
 
-ncauer <- function (Rp, Rs, n) {
+ncauer <- function(Rp, Rs, n) {
 
   # check input arguments
   if (!isPosscal(n) || !isWhole(n)) {
@@ -82,14 +85,15 @@ ncauer <- function (Rp, Rs, n) {
       q <- int[2]
       abs((ql / q) - x)
     }
-    kl0 <- ((10^(0.1 * rp) - 1) / (10^(0.1 * rs) - 1))
+    kl0 <- ((10 ^ (0.1 * rp) - 1) / (10 ^ (0.1 * rs) - 1))
     k0 <- 1 - kl0
     int <- pracma::ellipke(c(kl0, k0))$k
     ql0 <- int[1]
     q0 <- int[2]
     x <- n * ql0 / q0
     kl <- stats::optimize(ellip_ws_min,
-                          interval = c(.Machine$double.eps, 1-.Machine$double.eps))$minimum
+                          interval = c(.Machine$double.eps,
+                                       1 - .Machine$double.eps))$minimum
     ws <- sqrt(1 / kl)
     ws
   }
@@ -103,22 +107,18 @@ ncauer <- function (Rp, Rs, n) {
   k  <- wp / ws
   k1 <- sqrt(1 - k^2)
   q0 <- (1 / 2) * ((1 - sqrt(k1)) / (1 + sqrt(k1)))
-  q <-  q0 + 2 * q0^5 + 15 * q0^9 + 150*q0^13
+  q <-  q0 + 2 * q0^5 + 15 * q0^9 + 150 * q0^13
 
-  ####Filter order maybe this, but not used now:
-  ##D <-  (10^(0.1*Rs)-1)/(10^(0.1*Rp)-1)
-  ##n<-ceil(log10(16*D)/log10(1/q))
-
-  l <- (1 / (2 * n)) * log((10^(0.05 * Rp) + 1) / (10^(0.05 * Rp) - 1))
+  l <- (1 / (2 * n)) * log((10 ^ (0.05 * Rp) + 1) / (10 ^ (0.05 * Rp) - 1))
   sig01 <- 0
   sig02 <- 0
   for (m in 0:30) {
-    sig01 <- sig01 + (-1)^m * q^(m * (m + 1)) * sinh((2 * m + 1) * l)
+    sig01 <- sig01 + (-1)^m * q ^ (m * (m + 1)) * sinh((2 * m + 1) * l)
   }
   for (m in 1:30) {
-    sig02 <- sig02 + (-1)^m * q^(m^2) * cosh(2 * m * l)
+    sig02 <- sig02 + (-1)^m * q ^ (m^2) * cosh(2 * m * l)
   }
-  sig0 <- abs((2 * q^(1 / 4) * sig01) / (1 + 2 * sig02))
+  sig0 <- abs((2 * q ^ (1 / 4) * sig01) / (1 + 2 * sig02))
 
   w <- sqrt((1 + k * sig0^2) * (1 + sig0^2 / k))
 
@@ -129,11 +129,12 @@ ncauer <- function (Rp, Rs, n) {
     mu <- ii - (1 - (n %% 2)) / 2
     soma1 <- 0
     for (m in 0:30) {
-      soma1 <- soma1 + 2 * q^(1 / 4) * ((-1)^m * q^(m * (m + 1)) * sin(((2 * m + 1) * pi * mu) / n))
+      soma1 <- soma1 + 2 * q ^ (1 / 4) * ((-1)^m * q ^ (m * (m + 1)) *
+                                            sin(((2 * m + 1) * pi * mu) / n))
     }
     soma2 <- 0
     for (m in 1:30) {
-      soma2 <- soma2 + 2 * ((-1)^m * q^(m^2) * cos((2 * m * pi * mu) / n))
+      soma2 <- soma2 + 2 * ((-1)^m * q ^ (m^2) * cos((2 * m * pi * mu) / n))
     }
     wi[ii] <- soma1 / (1 + soma2)
   }
@@ -148,7 +149,7 @@ ncauer <- function (Rp, Rs, n) {
   if (n %% 2) { # odd
     T0 <- sig0 * prod(B0i / A0i) * sqrt(ws)
   } else {
-    T0 <- 10^(-0.05 * Rp) * prod(B0i / A0i)
+    T0 <- 10 ^ (-0.05 * Rp) * prod(B0i / A0i)
   }
   ##zeros:
   zer <- c(1i * sqrA0i, -1i * sqrA0i)

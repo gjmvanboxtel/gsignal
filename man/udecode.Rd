@@ -19,7 +19,7 @@ must be between 2 and 32}
 (FALSE) overflows. See Details.}
 }
 \value{
-Multidimensional array of the same siza as \code{u} containing
+Multidimensional array of the same size as \code{u} containing
   floating point numbers.
 }
 \description{
@@ -73,15 +73,16 @@ according to \code{saturate}, which can be set to one of the following:
 }
 }
 \note{
-The real and imaginary components of complex inputs are decoded independently.
+The real and imaginary components of complex inputs are decoded
+  independently.
 }
 \examples{
 
 u <- c(-1, 1, 2, -5)
 ysat <- udecode(u, 3)
 
-# Notice the last entry in u saturates to 1, the default peak input magnitude.
-# Change the peak input magnitude to 6.
+# Notice the last entry in u saturates to 1, the default peak input
+# magnitude. Change the peak input magnitude to 6.
 ysatv <- udecode(u, 3, 6)
 
 # The last input entry still saturates. Wrap the overflows.

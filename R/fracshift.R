@@ -19,7 +19,7 @@
 #
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Fractional shift
 #'
@@ -65,12 +65,12 @@
 #
 #' @export
 
-fracshift <- function (x, d, h = NULL) {
+fracshift <- function(x, d, h = NULL) {
 
   if (!is.vector(x) || !is.numeric(x)) {
     stop("x must be a numeric vector")
   }
-  if(!isScalar(d)) {
+  if (!isScalar(d)) {
     stop("d must be a scalar")
   }
   if (!is.null(h)) {
@@ -78,7 +78,7 @@ fracshift <- function (x, d, h = NULL) {
       stop("h must be a numeric vector")
     }
   } else {
-    h <- design_filter (d)
+    h <- design_filter(d)
 
     Lx <- length(x)
     Lh <- length(h)
@@ -101,7 +101,7 @@ fracshift <- function (x, d, h = NULL) {
   y
 }
 
-design_filter <- function (d) {
+design_filter <- function(d) {
 
   ## properties of the interpolation filter
   log10_rejection <- -3.0
@@ -125,7 +125,8 @@ design_filter <- function (d) {
   ## determine filter length
   L <- ceiling((rejection_dB - 8.0) / (28.714 * roll_off_width))
   t <- (-L:L)
-  ideal_filter <- 2 * stopband_cutoff_f * sinc(2 * stopband_cutoff_f * (t - (d - trunc(d))))
+  ideal_filter <- 2 * stopband_cutoff_f *
+    sinc(2 * stopband_cutoff_f * (t - (d - trunc(d))))
 
   ## apodize ideal (sincard) filter response
   m <- 2 * L
@@ -135,7 +136,7 @@ design_filter <- function (d) {
   qq <- t * (m - t)
   qq[which(qq < 0)] <- 0
   t <- 2 * beta / m * sqrt(qq)
-  w <- besselI (t, 0) / besselI (beta, 0)
-  h = w * ideal_filter
+  w <- besselI(t, 0) / besselI(beta, 0)
+  h <- w * ideal_filter
   h
 }

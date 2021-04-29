@@ -20,10 +20,10 @@ character vector selecting dimension names. Default: 2 (columns).}
 \value{
 A list containing two variables:
 \describe{
-  \item{zc}{Vector, matrix or array containing ordered complex conjugate pairs
-  by increasing real parts. Only the positive imaginary complex numbers of each
-  complex conjugate pair are returned.}
-  \item{zr}{Vector, matrix or array containg ordered real numbers.}
+  \item{zc}{Vector, matrix or array containing ordered complex conjugate
+  pairs by increasing real parts. Only the positive imaginary complex numbers
+  of each complex conjugate pair are returned.}
+  \item{zr}{Vector, matrix or array containing ordered real numbers.}
 }
 }
 \description{
@@ -36,7 +36,7 @@ no defined order for pairs with identical real parts but differing imaginary
 parts.
 }
 \examples{
-cplxreal(c(1, 1 + 3i, 2 - 5i, 1-3i, 2 + 5i, 4, 3))
+r <- cplxreal(c(1, 1 + 3i, 2 - 5i, 1-3i, 2 + 5i, 4, 3))
 
 }
 \seealso{

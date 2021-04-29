@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201123  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Primitive
 #'
@@ -57,12 +57,12 @@ primitive <- function(FUN, t, C = 0) {
   if (!is.vector(t) || !all(sort(t) == t)) {
     stop("t must be a vector of ascending values")
   }
-  if(!isScalar(C)) {
+  if (!isScalar(C)) {
     stop("C must be a scalar")
   }
 
   F_prev <- t0 <- NULL
-  i_chunk <- function (t, f, init) {
+  i_chunk <- function(t, f, init) {
     if (is.null(init)) {
       F_prev <<- NULL
       t0     <<- 0

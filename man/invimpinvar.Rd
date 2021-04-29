@@ -41,7 +41,7 @@ fs <- 10
 but <- butter(6, 2 * pi * f, 'low', 's')
 zbut <- impinvar(but, fs)
 sbut <- invimpinvar(zbut, fs)
-all.equal(but, sbut, tolerance = 1e-7)
+## all.equal(but, sbut, tolerance = 1e-7)
 
 }
 \references{
@@ -53,6 +53,6 @@ Thomas J. Cavicchi (1996) Impulse invariance and multiple-order
 }
 \author{
 R.G.H. Eschauzier, \email{reschauzier@yahoo.com},\cr
- Carnë Draug, \email{carandraug+dev@gmail.com}.\cr
+ Carne Draug, \email{carandraug+dev@gmail.com}.\cr
  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

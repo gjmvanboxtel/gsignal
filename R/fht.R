@@ -19,7 +19,7 @@
 # Version history
 # 20201020  GvB       setup for gsignal v0.1.0
 # 20201023  GvB       corrected padding
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Fast Hartley Transform
 #'
@@ -57,13 +57,13 @@
 #' plot(t, x, type = "l", xlab = "", ylab = "", main = "Signal")
 #' f <- seq(0, fs - (1 / fs), length.out = length(t))
 #' to <- which(f >= 5)[1]
-#' plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "", main = "Hartley Transform")
+#' plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "",
+#'      main = "Hartley Transform")
 #' par(op)
 #'
 #' x <- 1:10
 #' X <- fht(x)
-#' all.equal(x, ifht(X))
-#' # [1] TRUE
+#' ## all.equal(x, ifht(X))
 #'
 #' @author Muthiah Annamalai, \email{muthiah.annamalai@@uta.edu}.\
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -75,11 +75,11 @@
 #' @rdname fht
 #' @export
 
- fht <- function (x, n = NROW(x)) {
+ fht <- function(x, n = NROW(x)) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
-    stop('x must be a numeric or vector or matrix')
+    stop("x must be a numeric or vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -89,9 +89,8 @@
     vec <- FALSE
   }
   nr <- nrow(x)
-  ns <- ncol(x)
 
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
 
@@ -111,34 +110,33 @@
 #' @rdname fht
 #' @export
 
- ifht <- function (x, n = NROW(x)) {
+ifht <- function(x, n = NROW(x)) {
 
-   # check parameters
-   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
-     stop('x must be a numeric or vector or matrix')
-   }
+  # check parameters
+  if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
+    stop("x must be a numeric or vector or matrix")
+  }
 
-   if (is.vector(x)) {
-     vec <- TRUE
-     x <- as.matrix(x, ncol = 1)
-   } else {
-     vec <- FALSE
-   }
-   nr <- nrow(x)
-   ns <- ncol(x)
+  if (is.vector(x)) {
+    vec <- TRUE
+    x <- as.matrix(x, ncol = 1)
+  } else {
+    vec <- FALSE
+  }
+  nr <- nrow(x)
 
-   if(!isPosscal(n) || !isWhole(n)) {
-     stop("n must be a positive integer")
-   }
-   if (n != nr) {
-     x <- postpad(x, n)
-   }
+  if (!isPosscal(n) || !isWhole(n)) {
+    stop("n must be a positive integer")
+  }
+  if (n != nr) {
+    x <- postpad(x, n)
+  }
 
-   Y <- imvfft(x)
-   y <- Re(Y) + Im(Y)
+  Y <- imvfft(x)
+  y <- Re(Y) + Im(Y)
 
-   if (vec) {
-     y <- as.vector(y)
-   }
-   y
+  if (vec) {
+    y <- as.vector(y)
+  }
+  y
  }

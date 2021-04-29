@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200501 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Transform filter band edges
 #'
@@ -33,7 +33,7 @@
 #'   \tabular{lll}{
 #'      \strong{Transform}               \tab \strong{Zero at x}                   \tab \strong{Pole at x}  \cr
 #'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
-#'      \strong{Low-Pass}                 \tab  zero: \eqn{Fc x/C}                  \tab  pole: \eqn{Fc x/C} \cr
+#'      \strong{Low-Pass}                \tab  zero: \eqn{Fc x/C}                  \tab  pole: \eqn{Fc x/C} \cr
 #'      \eqn{S \rightarrow C S/Fc}       \tab  gain: \eqn{C/Fc}                    \tab  gain: \eqn{Fc/C}   \cr
 #'      -------------------------        \tab -------------------------            \tab ------------------------- \cr
 #'      \strong{High Pass}               \tab  zero: \eqn{Fc C/x}                  \tab  pole: \eqn{Fc C/x} \cr
@@ -171,11 +171,11 @@ sftrans.Arma <- function(Sz, w, stop = FALSE, ...)
 
 sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
 
-  if(is.null(Sz)) Sz <- 0   #GvB 20200428
+  if (is.null(Sz)) Sz <- 0   #GvB 20200428
   C <- 1
   p <- length(Sp)
   z <- length(Sz)
-  if (z > p || p == 0){
+  if (z > p || p == 0) {
     stop("must have at least as many poles as zeros in s-plane")
   }
 
@@ -191,15 +191,15 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
       ## ----------------  -------------------------  ------------------------
       Sg <- Sg * Re(prod(-Sz) / prod(-Sp))
       b <- (C * (Fh - Fl) / 2) / Sp
-      Sp <- c(b + sqrt(0i+b^2 - Fh * Fl), b - sqrt(0i+b^2 - Fh * Fl))
-      extend <- c(sqrt(0i+-Fh * Fl), -sqrt(0i+-Fh * Fl))
+      Sp <- c(b + sqrt(0i + b^2 - Fh * Fl), b - sqrt(0i + b^2 - Fh * Fl))
+      extend <- c(sqrt(0i + -Fh * Fl), -sqrt(0i + -Fh * Fl))
       if (is.null(Sz) || length(Sz) == 0) {
         Sz <- extend[1 + (1:(2 * p)) %% 2]
       } else {
         b <- (C * (Fh - Fl) / 2) / Sz
-        Sz <- c(b + sqrt(0i+b^2 - Fh * Fl), b - sqrt(0i+b^2 - Fh * Fl))
+        Sz <- c(b + sqrt(0i + b^2 - Fh * Fl), b - sqrt(0i + b^2 - Fh * Fl))
         if (p > z) {
-          Sz = c(Sz, extend[1 + ((1:2)*(p-z)) %% 2])
+          Sz <- c(Sz, extend[1 + ((1:2) * (p - z)) %% 2])
         }
       }
     } else {
@@ -209,16 +209,16 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
       ## S -> C --------   gain: C/(Fh-Fl)            gain: (Fh-Fl)/C
       ##        S(Fh-Fl)   b=x/C (Fh-Fl)/2            b=x/C (Fh-Fl)/2
       ## ----------------  -------------------------  ------------------------
-      Sg <- Sg * (C / (Fh - Fl))^(z - p)
+      Sg <- Sg * (C / (Fh - Fl)) ^ (z - p)
       b <- Sp * (Fh - Fl) / (2 * C)
-      Sp <- c(b + sqrt(0i+b^2 - Fh * Fl), b - sqrt(0i+b^2 - Fh * Fl))
+      Sp <- c(b + sqrt(0i + b^2 - Fh * Fl), b - sqrt(0i + b^2 - Fh * Fl))
       if (is.null(Sz) || length(Sz) == 0) {
         Sz <- numeric(p)
       } else {
         b <- Sz * (Fh - Fl) / (2 * C)
-        Sz <- c(b + sqrt(0i+b^2 - Fh * Fl), b - sqrt(0i+b^2 - Fh * Fl))
+        Sz <- c(b + sqrt(0i + b^2 - Fh * Fl), b - sqrt(0i + b^2 - Fh * Fl))
         if (p > z) {
-          Sz = c(Sz, numeric(p-z))
+          Sz <- c(Sz, numeric(p - z))
         }
       }
     }
@@ -237,7 +237,7 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
       } else {
         Sz <- C * Fc / Sz
         if (p > z) {
-          Sz = c(Sz, numeric(p-z))
+          Sz <- c(Sz, numeric(p - z))
         }
       }
     } else {
@@ -245,7 +245,7 @@ sftrans.default <- function(Sz, Sp, Sg, w, stop = FALSE, ...)  {
       ## Low Pass          zero: Fc x/C               pole: Fc x/C
       ## S -> C S/Fc       gain: C/Fc                 gain: Fc/C
       ## ----------------  -------------------------  ------------------------
-      Sg <- Sg * (C / Fc)^(z - p)
+      Sg <- Sg * (C / Fc) ^ (z - p)
       Sp <- Fc * Sp / C
       Sz <- Fc * Sz / C
     }

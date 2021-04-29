@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201011  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chirp Z-transform
 #'
@@ -50,10 +50,10 @@
 #' secs <- 10                                           # number of seconds
 #' t <- seq(0, secs, 1/fs)                              # time series
 #' x <- sin(100 * 2 * pi * t) + runif(length(t))        # 100 Hz signal + noise
-#' m <- 32                                              # number of points desired
-#' f0 <- 75; f1 <- 175;                                 # desired frequency range
+#' m <- 32                                              # n of points desired
+#' f0 <- 75; f1 <- 175;                                 # desired freq range
 #' w <- exp(-1i * 2 * pi * (f1 - f0) / ((m - 1) * fs))  # freq step of f1-f0/m
-#' a <- exp(1i * 2 * pi * f0 / fs);                     # starting at frequency f0
+#' a <- exp(1i * 2 * pi * f0 / fs);                     # starting at freq f0
 #' y <- czt(x, m, w, a)
 #'
 #' # compare DFT and FFT
@@ -84,11 +84,13 @@
 #'
 #' @export
 
-czt <- function (x, m = NROW(x), w = exp(complex(real = 0, imaginary = -2 * pi / m)), a = 1) {
+czt <- function(x, m = NROW(x),
+                w = exp(complex(real = 0, imaginary = -2 * pi / m)),
+                a = 1) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -98,31 +100,30 @@ czt <- function (x, m = NROW(x), w = exp(complex(real = 0, imaginary = -2 * pi /
     vec <- FALSE
   }
   n <- nrow(x)
-  ns <- ncol(x)
 
-  if(!isPosscal(m) || !isWhole(m)) {
+  if (!isPosscal(m) || !isWhole(m)) {
     stop("m must be a positive integer")
   }
 
-  if(!(is.numeric(w) || is.complex(w)) || length(w) != 1) {
+  if (!(is.numeric(w) || is.complex(w)) || length(w) != 1) {
     stop("w must be a single complex value")
   }
   w <- as.complex(w)
 
-  if(!(is.numeric(a) || is.complex(a)) || length(a) != 1) {
+  if (!(is.numeric(a) || is.complex(a)) || length(a) != 1) {
     stop("a must be a single complex value")
   }
   a <- as.complex(a)
 
   # indexing to make the statements a little more compact
   N <- seq(0, n - 1, 1) + n
-  NM = seq(-(n - 1), (m - 1), 1) + n
+  NM <- seq(- (n - 1), (m - 1), 1) + n
   M <- seq(0, m - 1, 1) + n
 
   nfft <- nextpow2(n + m - 1) # fft pad
-  W2 <- w^((seq(-(n - 1), max(m - 1, n - 1), 1)^2) / 2) # chirp
+  W2 <- w ^ ((seq(- (n - 1), max(m - 1, n - 1), 1)^2) / 2) # chirp
 
-  fg <- stats::mvfft(postpad(x * (a^-(N - n)) * W2[N], nfft))
+  fg <- stats::mvfft(postpad(x * (a ^ - (N - n)) * W2[N], nfft))
   fw <- stats::fft(postpad(1 / W2[NM], nfft))
   gg <- imvfft(fg * fw)
   y <-  gg[M, ] * W2[M]

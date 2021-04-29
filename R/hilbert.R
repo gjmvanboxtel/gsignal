@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200709  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Hilbert transform
 #'
@@ -50,14 +50,16 @@
 #' z <- hilbert(sin(2 * pi * 0.5 * t))
 #' plot(t, Re(z), type = "l", col="blue")
 #' lines (t, Im(z), col = "red")
-#' legend('topright', lty = 1, legend = c("Real", "Imag"), col = c("blue", "red"))
+#' legend('topright', lty = 1, legend = c("Real", "Imag"),
+#'        col = c("blue", "red"))
 #'
 #' ## the magnitude of the hilbert transform eliminates the carrier
 #' t <- seq(0, 10, length = 1024)
 #' x <- 5 * cos(0.2 * t) * sin(100 * t)
 #' plot(t, x, type = "l", col = "green")
 #' lines (t, abs(hilbert(x)), col = "blue")
-#' legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"), col = c("green", "blue"))
+#' legend('topright', lty = 1, legend = c("x", "|hilbert(x)|"),
+#'         col = c("green", "blue"))
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
 #'  Peter L. Soendergaard.\cr
@@ -74,11 +76,11 @@ hilbert <- function(x, n = ifelse(is.vector(x), length(x), nrow(x))) {
   if (!(is.vector(x) || is.matrix(x))) {
     stop("x must be a vector or a matrix")
   }
-  if(is.character(x)) {
+  if (is.character(x)) {
     stop("x must be a numeric vector or matrix")
   }
-  if(!is.numeric(x)) {
-    warning('imaginary parts discarded in coercion ')
+  if (!is.numeric(x)) {
+    warning("imaginary parts discarded in coercion")
     x <- Re(x)
   }
   if (!isPosscal(n)) {
@@ -89,14 +91,14 @@ hilbert <- function(x, n = ifelse(is.vector(x), length(x), nrow(x))) {
   x <- postpad(x, n)
 
   # construct multiplication vector
-  if (n%%2 == 0) {
+  if (n %% 2 == 0) {
     v <- c(1, rep(2, n / 2 - 1), 1, rep(0, n / 2 - 1))
   } else {
     v <- c(1, rep(2, (n - 1) / 2), rep(0, (n - 1) / 2))
   }
 
   # compute the Hilbert transform
-  if(is.vector(x)) {
+  if (is.vector(x)) {
     X <- stats::fft(x)
     Xv <- X * v
     y <- ifft(Xv)

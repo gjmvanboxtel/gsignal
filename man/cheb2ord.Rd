@@ -25,7 +25,8 @@ second.}
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-A list of class \code{'FilterSpecs'} with the following list elements:
+A list of class \code{'FilterSpecs'} with the following list
+  elements:
 \describe{
   \item{n}{filter order}
   \item{Wc}{cutoff frequency}

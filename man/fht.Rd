@@ -48,13 +48,13 @@ op <- par(mfrow = c(2, 1))
 plot(t, x, type = "l", xlab = "", ylab = "", main = "Signal")
 f <- seq(0, fs - (1 / fs), length.out = length(t))
 to <- which(f >= 5)[1]
-plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "", main = "Hartley Transform")
+plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "",
+     main = "Hartley Transform")
 par(op)
 
 x <- 1:10
 X <- fht(x)
-all.equal(x, ifht(X))
-# [1] TRUE
+## all.equal(x, ifht(X))
 
 }
 \references{

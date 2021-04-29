@@ -13,7 +13,7 @@ sampled2continuous(xn, fs, t)
 a positive scalar value. Default: 1}
 
 \item{t}{time points at which data is to be reconstructed, specified as a
-vector relatove to \code{x[0]} (not real time).}
+vector relative to \code{x[0]} (not real time).}
 }
 \value{
 Reconstructed signal x(t), returned as a vector.

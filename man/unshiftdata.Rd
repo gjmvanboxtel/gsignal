@@ -32,8 +32,9 @@ are useful for creating functions that work along a certain dimension, like
 
 ## create a 3x3 magic square
 x <- pracma::magic(3)
-## Shift the matrix x to work along the second dimension. The permutation vector,
-## perm, and the number of shifts, nshifts, are returned along with the shifted matrix.
+## Shift the matrix x to work along the second dimension.
+## The permutation vector, perm, and the number of shifts, nshifts,
+## are returned along with the shifted matrix.
 sd <- shiftdata(x, 2)
 
 ## Shift the matrix back to its original shape.
@@ -50,5 +51,5 @@ y <- unshiftdata(sd)
 }
 \author{
 Georgios Ouzounis, \email{ouzounis_georgios@hotmail.com}.\cr
-Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

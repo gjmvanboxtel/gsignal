@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Cross power spectral density
 #'
@@ -66,11 +66,11 @@
 #'     added to the positive side of the spectrum, but not at zero or Nyquist
 #'     (fs/2) frequencies. This keeps power equal in time and spectral domains.
 #'     If \code{x} is complex, then the whole frequency range is returned.}
-#'     \item{\code{cross}}{NULL for univariate series. For multivariate series, a
-#'     matrix containing the squared coherence between different series. Column
-#'     \eqn{i + (j - 1) * (j - 2)/2 } of \code{coh} contains the cross-spectral
-#'     estimates between columns \eqn{i} and \eqn{j} of \eqn{x}, where \eqn{i <
-#'     j}.}
+#'     \item{\code{cross}}{NULL for univariate series. For multivariate series,
+#'     a matrix containing the squared coherence between different series.
+#'     Column \eqn{i + (j - 1) * (j - 2)/2 } of \code{coh} contains the
+#'     cross-spectral estimates between columns \eqn{i} and \eqn{j} of \eqn{x},
+#'     where \eqn{i < j}.}
 #'   }
 #'
 #' @examples
@@ -98,10 +98,12 @@
 #' @rdname cpsd
 #' @export
 
-cpsd <- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
-                  nfft = ifelse(isScalar(window), window, length(window)),
-                  fs = 1,
-                  detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
+cpsd <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
+                 nfft = ifelse(isScalar(window), window, length(window)),
+                 fs = 1,
+                 detrend = c("long-mean", "short-mean",
+                             "long-linear", "short-linear",
+                             "none")) {
 
   pw <- pwelch(x, window, overlap, nfft, fs, detrend)
   rv <- list(freq = pw$freq, cross = pw$cross)

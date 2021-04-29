@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20201201 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sine wave
 #'
@@ -40,7 +40,7 @@
 #
 #' @export
 
-sinewave <- function (m, n = m, d = 0) {
+sinewave <- function(m, n = m, d = 0) {
 
   if (!isPosscal(m) || !isPosscal(n) || !isPosscal(d)) {
     stop("m, n, and d must be positive scalars")

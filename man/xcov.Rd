@@ -7,7 +7,7 @@
 xcov(
   x,
   y = NULL,
-  maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(length(x), length(y)) - 1),
+  maxlag = if (is.matrix(x)) nrow(x) - 1 else max(length(x), length(y)) - 1,
   scale = c("none", "biased", "unbiased", "coeff")
 )
 }

@@ -22,7 +22,7 @@
 # 20200402  GvB       Adapted to Octave filter conversion functions
 # 20200425  GvB       as.Arma.Zpg(): adapted zero pole gain to z p g
 # 20210603  GvB       as.Arma.Sos(): g = x$g instead of g = 1
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Autoregressive moving average (ARMA) model
 #'
@@ -37,17 +37,21 @@
 #' definitions for filter from the stats package and polyroot from the base
 #' package). For an analog model,
 #' \if{latex}{
-#'  \deqn{H(s) = (b_1 s^{(m-1)} + b_2 s^{(m-2)} + \ldots + b_m) / (a_1 s^{(n-1)} + a_2 s^{(n-2)} + \ldots + a_n)}
+#'  \deqn{H(s) = (b_1 s^{(m-1)} + b_2 s^{(m-2)} + \ldots + b_m) / (a_1 s^{(n-1)}
+#'  + a_2 s^{(n-2)} + \ldots + a_n)}
 #' }
 #' \if{html}{\preformatted{
-#'   H(s) = (b[1]*s^(m-1) + b[2]*s^(m-2) + ... + b[m]) / (a[1]*s^(n-1) + a[2]*s^(n-2) + ... + a[n])
+#'   H(s) = (b[1]*s^(m-1) + b[2]*s^(m-2) + ... + b[m]) / (a[1]*s^(n-1) +
+#'   a[2]*s^(n-2) + ... + a[n])
 #' }}
 #' For a z-plane digital model,
 #' \if{latex}{
-#'  \deqn{H(z) = (b_1 + b_2 z^{-1} + \ldots + b_m z^{(-m+1)}) / (a_1 + a_2 z^{-1} + \ldots + a_n z^{(-n+1)})}
+#'  \deqn{H(z) = (b_1 + b_2 z^{-1} + \ldots + b_m z^{(-m+1)}) / (a_1 + a_2
+#'  z^{-1} + \ldots + a_n z^{(-n+1)})}
 #' }
 #' \if{html}{\preformatted{
-#'   H(z) = (b[1] + b[2]*z^(-1) + … + b[m]*z^(-m+1)) / (a[1] + a[2]*z^(-1) + … + a[n]*z^(-n+1))
+#'   H(z) = (b[1] + b[2]*z^(-1) + … + b[m]*z^(-m+1)) / (a[1] + a[2]*z^(-1) + … +
+#'   a[n]*z^(-n+1))
 #' }}
 #'
 #'
@@ -123,4 +127,3 @@ as.Arma.Zpg <- function(x, ...) {
   ba <- zp2tf(x$z, x$p, x$g)
   Arma(ba$b, ba$a)
 }
-

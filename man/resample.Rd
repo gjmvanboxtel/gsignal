@@ -29,8 +29,8 @@ Resample using a polyphase algorithm.
 }
 \details{
 If \code{h} is not specified, this function will design an optimal FIR filter
-using a Kaiser-Bessel window. The filter length and the parameter \eqn{\beta} are
-computed based on ref [2], Chapter 7, Eq. 7.63 (p. 476), and Eq. 7.62 (p.
+using a Kaiser-Bessel window. The filter length and the parameter \eqn{\beta}
+are computed based on ref [2], Chapter 7, Eq. 7.63 (p. 476), and Eq. 7.62 (p.
 474), respectively.
 }
 \examples{

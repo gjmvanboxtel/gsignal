@@ -19,7 +19,7 @@ must be between 2 and 32}
 \item{signed}{Logical indicating signed or unsigned output. See Details.}
 }
 \value{
-Multidimensional array of the same siza as \code{u} containing signed
+Multidimensional array of the same size as \code{u} containing signed
   or unsigned integers.
 }
 \description{

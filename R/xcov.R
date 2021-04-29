@@ -18,7 +18,7 @@
 #
 # Version history
 # 2020313  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Cross-covariance
 #'
@@ -73,13 +73,15 @@
 #'
 #' @export
 
-xcov <- function (x, y = NULL, maxlag = ifelse(is.matrix(x), nrow(x) - 1, max(length(x), length(y)) - 1),
-                   scale = c("none", "biased", "unbiased", "coeff")) {
-  if(is.null(y)) {
+xcov <- function(x, y = NULL,
+                 maxlag = if (is.matrix(x)) nrow(x) - 1
+                 else max(length(x), length(y)) - 1,
+                 scale = c("none", "biased", "unbiased", "coeff")) {
+  if (is.null(y)) {
     ret <- xcorr(x - colMeans(as.matrix(x)), maxlag = maxlag, scale = scale)
   } else {
-    ret <- xcorr(x - colMeans(as.matrix(x)), y - colMeans(as.matrix(y)), maxlag = maxlag, scale = scale)
+    ret <- xcorr(x - colMeans(as.matrix(x)), y - colMeans(as.matrix(y)),
+                 maxlag = maxlag, scale = scale)
   }
   list(C = ret$R, lags = ret$lags)
 }
-

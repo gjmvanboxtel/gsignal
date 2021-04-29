@@ -21,7 +21,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20201118 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse Frequency Response
 #'
@@ -72,29 +72,34 @@
 #' err <- norm(hw$h - HW$h, type = "2")
 #' title(paste('L2 norm of frequency response error =', err))
 #'
-#' @author Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal Dupuis.\cr
-#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Julius O. Smith III, Rolf Schirmacher, Andrew Fitting, Pascal
+#'   Dupuis.\cr Conversion to R by Geert van Boxtel,
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references \url{https://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html} 
+#' @references
+#'   \url{https://ccrma.stanford.edu/~jos/filters/FFT_Based_Equation_Error_Method.html}
 #'
 #' @rdname invfreq
 #' @export
 
-invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
-                     method = c("ols", "tls", "qr"), norm = TRUE) {
+invfreq <- function(h, w, nb, na,
+                    wt = rep(1, length(w)),
+                    plane = c("z", "s"),
+                    method = c("ols", "tls", "qr"),
+                    norm = TRUE) {
 
   # Parameter checking
-  if(!is.vector(h)) {
+  if (!is.vector(h)) {
     stop("h must be a vector")
   }
-  if(!is.vector(w)) {
+  if (!is.vector(w)) {
     stop("h must be a vector")
   }
   nw <- length(w)
   if (length(h) != nw) {
     stop("h and f must be of equal length")
   }
-  if(!isPosscal(nb) || !isWhole(nb) || nb <= 0 ||
+  if (!isPosscal(nb) || !isWhole(nb) || nb <= 0 ||
      !isPosscal(na) || !isWhole(na) || na <= 0) {
     stop("na and nb must be positive integers > 0")
   }
@@ -105,12 +110,12 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
     zb <- 0
   }
   n <- max(na, nb)
-  m <- n + 1; ma <- na + 1; mb <- nb + 1
-  if(!is.vector(wt) || length(wt) != nw) {
+  ma <- na + 1; mb <- nb + 1
+  if (!is.vector(wt) || length(wt) != nw) {
     stop("wt must be a vector of the same length as w")
   }
-  plane = match.arg(plane)
-  method = match.arg(method)
+  plane <- match.arg(plane)
+  method <- match.arg(method)
   norm <- is.logical(norm)
   # End of parameter checking
 
@@ -131,8 +136,8 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   } else if (plane == "s") {
     wmax <- max(w)
     if (wmax > 1e6 && n > 5 && !norm) {
-      warning('Be careful, there are risks of generating singular matrices')
-      warning('Use norm = TRUE to avoid it')
+      warning("Be careful, there are risks of generating singular matrices")
+      warning("Use norm = TRUE to avoid it")
     }
     if (norm) {
       s <- 1i * w / wmax
@@ -183,48 +188,26 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   Rr <- Rr[, (1 + zb):ncol(Rr)]
   Rr <- rbind(Re(Rr), Im(Rr))
   Pr <- c(Re(h), Im(h))
-  ## normal equations -- keep for ref
-  ## Rn= [Ruu(1+zB:mB, 1+zB:mB), -Ryu(:, 1+zB:mB)';  -Ryu(:, 1+zB:mB), Ryy];
-  ## Pn= [Pu(1+zB:mB); -Py];
 
   if (method == "ols") {
-    ## avoid scaling errors with Theta = R\P;
-    ## [Q, R] = qr([Rn Pn]); Theta = R(1:end, 1:end-1)\R(1:end, end);
     R <- qr.R(qr(cbind(Rr, Pr)))
-    Theta <- pracma::mldivide(R[1:(nrow(R) - 1), 1:(ncol(R) - 1)], R[1:(nrow(R) - 1), ncol(R)])
-    ## SigN = R(end, end-1);
-    SigN <- R[nrow(R), ncol(R)]
+    Theta <- pracma::mldivide(R[1:(nrow(R) - 1), 1:(ncol(R) - 1)],
+                              R[1:(nrow(R) - 1), ncol(R)])
   } else if (method == "tls") {
-    ## [U, S, V] = svd([Rn Pn]);
-    ## SigN = S(end, end-1);
-    ## Theta =  -V(1:end-1, end)/V(end, end);
     SVD <- svd(cbind(Rr, Pr))
-    S <- SVD$d; V <- SVD$v
-    SigN <- S[length(S)]
+    V <- SVD$v
     Theta <-  -V[1:(nrow(V) - 1), ncol(V)] / V[nrow(V), ncol(V)]
   } else if (method == "qr") {
-    ## [Q, R] = qr([Rn Pn], 0);
-    ## solve the noised part -- DO NOT USE ECONOMY SIZE !
-    ## [U, S, V] = svd(R(nA+1:end, nA+1:end));
-    ## SigN = S(end, end-1);
-    ## Theta = -V(1:end-1, end)/V(end, end);
-    ## unnoised part -- remove B contribution and back-substitute
-    ## Theta = [R(1:nA, 1:nA)\(R(1:nA, end) - R(1:nA, nA+1:end-1)*Theta)
-    ##         Theta];
-    ## solve the noised part -- economy size OK as #rows > #columns
     R <- qr.R(qr(cbind(Rr, Pr)))
     eb <- mb - zb
     sa <- eb + 1
     SVD <- svd(R[sa:nrow(R), sa:ncol(R)])
-    S <- SVD$d
     V <- SVD$v
-    ## noised (A) coefficients
     Theta <- -V[1:(nrow(V) - 1), ncol(V)] / V[nrow(V), ncol(V)]
-    ## unnoised (B) part -- remove A contribution and back-substitute
     Theta <- c(
-      pracma::mldivide(R[1:eb, 1:eb], (R[1:eb, ncol(R)] - R[1:eb, sa:(ncol(R) - 1)] %*% Theta)),
-      Theta)
-    SigN <- S[length(S)]
+      pracma::mldivide(R[1:eb, 1:eb],
+                       (R[1:eb, ncol(R)] - R[1:eb, sa:(ncol(R) - 1)] %*%
+                          Theta)), Theta)
   } else {
     stop("unknown method")  #can never happen
   }
@@ -232,15 +215,15 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
   B <- c(rep(0, zb), Theta[1:(mb - zb)])
   A <- c(1, Theta[mb - zb + (1:na)])
 
-  if (plane == 's') {
+  if (plane == "s") {
     B <- rev(B)
     A <- rev(A)
-    if (norm) { # Frequencies were normalized -- unscale coefficients
-      Zk <- wmax^seq(n, 0, -1)
+    if (norm) {
+      Zk <- wmax ^ seq(n, 0, -1)
       for (k in seq(nb, 1 + zb, -1)) {
-        B[k] = B[k] / Zk[k]
+        B[k] <- B[k] / Zk[k]
       }
-      for (k in seq(na, 1. -1)) {
+      for (k in seq(na, 1, -1)) {
         A[k] <- A[k] / Zk[k]
       }
     }
@@ -250,16 +233,15 @@ invfreq <- function (h, w, nb, na, wt = rep(1, length(w)), plane = c("z", "s"),
 #' @rdname invfreq
 #' @export
 
-invfreqs <- function (h, w, nb, na, wt = rep(1, length(w)),
+invfreqs <- function(h, w, nb, na, wt = rep(1, length(w)),
                      method = c("ols", "tls", "qr"), norm = TRUE) {
-  invfreq(h, w, nb, na, wt, plane = 's', method, norm)
+  invfreq(h, w, nb, na, wt, plane = "s", method, norm)
 }
 
 #' @rdname invfreq
 #' @export
 
-invfreqz <- function (h, w, nb, na, wt = rep(1, length(w)),
+invfreqz <- function(h, w, nb, na, wt = rep(1, length(w)),
                      method = c("ols", "tls", "qr"), norm = TRUE) {
-  invfreq(h, w, nb, na, wt, plane = 'z', method, norm)
-
+  invfreq(h, w, nb, na, wt, plane = "z", method, norm)
 }

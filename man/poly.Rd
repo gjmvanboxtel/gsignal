@@ -26,9 +26,9 @@ is the row vector of the coefficients of \code{det (z * diag (N) - x)},
 which is the characteristic polynomial of \code{x}.
 }
 \examples{
-poly(c(1, -1))
-poly(pracma::roots(1:3))
-poly(matrix(1:9, 3, 3))
+p <- poly(c(1, -1))
+p <- poly(pracma::roots(1:3))
+p <- poly(matrix(1:9, 3, 3))
 
 }
 \seealso{

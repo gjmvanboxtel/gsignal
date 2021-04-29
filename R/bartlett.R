@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191209 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Bartlett window
 #'
@@ -46,9 +46,11 @@
 #
 #' @export
 
-bartlett <- function (n) {
+bartlett <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
 
   if (n == 1) {
     w <- 1

@@ -18,7 +18,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # 20191215 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Kaiser window
 #'
@@ -27,7 +27,8 @@
 #' The Kaiser, or Kaiser-Bessel, window is a simple approximation of the DPSS
 #' window using Bessel functions, discovered by James Kaiser.
 #' \if{latex}{
-#'   \deqn{w(x) = \frac{besselI(0, \beta \cdot \sqrt{(1 - (2*x/m)^{2}))}}{besselI(0, \beta)}; -m/2 <= x <= m/2}
+#'   \deqn{w(x) = \frac{besselI(0, \beta \cdot \sqrt{(1 -
+#'   (2*x/m)^{2}))}}{besselI(0, \beta)}; -m/2 <= x <= m/2}
 #' }
 #' \if{html}{\preformatted{
 #'         besselI(0, Beta * sqrt(1-(2*x/m)^2))
@@ -57,18 +58,20 @@
 #
 #' @export
 
-kaiser <- function (n, beta = 0.5) {
+kaiser <- function(n, beta = 0.5) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  if (!isScalar(beta) || !is.double(beta)) stop ("beta must be a real scalar")
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
+  if (!isScalar(beta) || !is.double(beta))
+    stop("beta must be a real scalar")
 
   if (n == 1) {
     w <- 1
   } else {
     N <- n - 1
     k <- (0:N)
-    k = 2 * beta / N * sqrt (k * (N - k))
-    w <- besselI(k, 0) / besselI(beta, 0);
+    k <- 2 * beta / N * sqrt(k * (N - k))
+    w <- besselI(k, 0) / besselI(beta, 0)
   }
   w
 }

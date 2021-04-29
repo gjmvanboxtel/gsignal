@@ -34,7 +34,8 @@ y1 <- gmonopuls(t, 0.1)
 y2 <- gmonopuls(t, 0.2)
 plot(t, y1, type="l", xlab = "Time", ylab = "Amplitude")
 lines(t, y2, col = "red")
-legend("topright", legend = c("fc = 0.1", "fc = 0.2"), lty = 1, col = c(1, 2))
+legend("topright", legend = c("fc = 0.1", "fc = 0.2"),
+       lty = 1, col = c(1, 2))
 
 }
 \author{

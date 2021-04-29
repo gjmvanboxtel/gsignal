@@ -20,7 +20,7 @@
 #
 # 20200527 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Elliptic Filter Order
 #'
@@ -41,7 +41,8 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #'
-#' @return A list of class \code{'FilterSpecs'} with the following list elements:
+#' @return A list of class \code{'FilterSpecs'} with the following list
+#'   elements:
 #' \describe{
 #'   \item{n}{filter order}
 #'   \item{Wc}{cutoff frequency}
@@ -68,11 +69,12 @@
 #'   Conversion to R by Tom Short,\cr
 #'   adapted by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @seealso \code{\link{buttord}}, \code{\link{cheb1ord}}, \code{\link{cheb2ord}}, \code{\link{ellip}}
+#' @seealso \code{\link{buttord}}, \code{\link{cheb1ord}},
+#'   \code{\link{cheb2ord}}, \code{\link{ellip}}
 #'
 #' @export
 
-ellipord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
+ellipord <- function(Wp, Ws, Rp, Rs, plane = c("z", "s")) {
 
   #input validation
   plane <- match.arg(plane)
@@ -132,7 +134,6 @@ ellipord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
         Wsw[1] <- Wpw[1] * Wpw[2] / Wsw[2]
       }
 
-      #w02 <- Wpw[1] * Wpw[2]
       wp <- Wpw[2] - Wpw[1]
       ws <- Wsw[2] - Wsw[1]
 
@@ -174,11 +175,11 @@ ellipord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
   k1 <- sqrt(1 - k^2)
   q0 <- (1 / 2) * ((1 - sqrt(k1)) / (1 + sqrt(k1)))
   q <- q0 + 2 * q0^5 + 15 * q0^9 + 150 * q0^13
-  D <- (10^(0.1 * Rs) - 1) / (10^(0.1 * Rp) - 1)
+  D <- (10 ^ (0.1 * Rs) - 1) / (10 ^ (0.1 * Rp) - 1)
 
   n <- ceiling(log10(16 * D) / log10(1 / q))
 
-  if (plane == "s"){
+  if (plane == "s") {
     # No prewarp in case of analog filter
     Wc <- Wpw
   } else {
@@ -188,4 +189,3 @@ ellipord <- function (Wp, Ws, Rp, Rs, plane = c("z", "s")) {
 
   FilterSpecs(n = n, Wc = Wc, type = type, plane = plane, Rp = Rp, Rs = Rs)
 }
-

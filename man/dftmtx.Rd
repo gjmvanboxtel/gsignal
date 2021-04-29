@@ -32,8 +32,8 @@ x <- seq_len(256)
 y1 <- stats::fft(x)
 n <- length(x)
 y2 <- drop(x \%*\% dftmtx(n))
-max(abs(y1 - y2))
-# [1] 1.201692e-10
+mx <- max(abs(y1 - y2))
+# [1] 1.455416e-11
 
 }
 \seealso{

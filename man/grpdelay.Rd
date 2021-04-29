@@ -55,17 +55,19 @@ should factor into a small number of small primes. Default: 512.}
 \item{whole}{FALSE (the default) to evaluate around the upper half of the
 unit circle or TRUE to evaluate around the entire unit circle.}
 
-\item{fs}{sampling frequency in Hz. If not specified, the frequencies are in radians.}
+\item{fs}{sampling frequency in Hz. If not specified, the frequencies are in
+radians.}
 }
 \value{
 A list of class \code{grpdelay} with items:
 \describe{
   \item{gd}{the group delay, in units of samples. It can be converted to
-    seconds by multiplying by the sampling period (or dividing by the sampling
-    rate fs).}
+  seconds by multiplying by the sampling period (or dividing by the sampling
+  rate fs).}
   \item{w}{frequencies at which the group delay was calculated.}
   \item{ns}{number of points at which the group delay was calculated.}
-  \item{Hzflag}{TRUE for frequencies in Hz, FALSE for frequencies in radians.}
+  \item{Hzflag}{TRUE for frequencies in Hz, FALSE for frequencies in
+  radians.}
 
 }
 }
@@ -82,7 +84,7 @@ zeros very close to the unit circle in the z plane.)
 b <- poly(c(1 / 0.9 * exp(1i * pi * 0.2), 0.9 * exp(1i * pi * 0.6)))
 a <- poly(c(0.9 * exp(-1i * pi * 0.6), 1 / 0.9 * exp(-1i * pi * 0.2)))
 gpd <- grpdelay(b, a, 512, whole = TRUE, fs = 1)
-print(gpd)
+## print(gpd)
 plot(gpd)
 
 }

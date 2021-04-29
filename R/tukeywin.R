@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200101 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Tukey (tapered cosine) window
 #'
@@ -61,9 +61,10 @@
 #
 #' @export
 
-tukeywin <- function (n, r = 1/2) {
+tukeywin <- function(n, r = 1 / 2) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
   if (r > 1) {
     r <- 1
   } else if (r < 0) {
@@ -73,7 +74,7 @@ tukeywin <- function (n, r = 1/2) {
   if (r == 0) {
     w <- rep(1L, n)
   } else if (r == 1) {
-    w <- hann (n)
+    w <- hann(n)
   } else {
     if (n == 1) {
       w <- 1
@@ -85,7 +86,7 @@ tukeywin <- function (n, r = 1/2) {
       if (!any(idx > length(w))) {
         w[idx] <- 1
       }
-      w <- c(w, rep(1, n%%2),  rev(w))
+      w <- c(w, rep(1, n %% 2),  rev(w))
     }
   }
   w

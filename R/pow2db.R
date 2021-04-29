@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201105  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Power - decibel conversion
 #'
@@ -30,8 +30,8 @@
 #' @return Converted data, same type and dimensions as \code{x}.
 #'
 #' @examples
-#' pow2db(c(0, 10, 100))
-#' db2pow(c(-10, 0, 10))
+#' db <- pow2db(c(0, 10, 100))
+#' pow <- db2pow(c(-10, 0, 10))
 #'
 #' @author P. Sudeepam\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -39,7 +39,7 @@
 #' @rdname pow2db
 #' @export
 
-pow2db <- function (x) {
+pow2db <- function(x) {
 
   if (!(is.numeric(x) || is.complex(x))) {
     stop("x must be a numeric or complex vector, matrix, or array")
@@ -53,6 +53,6 @@ pow2db <- function (x) {
 #' @rdname pow2db
 #' @export
 
-db2pow <- function (x) {
-  10^(x / 10)
+db2pow <- function(x) {
+  10 ^ (x / 10)
 }

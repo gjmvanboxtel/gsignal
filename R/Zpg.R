@@ -17,8 +17,8 @@
 # Version history
 # 20200127  GvB       setup for gsignal v0.1.0
 # 20200402  GvB       adapted to Octave filter conversion functions
-# 20200406  GvB       change parameter names to z, p, g; added extensive example
-#---------------------------------------------------------------------------------------------------------------------
+# 20200406  GvB       change parameter names to z, p, g; added example
+#------------------------------------------------------------------------------
 
 #' Zero pole gain model
 #'
@@ -57,9 +57,7 @@
 #'
 #' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
 #' zplane(zpg)
-#'
-#' ba <- as.Arma(zpg)
-#' freqz(ba)
+#' freqz(zpg)
 #'
 #' ## Sharper edges: increase distance between zeros and poles
 #' r = 0.8
@@ -67,8 +65,7 @@
 #' p2 <- r * exp(1i * -w)
 #' zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
 #' zplane(zpg)
-#' ba <- as.Arma(zpg)
-#' freqz(ba)
+#' freqz(zpg)
 #'
 #' @author Tom Short, \email{tshort@@eprisolutions.com},\cr
 #'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.

@@ -16,7 +16,7 @@
 #
 # Version history
 # 20200828  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Complex cepstral analysis
 #'
@@ -30,7 +30,8 @@
 #'
 #' The cepstrum is used in many variants. Most important are the power cepstrum,
 #' the complex cepstrum, and real cepstrum. The function \code{cceps} implements
-#' the complex cepstrum by computing the inverse of the log-transformed FFT, i.e.,
+#' the complex cepstrum by computing the inverse of the log-transformed FFT,
+#' i.e.,
 #'
 #' \deqn{cceps(x) <- ifft(log(fft(x)))}
 #'
@@ -72,7 +73,7 @@
 #
 #' @export
 
-cceps <- function (x) {
+cceps <- function(x) {
 
   if (!is.vector(x) || !is.numeric(x)) {
     stop("x must be a numeric vector")
@@ -80,7 +81,7 @@ cceps <- function (x) {
 
   X <- stats::fft(x)
   if (min(abs(X)) == 0) {
-    stop("signal has Fourier coefficients equal to 0");
+    stop("signal has Fourier coefficients equal to 0")
   }
   uw <- unwrap(Arg(X))
   logX <- complex(real = log(Mod(X)), imaginary = uw)

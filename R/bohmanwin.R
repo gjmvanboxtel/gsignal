@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191209 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Bohman window
 #'
@@ -45,16 +45,20 @@
 #
 #' @export
 
-bohmanwin <- function (n) {
+bohmanwin <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
 
   if (n == 1) {
     w <- 1
   } else {
     N <- n - 1
     k <- (-N / 2):(N / 2)
-    w <- (1 - 2 * abs(k) / N) * cos(2 * pi * abs(k) / N) + (1 / pi) * sin(2 * pi * abs(k) / N)
+    w <- (1 - 2 * abs(k) / N) *
+      cos(2 * pi * abs(k) / N) + (1 / pi) *
+      sin(2 * pi * abs(k) / N)
     w[1] <- w[length(w)] <- 0
   }
   w

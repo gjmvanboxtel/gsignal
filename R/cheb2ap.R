@@ -1,7 +1,7 @@
 # buttap.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
-# Copyright (C) 2013 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2013 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,11 +18,12 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200519 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chebyshev Type II filter prototype
 #'
-#' Return the poles and gain of an analog Chebyshev Type II lowpass filter prototype.
+#' Return the poles and gain of an analog Chebyshev Type II lowpass filter
+#' prototype.
 #'
 #' This function exists for Matlab/OCtave compatibility only, and is equivalent
 #' to \code{cheby2(n, Rp, 1, "low", "s")}.
@@ -30,7 +31,8 @@
 #' @param n Order of the filter.
 #' @param Rs dB of stopband ripple.
 #'
-#' @return list of class \code{\link{Zpg}} containing poles and gain of the filter
+#' @return list of class \code{\link{Zpg}} containing poles and gain of the
+#'   filter
 #'
 #' @examples
 #' ## 9th order Chebyshev type II low-pass analog filter
@@ -38,14 +40,15 @@
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#' @author Carne Draug, \email{carandraug+dev@@gmail.com}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-cheb2ap <- function (n, Rs) {
+cheb2ap <- function(n, Rs) {
 
-  if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n))
+    stop("n must be an integer strictly positive")
   if (!isPosscal(Rs) || !is.numeric(Rs)) {
     stop("passband ripple Rp must a non-negative scalar")
   }

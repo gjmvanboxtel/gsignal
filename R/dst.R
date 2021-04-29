@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201016  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Discrete Sine Transform
 #'
@@ -69,11 +69,11 @@
 #'
 #' @export
 
- dst <- function (x, n = NROW(x)) {
+ dst <- function(x, n = NROW(x)) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !(is.numeric(x) || is.complex(x))) {
-    stop('x must be a numeric or complex vector or matrix')
+    stop("x must be a numeric or complex vector or matrix")
   } else {
     realx <- is.numeric(x)
   }
@@ -87,7 +87,7 @@
   nr <- nrow(x)
   nc <- ncol(x)
 
-  if(!isPosscal(n) || !isWhole(n)) {
+  if (!isPosscal(n) || !isWhole(n)) {
     stop("n must be a positive integer")
   }
 
@@ -95,7 +95,8 @@
     x <- postpad(x, n)
   }
 
-  y <- stats::mvfft(rbind(rep(0, nc), x, rep(0, nc), -matrix(pracma::flipud(x), ncol = nc))) / -2i
+  y <- stats::mvfft(rbind(rep(0, nc), x, rep(0, nc),
+                          -matrix(pracma::flipud(x), ncol = nc))) / -2i
   y <- y[2:(nr + 1), , drop = FALSE]
 
   if (realx) {

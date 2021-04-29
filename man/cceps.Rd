@@ -24,7 +24,8 @@ harmonic frequencies (partials, overtones).
 
 The cepstrum is used in many variants. Most important are the power cepstrum,
 the complex cepstrum, and real cepstrum. The function \code{cceps} implements
-the complex cepstrum by computing the inverse of the log-transformed FFT, i.e.,
+the complex cepstrum by computing the inverse of the log-transformed FFT,
+i.e.,
 
 \deqn{cceps(x) <- ifft(log(fft(x)))}
 

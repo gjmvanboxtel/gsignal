@@ -2,7 +2,7 @@
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Original Octave function:
 # Copyright (C) 2007 R.G.H. Eschauzier <reschauzier@yahoo.com>
-# Copyright (C) 2011 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2011 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200622  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Inverse impulse invariance method
 #'
@@ -44,10 +44,10 @@
 #' but <- butter(6, 2 * pi * f, 'low', 's')
 #' zbut <- impinvar(but, fs)
 #' sbut <- invimpinvar(zbut, fs)
-#' all.equal(but, sbut, tolerance = 1e-7)
+#' ## all.equal(but, sbut, tolerance = 1e-7)
 #'
 #' @author R.G.H. Eschauzier, \email{reschauzier@@yahoo.com},\cr
-#'  Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#'  Carne Draug, \email{carandraug+dev@@gmail.com}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}
 #'
 #' @seealso \code{\link{impinvar}}
@@ -64,7 +64,7 @@ invimpinvar <- function(b, ...) UseMethod("invimpinvar")
 #' @export
 
 invimpinvar.Arma <- function(b, ...)
-  invimpinvar (b$b, b$a, ...)
+  invimpinvar(b$b, b$a, ...)
 
 #' @rdname invimpinvar
 #' @export
@@ -79,57 +79,55 @@ invimpinvar.default <- function(b, a, fs = 1, tol = 0.0001, ...) {
   }
   ts <- 1 / fs
 
-  b <- c(b, 0)                  # so we can calculate in z instead of z^-1
-  rpk_in <- residue(b, a)       # partial fraction expansion
-  n <- length(rpk_in$r)         # Number of poles/residues
+  b <- c(b, 0)
+  rpk_in <- residue(b, a)
+  n <- length(rpk_in$r)
 
-  if (length(rpk_in$k) > 1) {   # Greater than one means we cannot do impulse invariance
+  if (length(rpk_in$k) > 1) {
     stop("Order numerator > order denominator")
   }
 
-  r_out  <- rep(0L, n)          # Residues of H(s)
-  sm_out <- rep(0L, n)          # Poles of H(s)
+  r_out  <- rep(0L, n)
+  sm_out <- rep(0L, n)
 
   i <- 1
   while (i <= n) {
     m <- 1
-    first_pole <- rpk_in$p[i]                                        # Pole in the z-domain
-    while (i < n && abs(first_pole - rpk_in$p[i + 1]) < tol) {       # Multiple poles at p(i)
-      i <- i + 1    # Next residue
-      m <- m + 1    # Next multiplicity
+    first_pole <- rpk_in$p[i]
+    while (i < n && abs(first_pole - rpk_in$p[i + 1]) < tol) {
+      i <- i + 1
+      m <- m + 1
     }
-    rpk_out      <- inv_z_res(rpk_in$r[(i - m + 1):i], first_pole, ts)   # Find s-domain residues
-    rpk_in$k <- rpk_in$k - rpk_out$k                                     # Just to check, should end up zero for physical system
-    sm_out[(i - m + 1):i] <- rpk_out$p                                   # Copy s-domain pole(s) to output
-    r_out[(i - m + 1):i]  <- rpk_out$r                                   # Copy s-domain residue(s) to output
+    rpk_out      <- inv_z_res(rpk_in$r[(i - m + 1):i], first_pole, ts)
+    rpk_in$k <- rpk_in$k - rpk_out$k
+    sm_out[(i - m + 1):i] <- rpk_out$p
+    r_out[(i - m + 1):i]  <- rpk_out$r
 
-    i <- i + 1 # Next z-domain residue/pole
+    i <- i + 1
   }
-  ba <- inv_residue(r_out, sm_out , 0, tol)
-  a    <- zapIm(ba$a)                                        # Get rid of spurious imaginary part
+  ba <- inv_residue(r_out, sm_out, 0, tol)
+  a    <- zapIm(ba$a)
   b    <- zapIm(ba$b)
   b <- polyreduce(zapsmall(b))
   Arma(b, a)
 }
 
 ## Inverse function of z_res (see impinvar source)
-
 inv_z_res <- function(r_in, p_in, ts) {
 
-  n    <- length(r_in)                                                     # multiplicity of the pole
+  n    <- length(r_in)
   r_out <- rep(0L, n)
 
   j <- n
-  while (j > 1) {                                                          # Go through residues starting from highest order down
-    r_out[j]   <- r_in[j] / ((ts * p_in)^j)                                # Back to binomial coefficient for highest order (always 1)
-    r_in[1:j] <- r_in[1:j] - r_out[j] * rev(h1_z_deriv(j -1 , p_in, ts))   # Subtract highest order result, leaving r_in(j) zero
+  while (j > 1) {
+    r_out[j]   <- r_in[j] / ((ts * p_in)^j)
+    r_in[1:j] <- r_in[1:j] - r_out[j] * rev(h1_z_deriv(j - 1, p_in, ts))
     j <- j - 1
   }
 
-  ## Single pole (no multiplicity)
   r_out[1] <- r_in[1] / ((ts * p_in))
   k_out    <- r_in[1] / p_in
-  sm_out   = log(p_in) / ts
+  sm_out   <- log(p_in) / ts
 
   list(r = r_out, p = sm_out, k = k_out)
 }

@@ -80,9 +80,9 @@ coefs <- arburg(y, 4)
 
 }
 \references{
-[1] Burg, J.P. (1968) A new analysis technique for
-  time series data, NATO advanced study Institute on Signal Processing with
-  Emphasis on Underwater Acoustics, Enschede, Netherlands, Aug. 12-23, 1968.\cr
+[1] Burg, J.P. (1968) A new analysis technique for time series
+  data, NATO advanced study Institute on Signal Processing with Emphasis on
+  Underwater Acoustics, Enschede, Netherlands, Aug. 12-23, 1968.\cr
   [2] Seghouane, A. and Bekara, M. (2004). A small sample model selection
   criterion based on Kullback’s symmetric divergence. IEEE Trans. Sign.
   Proc., 52(12), pp 3314-3323,

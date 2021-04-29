@@ -11,7 +11,7 @@ schtrig(x, lvl, st = NULL)
 vector it represents a single signal; in case of a matrix each column is a
 signal.}
 
-\item{lvl}{threshold levels against whoch \code{x} is compared, specified as
+\item{lvl}{threshold levels against which \code{x} is compared, specified as
 a vector. If this is a scalar, the thresholds are symmetric around 0, i.e.
 \code{c(-lvl, lvl)}.}
 

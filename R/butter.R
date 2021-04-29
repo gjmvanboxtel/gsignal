@@ -23,8 +23,9 @@
 # 20200513 Geert van Boxtel           First version for v0.1.0
 # 20200519 Geert van Boxtel           Added plane parameter to butter.IIRfspec
 # 20200708 GvB                        renamed IIRfspec to FilterSpecs
-# 20210308 GvB                        bug in passing w to sftrans; added output parameter ("ba', "zpg", "Sos")
-#---------------------------------------------------------------------------------------------------------------------------------
+# 20210308 GvB                        bug in passing w to sftrans;
+#                                     added output parameter
+#------------------------------------------------------------------------------
 
 #' Butterworth filter design
 #'
@@ -49,7 +50,8 @@
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param output Type of output, one of:
 #' \describe{
-#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka b/a)}
+#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+#'   b/a)}
 #'   \item{Zpg}{Zero-pole-gain format}
 #'   \item{Sos}{Second-order sections}
 #' }
@@ -111,8 +113,10 @@ butter.FilterSpecs <- function(n, ...)
 #' @rdname butter
 #' @export
 
-butter.default <- function (n, w, type = c("low", "high", "stop", "pass"), 
-                            plane = c("z", "s"), output = c("Arma", "Zpg", "Sos"), ...) {
+butter.default <- function(n, w,
+                           type = c("low", "high", "stop", "pass"),
+                           plane = c("z", "s"),
+                           output = c("Arma", "Zpg", "Sos"), ...) {
 
   # check input arguments
   type <- match.arg(type)
@@ -124,7 +128,8 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"),
   stop <- type == "stop" || type == "high"
   digital <- plane == "z"
   if (!is.vector(w) || (length(w) != 1 && length(w) != 2)) {
-    stop("frequency w must be specified as a vector of length 1 or 2 (either w0 or c(w0, w1))")
+    stop(paste("frequency w must be specified as a vector of length 1 or 2",
+               "(either w0 or c(w0, w1))"))
   }
   if ((type == "stop" || type == "pass") &&  length(w) != 2) {
     stop("w must be two elements for stop and bandpass filters")
@@ -138,14 +143,14 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"),
   ## Prewarp to the band edges to s plane
   if (digital) {
     T <- 2                    # sampling frequency of 2 Hz
-    w <- 2 / T * tan (pi * w / T)
+    w <- 2 / T * tan(pi * w / T)
   }
 
   ## Generate splane poles for the prototype Butterworth filter
   ## source: Kuc
   C <- 1                      # default cutoff frequency
   pole <- C * exp(1i * pi * (2 * 1:n + n - 1) / (2 * n))
-  if (n %% 2 == 1){
+  if (n %% 2 == 1) {
     pole[(n + 1) / 2] <- -1   # pure real value at exp(i*pi)
   }
   zero <- numeric(0)
@@ -168,7 +173,5 @@ butter.default <- function (n, w, type = c("low", "high", "stop", "pass"),
   } else {
     retval <- zpg
   }
-  
   retval
-
 }

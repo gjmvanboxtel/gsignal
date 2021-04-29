@@ -30,7 +30,7 @@ neighborhood size is equal to the value of \code{MinPeakDistance}. Default:
 
 \item{MinPeakWidth}{Minimum width of peaks (positive integer). The width of
 the peaks is estimated using a parabola fitted to the neighborhood of each
-peak. The width is caulculated with the formula \eqn{a * (width - x0)^{2} =
+peak. The width is calculated with the formula \eqn{a * (width - x0)^{2} =
 1}, where a is the the concavity of the parabola and x0 its vertex.
 Default: 1.}
 
@@ -51,7 +51,8 @@ A list containing the following elements:
   The list has two fields, \code{x} and \code{pp}. The field \code{pp}
   contains the coefficients of the 2nd degree polynomial and \code{x} the
   extrema of the interval where it was fitted.}
-  \item{height}{The estimated height of the returned peaks (in units of data).}
+  \item{height}{The estimated height of the returned peaks (in units of
+  data).}
   \item{baseline}{The height at which the roots of the returned peaks were
   calculated (in units of data).}
   \item{roots}{The abscissa values (in index units) at which the parabola
@@ -68,8 +69,9 @@ negative part. \code{data} is expected to be a one-dimensional vector.
 }
 \examples{
 ### demo 1
-t <- 2*pi*seq(0,1,length=1024)
-y <- sin(3.14*t) + 0.5*cos(6.09*t) + 0.1*sin(10.11*t+1/6) + 0.1*sin(15.3*t+1/3)
+t <- 2 * pi * seq(0, 1,length = 1024)
+y <- sin(3.14 * t) + 0.5 * cos(6.09 * t) +
+     0.1 * sin(10.11 * t + 1 / 6) + 0.1 * sin(15.3 * t + 1 / 3)
 
 data1 <- abs(y) # Positive values
 peaks1 <- findpeaks(data1)
@@ -79,19 +81,21 @@ peaks2 <- findpeaks(data2, DoubleSided = TRUE)
 peaks3 <- findpeaks (data2, DoubleSided = TRUE, MinPeakHeight = 0.5)
 
 op <- par(mfrow=c(1,2))
-plot(t,data1,type="l", xlab="", ylab="")
-points (t[peaks1$loc],peaks1$pks,col="red", pch=1)
-plot(t,data2,type="l", xlab="", ylab="")
-points (t[peaks2$loc],peaks2$pks,col="red", pch=1)
-points (t[peaks3$loc],peaks3$pks,col="red", pch=4)
-legend ("topleft", '0: >2*sd, x: >0.5', bty="n", text.col="red")
+plot(t, data1, type="l", xlab="", ylab="")
+points(t[peaks1$loc], peaks1$pks, col = "red", pch = 1)
+plot(t, data2, type = "l", xlab = "", ylab = "")
+points(t[peaks2$loc], peaks2$pks, col = "red", pch = 1)
+points(t[peaks3$loc], peaks3$pks, col = "red", pch = 4)
+legend ("topleft", "0: >2*sd, x: >0.5", bty = "n",
+        text.col = "red")
 par (op)
 title("Finding the peaks of smooth data is not a big deal")
 
-### demo 2
-t <- 2*pi*seq(0,1,length=1024)
-y <- sin(3.14*t) + 0.5*cos(6.09*t) + 0.1*sin(10.11*t+1/6) + 0.1*sin(15.3*t+1/3)
-data <- abs(y + 0.1*rnorm(length(y),1))               # Positive values + noise
+## demo 2
+t <- 2 * pi * seq(0, 1, length = 1024)
+y <- sin(3.14 * t) + 0.5 * cos(6.09 * t) + 0.1 *
+     sin(10.11 * t + 1 / 6) + 0.1 * sin(15.3 * t + 1 / 3)
+data <- abs(y + 0.1*rnorm(length(y),1))   # Positive values + noise
 peaks1 <- findpeaks(data, MinPeakHeight=1)
 dt <- t[2]-t[1]
 peaks2 <- findpeaks(data, MinPeakHeight=1, MinPeakDistance=round(0.5/dt))
@@ -101,8 +105,9 @@ points (t[peaks1$loc],peaks1$pks,col="red", pch=1)
 plot(t, data, type="l", xlab="", ylab="")
 points (t[peaks2$loc],peaks2$pks,col="red", pch=1)
 par (op)
-title(paste("Noisy data may need tuning of the parameters. In the 2nd example,\n",
-            "MinPeakDistance is used as a smoother of the peaks"))
+title(paste("Noisy data may need tuning of the parameters.\n",
+            "In the 2nd example, MinPeakDistance is used\n",
+            "as a smoother of the peaks"))
 
 }
 \author{

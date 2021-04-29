@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20201116 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Ultraspherical window
 #'
@@ -59,8 +59,10 @@
 #' where C is the Ultraspherical (a.k.a. Gegenbauer) polynomial, which can be
 #' defined using the recurrence relationship:
 #'  \if{latex}{
-#'    \deqn{C_{m}^{l}(x) = \frac{1}{m} (2x(m+l-1) C_{m-1}^{l}(x) - (m+2l-2) C_{m-2}^{l}(x))}
-#'    for \eqn{m} and integer > 1, and \eqn{C_{0}^{l}(x) = 1}, \eqn{C_{1}^{l}(x) = 2 lx}.
+#'    \deqn{C_{m}^{l}(x) = \frac{1}{m} (2x(m+l-1) C_{m-1}^{l}(x) - (m+2l-2)
+#'    C_{m-2}^{l}(x))}
+#'    for \eqn{m} and integer > 1, and \eqn{C_{0}^{l}(x) = 1}, \eqn{C_{1}^{l}(x)
+#'    = 2 lx}.
 #'  }
 #' \if{html}{\preformatted{
 #'      (l)    1                  (l)                    (l)
@@ -143,7 +145,9 @@
 #' ## Compare ultraspherical, Dolph-Chebyshev and Kaiser windows
 #' x <- y <- NULL
 #' for (i in 1:3) {
-#'   w <- switch(i, ultrwin(153, 0.5, 2.6, "beta"), ultrwin(165, 0, 2.73, "beta"), kaiser(159, 7.91))
+#'   w <- switch(i, ultrwin(153, 0.5, 2.6, "beta"),
+#'                  ultrwin(165, 0, 2.73, "beta"),
+#'                  kaiser(159, 7.91))
 #'   fz <- freqz(w, fs = 1.2 * pi)
 #'   x <- cbind(x, fz$w)
 #'   y <- cbind(y, 20 * log10(abs(fz$h) / abs(fz$h[1])))
@@ -159,24 +163,29 @@
 #' @author Rob Sykes, \email{robs@@users.sourceforge.net}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @references [1] Bergen, S.W.A., Antoniou, A. (2004). Design of Ultraspherical Window Functions
-#' with Prescribed Spectral Characteristics. EURASIP J. Appl. Sign. Proc. 13, 2053-2065\cr
+#' @references [1] Bergen, S.W.A., Antoniou, A. (2004). Design of Ultraspherical
+#'   Window Functions with Prescribed Spectral Characteristics. EURASIP J. Appl.
+#'   Sign. Proc. 13, 2053-2065\cr
 #' [2] \url{https://en.wikipedia.org/wiki/Window_function#Ultraspherical_window}
 #
 #' @export
 
-ultrwin <- function (n, mu, pvalue, ptype = "beta") {
+ultrwin <- function(n, mu, pvalue, ptype = "beta") {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop ("n must be a positive integer")
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be a positive integer")
   mu <- as.double(mu)
-  if (!isScalar(mu)) stop ("mu must be a real scalar")
+  if (!isScalar(mu))
+    stop("mu must be a real scalar")
   pvalue <- as.double(pvalue)
-  if (!isScalar(pvalue)) stop ("paramater value must be a real scalar")
+  if (!isScalar(pvalue))
+    stop("paramater value must be a real scalar")
   types <- c("xmu", "beta", "att", "latt")
-  ptype = match.arg(ptype, types)
+  ptype <- match.arg(ptype, types)
 
 
-  w <- .Call("_gsignal_ultrwin", PACKAGE = "gsignal", n, mu, pvalue, which(types == ptype) - 1, 0L)
+  w <- .Call("_gsignal_ultrwin", PACKAGE = "gsignal",
+             n, mu, pvalue, which(types == ptype) - 1, 0L)
   if (is.null(w)) {
     stop("Parameter(s) out of range")
   }

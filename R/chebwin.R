@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191211 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chebyshev window
 #'
@@ -26,7 +26,8 @@
 #'
 #' The window is described in frequency domain by the expression:
 #' \if{latex}{
-#'   \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1, \beta)}}
+#'   \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1,
+#'   \beta)}}
 #' }
 #' \if{html}{\preformatted{
 #'                 Cheb(m-1, Beta * cos(\pi * k/m))
@@ -64,16 +65,18 @@
 #
 #' @export
 
-chebwin <- function (n, at = 100) {
+chebwin <- function(n, at = 100) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
-  if (!isScalar(at) || ! is.double(at) || n <= 0) stop ("at must be a real scalar")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
+  if (!isScalar(at) || ! is.double(at) || n <= 0)
+    stop("at must be a real scalar")
 
   if (n == 1) {
     w <- 1
   } else {
     ## beta calculation
-    gamma <- 10^(-at / 20)
+    gamma <- 10 ^ (-at / 20)
     beta <- cosh(1 / (n - 1) * acosh(1 / gamma))
 
     ## freq. scale
@@ -91,7 +94,7 @@ chebwin <- function (n, at = 100) {
       w <- c(w[M:2], w)
     } else {
       ## half-sample delay (even order)
-      p <- p * exp(1i * pi / n * (0:(n-1)))
+      p <- p * exp(1i * pi / n * (0:(n - 1)))
       w <- Re(stats::fft(p))
       M <- n / 2 + 1
       w <- w / w[2]

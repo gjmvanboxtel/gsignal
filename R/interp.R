@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201121  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Interpolation
 #'
@@ -42,7 +42,7 @@
 #' t <- seq(0, 2, 0.01)
 #' x <- chirp(t, 2, .5, 10,'quadratic') + sin(2 * pi * t * 0.4)
 #' w <- seq(1, 121, 4)
-#' plot(t[w] * 1000, x[w], type = "h", xlab = "", yllab = "")
+#' plot(t[w] * 1000, x[w], type = "h", xlab = "", ylab = "")
 #' points(t[w] * 1000, x[w])
 #' abline (h = 0)
 #' y <- interp(x[seq(1, length(x), 4)], 4, 4, 1)
@@ -58,24 +58,24 @@
 #
 #' @export
 
-interp <- function (x, q, n = 4, Wc = 0.5) {
+interp <- function(x, q, n = 4, Wc = 0.5) {
 
   if (!is.numeric(x) || !is.vector(x)) {
-    stop('x must be a numeric vector')
+    stop("x must be a numeric vector")
   }
   if (!(isPosscal(q) && isWhole(q))) {
-    stop('q must be a positive integer')
+    stop("q must be a positive integer")
   }
   if (!(isPosscal(n) && isWhole(n))) {
-    stop('n must be a positive integer')
+    stop("n must be a positive integer")
   }
   if (!isPosscal(Wc) || Wc > 1) {
-    stop('n must be a numeric value between 0 and 1')
+    stop("n must be a numeric value between 0 and 1")
   }
 
   y <- rep(0, length(x) * q + q * n + 1)
   y[seq(1, length(x) * q, q)] <- x
   b <- fir1(2 * q * n + 1, Wc / q)
   y <- q * fftfilt(b, y)
-  y[-(1:(q * n + 1))]  # adjust for zero filter delay
+  y[- (1:(q * n + 1))]  # adjust for zero filter delay
 }

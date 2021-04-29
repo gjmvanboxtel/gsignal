@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200110  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Maximum-to-minimum difference
 #'
@@ -62,32 +62,37 @@
 #' @examples
 #' ## numeric vector
 #' x <- c(1:5)
-#' peak2peak(x)
+#' pp <- peak2peak(x)
+#' 
 #' ## numeric matrix
 #' x <- matrix(c(1,2,3, 100, 150, 200, 1000, 1500, 2000), 3, 3)
-#' peak2peak(x)
-#' peak2peak(x, 1)
+#' pp <- peak2peak(x)
+#' pp <- peak2peak(x, 1)
+#' 
 #' ## numeric array
-#' x <- array(c(1, 1.5, 2, 100, 150, 200, 1000, 1500, 2000, 10000, 15000, 20000), c(2,3,2))
-#' peak2peak(x, 1)
-#' peak2peak(x, 2)
-#' peak2peak(x, 3)
+#' x <- array(c(1, 1.5, 2, 100, 150, 200, 1000, 1500, 2000,
+#'              10000, 15000, 20000), c(2,3,2))
+#' pp <- peak2peak(x, 1)
+#' pp <- peak2peak(x, 2)
+#' pp <- peak2peak(x, 3)
+#' 
 #' ## complex input
 #' x <- c(1+1i, 2+3i, 3+5i, 4+7i, 5+9i)
-#' peak2peak(x)
+#' pp <- peak2peak(x)
 #'
 #' @author Georgios Ouzounis, \email{ouzounis_georgios@@hotmail.com}.\cr
 #' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-peak2peak <- function (x, MARGIN = 2) {
+peak2peak <- function(x, MARGIN = 2) {
 
-  if (!(is.numeric(x) || is.complex(x)) || !(is.vector(x) || is.matrix(x) || is.array(x))) {
-    stop ('x must be a vector, matrix or array containing numeric or complex values.')
+  if (!(is.numeric(x) || is.complex(x)) ||
+      !(is.vector(x) || is.matrix(x) || is.array(x))) {
+    stop("x must be a numeric or complex vector, matrix or array")
   }
-  if(!isPosscal(MARGIN) || !isWhole(MARGIN)) {
-    stop ('MARGIN must be a positive scalar')
+  if (!isPosscal(MARGIN) || !isWhole(MARGIN)) {
+    stop("MARGIN must be a positive scalar")
   }
 
   mm <- function(a) max(a) - min(a)
@@ -105,4 +110,3 @@ peak2peak <- function (x, MARGIN = 2) {
   }
   y
 }
-

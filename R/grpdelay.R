@@ -19,7 +19,7 @@
 #
 # Version history
 # 20200422  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Group delay
 #'
@@ -39,7 +39,8 @@
 #'   should factor into a small number of small primes. Default: 512.
 #' @param whole	FALSE (the default) to evaluate around the upper half of the
 #'   unit circle or TRUE to evaluate around the entire unit circle.
-#' @param fs sampling frequency in Hz. If not specified, the frequencies are in radians.
+#' @param fs sampling frequency in Hz. If not specified, the frequencies are in
+#'   radians.
 #' @param x	object to be plotted.
 #' @param xlab,ylab,type as in plot, but with more sensible defaults.
 #' @param ...	 for methods of grpdelay, arguments are passed to the default
@@ -48,11 +49,12 @@
 #' @return A list of class \code{grpdelay} with items:
 #' \describe{
 #'   \item{gd}{the group delay, in units of samples. It can be converted to
-#'     seconds by multiplying by the sampling period (or dividing by the sampling
-#'     rate fs).}
+#'   seconds by multiplying by the sampling period (or dividing by the sampling
+#'   rate fs).}
 #'   \item{w}{frequencies at which the group delay was calculated.}
 #'   \item{ns}{number of points at which the group delay was calculated.}
-#'   \item{Hzflag}{TRUE for frequencies in Hz, FALSE for frequencies in radians.}
+#'   \item{Hzflag}{TRUE for frequencies in Hz, FALSE for frequencies in
+#'   radians.}
 #'
 #' }
 #'
@@ -61,7 +63,7 @@
 #' b <- poly(c(1 / 0.9 * exp(1i * pi * 0.2), 0.9 * exp(1i * pi * 0.6)))
 #' a <- poly(c(0.9 * exp(-1i * pi * 0.6), 1 / 0.9 * exp(-1i * pi * 0.2)))
 #' gpd <- grpdelay(b, a, 512, whole = TRUE, fs = 1)
-#' print(gpd)
+#' ## print(gpd)
 #' plot(gpd)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
@@ -69,7 +71,8 @@
 #'  Conversion to R by Tom Short,\cr
 #'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
-#' @references \url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
+#' @references
+#'   \url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 #' \url{https://en.wikipedia.org/wiki/Group_delay}
 #'
 #' @rdname grpdelay
@@ -80,15 +83,16 @@ grpdelay <- function(filt, ...) UseMethod("grpdelay")
 #' @rdname grpdelay
 #' @export
 
-print.grpdelay <- function(x, ...){
+print.grpdelay <- function(x, ...) {
 
   cat("- Group delay (gd) calculated at", x$ns, "points.\n")
-  cat("- Frequencies (w) given in", if(x$HzFlag) "*Hz*." else "*radians*.", "\n")
+  cat("- Frequencies (w) given in",
+      if (x$HzFlag) "*Hz*." else "*radians*.", "\n")
   temp <- data.frame(do.call("cbind", x[c("gd", "w")]))
-  if(nrow(temp) > 8L){
-    print(utils::head(temp, n = 4L), row.names=FALSE, ...)
+  if (nrow(temp) > 8L) {
+    print(utils::head(temp, n = 4L), row.names = FALSE, ...)
     cat(" .......  .......\n")
-  } else print(temp, row.names=FALSE, ...)
+  } else print(temp, row.names = FALSE, ...)
   invisible(x)
 }
 
@@ -96,8 +100,10 @@ print.grpdelay <- function(x, ...){
 #' @export
 
 plot.grpdelay <- function(x,
-                          xlab = if(x$HzFlag) 'Frequency (Hz)' else 'Frequency (rad/sample)',
-                          ylab = 'Group delay (samples)', type = "l", ...) {
+                          xlab = if (x$HzFlag) "Frequency (Hz)"
+                          else "Frequency (rad/sample)",
+                          ylab = "Group delay (samples)",
+                          type = "l", ...) {
   graphics::plot(x$w[1:x$ns], x$gd[1:x$ns],
        xlab = xlab, ylab = ylab, type = type, ...)
 }
@@ -105,7 +111,8 @@ plot.grpdelay <- function(x,
 #' @rdname grpdelay
 #' @export
 
-grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...)   {
+grpdelay.default <- function(filt, a = 1, n = 512,
+                             whole = FALSE, fs = NULL, ...)   {
 
   b <- as.vector(filt)
   a <- as.vector(a)
@@ -138,7 +145,7 @@ grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...
     nfft <- length(w) * 2
     whole <- FALSE
   } else {
-    stop('n be a vector with a length >= 1')
+    stop("n must be a vector with a length >= 1")
   }
 
   oa <- length(a) - 1             # order of a(z)
@@ -153,13 +160,13 @@ grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...
   }
   oc <- oa + ob                 # order of c(z)
 
-  c <- fftconv(b, rev(Conj(a)))    # c(z) <- b(z)*conj(a)(1/z)*z^(-oa)
-  cr <- c * (0:oc)                 # cr(z) <- derivative of c wrt 1/z
+  c <- fftconv(b, rev(Conj(a)))
+  cr <- c * (0:oc)
   num <- stats::fft(postpad(cr, nfft))
   den <- stats::fft(postpad(c, nfft))
   polebins <- which(abs(den) < 2 * .Machine$double.eps)
-  if(any(polebins)){
-    warning('setting group delay to 0 at singularity')
+  if (any(polebins)) {
+    warning("setting group delay to 0 at singularity")
     num[polebins] <- 0
     den[polebins] <- 1
   }
@@ -174,7 +181,7 @@ grpdelay.default <- function(filt, a = 1, n = 512, whole = FALSE, fs = NULL, ...
     ns <- nfft # used in plot below
   }
   res <- list(gd = gd, w = w, ns = ns, HzFlag = HzFlag)
-  class(res) = "grpdelay"
+  class(res) <- "grpdelay"
   res
 }
 
@@ -188,7 +195,7 @@ grpdelay.Arma <- function(filt, ...) # IIR
 #' @export
 
 grpdelay.Ma <- function(filt, ...) # FIR
-  grpdelay(filt$b, 1, ...)
+  grpdelay(as.Arma(filt), ...)
 
 #' @rdname grpdelay
 #' @export
@@ -201,4 +208,3 @@ grpdelay.Sos <- function(filt, ...) # Second-order sections
 
 grpdelay.Zpg <- function(filt, ...) # Zero-pole-gain ARMA
   grpdelay(as.Arma(filt), ...)
-

@@ -17,7 +17,7 @@
 # Version history
 # 20200507  GvB       setup for gsignal v0.1.0
 # 20200708  GvB       renamed IIRfspec to FilterSpecs
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Filter specifications
 #'
@@ -57,7 +57,7 @@
 #' @export
 
 FilterSpecs <- function(n, Wc, type, ...) {
-  res = list(n = n, Wc = Wc, type = type, ...)
-  class(res) = "FilterSpecs"
+  res <- list(n = n, Wc = Wc, type = type, ...)
+  class(res) <- "FilterSpecs"
   res
 }

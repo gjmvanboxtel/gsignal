@@ -22,7 +22,7 @@
 # 20210306  GvB       initialize a, b with sos[1, ] instead of 1 (bug in Octave
 #                     signal?)
 # 20210326  GvB       return object of class 'Arma'
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Sos to transfer function
 #'
@@ -46,7 +46,7 @@
 #'
 #' @examples
 #' sos <- rbind(c(1, 1, 1, 1, 0, -1), c(-2, 3, 1, 1, 10, 1))
-#' sos2tf(sos)
+#' ba <- sos2tf(sos)
 #'
 #' @author Julius O. Smith III, \email{jos@@ccrma.stanford.edu}.\cr
 #' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.
@@ -59,10 +59,10 @@ sos2tf <- function(sos, g = 1) {
   n <- nrow(sos)
   m <- ncol(sos)
   if (n <= 0) {
-    stop('sos must have at least 1 row')
+    stop("sos must have at least 1 row")
   }
   if (m != 6) {
-    stop('sos must be a nrow-by-6 matrix')
+    stop("sos must be a nrow-by-6 matrix")
   }
 
   b <- sos[1, 1:3]
@@ -74,7 +74,7 @@ sos2tf <- function(sos, g = 1) {
       a <- conv(a, sos[i, 4:6])
     }
   }
-  
+
   nb <- length(b)
   while (nb > 0 && b[nb] == 0) {
     b <- b[1:(nb - 1)]

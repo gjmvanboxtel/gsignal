@@ -20,7 +20,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200428 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Bessel analog filter design
 #'
@@ -79,10 +79,10 @@
 #
 #' @export
 
-besself <- function (n, w, type = c("low", "high", "stop", "pass")) {
+besself <- function(n, w, type = c("low", "high", "stop", "pass")) {
 
   if (!isPosscal(n)) {
-    stop('filter order n must be a positive integer')
+    stop("filter order n must be a positive integer")
   }
 
   type <- match.arg(type)
@@ -99,11 +99,10 @@ besself <- function (n, w, type = c("low", "high", "stop", "pass")) {
   }
 
   # Generate splane poles for the prototype Bessel filter
-  zpg <- besselap (n)
+  zpg <- besselap(n)
 
   # splane frequency transform
   zpg <- sftrans(zpg, w, stop)
 
   zpg
 }
-

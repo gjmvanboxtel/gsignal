@@ -17,7 +17,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # 20191126 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Mexicat Hat
 #'
@@ -45,19 +45,21 @@
 #' @examples
 #'
 #' mh <- mexihat(-5, 5, 1000)
-#' plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet", xlab = "", ylab = "")
+#' plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet",
+#'      xlab = "", ylab = "")
 #'
 #' @author Sylvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-mexihat <- function (lb = -5, ub = 5, n = 1000) {
+mexihat <- function(lb = -5, ub = 5, n = 1000) {
 
-  if (!isPosscal(n) || !isWhole(n) || n <= 0) stop('n must be an integer strictly positive')
+  if (!isPosscal(n) || !isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
 
   x <- seq(lb, ub, length.out =  n)
-  psi <- (1 - x^2) * (2 / (sqrt(3) * pi^0.25)) * exp(-x^2/ 2)
+  psi <- (1 - x^2) * (2 / (sqrt(3) * pi^0.25)) * exp(-x^2 / 2)
   list(x = x, psi = psi)
 
 }

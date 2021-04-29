@@ -89,7 +89,7 @@ plot (hx$w, phx, type = "l", ylim = range,
   xlab = "Frequency (Hz)", ylab = "Phase",
   main = "Unwrapped phase")
 lines(hxm$w, phym, col = "red")
-legend("topright", legend = c("original", "reconstructed"),
+legend("bottomright", legend = c("original", "reconstructed"),
   lty = 1, col = c(1, 2))
 par(op)
 

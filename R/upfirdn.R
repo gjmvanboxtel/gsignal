@@ -16,7 +16,7 @@
 #
 # Version history
 # 20200929  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Upsample, apply FIR filter, downsample
 #'
@@ -43,7 +43,7 @@
 #'   applied to multiple signals in \code{x}; if it is a matrix, then each
 #'   column is a separate FIR impulse response.
 #' @param p Upsampling factor, specified as a positive integer (default: 1).
-#' @param q downsamppling factor, specified as a positive integer (default: 1).
+#' @param q downsampling factor, specified as a positive integer (default: 1).
 #'
 #' @return output signal, returned as a vector or matrix. Each column has length
 #'   \code{ceiling(((length(x) - 1) * p + length(h)) / q)}.
@@ -55,8 +55,8 @@
 #' @seealso \code{\link{fir1}}
 #'
 #' @examples
-#' ## Change the sample rate of a signal by a rational conversion factor from the
-#' ## DAT rate of 48 kHz to the CD sample rate of 44.1 kHz.
+#' ## Change the sample rate of a signal by a rational conversion factor
+#' ## from the DAT rate of 48 kHz to the CD sample rate of 44.1 kHz.
 #' Fdat <- 48e3
 #' Fcd <- 44.1e3
 #' LM <- scan(text = capture.output(pracma::rats(Fcd / Fdat)), sep = '/',
@@ -87,44 +87,37 @@
 #
 #' @export
 
-upfirdn <- function (x, h, p = 1, q = 1) {
+upfirdn <- function(x, h, p = 1, q = 1) {
 
   # x and h must be numeric
   if (!is.numeric(x) || ! is.numeric(h)) {
-    stop('x and h must be numeric')
+    stop("x and h must be numeric")
   }
 
   if (is.vector(x)) {
     # if x is a vector then h must be a vector too
-    if (!(is.vector(h) || class(h) == "Ma")) {
+    if (!(is.vector(h) || "Ma" %in% class(h))) {
       stop("h must be a numeric vector")
     }
     ns <- 1
-    lx <- length(x)
-    lh <- length(h)
     x <- matrix(x, ncol = 1)
     h <- matrix(h, ncol = 1)
     vec <- TRUE
   } else if (is.matrix(x)) {
     ns <- ncol(x)
-    lx <- nrow(x)
-    # if x is a matrix then either h must be a matrix too,
-    # or if h is a vector then expand it to a matrix
     if (is.vector(h)) {
-      lh <- length(h)
       h <- matrix(rep(h, ns), ncol = ns, byrow = FALSE)
     } else if (!is.matrix(h)) {
       stop("h must be a numeric matrix")
     }
-    lh <- nrow(h)
     vec <- FALSE
   } else {
-    stop ('x and h must be numeric vectors or matrices')
+    stop("x and h must be numeric vectors or matrices")
   }
 
   if (!(isPosscal(p) && isWhole(p)) ||
       !(isPosscal(q) && isWhole(q))) {
-    stop('p and q must be positive integers')
+    stop("p and q must be positive integers")
   }
 
   y <- .Call("_gsignal_upfirdn", PACKAGE = "gsignal", x, h, p, q)

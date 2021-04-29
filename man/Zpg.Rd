@@ -66,9 +66,7 @@ p2 <- r * exp(1i * -w)
 
 zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
 zplane(zpg)
-
-ba <- as.Arma(zpg)
-freqz(ba)
+freqz(zpg)
 
 ## Sharper edges: increase distance between zeros and poles
 r = 0.8
@@ -76,8 +74,7 @@ p1 <- r * exp(1i * w)
 p2 <- r * exp(1i * -w)
 zpg <- Zpg(c(z1, z2), c(p1, p2), 1)
 zplane(zpg)
-ba <- as.Arma(zpg)
-freqz(ba)
+freqz(zpg)
 
 }
 \seealso{

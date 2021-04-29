@@ -18,22 +18,26 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191210 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Blackman-Harris window
 #'
 #' Return the filter coefficients of a minimum four-term Blackman-Harris window.
 #'
-#' The Blackman window is a member of the family of cosine sum windows. It is a generalization of the Hamming family,
-#' produced by adding more shifted sinc functions, meant to minimize side-lobe levels.
+#' The Blackman window is a member of the family of cosine sum windows. It is a
+#' generalization of the Hamming family, produced by adding more shifted sinc
+#' functions, meant to minimize side-lobe levels.
 #'
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
 #' \itemize{
-#'   \item 'symmetric' (Default). Use this option when using windows for filter design.
-#'   \item 'periodic'. This option is useful for spectral analysis because it enables a windowed signal to have the perfect
-#'    periodic extension implicit in the discrete Fourier transform. When 'periodic' is specified, the function computes a
-#'    window of length \code{n + 1} and returns the first \code{n} points.
+#'   \item 'symmetric' (Default). Use this option when using windows for filter
+#'   design.
+#'   \item 'periodic'. This option is useful for spectral analysis because it
+#'   enables a windowed signal to have the perfect periodic extension implicit
+#'   in the discrete Fourier transform. When 'periodic' is specified, the
+#'   function computes a window of length \code{n + 1} and returns the first
+#'   \code{n} points.
 #' }
 #'
 #' @return Blackman-Harris window, returned as a vector.
@@ -53,17 +57,19 @@
 #
 #' @export
 
-blackmanharris <- function (n, method = c('symmetric', 'periodic')) {
+blackmanharris <- function(n, method = c("symmetric", "periodic")) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0) {
+    stop("n must be an integer strictly positive")
+  }
   method <- match.arg(method)
 
   if (method == "periodic") {
     N <- n
-  } else if (method == 'symmetric') {
+  } else if (method == "symmetric") {
     N <- n - 1
   } else {
-    stop ("method must be either 'periodic' or 'symmetric'")
+    stop("method must be either 'periodic' or 'symmetric'")
   }
 
   if (n == 1) {
@@ -73,8 +79,9 @@ blackmanharris <- function (n, method = c('symmetric', 'periodic')) {
     a1 <- 0.48829
     a2 <- 0.14128
     a3 <- 0.01168
-    k <- 0:(n-1)
-    w = a0 - a1 * cos(2 * pi * k / N) + a2 * cos(4 * pi * k / N) - a3 * cos(6 * pi * k / N)
+    k <- 0:(n - 1)
+    w <- a0 - a1 * cos(2 * pi * k / N) +
+      a2 * cos(4 * pi * k / N) - a3 * cos(6 * pi * k / N)
   }
   w
 }

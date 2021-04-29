@@ -69,11 +69,11 @@ A list containing the following elements:
     added to the positive side of the spectrum, but not at zero or Nyquist
     (fs/2) frequencies. This keeps power equal in time and spectral domains.
     If \code{x} is complex, then the whole frequency range is returned.}
-    \item{\code{cross}}{NULL for univariate series. For multivariate series, a
-    matrix containing the squared coherence between different series. Column
-    \eqn{i + (j - 1) * (j - 2)/2 } of \code{coh} contains the cross-spectral
-    estimates between columns \eqn{i} and \eqn{j} of \eqn{x}, where \eqn{i <
-    j}.}
+    \item{\code{cross}}{NULL for univariate series. For multivariate series,
+    a matrix containing the squared coherence between different series.
+    Column \eqn{i + (j - 1) * (j - 2)/2 } of \code{coh} contains the
+    cross-spectral estimates between columns \eqn{i} and \eqn{j} of \eqn{x},
+    where \eqn{i < j}.}
   }
 }
 \description{

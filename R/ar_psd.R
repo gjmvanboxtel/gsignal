@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201101  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Power spectrum of AR model
 #'
@@ -39,9 +39,9 @@
 #'   element is the zero-lag coefficient, which always has a value of 1.
 #' @param v square of the moving average coefficient, specified as a positive
 #'   scalar Default: 1
-#' @param freq vector of frequencies at which power spectral density is calculated, or
-#'   a scalar indicating the number of uniformly distributed frequency values at
-#'   which spectral density is calculated. Default: 256.
+#' @param freq vector of frequencies at which power spectral density is
+#'   calculated, or a scalar indicating the number of uniformly distributed
+#'   frequency values at which spectral density is calculated. Default: 256.
 #' @param fs sampling frequency (Hz). Default: 1
 #' @param range character string. one of:
 #' \describe{
@@ -77,7 +77,7 @@
 #'
 #' @examples
 #' a <- c(1, -2.7607, 3.8106, -2.6535, 0.9238)
-#' ar_psd(a)
+#' psd <- ar_psd(a)
 #'
 #' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
@@ -87,7 +87,9 @@
 
 ar_psd <- function(a, v = 1, freq = 256, fs = 1,
                    range = ifelse(is.numeric(a), "half", "whole"),
-                   method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly"))  {
+                   method = ifelse(length(freq) == 1 &&
+                                     bitwAnd(freq, freq - 1) == 0,
+                                   "fft", "poly"))  {
 
   # parameter checking
   if (!is.vector(a) || length(a) < 2 || a[1] != 1) {
@@ -96,7 +98,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     real_model <- ifelse(is.numeric(a), 1L, 0L)
   }
 
-  if(!isPosscal(v) || v <= 0) {
+  if (!isPosscal(v) || v <= 0) {
     stop("v must be a positive scalar > 0")
   }
   if (!is.vector(freq)) {
@@ -105,23 +107,24 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     freq_len <- length(freq)
     user_freqs <- freq_len > 1
     if (!user_freqs && (!is.numeric(freq) || !isWhole(freq) || freq < 2)) {
-      stop('freq must be an integer >= 2')
+      stop("freq must be an integer >= 2")
     } else if (user_freqs && !is.numeric(freq)) {
-      stop('freq vector must be numeric')
+      stop("freq vector must be numeric")
     }
   }
 
-  if(!isPosscal(fs) || fs <= 0) {
+  if (!isPosscal(fs) || fs <= 0) {
     stop("fs must be a positive scalar > 0")
   }
 
-  range <- match.arg(range, c("half", "onesided", "whole", "twosided", "shift", "centerdc"))
+  range <- match.arg(range, c("half", "onesided", "whole",
+                              "twosided", "shift", "centerdc"))
   if (range == "half" || range == "onesided") {
     pad_fact <- 2L    # FT zero-padding factor (pad FFT to double length)
     do_shift <- FALSE
   } else if (range == "whole" || range == "twosided") {
     pad_fact <- 1L    # FFT zero-padding factor (do not pad)
-    do_shift = FALSE
+    do_shift <- FALSE
   } else if (range == "shift" || range == "centerdc") {
     pad_fact <- 1L
     do_shift <- TRUE
@@ -129,10 +132,10 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
 
   method <- match.arg(method, c("fft", "poly"))
   if (method == "fft") {
-    force_FFT  <- TRUE
+    force_fft  <- TRUE
     force_poly <- FALSE
   } else if (method == "poly") {
-    force_FFT  <- FALSE
+    force_fft  <- FALSE
     force_poly <- TRUE
   }
   # end of parameter checking
@@ -147,15 +150,16 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     }
     freq_len <- length(freq)
     fft_len  <- freq_len
-    use_FFT  <- FALSE
+    use_fft  <- FALSE
     do_shift <- FALSE
   } else {
     # internally generated frequencies
     freq_len <- freq
     freq <- (fs / pad_fact / freq_len) * seq(0, freq_len - 1)
     # decide which method to use (poly or FFT)
-    is_power_of_2 <- length(freq_len) == 1 && bitwAnd(freq_len, freq_len - 1) == 0
-    use_FFT <- (!force_poly && is_power_of_2) || force_FFT
+    is_power_of_2 <- length(freq_len) == 1 &&
+      bitwAnd(freq_len, freq_len - 1) == 0
+    use_fft <- (!force_poly && is_power_of_2) || force_fft
     fft_len <- freq_len * pad_fact
   }
 
@@ -163,7 +167,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
   # analysis -- a modern perspective", Proceedings of the IEEE, Vol 69, pp
   # 1380-1419, Nov., 1981
   len_coeffs <- length(a)
-  if (use_FFT) {
+  if (use_fft) {
     # FFT method
     fft_out <- stats::fft(postpad(a, fft_len))
   } else {
@@ -173,7 +177,8 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
       freq <- c(freq, -freq[seq(freq_len, 1, -1)])
       fft_len <- 2 * freq_len
     }
-    fft_out <- pracma::polyval(a[seq(len_coeffs, 1, -1)], exp((-1i * 2 * pi / fs) * freq))
+    fft_out <- pracma::polyval(a[seq(len_coeffs, 1, -1)],
+                               exp((-1i * 2 * pi / fs) * freq))
   }
 
   # The power spectrum (PSD) is the scaled squared reciprocal of amplitude
@@ -191,7 +196,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
     if (real_model) {
       # real data, double the psd
       psd <- 2 * psd[1:freq_len]
-    } else if (use_FFT) {
+    } else if (use_fft) {
       # complex data, FFT method, internally-generated frequencies
       psd <- psd[1:freq_len] + c(psd[1], psd[seq(fft_len, freq_len + 2, -1)])
     } else {
@@ -200,7 +205,7 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
       psd <- psd[1:freq_len] + psd[seq(fft_len, freq_len + 1, -1)]
     }
 
-  # range='shift'
+  # range equals 'shift'
   #   disabled for user-supplied frequencies
   #   Shift zero-frequency to the middle (pad_fact==1)
   } else if (do_shift) {
@@ -219,26 +224,30 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
 #' @rdname ar_psd
 #' @export
 
-plot.ar_psd <- print.ar_psd <- function (x, yscale = c("linear", "log", "dB"),
-                                         xlab = NULL, ylab = NULL, main = NULL, ...) {
+plot.ar_psd <-
+  print.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
+                           xlab = NULL, ylab = NULL, main = NULL, ...) {
 
-  if(class(x) != 'ar_psd') {
-    stop('invalid object type')
+  if (!("ar_psd" %in% class(x))) {
+    stop("invalid object type")
   }
   yscale <- match.arg(yscale)
 
   if (is.null(xlab)) {
     if (x$fs == 1) {
-      xlab <- expression(paste("Normalized frequency (\u00D7 ", pi, " rad/sample)"))
+      xlab <- expression(
+        paste("Normalized frequency (\u00D7 ",
+              pi, " rad/sample)"))
     } else if (x$fs == pi) {
       xlab <- "Frequency (rad/sample)"
     } else {
       xlab <- "Frequency (Hz)"
     }
   }
-  sub <- paste("Resolution:", format(x$fs / length(x$freq), digits = 6, nsmall = 6))
+  sub <- paste("Resolution:", format(x$fs / length(x$freq),
+                                     digits = 6, nsmall = 6))
 
-  if(is.null(ylab)) {
+  if (is.null(ylab)) {
     ylab <- switch(yscale,
                    "linear" = "PSD/Frequency",
                    "log" = expression(paste("log"[10], "PSD/Frequency")),
@@ -247,8 +256,8 @@ plot.ar_psd <- print.ar_psd <- function (x, yscale = c("linear", "log", "dB"),
   plt <- switch(yscale,
                 "linear" = x$psd,
                 "log" = log10(x$psd),
-                "dB" = 10*log10(x$psd))
-  graphics::plot(x$freq, plt, type = "l", xlab = xlab, ylab = '', ...)
-  graphics::title (main, sub = sub)
+                "dB" = 10 * log10(x$psd))
+  graphics::plot(x$freq, plt, type = "l", xlab = xlab, ylab = "", ...)
+  graphics::title(main, sub = sub)
   graphics::title(ylab = ylab, line = 2)
 }

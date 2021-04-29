@@ -24,7 +24,6 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List rfilter (NumericVector b, NumericVector a, NumericVector x, NumericVector zi) {
   
-  int lb = b.length();
   int la = a.length();
   int lx = x.length();
   int lzi = zi.length();

@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Autoregressive PSD estimate - Burg's method
 #'
@@ -41,9 +41,9 @@
 #'     \item{FPE}{final prediction error}
 #'   }
 #'   The default is to NOT use a model-selection criterion (NULL)
-#' @param freq vector of frequencies at which power spectral density is calculated, or
-#'   a scalar indicating the number of uniformly distributed frequency values at
-#'   which spectral density is calculated. Default: 256.
+#' @param freq vector of frequencies at which power spectral density is
+#'   calculated, or a scalar indicating the number of uniformly distributed
+#'   frequency values at which spectral density is calculated. Default: 256.
 #' @param fs sampling frequency (Hz). Default: 1
 #' @param range character string. one of:
 #' \describe{
@@ -78,7 +78,6 @@
 #' A <- Arma(1, c(1, -2.7607, 3.8106, -2.6535, 0.9238))
 #' y <- filter(A, 0.2 * rnorm(1024))
 #' plot(pb <- pburg(y, 4))
-#' 
 #'
 #' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}.\cr
 #' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
@@ -88,8 +87,9 @@
 #' @export
 
 pburg <- function(x, p, criterion = NULL, freq = 256, fs = 1, range = NULL,
-                  method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly"))  {
-
+                  method = if (length(freq) == 1 &&
+                               bitwAnd(freq, freq - 1) == 0)
+                    "fft" else "poly")  {
 
   coefs <- arburg(x, p, criterion)
   if (is.null(range)) {

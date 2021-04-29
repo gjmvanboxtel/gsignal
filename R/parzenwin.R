@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191215 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Parzen (de la Vallée Poussin) window
 #'
@@ -42,17 +42,18 @@
 #
 #' @export
 
-parzenwin <- function (n) {
+parzenwin <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n) || n <= 0) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n) || n <= 0)
+    stop("n must be an integer strictly positive")
 
   N <- n - 1
-  k <- (-(N / 2)):(N / 2)
+  k <- (- (N / 2)):(N / 2)
   k1 <- k[which(abs(k) <= (N / 4))]
   k2 <- k[which(k > (N / 4))]
   k3 <- k[which(k < (-N / 4))]
 
-  w1 <- 1 - 6 * (abs(k1) / (n / 2))^2 + 6 * (abs(k1) / (n/2))^3
+  w1 <- 1 - 6 * (abs(k1) / (n / 2))^2 + 6 * (abs(k1) / (n / 2))^3
   w2 <- 2 * (1 - abs(k2) / (n / 2))^3
   w3 <- 2 * (1 - abs(k3) / (n / 2))^3
   w <- c(w3, w1, w2)

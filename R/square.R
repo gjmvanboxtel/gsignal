@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191127 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Square wave
 #'
@@ -42,7 +42,8 @@
 #' }}
 #'
 #' @param t Time array, specified as a vector.
-#' @param duty Duty cycle, specified as a real scalar from 0 to 100. Default: 50.
+#' @param duty Duty cycle, specified as a real scalar from 0 to 100. Default:
+#'   50.
 #'
 #' @return Square wave, returned as a vector.
 #'
@@ -55,22 +56,27 @@
 #' plot(t/pi, y, type="l", xlab = expression(t/pi), ylab = "")
 #' lines (t/pi, sin(t), col = "red")
 #'
-#' ## Generate a 30 Hz square wave sampled at 1 kHz for 70 ms. Specify a duty cycle of 37%.
+#' ## Generate a 30 Hz square wave sampled at 1 kHz for 70 ms.
+#' ## Specify a duty cycle of 37%.
 #' ## Add white Gaussian noise with a variance of 1/100.
 #' t <- seq(0, 0.07, 1/1e3)
 #' y <- square(2 * pi * 30 * t, 37) + rnorm(length(t)) / 10
 #' plot(t, y, type="l", xlab = "", ylab = "")
-#' @note The input argument \code{width} is called \code{xmax} in the Matlab signal package
+#'
+#' @note The input argument \code{width} is called \code{xmax} in the Matlab
+#'   signal package
 #'
 #' @author Paul Kienzle.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-square <- function (t, duty = 50) {
+square <- function(t, duty = 50) {
 
-  if(length(t) <= 0) stop('t must be a vector with length > 0')
-  if (!isScalar(duty) || duty < 0 || duty > 100) stop('width must be a scalar between 0 and 100')
+  if (length(t) <= 0)
+    stop("t must be a vector with length > 0")
+  if (!isScalar(duty) || duty < 0 || duty > 100)
+    stop("width must be a scalar between 0 and 100")
 
   duty <- duty / 100
   t <- t / (2 * pi)

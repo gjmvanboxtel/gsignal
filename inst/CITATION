@@ -1,0 +1,11 @@
+citHeader("To cite gsignal in publications use:")
+
+citEntry(entry   = "Manual",
+    title        = "{gsignal}: Signal processing",
+    author       = person("Van Boxtel, G.J.M., et al."),
+    year         = 2021,
+    url          = "https://github.com/gjmvanboxtel/gsignal",
+    textVersion  = paste("Van Boxtel, G.J.M., et al. (2021).",
+        "gsignal: Signal processing.",
+        "URL: https://github.com/gjmvanboxtel/gsignal")
+)

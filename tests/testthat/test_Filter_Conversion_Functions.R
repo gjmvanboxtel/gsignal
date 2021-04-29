@@ -140,13 +140,13 @@ test_that("zp2tf() tests are correct", {
   expect_equal(ba$a, c(1, 0.01, 1))
   
   # design 2-pole notch filter at pi/4 radians = 0.5/4 = 0.125 * fs
-  w = pi/4
+  w <- pi/4
   # zeroes at r = 1
   r <- 1
   z1 <- r * exp(1i * w)
   z2 <- r * exp(1i * -w)
   # poles at r = 0.9
-  r = 0.9
+  r <- 0.9
   p1 <- r * exp(1i * w)
   p2 <- r * exp(1i * -w)
   
@@ -154,8 +154,8 @@ test_that("zp2tf() tests are correct", {
   poles <- c(p1, p2)
   ba <- zp2tf(zeros, poles, 1)
   inv <- tf2zp(ba$b, ba$a)
-  expect_equal(inv$z, zeros)
-  expect_equal(inv$p, poles)
+  expect_equal(inv$z, zeros, tolerance = 1e-6)
+  expect_equal(inv$p, poles, tolerance = 1e-6)
   expect_equal(inv$g, 1)
 })
 

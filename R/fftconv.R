@@ -18,7 +18,7 @@
 #
 # Version history
 # 20200420  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' FFT-based convolution
 #'
@@ -46,7 +46,7 @@
 #' v <- c(1, 1, 0, 0, 0, 1, 1)
 #' w1 <- conv(u, v)              # time-domain convolution
 #' w2 <- fftconv(u, v)           # frequency domain convolution
-#' all.equal(w1, w2)             # same results
+#' ## all.equal(w1, w2)          # same results
 #'
 #' @seealso \code{\link{conv}}, \code{\link{conv2}}
 #'
@@ -58,7 +58,7 @@
 
 fftconv <- function(x, y, n = NULL) {
 
-  if (!(is.vector(x) && is.vector(y))){
+  if (!(is.vector(x) && is.vector(y))) {
     stop("both x and y must be vectors")
   }
 
@@ -75,4 +75,3 @@ fftconv <- function(x, y, n = NULL) {
   }
   z
 }
-

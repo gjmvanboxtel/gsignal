@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200706 Geert van Boxtel           First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Least-squares linear-phase FIR filter design
 #'
@@ -54,10 +54,10 @@
 #' @references [1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
 #'   Squares",
 #'   \url{https://cnx.org/contents/6x7LNQOp@7/Linear-Phase-Fir-Filter-Design-By-Least-Squares}
-#'   
+#'
 #' @export
 
-firls <- function (n, f, a, w = rep(1L, length(a) / 2)) {
+firls <- function(n, f, a, w = rep(1L, length(a) / 2)) {
 
   # filter length must be a scalar > 0
   if (!isPosscal(n) || !isWhole(n) || n <= 0) {
@@ -65,20 +65,19 @@ firls <- function (n, f, a, w = rep(1L, length(a) / 2)) {
   }
 
   # f, a, w must be real-valued vectors
-  if(!is.vector(f) || !is.numeric(f) || !is.vector(a) || !is.numeric(a) ||
+  if (!is.vector(f) || !is.numeric(f) || !is.vector(a) || !is.numeric(a) ||
      !is.vector(w) || !is.numeric(w)) {
     stop("f, a, and w must be real-valued vectors")
   }
 
   # test for lengths of f, a, and w
-  if (length (f) != length (a)) {
+  if (length(f) != length(a)) {
     stop("f and a must have equal lengths")
-  } else if (2 * length (w) != length (a)) {
+  } else if (2 * length(w) != length(a)) {
     stop("w must contain one weight per band")
   }
 
-
-  n <- n + n%%2
+  n <- n + n %% 2
   M <- n / 2
 
   ww <- kronecker(w, c(-1, 1))
@@ -86,39 +85,19 @@ firls <- function (n, f, a, w = rep(1L, length(a) / 2)) {
   i1 <- seq(1, length(omega), 2)
   i2 <- seq(2, length(omega), 2)
 
-  ## Generate the matrix Q
-  ## As illustrated in the above-cited reference, the matrix can be
-  ## expressed as the sum of a Hankel and Toeplitz matrix. A factor of
-  ## 1/2 has been dropped and the final filter coefficients multiplied
-  ## by 2 to compensate.
+  ## Generate the matrix Q (see [1])
   cos_ints <- rbind(omega, sin((1:n) %o% omega))
   q <- c(1, 1 / (1:n)) * (cos_ints %*% ww)
-  Q <- stats::toeplitz(q[1:(M + 1)]) + pracma::hankel(q[1:(M + 1)], q[(M+1):length(q)])
+  Q <- stats::toeplitz(q[1:(M + 1)]) +
+    pracma::hankel(q[1:(M + 1)], q[(M + 1):length(q)])
 
-  ## The vector b is derived from solving the integral:
-  ##
-  ##           _ w
-  ##          /   2
-  ##  b  =   /       W(w) D(w) cos(kw) dw
-  ##   k    /    w
-  ##       -      1
-  ##
-  ## Since we assume that W(w) is constant over each band (if not, the
-  ## computation of Q above would be considerably more complex), but
-  ## D(w) is allowed to be a linear function, in general the function
-  ## W(w) D(w) is linear. The computations below are derived from the
-  ## fact that:
-  ##     _
-  ##    /                          a              ax + b
-  ##   /   (ax + b) cos(nx) dx =  --- cos (nx) +  ------ sin(nx)
-  ##  /                             2                n
-  ## -                             n
-  ##
+  ## Derive the vector b (see [1])
   cos_ints2 <- rbind(omega[i1]^2 - omega[i2]^2,
                      cos((1:M) %o% omega[i2]) - cos((1:M) %o% omega[i1])) /
     (c(2, 1:M) %o% (omega[i2] - omega[i1]))
   d <- as.vector(rbind(-w * a[i1], w * a[i2]))
-  b <- c(1, 1 / (1:M)) * ((kronecker(cos_ints2, cbind(1, 1)) + cos_ints[1:(M + 1), ]) %*% d)
+  b <- c(1, 1 / (1:M)) * ((kronecker(cos_ints2, cbind(1, 1)) +
+                             cos_ints[1:(M + 1), ]) %*% d)
 
   ## Having computed the components Q and b of the  matrix equation,
   ## solve for the filter coefficients.

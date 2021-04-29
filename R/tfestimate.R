@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201107  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Transfer Function Estimate
 #'
@@ -101,10 +101,11 @@
 #' @rdname tfestimate
 #' @export
 
-tfestimate<- function (x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
+tfestimate <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
                       nfft = ifelse(isScalar(window), window, length(window)),
                       fs = 1,
-                      detrend = c('long-mean', 'short-mean', 'long-linear', 'short-linear', 'none')) {
+                      detrend = c("long-mean", "short-mean",
+                                  "long-linear", "short-linear", "none")) {
 
   pw <- pwelch(x, window, overlap, nfft, fs, detrend)
   rv <- list(freq = pw$freq, trans = pw$trans)

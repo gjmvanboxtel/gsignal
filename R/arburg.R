@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Autoregressive model coefficients - Burg's method
 #'
@@ -90,9 +90,9 @@
 #' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.
 #'
-#' @references [1] Burg, J.P. (1968) A new analysis technique for
-#'   time series data, NATO advanced study Institute on Signal Processing with
-#'   Emphasis on Underwater Acoustics, Enschede, Netherlands, Aug. 12-23, 1968.\cr
+#' @references [1] Burg, J.P. (1968) A new analysis technique for time series
+#'   data, NATO advanced study Institute on Signal Processing with Emphasis on
+#'   Underwater Acoustics, Enschede, Netherlands, Aug. 12-23, 1968.\cr
 #'   [2] Seghouane, A. and Bekara, M. (2004). A small sample model selection
 #'   criterion based on Kullback’s symmetric divergence. IEEE Trans. Sign.
 #'   Proc., 52(12), pp 3314-3323,
@@ -101,11 +101,11 @@
 #'
 #' @export
 
-arburg <- function(x, p, criterion = NULL)  {
+arburg <- function(x, p, criterion = NULL) {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) || !is.numeric(x)) {
-    stop('x must be a numeric or vector or matrix')
+    stop("x must be a numeric or vector or matrix")
   }
 
   if (is.vector(x)) {
@@ -118,24 +118,24 @@ arburg <- function(x, p, criterion = NULL)  {
   nc <- ncol(x)
 
   if (!isScalar(p) || !isWhole(p) || !is.numeric(p) || p <= 0.5) {
-    stop('p must be a positive integer')
+    stop("p must be a positive integer")
   }
   if (p >= nr - 2) {
-    stop(paste0('p must be less than the length of x (', nr, ') - 2'))
+    stop(paste0("p must be less than the length of x (", nr, ") - 2"))
   }
 
   if (!is.null(criterion)) {
     criterion <- match.arg(criterion, c("AKICc", "KIC", "AICc", "AIC", "FPE"))
     #  Set the model-selection-criterion flags.
-    #  is_AKICc, isa_KIC and is_corrected are short-circuit flags
-    is_AKICc <- criterion == 'AKICc'                 # AKICc
-    isa_KIC  <- is_AKICc || criterion == 'KIC'       # KIC or AKICc
-    is_corrected <- is_AKICc || criterion == 'AICc'  # AKICc or AICc
-    use_inf_crit <- is_corrected || isa_KIC || criterion == 'AIC'
-    use_FPE <- criterion == 'FPE'
+    #  is_akicc, isa_kic and is_corrected are short-circuit flags
+    is_akicc <- criterion == "AKICc"                 # AKICc
+    isa_kic  <- is_akicc || criterion == "KIC"       # KIC or AKICc
+    is_corrected <- is_akicc || criterion == "AICc"  # AKICc or AICc
+    use_inf_crit <- is_corrected || isa_kic || criterion == "AIC"
+    use_fpe <- criterion == "FPE"
   } else {
     use_inf_crit <- FALSE
-    use_FPE <- FALSE
+    use_fpe <- FALSE
   }
   # end of parameter checking
 
@@ -174,22 +174,14 @@ arburg <- function(x, p, criterion = NULL)  {
         # * Information Criterion (AKICc, KIC, AICc, AIC)
         if (use_inf_crit) {
           old_crit <- new_crit
-          # AKICc = log(new_v)+p/N/(N-p)+(3-(p+2)/N)*(p+1)/(N-p-2);
-          # KIC   = log(new_v)+           3         *(p+1)/N;
-          # AICc  = log(new_v)+           2         *(p+1)/(N-p-2);
-          # AIC   = log(new_v)+           2         *(p+1)/N;
-          # -- Calculate KIC, AICc & AIC by using is_AKICc, is_KIC and
-          #    is_corrected to "short circuit" the AKICc calculation.
-          #    The extra 4--12 scalar arithmetic ops should be quicker than
-          #    doing if...elseif...elseif...elseif...elseif.
-          new_crit <- log(new_v) + as.integer(is_AKICc) * ip / nr / (nr - ip) +
-            (2 + as.integer(isa_KIC) - as.integer(is_AKICc) * (ip + 2) / nr) *
+          new_crit <- log(new_v) + as.integer(is_akicc) * ip / nr / (nr - ip) +
+            (2 + as.integer(isa_kic) - as.integer(is_akicc) * (ip + 2) / nr) *
             (ip + 1) / (nr - as.integer(is_corrected) * (ip + 2))
           if (new_crit > old_crit) {
             break
           }
         # (FPE) Final prediction error
-        } else if (use_FPE) {
+        } else if (use_fpe) {
           old_crit <- new_crit
           new_crit <- new_v * (nr + ip + 1) / (nr - ip - 1)
           if (new_crit > old_crit) {

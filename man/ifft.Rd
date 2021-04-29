@@ -41,9 +41,9 @@ compatible with Matlab/Octave (and differs from the \code{ifft} function in
 the \code{signal} package, which does not return real values).
 }
 \examples{
-ifft(stats::fft(1:5))
-ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i)))
-imvfft(stats::mvfft(matrix(1:20, 4, 5)))
+res <- ifft(stats::fft(1:5))
+res <- ifft(stats::fft(c(1+5i, 2+3i, 3+2i, 4+6i, 5+2i)))
+res <- imvfft(stats::mvfft(matrix(1:20, 4, 5)))
 
 }
 \seealso{

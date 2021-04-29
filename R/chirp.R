@@ -19,7 +19,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191122 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Chirp signal
 #'
@@ -76,7 +76,8 @@
 #'
 #' # Shows a logarithmic chirp of 200 Hz at t=0 and 500 Hz at t=2
 #' # Time goes from 0 to 5 seconds at 8000 Hz.
-#' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs = 8000)
+#' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"),
+#'          fs = 8000)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
 #'   Mike Miller.\cr
@@ -84,7 +85,9 @@
 #'
 #' @export
 
-chirp <- function (t, f0, t1 = 1, f1 = 100, shape = c("linear", "quadratic", "logarithmic"), phase = 0) {
+chirp <- function(t, f0, t1 = 1, f1 = 100,
+                  shape = c("linear", "quadratic", "logarithmic"),
+                  phase = 0) {
 
   shape <- match.arg(shape)
 
@@ -101,17 +104,17 @@ chirp <- function (t, f0, t1 = 1, f1 = 100, shape = c("linear", "quadratic", "lo
   if (shape == "linear") {
       a <- pi * (f1 - f0) / t1
       b <- 2 * pi * f0
-      y <- cos (a * t^2 + b * t + phase)
+      y <- cos(a * t^2 + b * t + phase)
   } else if (shape == "quadratic") {
-      a <- (2/3 * pi * (f1 - f0) / t1 / t1)
+      a <- (2 / 3 * pi * (f1 - f0) / t1 / t1)
       b <- 2 * pi * f0
-      y <- cos (a * t^3 + b * t + phase)
+      y <- cos(a * t^3 + b * t + phase)
   } else if (shape == "logarithmic") {
-      a <- 2 * pi * f0 * t1 / log (f1 / f0)
+      a <- 2 * pi * f0 * t1 / log(f1 / f0)
       x <- (f1 / f0) ^ (1 / t1)
-      y <- cos (a * x^t + phase)
+      y <- cos(a * x^t + phase)
   } else {
-    stop (paste("invalid frequency sweep shape", shape))
+    stop(paste("invalid frequency sweep shape", shape))
   }
   y
 }

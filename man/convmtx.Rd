@@ -37,7 +37,7 @@ cm <- convmtx(b, N)
 d <- cm \%*\% a
 
 cref = conv(a, b)
-all.equal(max(d - cref), 0)
+## all.equal(max(d - cref), 0)
 
 }
 \seealso{

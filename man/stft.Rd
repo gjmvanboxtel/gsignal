@@ -61,7 +61,8 @@ Compute the short-term Fourier transform of a vector or matrix.
 fs <- 8000
 y <- chirp(seq(0, 5 - 1/fs, by = 1/fs), 200, 2, 500, "logarithmic")
 ft <- stft (y, fs = fs)
-filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)", ylab = "Frequency (Hz)")
+filled.contour(ft$t, ft$f, t(ft$s), xlab = "Time (s)",
+               ylab = "Frequency (Hz)")
 
 }
 \author{

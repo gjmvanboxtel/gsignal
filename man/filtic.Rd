@@ -32,7 +32,7 @@ filter (normally called ‘b’), specified as a vector. Generically,
 
 \item{y}{output vector, with the most recent values first.}
 
-\item{x}{input vector, with teh most recent values first. Default: 0}
+\item{x}{input vector, with the most recent values first. Default: 0}
 }
 \value{
 Initial conditions for filter specified by \code{filt}, input vector

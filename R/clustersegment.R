@@ -19,7 +19,7 @@
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
 # 20201127  GvB       adapted algorithm because of indexing bug (also in Octave)
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Cluster Segments
 #'
@@ -40,14 +40,14 @@
 #'   second row is the end index of that sequence.
 #'
 #' @examples
-#' (x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1))
+#' x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1)
 #' # [1] 0 0 1 1 1 0 0 1 0 0 0 1 1
-#' (ranges <- clustersegment(x))
+#' ranges <- clustersegment(x)
 #' #       [,1] [,2] [,3]
 #' # [1,]    3    8   12
 #' # [2,]    5    8   13
 #' # The first sequence of 1's in x lies in the interval
-#' ranges[1,1]:ranges[2,1]
+#' r <- ranges[1,1]:ranges[2,1]
 #' # [1] 3 4 5
 #'
 #' x <- matrix(as.numeric(runif(30) > 0.4), 3, 10)
@@ -61,19 +61,16 @@
 #
 #' @export
 
-clustersegment <- function (x) {
+clustersegment <- function(x) {
 
-  if(!(is.numeric(x) || is.logical(x) || is.complex(x)) ) {
+  if (!(is.numeric(x) || is.logical(x) || is.complex(x))) {
     stop("x must be numeric, logical or complex")
   }
 
   if (is.vector(x)) {
     x <- matrix(x, nrow = 1)
-    vec <- TRUE
-  } else if (is.matrix(x)) {
-    vec <- FALSE
-  } else {
-    stop ('x must be a vector or matrix')
+  } else if (!is.matrix(x)) {
+    stop("x must be a vector or matrix")
   }
   nc <- ncol(x)
   nr <- nrow(x)

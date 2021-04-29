@@ -10,7 +10,7 @@ pyulear(
   freq = 256,
   fs = 1,
   range = NULL,
-  method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly")
+  method = if (length(freq) == 1 && bitwAnd(freq, freq - 1) == 0) "fft" else "poly"
 )
 }
 \arguments{
@@ -21,9 +21,9 @@ column is a signal.}
 \item{p}{model order; number of poles in the AR model or limit to the number
 of poles if a valid criterion is provided. Must be < length(x) - 2.}
 
-\item{freq}{vector of frequencies at which power spectral density is calculated, or
-a scalar indicating the number of uniformly distributed frequency values at
-which spectral density is calculated. Default: 256.}
+\item{freq}{vector of frequencies at which power spectral density is
+calculated, or a scalar indicating the number of uniformly distributed
+frequency values at which spectral density is calculated. Default: 256.}
 
 \item{fs}{sampling frequency (Hz). Default: 1}
 

@@ -16,30 +16,30 @@
 #
 # Version history
 # 20201123  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Marcum Q function
-#' 
+#'
 #' Compute the generalized Marcum Q function
-#' 
-#' The code for this function was taken from the help file of the
-#' \code{cdfkmu} function in the in the \code{lmomco} package,
-#' based on a suggestion of Daniel Wollschlaeger.
-#'   
+#'
+#' The code for this function was taken from the help file of the \code{cdfkmu}
+#' function in the \code{lmomco} package, based on a suggestion of Daniel
+#' Wollschlaeger.
+#'
 #' @param a,b input arguments, specified as non-negative real numbers.
 #' @param m order, specified as a positive integer
-#' 
+#'
 #' @return Marcum Q function.
-#' 
+#'
 #' @examples
-#' marcumq(12.4, 12.5)
+#' mq <- marcumq(12.4, 12.5)
 #'
 #' @author William Asquith, \email{william.asquith@@ttu.edu}.
-#'   
+#'
 #' @references \url{https://cran.r-project.org/package=lmomco}
 #
 #' @export
 
 marcumq <- function(a, b, m = 1) {
-  stats::pchisq(b^2, df = 2 * m, ncp = a^2, lower.tail=FALSE) 
+  stats::pchisq(b^2, df = 2 * m, ncp = a^2, lower.tail = FALSE)
 }

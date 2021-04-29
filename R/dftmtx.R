@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201016  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Discrete Fourier Transform Matrix
 #'
@@ -44,8 +44,8 @@
 #' y1 <- stats::fft(x)
 #' n <- length(x)
 #' y2 <- drop(x %*% dftmtx(n))
-#' max(abs(y1 - y2))
-#' # [1] 1.201692e-10
+#' mx <- max(abs(y1 - y2))
+#' # [1] 1.455416e-11
 #'
 #' @author David Bateman, \email{adb014@@gmail.com}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
@@ -54,10 +54,10 @@
 #'
 #' @export
 
- dftmtx <- function (n) {
+ dftmtx <- function(n) {
 
   if (!isPosscal(n) || !isWhole(n)) {
-    stop('n must be a positive integer')
+    stop("n must be a positive integer")
   }
 
   y <- stats::mvfft(diag(1, n))

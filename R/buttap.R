@@ -1,7 +1,7 @@
 # buttap.R
 # Copyright (C) 2019 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Octave signal package:
-# Copyright (C) 2013 Carnë Draug <carandraug+dev@gmail.com>
+# Copyright (C) 2013 Carne Draug <carandraug+dev@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200517 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Butterworth filter prototype
 #'
@@ -38,15 +38,15 @@
 #' w <- seq(0, 4, length.out = 128)
 #' freqs(zp, w)
 #'
-#' @author Carnë Draug, \email{carandraug+dev@@gmail.com}.\cr
+#' @author Carne Draug, \email{carandraug+dev@@gmail.com}.\cr
 #'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-buttap <- function (n) {
+buttap <- function(n) {
 
-  if (!isPosscal(n) || ! isWhole(n)) stop ("n must be an integer strictly positive")
+  if (!isPosscal(n) || ! isWhole(n))
+    stop("n must be an integer strictly positive")
 
   butter(n, 1, "low", "s", "Zpg")
 }
-

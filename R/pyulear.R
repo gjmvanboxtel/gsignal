@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201106  GvB       setup for gsignal v0.1.0
-#---------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Autoregressive PSD estimate - Yule-Walker method
 #'
@@ -29,9 +29,9 @@
 #'   column is a signal.
 #' @param p model order; number of poles in the AR model or limit to the number
 #'   of poles if a valid criterion is provided. Must be < length(x) - 2.
-#' @param freq vector of frequencies at which power spectral density is calculated, or
-#'   a scalar indicating the number of uniformly distributed frequency values at
-#'   which spectral density is calculated. Default: 256.
+#' @param freq vector of frequencies at which power spectral density is
+#'   calculated, or a scalar indicating the number of uniformly distributed
+#'   frequency values at which spectral density is calculated. Default: 256.
 #' @param fs sampling frequency (Hz). Default: 1
 #' @param range character string. one of:
 #' \describe{
@@ -75,7 +75,9 @@
 #' @export
 
 pyulear <- function(x, p, freq = 256, fs = 1, range = NULL,
-                  method = ifelse(length(freq) == 1 && bitwAnd(freq, freq - 1) == 0, "fft", "poly"))  {
+                    method = if (length(freq) == 1 &&
+                                 bitwAnd(freq, freq - 1) == 0)
+                      "fft" else "poly")  {
 
   coefs <- aryule(x, p)
   if (is.null(range)) {

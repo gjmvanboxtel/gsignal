@@ -10,7 +10,8 @@
 sgolayfilt(x, p = 3, n = p + 3 - p\%\%2, m = 0, ts = 1)
 }
 \arguments{
-\item{filt}{Filter characteristics, usually the result of a call to \code{sgolay}}
+\item{filt}{Filter characteristics, usually the result of a call to
+\code{sgolay}}
 
 \item{x}{the input signal to be filtered, specified as a vector or as a
 matrix. If \code{x} is a matrix, each column is filtered.}

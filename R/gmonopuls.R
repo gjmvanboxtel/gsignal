@@ -18,7 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191125 Geert van Boxtel          First version for v0.1.0
-#---------------------------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 
 #' Gaussian monopulse
 #'
@@ -45,16 +45,18 @@
 #' y2 <- gmonopuls(t, 0.2)
 #' plot(t, y1, type="l", xlab = "Time", ylab = "Amplitude")
 #' lines(t, y2, col = "red")
-#' legend("topright", legend = c("fc = 0.1", "fc = 0.2"), lty = 1, col = c(1, 2))
+#' legend("topright", legend = c("fc = 0.1", "fc = 0.2"),
+#'        lty = 1, col = c(1, 2))
 #'
 #' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 
-gmonopuls <- function (t, fc = 1e3) {
+gmonopuls <- function(t, fc = 1e3) {
 
-  if (!isPosscal(fc)) stop ("fc must be a non-negative real scalar")
+  if (!isPosscal(fc))
+    stop("fc must be a non-negative real scalar")
 
   y <- 2 * sqrt(exp(1)) * pi * t * fc * exp(-2 * (pi * t * fc)^2)
   y
