@@ -25,8 +25,8 @@
 #' Return the poles and gain of an analog Chebyshev Type I lowpass filter
 #' prototype.
 #'
-#' This function exists for Matlab/OCtave compatibility only, and is equivalent
-#' to \code{cheby1(n, Rp, 1, "low", "s")}.
+#' This function exists for compatibility with 'Matlab' and 'OCtave' only, and
+#' is equivalent to \code{cheby1(n, Rp, 1, "low", "s")}.
 #'
 #' @param n Order of the filter.
 #' @param Rp dB of pass-band ripple.

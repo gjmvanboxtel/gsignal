@@ -20,9 +20,9 @@ columns are computed.}
 
 \item{ref}{reference. Compute the width with reference to:
 \describe{
-  \item{\code{'max | zero'}}{\code{max(y)}}
-  \item{\code{'middle' | 'min'}}{\code{min(y) + max(y)}}
-  \item{\code{'absolute'}}{an absolute level of \code{y}}
+  \item{\code{"max" | "zero"}}{\code{max(y)}}
+  \item{\code{"middle" | "min"}}{\code{min(y) + max(y)}}
+  \item{\code{"absolute"}}{an absolute level of \code{y}}
 }}
 
 \item{level}{the level at which to compute the width. Default: 0.5.}

@@ -55,7 +55,7 @@
 #' @param Sp a vector containing the poles in a pole-zero-gain model.
 #' @param Sg a vector containing the gain in a pole-zero-gain model.
 #' @param T the sampling frequency represented in the z plane. Default:
-#'  \code{2 * tan(1/2)}.
+#'  \code{2 * tan(1 / 2)}.
 #' @param ...	arguments passed to the generic function.
 #'
 #' @return For the default case or for bilinear.Zpg, an object of class
@@ -82,9 +82,8 @@
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Bilinear_transform}
 #'
-#' @author Original Octave code by Paul Kienzle \email{pkienzle@@users.sf.net}.
-#'   Conversion to R by Tom Short, adapted by Geert van Boxtel
-#'   \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Paul Kienzle \email{pkienzle@@users.sf.net}. Conversion to R by Tom
+#'   Short, adapted by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @rdname bilinear
 #' @export

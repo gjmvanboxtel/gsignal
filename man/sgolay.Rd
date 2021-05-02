@@ -17,8 +17,7 @@ sgolay(p, n, m = 0, ts = 1)
 }
 \value{
 An square matrix with dimensions \code{length(n)} that is of class
-  \code{'sgolayFilter'}, so it can be used with \code{filter} (as per the
-  implementation by Tom Short in the package \code{link{signal}})).
+  \code{"sgolayFilter"}, so it can be used with \code{filter}.
 }
 \description{
 Compute the filter coefficients for all Savitzky-Golay FIR smoothing filters.
@@ -29,14 +28,14 @@ later rows smooth based on past values, with the middle row using half future
 and half past.  In particular, you can use row \code{i} to estimate
 \code{x(k)} based on the \code{i-1} preceding values and the \code{n-i}
 following values of \code{x} values as \code{y(k) = F[i, ] *
-x[(k-i+1):(k+n-i)]}.
+x[(k - i + 1):(k + n -i)]}.
 
 Normally, you would apply the first \code{(n-1)/2} rows to the first \code{k}
 points of the vector, the last \code{k} rows to the last \code{k} points of
 the vector and middle row to the remainder, but for example if you were
-running on a realtime system where you wanted to smooth based on the all the
+running on a real-time system where you wanted to smooth based on the all the
 data collected up to the current time, with a lag of five samples, you could
-apply just the filter on row \code{n-5} to your window of length \code{n}
+apply just the filter on row \code{n - 5} to your window of length \code{n}
 each time you added a new sample.
 }
 \examples{

@@ -45,25 +45,25 @@
 #' @param fs sampling frequency (Hz). Default: 1
 #' @param range character string. one of:
 #' \describe{
-#'   \item{\code{'half'} or \code{'onesided'}}{frequency range of the spectrum
+#'   \item{\code{"half"} or \code{"onesided"}}{frequency range of the spectrum
 #'   is from zero up to but not including \code{fs / 2}. Power from negative
 #'   frequencies is added to the positive side of the spectrum.}
-#'   \item{\code{'whole'} or \code{'twosided'}}{frequency range of the spectrum
+#'   \item{\code{"whole"} or \code{"twosided"}}{frequency range of the spectrum
 #'   is \code{-fs / 2} to \code{fs / 2}, with negative frequencies stored in
 #'   "wrap around order" after the positive frequencies; e.g. frequencies for a
-#'   10-point \code{'twosided'} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
+#'   10-point \code{"twosided"} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
 #'   -0.2. -0.1.}
-#'   \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
+#'   \item{\code{"shift"} or \code{"centerdc"}}{same as \code{"whole"} but with
 #'   the first half of the spectrum swapped with second half to put the
 #'   zero-frequency value in the middle. If \code{freq} is a vector,
-#'   \code{'shift'} is ignored.}
+#'   \code{"shift"} is ignored.}
 #' }
 #'   Default: If model coefficients \code{a} are real, the default range is
-#'   \code{'half'}, otherwise the default range is \code{'whole'}.
+#'   \code{"half"}, otherwise the default range is \code{"whole"}.
 #' @param method method used to calculate the power spectral density, either
-#'   \code{'fft'} (use the Fast Fourier Transform) or \code{'poly'} (calculate
+#'   \code{"fft"} (use the Fast Fourier Transform) or \code{"poly"} (calculate
 #'   the power spectrum as a polynomial). This argument is ignored if the
-#'   \code{freq} argument is a vector. The default is \code{'poly'} unless the
+#'   \code{freq} argument is a vector. The default is \code{"poly"} unless the
 #'   \code{freq} argument is an integer power of 2.
 #' @param x object to plot.
 #' @param yscale character string specifying scaling of Y-axis; one of
@@ -224,9 +224,8 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
 #' @rdname ar_psd
 #' @export
 
-plot.ar_psd <-
-  print.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
-                           xlab = NULL, ylab = NULL, main = NULL, ...) {
+plot.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
+                        xlab = NULL, ylab = NULL, main = NULL, ...) {
 
   if (!("ar_psd" %in% class(x))) {
     stop("invalid object type")
@@ -260,4 +259,9 @@ plot.ar_psd <-
   graphics::plot(x$freq, plt, type = "l", xlab = xlab, ylab = "", ...)
   graphics::title(main, sub = sub)
   graphics::title(ylab = ylab, line = 2)
+}
+
+print.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
+                         xlab = NULL, ylab = NULL, main = NULL, ...) {
+  plot.ar_psd(x, yscale, xlab, ylab, main, ...)
 }

@@ -16,7 +16,7 @@
 #
 # Version history
 # 20200320    GvB       setup for gsignal v0.1.0
-# 20210405  GvB       changed 'dim' argument to MARGIN
+# 20210405    GvB       changed 'dim' argument to MARGIN
 #------------------------------------------------------------------------------
 
 #' 1-D median filtering
@@ -25,23 +25,23 @@
 #'
 #' This function computes a running median over the input \code{x}, using the
 #' \code{\link[stats]{runmed}} function. Because of that, it works a little
-#' differently than the Matlab/Octave version (i.e., it does not produce exactly
-#' the same values).
+#' differently than the 'Matlab' or 'Octave' versions (i.e., it does not produce
+#' exactly the same values).
 #'
 #' \describe{
-#' \item{missing values}{The Mablab/Octave function has a \code{'nanflag'}
-#'   option that allows to include or remove missing values. If inclusion is
-#'   specifies, then the function returns a signal so that the median of any
-#'   segment containing NAs is also Na. Because the \code{runmed} function does
-#'   not include an \code{na.omit} option, implementing this functionality would
-#'   lead to a considerable speed loss. Instead, an \code{na.omit} parameter was
-#'   implemented that allows either omitting NAs or interpolating them with a
-#'   spline function.}
+#' \item{missing values}{The 'Mablab' and 'Octave' functions have a
+#' \code{'nanflag'} option that allows to include or remove missing values. If
+#' inclusion is specifies, then the function returns a signal so that the median
+#' of any segment containing NAs is also NA. Because the \code{'runmed'} function
+#' does not include an \code{na.omit} option, implementing this functionality
+#' would lead to a considerable speed loss. Instead, a \code{na.omit} parameter
+#' was implemented that allows either omitting NAs or interpolating them with a
+#' spline function.}
 #' \item{endpoint filtering}{Instead of the \code{'zeropad'} and
-#'   \code{'truncate'} options to the \code{'padding'} argument in the
-#'   Matlab/Octave function, the present version uses the standard
-#'   \code{'endrule'} parameter of the \code{runmed} function, with options
-#'   \code{'keep'}, \code{'constant'}, or \code{'median'}.}
+#' \code{'truncate'} options to the \code{'padding'} argument in the 'Matlab'
+#' and 'Octave' functions, the present version uses the standard
+#' \code{endrule} parameter of the \code{'runmed'} function, with options
+#' \code{keep}, \code{constant}, or \code{median}.}
 #'}
 #'
 #' @param x Input signal, specified as a numeric vector, matrix or array.

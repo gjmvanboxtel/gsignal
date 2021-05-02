@@ -14,6 +14,9 @@ in rad/second.}
 
 \item{...}{additional arguments passed to the \code{plot() function}}
 }
+\value{
+No return value
+}
 \description{
 Plot the s-plane frequency response of an IIR filter.
 }

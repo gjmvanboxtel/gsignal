@@ -32,10 +32,6 @@ increase linearly with time with a slope of \eqn{1/\pi} at all other times.
 maximum location at each period controlled by \code{width}. Set \code{width}
 to 0.5 to generate a standard triangle wave.
 }
-\note{
-The input argument \code{width} is called \code{xmax} in the Matlab
-  signal package.
-}
 \examples{
 
 T <- 10 * (1 / 50)

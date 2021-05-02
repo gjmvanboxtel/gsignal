@@ -39,8 +39,8 @@
 #' @param window smoothing window. The returned filter is the same shape as the
 #'   smoothing window. Default: \code{hamming(n + 1)}.
 #' @param scale whether to normalize or not. Use \code{TRUE} (default) or
-#'   \code{'scale'} to set the magnitude of the center of the first passband to
-#'   1, and \code{FALSE} or \code{'noscale'} to not normalize.
+#'   \code{"scale"} to set the magnitude of the center of the first passband to
+#'   1, and \code{FALSE} or \code{"noscale"} to not normalize.
 #'
 #' @return The FIR filter coefficients, a vector of length \code{n + 1}, of
 #'   class \code{Ma}.

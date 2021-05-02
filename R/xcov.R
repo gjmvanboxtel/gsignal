@@ -36,14 +36,14 @@
 #' @param scale Character string. Specifies the type of scaling applied to the
 #'   covariation vector (or matrix). matched to one of:
 #'   \describe{
-#'     \item{'none'}{return the unscaled covariance, C}
-#'     \item{'biased'}{return the biased average, C/N}
-#'     \item{'unbiased'}{return the unbiased average, C(k)/(N-|k|)}
-#'     \item{'coeff'}{return C/(covariance at lag 0)},
+#'     \item{"none"}{return the unscaled covariance, C}
+#'     \item{"biased"}{return the biased average, C/N}
+#'     \item{"unbiased"}{return the unbiased average, C(k)/(N-|k|)}
+#'     \item{"coeff"}{return C/(covariance at lag 0)},
 #'     where \code{k} is the lag, and \code{N} is the length of \code{x}
 #'   }
-#'  If omitted, the default value is \code{none}. If \code{y} is supplied but
-#'  does not have the same length as \code{x}, scale must be \code{none}.
+#'  If omitted, the default value is \code{"none"}. If \code{y} is supplied but
+#'  does not have the same length as \code{x}, scale must be \code{"none"}.
 #'
 #' @return A list containing the following variables:
 #' \describe{

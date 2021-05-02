@@ -33,24 +33,11 @@
 #' Support for complex valued input is provided. The sum of squares of complex
 #' numbers is defined by \code{sum(x * Conj(x))}
 #'
-#' @note This R implementation of the \code{rms} function differs from the
-#'   implementation of the \code{signal} package in Octave in that he parameter
-#'   \code{dim} in the Octave function is replaced here by the \code{MARGIN}
-#'   argument, which is interpreted as in the \code{apply} family of functions.
-#'   That is, given a \code{r} by \code{c} matrix as input, specifying
-#'   \code{MARGIN = 1} will result in a vector of length \code{r} containing the
-#'   root-mean-squares of the  \code{r} rows, and specifying \code{MARGIN = 2}
-#'   will result in a vector of length \code{c} containing the root-mean-squares
-#'   of the \code{c} columns. In Octave, by contrast, \code{dim = 1} will give a
-#'   row vector containing the ratios over columns, and  \code{dim = 2} will
-#'   give a column vector containing the ratios over rows.
-#'
 #' @param x the data, expected to be a vector, a matrix, an array.
 #' @param MARGIN a vector giving the subscripts which the function will be
 #'   applied over. E.g., for a matrix 1 indicates rows, 2 indicates columns,
 #'   c(1, 2) indicates rows and columns. Where \code{x} has named dimnames, it
-#'   can be a character vector selecting dimension names. Default: 2 (usually
-#'   columns)
+#'   can be a character vector selecting dimension names. Default: 2 (columns)
 #'
 #' @return Vector or array of values containing the root-mean-squares of the
 #'   specified \code{MARGIN} of \code{x}.

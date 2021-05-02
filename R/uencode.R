@@ -71,6 +71,7 @@
 #' @param v Limit on the range of \code{u} to the range from \code{-v} to
 #'   \code{v} before saturating them. Default 1.
 #' @param signed Logical indicating signed or unsigned output. See Details.
+#'   Default: FALSE.
 #'
 #' @return Multidimensional array of the same size as \code{u} containing signed
 #'   or unsigned integers.

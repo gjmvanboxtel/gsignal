@@ -13,11 +13,12 @@ filter2(h, x, shape = c("same", "full", "valid"))
 
 \item{shape}{Subsection of convolution, partially matched to:
 \describe{
-  \item{same}{Return the central part of the filtered data; same size as
+  \item{"same"}{Return the central part of the filtered data; same size as
   \code{x} (Default)}
-  \item{full}{Return the full 2-D filtered data, with zero-padding on all
+  \item{"full"}{Return the full 2-D filtered data, with zero-padding on all
   sides before filtering}
-  \item{valid}{Return only the parts which do not include zero-padded edges.}
+  \item{"valid"}{Return only the parts which do not include zero-padded
+  edges.}
 }}
 }
 \value{

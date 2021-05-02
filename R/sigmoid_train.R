@@ -33,7 +33,7 @@
 #'
 #' The individual sigmoids are returned in \code{s}. The combined sigmoid train
 #' is returned in the vector \code{y} of length equal to \code{t}, and such that
-#' \code{y = max (s)}.
+#' \code{y = max(s)}.
 #'
 #' @param t Vector (or coerced to a vector) of time values at which the sigmoids
 #'   are calculated.
@@ -52,7 +52,6 @@
 #'
 #' @examples
 #'
-#' ## Vectorized
 #' t <- seq(0, 2, length.out = 500)
 #' ranges <- rbind(c(0.1, 0.4), c(0.6, 0.8), c(1, 2))
 #' rc <- rbind(c(1e-2, 1e-3), c(1e-3, 2e-2), c(2e-2, 1e-2))
@@ -64,7 +63,6 @@
 #' for (i in 1:3) lines(t, st$y[i,])
 #' # The colored regions show the limits defined in range.
 #'
-#' ## Variable amplitude
 #' t <- seq(0, 2, length.out = 500)
 #' ranges <- rbind(c(0.1, 0.4), c(0.6, 0.8), c(1, 2))
 #' rc <- rbind(c(1e-2, 1e-3), c(1e-3, 2e-2), c(2e-2, 1e-2))

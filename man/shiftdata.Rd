@@ -10,7 +10,7 @@ shiftdata(x, dimx)
 \item{x}{The data to be shifted. Can be of any type.}
 
 \item{dimx}{Dimension of \code{x} to be shifted to the first column. Named
-'dimx' instead of 'dim' to avoid confusion with R's dim() function.
+"dimx" instead of "dim" to avoid confusion with R's dim() function.
 Default: NULL (shift the first nonsingleton dimension)}
 }
 \value{
@@ -19,15 +19,15 @@ A list containing 3 variables; \code{x}, the shifted data,
   shifts
 }
 \description{
-Shift data in to permute the dimension \code{dim} to the first column.
+Shift data in to permute the dimension \code{dimx} to the first column.
 }
 \details{
-\code{shiftdata(x, dim)} shifts data \code{x} to permute dimension \code{dim}
-to the first column using the same permutation as the built-in \code{filter}
-function. The vector \code{perm} in the output list returns the permutation
-vector that is used.
+\code{shiftdata(x, dimx)} shifts data \code{x} to permute dimension
+\code{dimx} to the first column using the same permutation as the built-in
+\code{filter} function. The vector \code{perm} in the output list returns the
+permutation vector that is used.
 
-If \code{dim} is missing or empty, then the first nonsingleton dimension is
+If \code{dimx} is missing or empty, then the first nonsingleton dimension is
 shifted to the first column, and the number of shifts is returned in
 \code{nshifts}.
 
@@ -48,7 +48,7 @@ sd <- shiftdata(x, 2)
 ## Shift the matrix back to its original shape.
 y <- unshiftdata(sd)
 
-## Rearrange Array to Operate on First Nonsingleton Dimension
+## Rearrange Array to Operate on First nonsingleton Dimension
 x <- 1:5
 sd <- shiftdata(x)
 y <- unshiftdata(sd)

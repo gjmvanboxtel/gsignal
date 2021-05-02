@@ -4,7 +4,7 @@
 \alias{ultrwin}
 \title{Ultraspherical window}
 \usage{
-ultrwin(n, mu, pvalue, ptype = "beta")
+ultrwin(n, mu, pvalue, ptype = c("xmu", "beta", "att", "latt"))
 }
 \arguments{
 \item{n}{Window length, specified as a positive integer (controls main lobe
@@ -18,7 +18,7 @@ width/side-lobe-ratio.}
 
 \item{ptype}{type of parameter passed in \code{pvalue}. Can be one of:
   \describe{
-    \item{xmu (default)}{controls the ripple ratio by setting the
+    \item{"xmu" (default)}{controls the ripple ratio by setting the
     (un-normalized) window’s Fourier transform according to its canonical
     definition:
 \if{latex}{
@@ -48,10 +48,10 @@ defined using the recurrence relationship:
      Note that when not giving \code{xmu}, stability issues may occur with
      \code{mu <= -1.5}.
    }
-    \item{beta}{sets the main lobe width to \code{beta} times that of a
+    \item{"beta"}{sets the main lobe width to \code{beta} times that of a
     rectangular window.}
-    \item{att}{sets the ripple ratio at the first }
-    \item{latt}{sets the ripple ratio at the last side-lobe}
+    \item{"att"}{sets the ripple ratio at the first }
+    \item{"latt"}{sets the ripple ratio at the last side-lobe}
   }}
 }
 \value{

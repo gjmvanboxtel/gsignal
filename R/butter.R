@@ -43,26 +43,26 @@
 #' @param w critical frequencies of the filter. \code{w} must be a scalar for
 #'   low-pass and high-pass filters, and \code{w} must be a two-element vector
 #'   c(low, high) specifying the lower and upper bands in radians/second. For
-#'   digital filters, W must be between 0 and 1 where 1 is the Nyquist
+#'   digital filters, w must be between 0 and 1 where 1 is the Nyquist
 #'   frequency.
 #' @param type filter type, one of \code{"low"}, (default) \code{"high"},
 #'   \code{"stop"}, or \code{"pass"}.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param output Type of output, one of:
 #' \describe{
-#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+#'   \item{"Arma"}{Autoregressive-Moving average (aka numerator/denominator, aka
 #'   b/a)}
-#'   \item{Zpg}{Zero-pole-gain format}
-#'   \item{Sos}{Second-order sections}
+#'   \item{"Zpg"}{Zero-pole-gain format}
+#'   \item{"Sos"}{Second-order sections}
 #' }
-#' Default is \code{Arma} compatibility with \code{signal::butter} and the
-#'   Matlab/Octave equivalents, but \code{Sos} should be preferred for
-#'   general-purpose filtering because of numeric stability.
-#' @param ... additional arguments passed to butter, overriding those given by n
-#'   of class \code{FilterSpecs}.
+#' Default is \code{"Arma"} for compatibility with the 'signal' package and the
+#' 'Matlab' and 'Octave' equivalents, but \code{"Sos"} should be preferred for
+#' general-purpose filtering because of numeric stability.
+#' @param ... additional arguments passed to butter, overriding those given by
+#'   \code{n} of class \code{\link{FilterSpecs}}.
 #'
-#' @return Depending on the value of the \code{'output'} parameter, a list of
-#'   class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+#' @return Depending on the value of the \code{output} parameter, a list of
+#'   class \code{\link{Arma}}, \code{\link{Zpg}}, or \code{\link{Sos}}
 #'   containing the filter coefficients
 #'
 #' @examples

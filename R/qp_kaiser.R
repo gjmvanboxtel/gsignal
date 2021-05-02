@@ -35,10 +35,11 @@
 #' @return The FIR filter coefficients, of class \code{Ma}.
 #'
 #' @examples
+#'\donttest{
 #' freqz(qp_kaiser(1, 20))
 #' freqz(qp_kaiser(1, 40))
+#'}
 #' 
-#'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
 #'   \code{\link{fir2}}
 #'

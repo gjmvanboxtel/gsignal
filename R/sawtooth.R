@@ -57,9 +57,6 @@
 #' y <- sawtooth(2 * pi * 50 * t, 1/2)
 #' plot(t, y, type="l", xlab = "", ylab = "", main = "50 Hz triangle wave")
 #'
-#' @note The input argument \code{width} is called \code{xmax} in the Matlab
-#'   signal package.
-#'
 #' @author Juan Aguado.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #

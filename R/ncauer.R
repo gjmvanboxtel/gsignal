@@ -49,7 +49,7 @@
 #' }
 #'
 #' @examples
-#' zpg <- ncauer(0.5, 40, 5)
+#' zpg <- ncauer(1, 40, 5)
 #' freqz(zpg)
 #' zplane(zpg)
 #'

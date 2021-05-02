@@ -39,7 +39,7 @@
 #'   \item{g}{overall gain (\code{B(Inf)})}
 #' }
 #'
-#' @seealso See also \code{\link{filter}}
+#' @seealso \code{\link{filter}}
 #'
 #' @examples
 #' b <- c(2, 3)

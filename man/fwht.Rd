@@ -21,10 +21,10 @@ padded with zeros to the next greater power of two before processing.}
 
 \item{ordering}{order of the Walsh-Hadamard transform coefficients, one of:
 \describe{
-  \item{sequency}{(Default) Coefficients in order of increasing sequency
-    value, where each row has an additional zero crossing.}
-  \item{hadamard}{Coefficients in normal Hadamard order}
-  \item{dyadic}{Coefficients in Gray code order, where a single bit change
+  \item{"sequency"}{(Default) Coefficients in order of increasing sequency
+  value, where each row has an additional zero crossing.}
+  \item{"hadamard"}{Coefficients in normal Hadamard order}
+  \item{"dyadic"}{Coefficients in Gray code order, where a single bit change
   occurs from one coefficient to the next}
 }}
 }
@@ -38,7 +38,7 @@ Compute the (inverse) Fast Walsh-Hadamard transform of a signal.
 \examples{
 x <- c(19, -1, 11, -9, -7, 13, -15, 5)
 X <- fwht(x)
-## all.equal(x, ifwht(X))
+all.equal(x, ifwht(X))
 
 }
 \references{

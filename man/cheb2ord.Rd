@@ -14,9 +14,9 @@ band-rejection filter, both are vectors of length 2. For a low-pass filter,
 \code{(Ws[1] < Wp[1] < Wp[2] < Ws[2])} or band-reject \code{(Wp[1] < Ws[1]
 < Ws[2] < Wp[2])} filter design, \code{Wp} gives the edges of the pass
 band, and \code{Ws} gives the edges of the stop band. For digital filters,
-frequencies are normalized to [0, 1], corresponding to the range [0, fs/2].
-In case of an analog filter, all frequencies are specified in radians per
-second.}
+frequencies are normalized to [0, 1], corresponding to the range [0, fs /
+2]. In case of an analog filter, all frequencies are specified in radians
+per second.}
 
 \item{Rp}{allowable decibels of ripple in the pass band.}
 

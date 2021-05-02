@@ -14,7 +14,7 @@ zp2tf(z, p, g = 1)
 \item{g}{overall gain. Default: 1.}
 }
 \value{
-A list of class 'Arma' with the following list elements:
+A list of class "Arma" with the following list elements:
 \describe{
   \item{b}{moving average (MA) polynomial coefficients}
   \item{a}{autoregressive (AR) polynomial coefficients}
@@ -31,7 +31,7 @@ ba <- zp2tf(z, p, g)
 
 }
 \seealso{
-See also \code{\link{as.Arma}}, \code{\link{filter}}
+\code{\link{as.Arma}}, \code{\link{filter}}
 }
 \author{
 Geert van Boxtel, \email{gjmvanboxtel@gmail.com}

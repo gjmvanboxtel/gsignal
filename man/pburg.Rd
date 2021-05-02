@@ -26,12 +26,12 @@ of poles if a valid criterion is provided. Must be < length(x) - 2.}
 that spurious poles are not added when the whitened data has no more
 information in it. Recognized values are:
 \describe{
-  \item{AKICc}{approximate corrected Kullback information criterion
+  \item{"AKICc"}{approximate corrected Kullback information criterion
   (recommended)}
-  \item{KIC}{Kullback information criterion}
-  \item{AICc}{corrected Akaike information criterion}
-  \item{AIC}{Akaike information criterion}
-  \item{FPE}{final prediction error}
+  \item{"KIC"}{Kullback information criterion}
+  \item{"AICc"}{corrected Akaike information criterion}
+  \item{"AIC"}{Akaike information criterion}
+  \item{"FPE"}{final prediction error}
 }
 The default is to NOT use a model-selection criterion (NULL)}
 
@@ -43,26 +43,26 @@ frequency values at which spectral density is calculated. Default: 256.}
 
 \item{range}{character string. one of:
 \describe{
-  \item{\code{'half'} or \code{'onesided'}}{frequency range of the spectrum
+  \item{\code{"half"} or \code{"onesided"}}{frequency range of the spectrum
   is from zero up to but not including \code{fs / 2}. Power from negative
   frequencies is added to the positive side of the spectrum.}
-  \item{\code{'whole'} or \code{'twosided'}}{frequency range of the spectrum
+  \item{\code{"whole"} or \code{"twosided"}}{frequency range of the spectrum
   is \code{-fs / 2} to \code{fs / 2}, with negative frequencies stored in
   "wrap around order" after the positive frequencies; e.g. frequencies for a
-  10-point \code{'twosided'} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
+  10-point \code{"twosided"} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
   -0.2. -0.1.}
-  \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
+  \item{\code{"shift"} or \code{"centerdc"}}{same as \code{"whole"} but with
   the first half of the spectrum swapped with second half to put the
-  zero-frequency value in the middle. If \code{freq} is vector,
-  \code{'shift'} is ignored.}
+  zero-frequency value in the middle. If \code{freq} is a vector,
+  \code{"shift"} is ignored.}
 }
   Default: If model coefficients \code{a} are real, the default range is
-  \code{'half'}, otherwise the default range is \code{'whole'}.}
+  \code{"half"}, otherwise the default range is \code{"whole"}.}
 
 \item{method}{method used to calculate the power spectral density, either
-\code{'fft'} (use the Fast Fourier Transform) or \code{'poly'} (calculate
+\code{"fft"} (use the Fast Fourier Transform) or \code{"poly"} (calculate
 the power spectrum as a polynomial). This argument is ignored if the
-\code{freq} argument is a vector. The default is \code{'poly'} unless the
+\code{freq} argument is a vector. The default is \code{"poly"} unless the
 \code{freq} argument is an integer power of 2.}
 }
 \value{

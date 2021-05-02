@@ -18,7 +18,7 @@
 # Version history
 # 20200209  GvB       setup for gsignal v0.1.0
 # 20200212  GvB       use stats::nextn to ensure that the length is
-#                     a highly compositite number
+#                     a highly composite number
 #------------------------------------------------------------------------------
 
 #' Circular convolution
@@ -27,10 +27,10 @@
 #'
 #' Linear and circular convolution are fundamentally different operations.
 #' Linear convolution of an n-point vector x, and an l-point vector y, has
-#' length n + l - 1, and can be computed by the function
-#' \code{\link[gsignal]{conv}}, which uses \code{\link[gsignal]{filter}}. The
-#' circular convolution, by contrast, is equal to the inverse discrete Fourier
-#' transform (DFT) of the product of the vectors' DFTs.
+#' length n + l - 1, and can be computed by the function \code{\link{conv}},
+#' which uses \code{\link{filter}}. The circular convolution, by contrast, is
+#' equal to the inverse discrete Fourier transform (DFT) of the product of the
+#' vectors' DFTs.
 #'
 #' For the circular convolution of \code{x} and \code{y} to be equivalent to
 #' their linear convolution, the vectors must be padded with zeros to length at
@@ -52,14 +52,14 @@
 #' b <- c(1, 1, 2, 1, 2, 2, 1, 1)
 #' c <- cconv(a, b)       # Circular convolution
 #' cref = conv(a, b)      # Linear convolution
-#' ## all.equal(max(c - cref), 0)
+#' all.equal(max(c - cref), 0)
 #'
 #' cconv(a, b, 6)
 #'
-#' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
+#' @seealso \code{\link{conv}}, \code{\link[stats]{convolve}}
 #'
-#' @author Leonardo Araujo.\cr
-#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Leonardo Araujo.\cr Conversion to R by Geert van Boxtel,
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

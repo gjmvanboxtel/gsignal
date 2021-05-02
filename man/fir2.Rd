@@ -22,7 +22,7 @@ magnitude response at each of the points specified in \code{f}.}
 defaults to 512, and should be a power of 2 bigger than \code{n}.}
 
 \item{ramp_n}{transition width for jumps in filter response (defaults to
-\code{grid_n/20}). A wider ramp gives wider transitions but has better
+\code{grid_n / 20}). A wider ramp gives wider transitions but has better
 stopband characteristics.}
 
 \item{window}{smoothing window. The returned filter is the same shape as the

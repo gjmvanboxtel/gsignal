@@ -38,6 +38,6 @@ B <- dct2(A)
 \code{\link{idct2}}
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
-  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr Conversion to R by
+  Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

@@ -23,8 +23,8 @@ zplane(filt, ...)
 }
 \arguments{
 \item{filt}{for the default case, the moving-average coefficients of an ARMA
-model or filter. Generically, filt specifies an arbitrary model or filter
-operation.}
+model or filter. Generically, \code{filt} specifies an arbitrary model or
+filter operation.}
 
 \item{...}{additional arguments are passed through to plot.}
 

@@ -65,7 +65,7 @@ y <- filter(h, x, zi = zi*x[1])
 ## obtain the same results with filtic
 lab <- max(length(h$b), length(h$a)) - 1
 ic <- filtic(h, rep(1, lab), rep(1, lab))
-## all.equal(zi, ic)
+all.equal(zi, ic)
 
 }
 \references{

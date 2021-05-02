@@ -30,7 +30,7 @@
 #' for the quotient of the polynomials, \code{b} and \code{a}.
 #'
 #' The call \code{res <- rresidue(r, p, k)} performs the inverse operation and
-#' computes the reconstituted quotient of polynomials, b(s)/a(s), from the
+#' computes the reconstituted quotient of polynomials, b(s) / a(s), from the
 #' partial fraction expansion; represented by the residues, poles, and a direct
 #' polynomial specified by \code{r}, \code{p} and \code{k}, and the pole
 #' multiplicity \code{e}.

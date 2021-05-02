@@ -31,20 +31,20 @@
 #'
 #' The chirp can have one of three shapes:
 #' \describe{
-#'   \item{linear}{Specifies an instantaneous frequency sweep \eqn{f_i(t)} given
-#'   by \eqn{f_i(t) = f_0 + \beta t}, where \eqn{\beta = (f_1 - f_0) / t_1} and
-#'   the default value for \eqn{f_0} is 0. The coefficient \eqn{\beta} ensures
-#'   that the desired frequency breakpoint \eqn{f_1} at time \eqn{t_1} is
-#'   maintained.}
-#'   \item{quadratic}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
+#'   \item{"linear"}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
+#'   given by \eqn{f_i(t) = f_0 + \beta t}, where \eqn{\beta = (f_1 - f_0) /
+#'   t_1} and the default value for \eqn{f_0} is 0. The coefficient \eqn{\beta}
+#'   ensures that the desired frequency breakpoint \eqn{f_1} at time \eqn{t_1}
+#'   is maintained.}
+#'   \item{"quadratic"}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
 #'   given by \eqn{f_i(t) = f_0 + \beta t^2}, where \eqn{\beta = (f_1 - f_0) /
 #'   t_1^2} and the default value for \eqn{f_0} is 0. If \eqn{f_0 > f_1}
 #'   (downsweep), the default shape is convex. If \eqn{f_0 < f_1} (upsweep), the
 #'   default shape is concave.}
-#'   \item{logarithmic}{Specifies an instantaneous frequency sweep \eqn{f_i(t)}
-#'   given by \eqn{f_i(t) = f_0 \times \beta t}, where \eqn{\beta = \left( \frac
-#'   {f_1}{f_0} \right) ^ \frac{1}{t1}} and the default value for \eqn{f_0} is
-#'   \eqn{10^{-6}}.}
+#'   \item{"logarithmic"}{Specifies an instantaneous frequency sweep
+#'   \eqn{f_i(t)} given by \eqn{f_i(t) = f_0 \times \beta t}, where \eqn{\beta =
+#'   \left( \frac {f_1}{f_0} \right) ^ \frac{1}{t1}} and the default value for
+#'   \eqn{f_0} is \eqn{10^{-6}}.}
 #' }
 #'
 #' @param t Time array, specified as a vector.
@@ -55,8 +55,8 @@
 #'   seconds. Default: 1 sec.
 #' @param f1 Instantaneous frequency at time t1, specified as a positive scalar
 #'   expressed in Hz. Default: 100 Hz.
-#' @param shape Sweep method, specified as \code{'linear'}, \code{'quadratic'},
-#'   or \code{'logarithmic'} (see Details). Default: \code{linear}.
+#' @param shape Sweep method, specified as \code{"linear"}, \code{"quadratic"},
+#'   or \code{"logarithmic"} (see Details). Default: \code{"linear"}.
 #' @param phase Initial phase, specified as a positive scalar expressed in
 #'   degrees. Default: 0.
 
@@ -72,9 +72,9 @@
 #'
 #' # Shows a quadratic chirp of 400 Hz at t=0 and 100 Hz at t=10
 #' # Time goes from -2 to 15 seconds.
-#' specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
+#' specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, "quadratic"))
 #'
-#' # Shows a logarithmic chirp of 200 Hz at t=0 and 500 Hz at t=2
+#' # Shows a logarithmic chirp of 200 Hz at t = 0 and 500 Hz at t = 2
 #' # Time goes from 0 to 5 seconds at 8000 Hz.
 #' specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"),
 #'          fs = 8000)

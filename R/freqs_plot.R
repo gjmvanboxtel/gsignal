@@ -29,6 +29,8 @@
 #'   in rad/second.
 #' @param h Frequency response, specified as a complex vector.
 #' @param ... additional arguments passed to the \code{plot() function}
+#' 
+#' @return No return value
 #'
 #' @examples
 #' b <- c(1, 2); a <- c(1, 1)

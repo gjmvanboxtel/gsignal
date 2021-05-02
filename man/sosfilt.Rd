@@ -54,7 +54,7 @@ lines(t, y, col="red")
 
 ## using 'filter' will handle the gain for you
 y2 <- filter(sosg, x)
-## all.equal(y, y2)
+all.equal(y, y2)
 
 ## The following example is from Python scipy.signal.sosfilt
 ## It shows the instability that results from trying to do a

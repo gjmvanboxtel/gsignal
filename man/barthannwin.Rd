@@ -36,5 +36,5 @@ plot (t, type = "l", xlab = "Samples", ylab =" Amplitude")
 }
 \author{
 Andreas Weingessel, \email{Andreas.Weingessel@ci.tuwien.ac.at}.
-Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

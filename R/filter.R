@@ -24,8 +24,7 @@
 
 #' Filter a signal
 #'
-#' Apply a 1-D digital filter to the data in \code{x}, compatible with
-#' Matlab/Octave.
+#' Apply a 1-D digital filter compatible with 'Matlab' and 'Octave'.
 #'
 #' The filter is a direct form II transposed implementation of the standard
 #' linear time-invariant difference equation:

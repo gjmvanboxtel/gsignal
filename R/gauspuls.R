@@ -25,13 +25,6 @@
 #'
 #' Generate a Gaussian modulated sinusoidal pulse sampled at times \code{t}.
 #'
-#' @note The Octave \code{gauspuls} function differs from the function in the
-#'   Matlab signal package. The Octave function does not use the \code{bwr}
-#'   (fractional bandwidth reference level), the \code{tpe} (trailing pulse
-#'   envelope level), and the \code{'cutoff'} input arguments. In addition, it
-#'   only returns the inphase Gaussian pulse, not the quadrature pulse nor the
-#'   signal envelope and cutoff time.
-#'
 #' @param t Vector of time values at which the unit-amplitude Gaussian RF pulse
 #'   is calculated.
 #' @param fc Center frequency of the Gaussian-modulated sinusoidal pulses,

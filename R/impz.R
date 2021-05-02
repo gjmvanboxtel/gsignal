@@ -46,7 +46,7 @@
 #'   method. For \code{plot.impz}, additional arguments are passed through to
 #'   plot.
 #'
-#' @return For \code{impz}, a list of class \code{impz} with items:
+#' @return For \code{impz}, a list of class \code{"impz"} with items:
 #' \describe{
 #'   \item{x}{impulse response signal.}
 #'   \item{t}{time.}
@@ -58,7 +58,6 @@
 #' impz(elp)
 #'
 #' xt <- impz(elp)
-#'
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Tom Short;\cr
@@ -171,9 +170,8 @@ impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
   } else {
     x <- filter(b, a, c(1, numeric(n - 1)))
   }
-  if (!exists("t", mode = "numeric")) {
-    t <- (0:(n - 1)) / fs
-  }
+  
+  t <- (0:(length(x) - 1)) / fs
 
   res <- list(x = x, t = t)
   class(res) <- "impz"

@@ -42,8 +42,8 @@ A list containing two numeric vectors:
 Compute the single-level discrete wavelet transform of a signal
 }
 \details{
-This function is only included because of compatibility with the Octave
-signal package. Specialized packages exist in R to perform the discrete
+This function is only included because of compatibility with the 'Octave'
+'signal' package. Specialized packages exist in R to perform the discrete
 wavelet transform, e.g., the \code{wavelets} package [1]. this function
 recognizes only a few wavelet names, namely those for which scale
 coefficients are available (Daubechies [2] and Coiflet [3]).
@@ -57,14 +57,14 @@ reverse of the reconstruction filters (see examples).
 The notations \code{g} and \code{h} are often used to denote low-pass
   (scaling) and high-pass (wavelet) coefficients, respectively, but
   inconsistently. Ref [4] uses it, as does the R \code{wavelets} package.
-  Octave uses the reverse notation. To avoid confusion, more neutral terms
+  'Octave' uses the reverse notation. To avoid confusion, more neutral terms
   are used here.
 
 There are two naming schemes for wavelet names in use. For instance for
   Daubechies wavelets (d), dN using the length or number of taps, and dbA
   referring to the number of vanishing moments. So d4 and db2 are the same
-  wavelet transform. This function uses the formed (dN) notation; Matlab uses
-  the latter (dbA).
+  wavelet transform. This function uses the formed (dN) notation; 'Matlab'
+  uses the latter (dbA).
 }
 \examples{
 # get Coiflet 30 coefficients

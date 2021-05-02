@@ -9,7 +9,7 @@ rceps(x, minphase = FALSE)
 \arguments{
 \item{x}{input data, specified as a real vector.}
 
-\item{minphase}{logical (default: \code{FALSE})indication whether to compute
+\item{minphase}{logical (default: \code{FALSE}) indication whether to compute
 minimum-phase reconstructed signal}
 }
 \value{
@@ -44,7 +44,7 @@ theory, and denotes a filter transfer function with all of its poles and
 zeroes in the Z-transform domain lie inside the unit circle on the complex
 plane. Such a transfer function represents a stable filter.
 
- A minimum-phase *signal* is a signal that has its energy concentrated
+ A minimum-phase signal is a signal that has its energy concentrated
  near the front of the signal (near time 0). Such signals have many
  applications, e.g. in seismology and speech analysis.
 }

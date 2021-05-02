@@ -1,6 +1,6 @@
 # Arma.R
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
-# Original Octave version:
+# Original 'signal' version:
 # Copyright (C) 2006 EPRI Solutions, Inc.
 # by Tom Short, tshort@eprisolutions.com
 #
@@ -32,10 +32,10 @@
 #' The ARMA model is defined by:
 #' \deqn{a(L)y(t) = b(L)x(t)}
 #' The ARMA model can define an analog or digital model. The AR and MA
-#' polynomial coefficients follow the Matlab/Octave convention where the
-#' coefficients are in decreasing order of the polynomial (the opposite of the
-#' definitions for filter from the stats package and polyroot from the base
-#' package). For an analog model,
+#' polynomial coefficients follow the convention in 'Matlab' and 'Octave' where
+#' the coefficients are in decreasing order of the polynomial (the opposite of
+#' the definitions for \code{\link[stats]{filter}}filter and
+#' \code{\link[base]{polyroot}}). For an analog model,
 #' \if{latex}{
 #'  \deqn{H(s) = (b_1 s^{(m-1)} + b_2 s^{(m-2)} + \ldots + b_m) / (a_1 s^{(n-1)}
 #'  + a_2 s^{(n-2)} + \ldots + a_n)}

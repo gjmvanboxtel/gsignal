@@ -46,7 +46,7 @@ should factor into a small number of small primes. Default: 512.}
 frequencies are in radians.}
 }
 \value{
-For \code{impz}, a list of class \code{impz} with items:
+For \code{impz}, a list of class \code{"impz"} with items:
 \describe{
   \item{x}{impulse response signal.}
   \item{t}{time.}
@@ -68,7 +68,6 @@ elp <- ellip(4, 0.5, 20, 0.4)
 impz(elp)
 
 xt <- impz(elp)
-
 
 }
 \author{

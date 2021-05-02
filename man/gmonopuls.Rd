@@ -18,16 +18,9 @@ Samples of the Gaussian monopulse, returned as a vector of unit
   amplitude at the times indicated by the time vector \code{t}.
 }
 \description{
-Returns samples of the unit-amplitude Gaussian monopulse with center
-frequency \code{fc} (in Hertz) at the times indicated in array \code{t}.
-}
-\note{
-The Octave \code{gauspuls} function differs from the function in the
-  Matlab signal package. The Octave function does not use the \code{'cutoff'}
-  input argument.
+Returns samples of the unit-amplitude Gaussian monopulse.
 }
 \examples{
-
 fs <- 11025    # arbitrary sample rate
 t <- seq(-10, 10, 1/fs)
 y1 <- gmonopuls(t, 0.1)

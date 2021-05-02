@@ -46,7 +46,7 @@ lines(t, ret$rmsx, lwd = 4, col = "black")
 polygon(c(0, t, length(t)), c(0, ret$rmsx, 0), col = "blue")
 lines (t, ret$w, lwd = 2, col = "green")
 legend("topleft", c("data", "window", "movingrms"), lty = 1,
-col = c("red", "green", "blue"))
+       col = c("red", "green", "blue"))
 
 }
 \seealso{

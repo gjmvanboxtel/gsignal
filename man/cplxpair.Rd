@@ -11,7 +11,7 @@ cplxpair(z, tol = 100 * .Machine$double.eps, MARGIN = 2)
 
 \item{tol}{Weighting factor \code{0 < tol < 1}, which determines the
 tolerance of matching. Default: \code{100 * .Machine$double.eps}. (This
-definition differs from the Octave usage).}
+definition differs from the 'Octave' usage).}
 
 \item{MARGIN}{Vector giving the subscripts which the function will be applied
 over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2)

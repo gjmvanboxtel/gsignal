@@ -23,7 +23,7 @@ filtered.}
 even power of 2 and must be greater than or equal to the length of
 \code{filt}. If the specified \code{n} does not meet these criteria, it is
 automatically adjusted to the nearest value that does. If \code{n = NULL}
-(default), then the overlap-add method is not used at all.}
+(default), then the overlap-add method is not used.}
 }
 \value{
 The filtered signal, returned as a vector or matrix with the same
@@ -75,7 +75,7 @@ x <- sin(2* pi * t * 2.3) + 0.25 * rnorm(length(t))  # 2.3 Hz sinusoid+noise
 ma <- Ma(rep(0.1, 10))                               # filter kernel
 y1 <- filter(ma, x)                                  # convulution filter
 y2 <- fftfilt(ma, x)                                 # FFT filter
-## all.equal(y1, y2)                                 # same result
+all.equal(y1, y2)                                    # same result
 
 }
 \references{

@@ -1,6 +1,6 @@
 # gsignal 0.3-1
 
-- date: 20210429
+- date: 20210502
 - added 'signals' data frame
 - cleaned code
 - minor bugfixes

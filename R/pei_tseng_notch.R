@@ -25,11 +25,11 @@
 #' Compute the transfer function coefficients of an IIR narrow-band notch
 #' filter.
 #'
-#' The filter construction is based on an allpass which performs a reversal of
+#' The filter construction is based on an all-pass which performs a reversal of
 #' phase at the filter frequencies. Thus, the mean of the phase-distorted and
 #' the original signal has the respective frequencies removed.
 #'
-#' @param w vector of critical frequencies of the filter. W must be between 0
+#' @param w vector of critical frequencies of the filter. Must be between 0
 #'   and 1 where 1 is the Nyquist frequency.
 #' @param bw vector of bandwidths. Bw should be of the same length as \code{w}.
 #'
@@ -41,7 +41,8 @@
 #'
 #' @examples
 #' ## 50 Hz notch filter
-#' fs <- 256; nyq <- fs/2
+#' fs <- 256
+#' nyq <- fs / 2
 #' notch <- pei_tseng_notch(50 / nyq, 2 / nyq)
 #' freqz(notch, fs = fs)
 #'

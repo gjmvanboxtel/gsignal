@@ -1,6 +1,6 @@
 # sampled2continuous.R
 # Copyright (C) 2020 Geert van Bxtel <G.J.M.vanBoxtel@gmail.com>
-# Original OCtave code:
+# Original Octave code:
 # Copyright (C) 2009 Muthiah Annamalai <muthiah.annamalai@uta.edu>
 #
 # This program is free software; you can redistribute it and/or

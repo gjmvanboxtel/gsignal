@@ -16,7 +16,8 @@ must be between 2 and 32}
 \item{v}{Limit on the range of \code{u} to the range from \code{-v} to
 \code{v} before saturating them. Default 1.}
 
-\item{signed}{Logical indicating signed or unsigned output. See Details.}
+\item{signed}{Logical indicating signed or unsigned output. See Details.
+Default: FALSE.}
 }
 \value{
 Multidimensional array of the same size as \code{u} containing signed

@@ -1,9 +1,9 @@
 ---
 title: "Signal Processing in R"
 author: Geert van Boxtel
-date: April 29, 2021
-output: rmarkdown::html_vignette
-#output: pdf_document
+date: April 30, 2021
+#output: rmarkdown::html_vignette
+output: pdf_document
 vignette: >
   %\VignetteIndexEntry{Signal Processing in R}
   %\VignetteEngine{knitr::rmarkdown}
@@ -359,25 +359,23 @@ For long series convolution may be sped up by making use of the fact that convol
 
 ```{r conv2, fig.height=7, fig.width=7}
 
-library(microbenchmark)
+  short <- runif(20L)
+  long <- runif(1000L)
 
-short <- runif(20L)
-long <- runif(1000L)
+  # convolve two long series
+  ll <- microbenchmark::microbenchmark(conv(long, long),
+                                       cconv(long, long),
+                                       fftconv(long, long))
+  plot1 <- ggplot2::autoplot(ll)
 
-# convolve two long series
-ll <- microbenchmark(conv(long, long),
-                     cconv(long, long),
-                     fftconv(long, long))
-plot1 <- ggplot2::autoplot(ll)
-
-# convolve a short and a long series
-sl <- microbenchmark(conv(short, long),
-                     cconv(short, long),
-                     fftconv(short, long))
-plot2 <- ggplot2::autoplot(sl)
-
-gridExtra::grid.arrange(plot1, plot2, nrow = 2, ncol = 1)
-
+  # convolve a short and a long series
+  sl <- microbenchmark::microbenchmark(conv(short, long),
+                                       cconv(short, long),
+                                       fftconv(short, long))
+  plot2 <- ggplot2::autoplot(sl)
+ 
+  gridExtra::grid.arrange(plot1, plot2, nrow = 2, ncol = 1)
+  
 ```
 
 One-dimensional Filtering in `gsignal` is performed by the function `filter`. It is a direct form II transposed implementation in C++ of the standard linear time-invariant difference equation 
@@ -523,12 +521,12 @@ The package also contains many other functions that may be useful in various sig
 
 * **Windowing functions**. [Window functions](https://en.wikipedia.org/wiki/Window_function) are usually bell-shaped functions (although rectangular and triangular shapes are also used), which are multiplied by the signal in order to taper the ends of the signal to zero to reduce spectral leakage. For instance, the `pwelch` function described above uses a window function (default Hamming) before FFT-ing the segments. The window functions available in `gsignal` are:
   + Modified Bartlett-Hann (`barthannwin`)
-  + Bartlett (triangular - `bartlett`, alias `triang`)
+  + Bartlett (triangular - `bartlett`)
   + Blackman window (`blackman`)
   + Blackman-Harris (`blackmanharris`)
   + Blackman-Nuttall (`blackmannuttall`)
   + Bohman (`bohmanwin`)
-  + Boxcar (rectangular - `boxcar`, alias `rectwin`)
+  + Boxcar (rectangular - `boxcar`)
   + Chebyshev (`chebwin`)
   + Flat top (`flattopwin`)
   + Gaussian (`gausswin`)
@@ -537,6 +535,8 @@ The package also contains many other functions that may be useful in various sig
   + Kaiser (`kaiser`)
   + Nuttall (`nuttallwin`)
   + Parzen (`parzenwin`)
+  + Rectangular (`rectwin`)
+  + Triangular (`triang`)
   + Tukey (`tukeywin`)
   + Ultraspherical (`ultrwin`)
   + Welch (`welchwin`)

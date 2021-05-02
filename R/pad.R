@@ -23,7 +23,7 @@
 #' Pre- or postpad the data object \code{x} with the value \code{c} until it is
 #' of length \code{l}.
 #'
-#' @param x Vector, array, or matrix to be padded
+#' @param x Vector or matrix to be padded
 #' @param l Length of output data along the padding dimension. If \code{length
 #'   (x) > l}, elements from the beginning (\code{dimension = "pre"}) or the end
 #'   (\code{direction = "post"}) of \code{x} are removed until a vector of
@@ -41,15 +41,12 @@
 #' @param direction Where to pad the array along each dimension. One of the
 #'   following:
 #' \describe{
-#'   \item{pre}{Before the first element}
-#'   \item{post}{After the last element}
-#'   \item{both}{(default) Before the first and after the last element}
+#'   \item{"pre"}{Before the first element}
+#'   \item{"post"}{After the last element}
+#'   \item{"both"}{(default) Before the first and after the last element}
 #' }
 #'
-#' @note Unlike the Matlab/Octave \code{postpad} function, this implementation
-#'   is limited to 2-dimensional arrays (matrices).
-#'
-#' @return Padded data.
+#' @return Padded data, returned as a vector or matrix.
 #'
 #' @examples
 #' v <- 1:24

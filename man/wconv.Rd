@@ -15,14 +15,14 @@ wconv(
 \item{type}{Numeric or character, specifies the type of convolution to
   perform:
 \describe{
-  \item{'1d'}{For \code{a} and \code{b} as (coerced to) vectors,
+  \item{"1d"}{For \code{a} and \code{b} as (coerced to) vectors,
   perform 1-D convolution of \code{a} and \code{b};}
-  \item{'2d'}{For \code{a} and \code{b} as (coerced to)
+  \item{"2d}{For \code{a} and \code{b} as (coerced to)
   matrices, perform 2-D convolution of \code{a} and \code{b};}
-  \item{'row'}{For \code{a} as (coerced to) a matrix, and \code{b}
+  \item{"row"}{For \code{a} as (coerced to) a matrix, and \code{b}
   (coerced to) a vector, perform the 1-D convolution of the rows of \code{a}
   and \code{b};}
-  \item{'column'}{For \code{a} as (coerced to) a matrix, and \code{b}
+  \item{"column"}{For \code{a} as (coerced to) a matrix, and \code{b}
   (coerced to) a vector, perform the 1-D convolution of the colums of
   \code{a} and \code{b};}
 }}
@@ -31,11 +31,11 @@ wconv(
 
 \item{shape}{Subsection of convolution, partially matched to:
 \describe{
-  \item{full}{Return the full convolution (default)}
-  \item{same}{Return the central part of the convolution with the same size
+  \item{"full"}{Return the full convolution (default)}
+  \item{"same"}{Return the central part of the convolution with the same size
   as A. The central part of the convolution begins at the indices
   \code{floor(c(nrow(b), ncol(b)) / 2 + 1)}}
-  \item{valid}{Return only the parts which do not include zero-padded edges.
+  \item{"valid"}{Return only the parts which do not include zero-padded edges.
   The size of the result is \code{max(c(nrow(a), ncol(b)) - c(nrow(b),
   ncol(b)) + 1, 0)}}
 }}
@@ -57,7 +57,7 @@ w <- wconv('c', a, c(0,1), 'valid')
 
 }
 \seealso{
-\code{\link[gsignal]{conv}}, \code{\link[gsignal]{conv}}
+\code{\link{conv}}
 }
 \author{
 Lukas Reichlin, \email{lukas.reichlin@gmail.com}.\cr

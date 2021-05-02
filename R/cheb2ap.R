@@ -25,11 +25,11 @@
 #' Return the poles and gain of an analog Chebyshev Type II lowpass filter
 #' prototype.
 #'
-#' This function exists for Matlab/OCtave compatibility only, and is equivalent
-#' to \code{cheby2(n, Rp, 1, "low", "s")}.
+#' This function exists for compatibility with 'Matlab' and 'Octave'only, and is
+#' equivalent to \code{cheby2(n, Rp, 1, "low", "s")}.
 #'
 #' @param n Order of the filter.
-#' @param Rs dB of stopband ripple.
+#' @param Rs dB of stop-band ripple.
 #'
 #' @return list of class \code{\link{Zpg}} containing poles and gain of the
 #'   filter

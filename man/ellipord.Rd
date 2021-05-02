@@ -25,7 +25,7 @@ second.}
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-A list of class \code{'FilterSpecs'} with the following list
+A list of class \code{\link{FilterSpecs}} with the following list
   elements:
 \describe{
   \item{n}{filter order}
@@ -37,7 +37,7 @@ A list of class \code{'FilterSpecs'} with the following list
 }
 }
 \description{
-Compute elleptic filter order and cutoff for the desired
+Compute elliptic filter order and cutoff for the desired
 response characteristics.
 }
 \examples{

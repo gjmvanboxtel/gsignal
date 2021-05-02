@@ -17,10 +17,10 @@ Return the complex cepstrum of the input vector.
 }
 \details{
 Cepstral analysis is a nonlinear signal processing technique that is applied
-most commonly in speech and image processing, or as a tool to
-investigate periodic structures within frequency spectra, for instance
-resulting from echos/reflections in the signal or to the occurrence of
-harmonic frequencies (partials, overtones).
+most commonly in speech and image processing, or as a tool to investigate
+periodic structures within frequency spectra, for instance resulting from
+echos/reflections in the signal or to the occurrence of harmonic frequencies
+(partials, overtones).
 
 The cepstrum is used in many variants. Most important are the power cepstrum,
 the complex cepstrum, and real cepstrum. The function \code{cceps} implements
@@ -35,14 +35,14 @@ taking the log.
 }
 \note{
 This function returns slightly different results in comparison with the
-  Matlab and Octave equivalents. The Octave version does not apply phase
+  'Matlab' and 'Octave' equivalents. The 'Octave' version does not apply phase
   unwrapping, but has an optional correction procedure in case of zero phase
   at \eqn{\pi} radians. The present implementation does apply phase
-  unwrapping so that the correction procedure is unnecessary. The Matlab
+  unwrapping so that the correction procedure is unnecessary. The 'Matlab'
   implementation also applies phase unwrapping, and a circular shift if
   necessary to avoid zero phase at \eqn{\pi} radians. The circular shift is
-  not done here. In addition, the Octave version shifts the zero frequency to
-  the center of the series, which neither the Matlab nor the present
+  not done here. In addition, the 'Octave' version shifts the zero frequency to
+  the center of the series, which neither the 'Matlab' nor the present
   implementation do.
 }
 \examples{

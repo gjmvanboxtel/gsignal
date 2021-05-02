@@ -34,7 +34,7 @@ dec2bin <- function(x, l)
   32 - l + 1, 32)
 x_bin <- sapply(x, dec2bin, 4)
 v_bin <- sapply(v, dec2bin, 4)
-df <- data.frame(x, x_bin, v, v_bin)
+data.frame(x, x_bin, v, v_bin)
 
 }
 \seealso{

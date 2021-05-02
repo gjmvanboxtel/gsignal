@@ -20,7 +20,7 @@
 #
 # 20200519 Geert van Boxtel          First version for v0.1.0
 # 20200708 GvB                       renamed IIRfspec to FilterSpecs
-# 20210308 GvB                       added output parameter ("ba', "zpg", "Sos")
+# 20210308 GvB                       added output parameter
 #------------------------------------------------------------------------------
 
 #' Chebyshev Type II filter design
@@ -46,19 +46,19 @@
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #' @param output Type of output, one of:
 #' \describe{
-#'   \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+#'   \item{"Arma"}{Autoregressive-Moving average (aka numerator/denominator, aka
 #'   b/a)}
-#'   \item{Zpg}{Zero-pole-gain format}
-#'   \item{Sos}{Second-order sections}
+#'   \item{"Zpg"}{Zero-pole-gain format}
+#'   \item{"Sos"}{Second-order sections}
 #' }
-#' Default is \code{Arma} compatibility with \code{signal::cheby2} and the
-#'   Matlab/Octave equivalents, but \code{Sos} should be preferred for
-#'   general-purpose filtering because of numeric stability.
-#' @param ... additional arguments passed to cheby1, overriding those given by n
-#'   of class \code{FilterSpecs}.
+#' Default is \code{"Arma"} compatibility with the 'signal' package and the
+#' 'Matlab' and 'Octave' equivalents, but \code{"Sos"} should be preferred for
+#' general-purpose filtering because of numeric stability.
+#' @param ... additional arguments passed to cheby1, overriding those given by
+#'   \code{n} of class \code{FilterSpecs}.
 #'
-#' @return Depending on the value of the \code{'output'} parameter, a list of
-#'   class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+#' @return Depending on the value of the \code{output} parameter, a list of
+#'   class \code{\link{Arma}}, \code{\link{Zpg}}, or \code{\link{Sos}}
 #'   containing the filter coefficients
 #'
 #' @examples

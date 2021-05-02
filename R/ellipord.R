@@ -24,7 +24,7 @@
 
 #' Elliptic Filter Order
 #'
-#' Compute elleptic filter order and cutoff for the desired
+#' Compute elliptic filter order and cutoff for the desired
 #' response characteristics.
 #'
 #' @param Wp,Ws pass-band and stop-band edges. For a low-pass or high-pass
@@ -41,7 +41,7 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #'
-#' @return A list of class \code{'FilterSpecs'} with the following list
+#' @return A list of class \code{\link{FilterSpecs}} with the following list
 #'   elements:
 #' \describe{
 #'   \item{n}{filter order}

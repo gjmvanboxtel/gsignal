@@ -25,7 +25,7 @@ The FIR filter coefficients, a vector of length \code{2 * m + 1}, of
   class \code{Ma}.
 }
 \description{
-Constrained least square bandpass FIR filter design without specified
+Constrained least square band-pass FIR filter design without specified
 transition bands.
 }
 \details{

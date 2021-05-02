@@ -23,14 +23,6 @@ Inphase Gaussian-modulated sinusoidal pulse, returned as a vector of
 \description{
 Generate a Gaussian modulated sinusoidal pulse sampled at times \code{t}.
 }
-\note{
-The Octave \code{gauspuls} function differs from the function in the
-  Matlab signal package. The Octave function does not use the \code{bwr}
-  (fractional bandwidth reference level), the \code{tpe} (trailing pulse
-  envelope level), and the \code{'cutoff'} input arguments. In addition, it
-  only returns the inphase Gaussian pulse, not the quadrature pulse nor the
-  signal envelope and cutoff time.
-}
 \examples{
 
 fs <- 11025    # arbitrary sample rate

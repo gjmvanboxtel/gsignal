@@ -23,7 +23,7 @@
 
 #' Sampled aperiodic triangle
 #'
-#' Generate a triangular pulse over the interval \code{-w/2} to \code{w/2},
+#' Generate a triangular pulse over the interval \code{-w / 2} to \code{w / 2},
 #' sampled at times \code{t}.
 #'
 #' \code{y <- tripuls(t)} returns a continuous, aperiodic, symmetric,
@@ -40,7 +40,7 @@
 #' @param w Width of the triangular pulse to be generated. Default: 1.
 #' @param skew Skew, a value between -1 and 1, indicating the relative placement
 #'   of the peak within the width. -1 indicates that the peak should be at
-#'   \code{-w/2}, and 1 indicates that the peak should be at \code{w/2}.
+#'   \code{-w / 2}, and 1 indicates that the peak should be at \code{w / 2}.
 #'   Default: 0 (no skew).
 #'
 #' @return Triangular pulse, returned as a vector.

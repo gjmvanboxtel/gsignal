@@ -43,7 +43,7 @@
 #' plot (t, type = "l", xlab = "Samples", ylab =" Amplitude")
 #'
 #' @author Andreas Weingessel, \email{Andreas.Weingessel@@ci.tuwien.ac.at}.
-#' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{bartlett}}, \code{\link{hann}}, \code{\link{hamming}}
 #

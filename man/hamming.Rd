@@ -11,11 +11,11 @@ hamming(n, method = c("symmetric", "periodic"))
 
 \item{method}{Character string. Window sampling method, specified as:
 \describe{
-  \item{'symmetric'}{(Default). Use this option when using windows for filter
+  \item{"symmetric"}{(Default). Use this option when using windows for filter
   design.}
-  \item{'periodic'}{This option is useful for spectral analysis because it
+  \item{"periodic"}{This option is useful for spectral analysis because it
   enables a windowed signal to have the perfect periodic extension implicit
-  in the discrete Fourier transform. When 'periodic' is specified, the
+  in the discrete Fourier transform. When \code{"periodic"} is specified, the
   function computes a window of length \code{n + 1} and returns the first
   \code{n} points.}
 }}

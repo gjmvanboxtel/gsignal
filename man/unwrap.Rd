@@ -16,8 +16,7 @@ threshold less than \eqn{pi} has the same effect as the threshold
 }
 \value{
 Unwrapped phase angle, returned as a vector, matrix, or
-  multidimensional array. The size of the output is always the same as the
-  size of the input.
+  multidimensional array.
 }
 \description{
 Unwrap radian phases by adding or subtracting multiples of \code{2 * pi}.

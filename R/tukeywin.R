@@ -33,7 +33,7 @@
 #'
 #' @param n Window length, specified as a positive integer.
 #' @param r Cosine fraction, specified as a real scalar. The Tukey window is a
-#'   rectangular window with the first and last \code{r/2} percent of the
+#'   rectangular window with the first and last \code{r / 2} percent of the
 #'   samples equal to parts of a cosine. For example, setting \code{r = 0.5}
 #'   (default) produces a Tukey window where 1/2 of the entire window length
 #'   consists of segments of a phase-shifted cosine with period 2r = 1. If you

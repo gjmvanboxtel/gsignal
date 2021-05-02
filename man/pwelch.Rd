@@ -65,20 +65,20 @@ Default: 1.}
 
 \item{range}{character string. one of:
 \describe{
-  \item{\code{'half'} or \code{'onesided'}}{frequency range of the spectrum
+  \item{\code{"half"} or \code{"onesided"}}{frequency range of the spectrum
   is from zero up to but not including \code{fs / 2}. Power from negative
   frequencies is added to the positive side of the spectrum.}
-  \item{\code{'whole'} or \code{'twosided'}}{frequency range of the spectrum
+  \item{\code{"whole"} or \code{"twosided"}}{frequency range of the spectrum
   is \code{-fs / 2} to \code{fs / 2}, with negative frequencies stored in
   "wrap around order" after the positive frequencies; e.g. frequencies for a
-  10-point \code{'twosided'} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
+  10-point \code{"twosided"} spectrum are 0 0.1 0.2 0.3 0.4 0.5 -0.4 -0.3
   -0.2. -0.1.}
-  \item{\code{'shift'} or \code{'centerdc'}}{same as \code{'whole'} but with
+  \item{\code{"shift"} or \code{"centerdc"}}{same as \code{"whole"} but with
   the first half of the spectrum swapped with second half to put the
   zero-frequency value in the middle.}
 }
-  Default: If \code{x} are real, the default range is \code{'half'},
-  otherwise the default range is \code{'whole'}.}
+  Default: If \code{x} are real, the default range is \code{"half"},
+  otherwise the default range is \code{"whole"}.}
 
 \item{plot.type}{character string specifying which plot to produce; one of
 \code{"spectrum"}, \code{"cross-spectrum"}, \code{"phase"},
@@ -150,7 +150,7 @@ are also returned. The input data can be demeaned or detrended, overall or
 for each segment separately.
 }
 \note{
-Unlike the Octave function \code{pwelch}, the current implementation
+Unlike the 'Octave' function 'pwelch', the current implementation
   does not compute confidence intervals because they can be inaccurate in
   case of overlapping segments.
 }

@@ -29,7 +29,7 @@ The DST has four standard variants. This function implements the DCT-I
 according to the definition in [1], which is the most common variant, and
 the original variant first proposed for image processing.
 
-The Matlab documentation for the DST warns that the use of the function is
+The 'Matlab' documentation for the DST warns that the use of the function is
 not recommended. They do not state the reason why, but it is likely that use
 of the discrete cosine transform (DCT)is preferred for image processing.
 Because cos(0) is 1, the first coefficient of the DCT (II) is the mean of the

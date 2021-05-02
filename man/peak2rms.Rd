@@ -32,20 +32,6 @@ the dimensions of \code{x} indicated by the \code{MARGIN} argument.
 
 Support for complex valued input is provided.
 }
-\note{
-This R implementation of the \code{peak2rms} function differs from the
-  implementation of the \code{signal} package in Octave in that he parameter
-  \code{dim} in the Octave function is replaced here by the \code{MARGIN}
-  argument, which is interpreted as in the \code{apply} family of functions.
-  That is, given a \code{r} by \code{c} matrix as input, specifying
-  \code{MARGIN = 1} will result in a vector of length \code{r} containing the
-  peak-magnitude-to-RMS ratios of the  \code{r} rows, and specifying
-  \code{MARGIN = 2} will result in a vector of length \code{c} containing the
-  peak-magnitude-to-RMS ratios of the \code{c} columns. In Octave, by
-  contrast, \code{dim = 1} will give a row vector containing the ratios over
-  columns, and  \code{dim = 2} will give a column vector containing the
-  ratios over rows.
-}
 \examples{
 ## numeric vector
 x <- c(1:5)

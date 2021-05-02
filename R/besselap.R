@@ -65,8 +65,8 @@
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Bessel_polynomials}
 #'
-#' @author Thomas Sailer, email{<t.sailer@@alumni.ethz.ch>}.\cr
-#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Thomas Sailer, email{t.sailer@@alumni.ethz.ch}.\cr Conversion to R by
+#'   Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

@@ -23,8 +23,8 @@ cheby1(n, ...)
 \arguments{
 \item{n}{filter order.}
 
-\item{...}{additional arguments passed to cheby1, overriding those given by n
-of class \code{FilterSpecs}.}
+\item{...}{additional arguments passed to \code{cheby1}, overriding those
+given by \code{n} of class \code{\link{FilterSpecs}}.}
 
 \item{Rp}{dB of passband ripple.}
 
@@ -41,18 +41,18 @@ or \code{"pass"}.}
 
 \item{output}{Type of output, one of:
 \describe{
-  \item{Arma}{Autoregressive-Moving average (aka numerator/denominator, aka
+  \item{"Arma"}{Autoregressive-Moving average (aka numerator/denominator, aka
   b/a)}
-  \item{Zpg}{Zero-pole-gain format}
-  \item{Sos}{Second-order sections}
+  \item{"Zpg"}{Zero-pole-gain format}
+  \item{"Sos"}{Second-order sections}
 }
-Default is \code{Arma} compatibility with \code{signal::chebys} and the
-  Matlab/Octave equivalents, but \code{Sos} should be preferred for
-  general-purpose filtering because of numeric stability.}
+Default is \code{"Arma"} for compatibility with the 'signal' package and the
+'Matlab' and 'Octave' equivalents, but \code{"Sos"} should be preferred for
+general-purpose filtering because of numeric stability.}
 }
 \value{
-Depending on the value of the \code{'output'} parameter, a list of
-  class \code{'\link{Arma}'}, \code{'\link{Zpg}'}, or \code{'\link{Sos}'}
+Depending on the value of the \code{output} parameter, a list of
+  class \code{\link{Arma}}, \code{\link{Zpg}}, or \code{\link{Sos}}
   containing the filter coefficients
 }
 \description{
@@ -90,7 +90,7 @@ plot(c1fr$w / pi, abs(c1fr$h), type = "l", ylim = c(0, 1),
 }
 \seealso{
 \code{\link{Arma}}, \code{\link{filter}}, \code{\link{butter}},
-  \code{\link{ellip}}, \code{\link{cheb1ord}}
+  \code{\link{ellip}}, \code{\link{cheb1ord}}, \code{\link{FilterSpecs}}
 }
 \author{
 Paul Kienzle, \email{pkienzle@users.sf.net},\cr

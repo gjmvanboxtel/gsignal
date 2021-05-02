@@ -63,7 +63,7 @@
 #' b <- poly(c(1 / 0.9 * exp(1i * pi * 0.2), 0.9 * exp(1i * pi * 0.6)))
 #' a <- poly(c(0.9 * exp(-1i * pi * 0.6), 1 / 0.9 * exp(-1i * pi * 0.2)))
 #' gpd <- grpdelay(b, a, 512, whole = TRUE, fs = 1)
-#' ## print(gpd)
+#' print(gpd)
 #' plot(gpd)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net},\cr
@@ -72,7 +72,7 @@
 #'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @references
-#'   \url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
+#' \url{https://ccrma.stanford.edu/~jos/filters/Numerical_Computation_Group_Delay.html}\cr
 #' \url{https://en.wikipedia.org/wiki/Group_delay}
 #'
 #' @rdname grpdelay

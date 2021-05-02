@@ -52,10 +52,6 @@ plot(f[1:to], X[1:to], type = "l", xlab = "", ylab = "",
      main = "Hartley Transform")
 par(op)
 
-x <- 1:10
-X <- fht(x)
-## all.equal(x, ifht(X))
-
 }
 \references{
 [1] \url{https://en.wikipedia.org/wiki/Hartley_transform}

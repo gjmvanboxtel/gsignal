@@ -25,11 +25,8 @@
 #' \code{detrend} removes the polynomial trend of order \code{p} from the data
 #' \code{x}.
 #'
-#' If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a
-#' polynomial of order \code{p} from the data \code{x}. If \code{x} is a matrix,
-#' \code{detrend(x, p)} does the same for each column in \code{x}.
-#'
-#' @param x Input vector, array, or matrix
+#' @param x Input vector or matrix. If \code{x} is a matrix, the trend is
+#'   removed from the columns.
 #' @param p Order of the polynomial. Default: 1. The order of the polynomial can
 #'   also be given as a string, in which case \code{p} must be either
 #'   \code{"constant"} (corresponds to \code{p = 0}) or \code{"linear"}

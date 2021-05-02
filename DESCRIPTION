@@ -2,67 +2,77 @@ Package: gsignal
 Type: Package
 Title: Signal Processing
 Version: 0.3-1
-Date: 2021-04-29
-Authors@R: c(person("Geert", "van Boxtel", role = c("aut", "cre"), email="G.J.M.vanBoxtel@gmail.com", comment = "Maintainer"),
- person("Tom", "Short", role = "aut", email = "tshort@eprisolutions.com", comment="Author of signal package"),
- person("Paul", "Kienzle", role = "aut", comment="Majority of the original sources"),
- person("Ben", "Abbott", role = "ctb"),
- person("Juan", "Aguado", role = "ctb"),
- person("Muthiah", "Annamalai", role = "ctb"),
- person("Leonardo", "Araujo", role = "ctb"),
- person("William", "Asquith", role = "ctb"),
- person("David", "Bateman", role = "ctb"),
- person("David", "Billinghurst", role = "ctb"),
- person("Juan Pablo", "Carbajal", role = "ctb"),
- person("André", "Carezia", role = "ctb"),
- person("Vincent", "Cautaerts", role = "ctb"),
- person("Eric", "Chassande-Mottin", role = "ctb"),
- person("Luca", "Citi", role = "ctb"),
- person("Dave", "Cogdell", role = "ctb"),
- person("Carlo", "de Falco", role = "ctb"),
- person("Carne", "Draug", role = "ctb"),
- person("Pascal", "Dupuis", role = "ctb"),
- person("John W.", "Eaton", role = "ctb"),
- person("R.G.H", "Eschauzier", role = "ctb"),
- person("Andrew", "Fitting", role = "ctb"),
- person("Alan J.", "Greenberger", role = "ctb"),
- person("Mike", "Gross", role = "ctb"),
- person("Daniel", "Gunyan", role = "ctb"),
- person("Kai", "Habel", role = "ctb"),
- person("Kurt", "Hornik", role = "ctb"),
- person("Jake", "Janovetz", role = "ctb"),
- person("Alexander", "Klein", role = "ctb"),
- person("Peter V.", "Lanspeary", role = "ctb"),
- person("Bill", "Lash", role = "ctb"),
- person("Friedrich", "Leissh", role = "ctb"),
- person("Laurent S.", "Mazet", role = "ctb"),
- person("Mike", "Miller", role = "ctb"),
- person("Petr", "Mikulik", role = "ctb"),
- person("Paolo", "Neis", role = "ctb"),
- person("Georgios", "Ouzounis", role = "ctb"),
- person("Sylvain", "Pelissier", role = "ctb"),
- person("Francesco", "Potortì", role = "ctb"),
- person("Charles", "Praplan", role = "ctb"),
- person("Lukas F.", "Reichlin", role = "ctb"),
- person("Tony", "Richardson", role = "ctb"),
- person("Asbjorn", "Sabo", role = "ctb"),
- person("Thomas", "Sailer", role = "ctb"),
- person("Rolf", "Schirmacher", role = "ctb"),
- person("Rolf", "Schirmacher", role = "ctb"),
- person("Ivan", "Selesnick", role = "ctb"),
- person("Julius O.", "Smith III", role = "ctb"),
- person("Peter L.", "Soendergaard", role = "ctb"),
- person("Quentin", "Spencer", role = "ctb"),
- person("Doug", "Stewart", role = "ctb"),
- person("P.", "Sudeepam", role = "ctb"),
- person("Stefan", "van der Walt", role = "ctb"),
- person("Andreas", "Weber", role = "ctb"),
- person("P.", "Sudeepam", role = "ctb"),
- person("Andreas", "Weingessel", role = "ctb"))
-Description: R implementation of the Octave signal package.
+Date: 2021-05-02
+Authors@R:
+    c(person("Geert", "van Boxtel", role = c("aut", "cre"),
+             email = "G.J.M.vanBoxtel@gmail.com",
+             comment = "Maintainer"),
+      person("Tom", "Short", role = "aut",
+             email = "tshort@eprisolutions.com",
+             comment="Author of 'signal' package"),
+      person("Paul", "Kienzle", role = "aut",
+             comment = "Majority of the original sources"),
+      person("Ben", "Abbott", role = "ctb"),
+      person("Juan", "Aguado", role = "ctb"),
+      person("Muthiah", "Annamalai", role = "ctb"),
+      person("Leonardo", "Araujo", role = "ctb"),
+      person("William", "Asquith", role = "ctb"),
+      person("David", "Bateman", role = "ctb"),
+      person("David", "Billinghurst", role = "ctb"),
+      person("Juan Pablo", "Carbajal", role = "ctb"),
+      person("André", "Carezia", role = "ctb"),
+      person("Vincent", "Cautaerts", role = "ctb"),
+      person("Eric", "Chassande-Mottin", role = "ctb"),
+      person("Luca", "Citi", role = "ctb"),
+      person("Dave", "Cogdell", role = "ctb"),
+      person("Carlo", "de Falco", role = "ctb"),
+      person("Carne", "Draug", role = "ctb"),
+      person("Pascal", "Dupuis", role = "ctb"),
+      person("John W.", "Eaton", role = "ctb"),
+      person("R.G.H", "Eschauzier", role = "ctb"),
+      person("Andrew", "Fitting", role = "ctb"),
+      person("Alan J.", "Greenberger", role = "ctb"),
+      person("Mike", "Gross", role = "ctb"),
+      person("Daniel", "Gunyan", role = "ctb"),
+      person("Kai", "Habel", role = "ctb"),
+      person("Kurt", "Hornik", role = "ctb"),
+      person("Jake", "Janovetz", role = "ctb"),
+      person("Alexander", "Klein", role = "ctb"),
+      person("Peter V.", "Lanspeary", role = "ctb"),
+      person("Bill", "Lash", role = "ctb"),
+      person("Friedrich", "Leissh", role = "ctb"),
+      person("Laurent S.", "Mazet", role = "ctb"),
+      person("Mike", "Miller", role = "ctb"),
+      person("Petr", "Mikulik", role = "ctb"),
+      person("Paolo", "Neis", role = "ctb"),
+      person("Georgios", "Ouzounis", role = "ctb"),
+      person("Sylvain", "Pelissier", role = "ctb"),
+      person("Francesco", "Potortì", role = "ctb"),
+      person("Charles", "Praplan", role = "ctb"),
+      person("Lukas F.", "Reichlin", role = "ctb"),
+      person("Tony", "Richardson", role = "ctb"),
+      person("Asbjorn", "Sabo", role = "ctb"),
+      person("Thomas", "Sailer", role = "ctb"),
+      person("Rolf", "Schirmacher", role = "ctb"),
+      person("Rolf", "Schirmacher", role = "ctb"),
+      person("Ivan", "Selesnick", role = "ctb"),
+      person("Julius O.", "Smith III", role = "ctb"),
+      person("Peter L.", "Soendergaard", role = "ctb"),
+      person("Quentin", "Spencer", role = "ctb"),
+      person("Doug", "Stewart", role = "ctb"),
+      person("P.", "Sudeepam", role = "ctb"),
+      person("Stefan", "van der Walt", role = "ctb"),
+      person("Andreas", "Weber", role = "ctb"),
+      person("P.", "Sudeepam", role = "ctb"),
+      person("Andreas", "Weingessel", role = "ctb"))
+Description: R implementation of the 'Octave' package 'signal', containing
+    a variety of signal processing tools, such as signal generation and
+    measurement, correlation and convolution, filtering, filter design,
+    filter analysis and conversion, power spectrum analysis, system
+    identification, decimation and sample rate change, and windowing.
 Depends: R (>= 3.5.0)
 LinkingTo: Rcpp
-Imports: pracma, Rcpp
+Imports: pracma, Rcpp, grDevices
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
@@ -70,5 +80,5 @@ URL: https://github.com/gjmvanboxtel/gsignal
 BugReports: https://github.com/gjmvanboxtel/gsignal/issues
 LazyData: true
 RoxygenNote: 7.1.1
-Suggests: knitr, rmarkdown, testthat, ggplot2, gridExtra, microbenchmark
+Suggests: knitr, rmarkdown, testthat, ggplot2, gridExtra, microbenchmark, imager
 VignetteBuilder: knitr

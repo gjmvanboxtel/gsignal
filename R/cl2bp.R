@@ -22,7 +22,7 @@
 
 #' Constrained L2 bandpass FIR filter design
 #'
-#' Constrained least square bandpass FIR filter design without specified
+#' Constrained least square band-pass FIR filter design without specified
 #' transition bands.
 #'
 #' This is a fast implementation of the algorithm cited below. Compared to

@@ -44,7 +44,7 @@
 #' but <- butter(6, 2 * pi * f, 'low', 's')
 #' zbut <- impinvar(but, fs)
 #' sbut <- invimpinvar(zbut, fs)
-#' ## all.equal(but, sbut, tolerance = 1e-7)
+#' all.equal(but, sbut, tolerance = 1e-7)
 #'
 #' @author R.G.H. Eschauzier, \email{reschauzier@@yahoo.com},\cr
 #'  Carne Draug, \email{carandraug+dev@@gmail.com}.\cr

@@ -84,7 +84,7 @@ zeros very close to the unit circle in the z plane.)
 b <- poly(c(1 / 0.9 * exp(1i * pi * 0.2), 0.9 * exp(1i * pi * 0.6)))
 a <- poly(c(0.9 * exp(-1i * pi * 0.6), 1 / 0.9 * exp(-1i * pi * 0.2)))
 gpd <- grpdelay(b, a, 512, whole = TRUE, fs = 1)
-## print(gpd)
+print(gpd)
 plot(gpd)
 
 }

@@ -29,7 +29,7 @@ parts of a DFT of roughly twice the length.
 x <- seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40)
 X <- dst(x)
 xx <- idst(X)
-## all.equal(x, xx)
+all.equal(x, xx)
 
 }
 \seealso{

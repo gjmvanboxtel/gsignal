@@ -33,8 +33,8 @@
 #'
 #' \code{kaiserord} uses empirically derived formulas for estimating the orders
 #' of lowpass filters, as well as differentiators and Hilbert transformers.
-#' Estimates for multiband filters (such as bandpass filters) are derived from
-#' the lowpass design formulas.
+#' Estimates for multiband filters (such as band-pass filters) are derived from
+#' the low-pass design formulas.
 #'
 #' The design formulas that underlie the Kaiser window and its application to
 #' FIR filter design are
@@ -75,37 +75,39 @@
 #' fs <- 11025
 #' op <- par(mfrow = c(2, 2), mar = c(3, 3, 1, 1))
 #' for (i in 1:4) {
-#'   switch(i,
-#'          "1" = {
-#'            bands <- c(1200, 1500)
-#'            mag <- c(1, 0)
-#'            dev <- c(0.1, 0.1)
-#'          },
-#'          "2" = {
-#'            bands <- c(1000, 1500)
-#'            mag <- c(0, 1)
-#'            dev <- c(0.1, 0.1)
-#'          },
-#'          "3" = {
-#'            bands <- c(1000, 1200, 3000, 3500)
-#'            mag <- c(0, 1, 0)
-#'            dev <- 0.1
-#'          },
-#'          "4" = {
-#'            bands <- 100 * c(10, 13, 15, 20, 30, 33, 35, 40)
-#'            mag <- c(1, 0, 1, 0, 1)
-#'            dev <- 0.05
-#'          })
+#'   if (i == 1) {
+#'     bands <- c(1200, 1500)
+#'     mag <- c(1, 0)
+#'     dev <- c(0.1, 0.1)
+#'   }
+#'   if (i == 2) {
+#'     bands <- c(1000, 1500)
+#'     mag <- c(0, 1)
+#'     dev <- c(0.1, 0.1)
+#'   }
+#'   if (i == 3) {
+#'     bands <- c(1000, 1200, 3000, 3500)
+#'     mag <- c(0, 1, 0)
+#'     dev <- 0.1
+#'   }
+#'   if (i == 4) {
+#'     bands <- 100 * c(10, 13, 15, 20, 30, 33, 35, 40)
+#'     mag <- c(1, 0, 1, 0, 1)
+#'     dev <- 0.05
+#'   }
 #'   kaisprm <- kaiserord(bands, mag, dev, fs)
-#'   with(kaisprm, {
-#'     d <<- max(1, trunc(n/10))
-#'     if (mag[length(mag)] == 1 && (d %% 2) == 1)
-#'       d <<- d + 1
-#'     f1 <<- freqz(fir1(n, Wc, type, kaiser(n + 1, beta),
-#'                  scale = FALSE), fs = fs)
-#'     f2 <<- freqz(fir1(n-d, Wc, type, kaiser(n-d+1, beta),
-#'                  scale = FALSE), fs = fs)
-#'   })
+#'   d <- max(1, trunc(kaisprm$n / 10))
+#'   if (mag[length(mag)] == 1 && (d %% 2) == 1) {
+#'      d <- d + 1
+#'   }
+#'   f1 <- freqz(fir1(kaisprm$n, kaisprm$Wc, kaisprm$type,
+#'                    kaiser(kaisprm$n + 1, kaisprm$beta),
+#'                    scale = FALSE),
+#'               fs = fs)
+#'   f2 <- freqz(fir1(kaisprm$n - d, kaisprm$Wc, kaisprm$type,
+#'                    kaiser(kaisprm$n - d + 1, kaisprm$beta),
+#'                    scale = FALSE),
+#'               fs = fs)
 #'   plot(f1$w, abs(f1$h), col = "blue", type = "l",  xlab = "", ylab = "")
 #'   lines(f2$w, abs(f2$h), col = "red")
 #'   legend("right", paste("order", c(kaisprm$n-d, kaisprm$n)),

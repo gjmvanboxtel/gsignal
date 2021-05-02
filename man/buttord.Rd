@@ -25,7 +25,7 @@ second.}
 \item{plane}{"z" for a digital filter or "s" for an analog filter.}
 }
 \value{
-A list of class \code{'FilterSpecs'} with the following list
+A list of class \code{\link{FilterSpecs}} with the following list
   elements:
 \describe{
   \item{n}{filter order}
@@ -66,7 +66,7 @@ freqz(but, fs = fs)
 
 }
 \seealso{
-\code{\link{butter}}
+\code{\link{butter}}, \code{\link{FilterSpecs}}
 }
 \author{
 Paul Kienzle,\cr

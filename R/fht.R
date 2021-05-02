@@ -61,10 +61,6 @@
 #'      main = "Hartley Transform")
 #' par(op)
 #'
-#' x <- 1:10
-#' X <- fht(x)
-#' ## all.equal(x, ifht(X))
-#'
 #' @author Muthiah Annamalai, \email{muthiah.annamalai@@uta.edu}.\
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'

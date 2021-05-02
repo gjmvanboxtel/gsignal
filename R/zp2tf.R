@@ -29,13 +29,13 @@
 #' @param p complex vector of the poles of the model
 #' @param g overall gain. Default: 1.
 #'
-#' @return A list of class 'Arma' with the following list elements:
+#' @return A list of class "Arma" with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
 #'
-#' @seealso See also \code{\link{as.Arma}}, \code{\link{filter}}
+#' @seealso \code{\link{as.Arma}}, \code{\link{filter}}
 #'
 #' @examples
 #' g <- 1

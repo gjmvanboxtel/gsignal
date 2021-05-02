@@ -21,22 +21,22 @@ Return the filter coefficients of a Dolph-Chebyshev window.
 \details{
 The window is described in frequency domain by the expression:
 \if{latex}{
-  \deqn{W(k) = \frac{Cheb(m-1, \beta \cdot cos(\pi \cdot k/m))}{Cheb(m-1,
-  \beta)}}
+  \deqn{W(k) = \frac{Cheb(m - 1, \beta \cdot cos(\pi \cdot k / m))}{Cheb(m -
+  1, \beta)}}
 }
 \if{html}{\preformatted{
-                Cheb(m-1, Beta * cos(\pi * k/m))
-         W(k) = ---------------------------------
-                      Cheb(m-1, Beta)
+                Cheb(m - 1, Beta * cos(\pi * k / m))
+         W(k) = ------------------------------------
+                       Cheb(m - 1, Beta)
 }}
 with
 \if{latex}{
-  \deqn{\beta = cosh(1/(m-1) \cdot acosh(10^{(at/20)})}
+  \deqn{\beta = cosh(1 / (m - 1) \cdot acosh(10^{(at / 20)})}
 }
 \if{html}{\preformatted{
-  Beta = cosh(1/(m-1) * acosh(10^(at/20))
+  Beta = cosh(1 / (m - 1) * acosh(10^(at / 20))
 }}
-and and \eqn{Cheb(m,x)} denoting the \eqn{m}-th order Chebyshev polynomial
+and and \eqn{Cheb(m, x)} denoting the \eqn{m}-th order Chebyshev polynomial
 calculated at the point \eqn{x}.
 
 Note that the denominator in W(k) above is not computed, and after the

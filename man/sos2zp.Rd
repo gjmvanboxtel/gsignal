@@ -14,10 +14,10 @@ cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
 a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.}
 
 \item{g}{Overall gain factor that effectively scales the output \code{b}
-vector (or any one of the input \code{Bi} vectors). Default: 1.}
+vector (or any one of the input \code{B_i} vectors). Default: 1.}
 }
 \value{
-A list of class Zpg with the following list elements:
+A list of class "Zpg" with the following list elements:
 \describe{
   \item{z}{complex vector of the zeros of the model (roots of \code{B(z)})}
   \item{p}{complex vector of the poles of the model (roots of \code{A(z)})}
@@ -33,9 +33,9 @@ zpk <- sos2zp(sos)
 
 }
 \seealso{
-See also \code{\link{filter}}
+\code{\link{filter}}
 }
 \author{
 Julius O. Smith III \email{jos@ccrma.stanford.edu}.\cr
-Conversion to R by, Geert van Boxtel \email{gjmvanboxtel@gmail.com}
+Conversion to R by, Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}
 }

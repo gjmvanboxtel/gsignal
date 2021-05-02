@@ -43,8 +43,8 @@
 #' A <- matrix(runif(100), 10, 10)
 #' B <- dct2(A)
 #'
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
-#'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr Conversion to R by
+#'   Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link{idct2}}
 #'

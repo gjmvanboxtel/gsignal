@@ -34,14 +34,14 @@
 #' @param scale Character string. Specifies the type of scaling applied to the
 #'   correlation matrix. matched to one of:
 #'   \describe{
-#'     \item{'none'}{no scaling}
-#'     \item{'biased'}{Scales the raw cross-correlation by the maximum number of
+#'     \item{"none"}{no scaling}
+#'     \item{"biased"}{Scales the raw cross-correlation by the maximum number of
 #'     elements of \code{a} and \code{b} involved in the generation of any
 #'     element of the output matrix.}
-#'     \item{'unbiased'}{Scales the raw correlation by dividing each element in
+#'     \item{"unbiased"}{Scales the raw correlation by dividing each element in
 #'     the cross-correlation matrix by the number of products \code{a} and
 #'     \code{b} used to generate that element. }
-#'     \item{'coeff'}{Scales the normalized cross-correlation on the range of [0
+#'     \item{"coeff"}{Scales the normalized cross-correlation on the range of [0
 #'     1] so that a value of 1 corresponds to a correlation coefficient of 1. }
 #'   }
 #'

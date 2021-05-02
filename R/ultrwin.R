@@ -18,6 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20201116 Geert van Boxtel          First version for v0.1.0
+# 20210501 GvB                       adapted default parameter xmu
 #------------------------------------------------------------------------------
 
 #' Ultraspherical window
@@ -45,7 +46,7 @@
 #'   width/side-lobe-ratio.
 #' @param ptype type of parameter passed in \code{pvalue}. Can be one of:
 #'   \describe{
-#'     \item{xmu (default)}{controls the ripple ratio by setting the
+#'     \item{"xmu" (default)}{controls the ripple ratio by setting the
 #'     (un-normalized) window’s Fourier transform according to its canonical
 #'     definition:
 #' \if{latex}{
@@ -75,10 +76,10 @@
 #'      Note that when not giving \code{xmu}, stability issues may occur with
 #'      \code{mu <= -1.5}.
 #'    }
-#'     \item{beta}{sets the main lobe width to \code{beta} times that of a
+#'     \item{"beta"}{sets the main lobe width to \code{beta} times that of a
 #'     rectangular window.}
-#'     \item{att}{sets the ripple ratio at the first }
-#'     \item{latt}{sets the ripple ratio at the last side-lobe}
+#'     \item{"att"}{sets the ripple ratio at the first }
+#'     \item{"latt"}{sets the ripple ratio at the last side-lobe}
 #'   }
 #'
 #' @return Ultraspherical window, returned as a vector.
@@ -170,7 +171,7 @@
 #
 #' @export
 
-ultrwin <- function(n, mu, pvalue, ptype = "beta") {
+ultrwin <- function(n, mu, pvalue, ptype = c("xmu", "beta", "att", "latt")) {
 
   if (!isPosscal(n) || !isWhole(n) || n <= 0)
     stop("n must be a positive integer")
@@ -181,8 +182,7 @@ ultrwin <- function(n, mu, pvalue, ptype = "beta") {
   if (!isScalar(pvalue))
     stop("paramater value must be a real scalar")
   types <- c("xmu", "beta", "att", "latt")
-  ptype <- match.arg(ptype, types)
-
+  ptype <- match.arg(ptype)
 
   w <- .Call("_gsignal_ultrwin", PACKAGE = "gsignal",
              n, mu, pvalue, which(types == ptype) - 1, 0L)

@@ -121,14 +121,14 @@
 #'   band-stop filter.
 #' @param ...	arguments passed to the generic function.
 #'
-#' @return For the default case or for sftrans.Zpg, an object of class 'Zpg',
+#' @return For the default case or for sftrans.Zpg, an object of class "Zpg",
 #'   containing the list elements:
 #' \describe{
 #'   \item{z}{complex vector of the zeros of the transformed model}
 #'   \item{p}{complex vector of the poles of the transformed model}
 #'   \item{g}{gain of the transformed model}
 #' }
-#' For sftrans.Arma, an object of class 'Arma', containing the list elements:
+#' For sftrans.Arma, an object of class "Arma", containing the list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}

@@ -47,12 +47,12 @@
 #' d <- cm %*% a
 #'
 #' cref = conv(a, b)
-#' ## all.equal(max(d - cref), 0)
+#' all.equal(max(d - cref), 0)
 #'
-#' @seealso \code{\link[gsignal]{conv}}
+#' @seealso \code{\link{conv}}
 #'
-#' @author David Bateman \email{adb014@@gmail.com}.\cr
-#'  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author David Bateman \email{adb014@@gmail.com}.\cr Conversion to R by Geert
+#'   van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

@@ -39,22 +39,22 @@ delays.}
 \item{method}{Interpolation method, specified as one of the following
   options:
 \describe{
-  \item{linear}{(default). Linear interpolation. The interpolated value at a
+  \item{"linear" (default)}{Linear interpolation. The interpolated value at a
   query point is based on linear interpolation of the values at neighboring
   grid points in each respective dimension. This is the default interpolation
   method.}
-  \item{nearest}{Nearest neighbor interpolation. The interpolated value at a
+  \item{"nearest"}{Nearest neighbor interpolation. The interpolated value at a
   query point is the value at the nearest sample grid point.}
-  \item{cubic}{Shape-preserving piecewise cubic interpolation. The
+  \item{"cubic"}{Shape-preserving piecewise cubic interpolation. The
   interpolated value at a query point is based on a shape-preserving
   piecewise cubic interpolation of the values at neighboring grid points.}
-  \item{spline}{Spline interpolation using not-a-knot end conditions. The
+  \item{"spline"}{Spline interpolation using not-a-knot end conditions. The
   interpolated value at a query point is based on a cubic interpolation of
   the values at neighboring grid points in each respective dimension.}
 }
-Interpolation is performed by the \code{interp1()} function (library
-\code{pracma}), and any interpolation method accepted by the function
-\code{interp1} can be specified here.}
+Interpolation is performed by the function \code{'interp1'} function in the
+library \code{'pracma'}, and any interpolation method accepted by the
+function \code{'interp1'} can be specified here.}
 
 \item{...}{Further arguments passed to \code{func}.}
 }

@@ -60,7 +60,7 @@
 #' @param Rs minimum attenuation in the stop band in dB.
 #' @param plane "z" for a digital filter or "s" for an analog filter.
 #'
-#' @return A list of class \code{'FilterSpecs'} with the following list
+#' @return A list of class \code{\link{FilterSpecs}} with the following list
 #'   elements:
 #' \describe{
 #'   \item{n}{filter order}
@@ -80,7 +80,7 @@
 #'  Conversion to R by Tom Short,\cr
 #'  adapted by Geert van Boxtel,  \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
-#' @seealso \code{\link{butter}}
+#' @seealso \code{\link{butter}}, \code{\link{FilterSpecs}}
 #'
 #' @export
 

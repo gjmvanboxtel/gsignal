@@ -36,13 +36,13 @@
 #' @param g Overall gain factor that effectively scales the output \code{b}
 #'   vector (or any one of the input \code{Bi} vectors). Default: 1.
 #'
-#' @return An object of class 'Arma' with the following list elements:
+#' @return An object of class "Arma" with the following list elements:
 #' \describe{
 #'   \item{b}{moving average (MA) polynomial coefficients}
 #'   \item{a}{autoregressive (AR) polynomial coefficients}
 #' }
 #'
-#' @seealso See also \code{\link{as.Arma}}, \code{\link{filter}}
+#' @seealso \code{\link{as.Arma}}, \code{\link{filter}}
 #'
 #' @examples
 #' sos <- rbind(c(1, 1, 1, 1, 0, -1), c(-2, 3, 1, 1, 10, 1))

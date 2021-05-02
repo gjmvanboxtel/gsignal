@@ -37,8 +37,8 @@
 #'   function calls, so explicit calls to print or plot are needed there.
 #'
 #' @param filt for the default case, the moving-average coefficients of an ARMA
-#'   model or filter. Generically, filt specifies an arbitrary model or filter
-#'   operation.
+#'   model or filter. Generically, \code{filt} specifies an arbitrary model or
+#'   filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
 #' @param ...	additional arguments are passed through to plot.
 #'

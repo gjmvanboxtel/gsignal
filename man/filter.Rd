@@ -55,8 +55,7 @@ The filtered signal, of the same dimensions as the input signal. In
   signal, and \code{zf}, which contains the final state vector or matrix.
 }
 \description{
-Apply a 1-D digital filter to the data in \code{x}, compatible with
-Matlab/Octave.
+Apply a 1-D digital filter compatible with 'Matlab' and 'Octave'.
 }
 \details{
 The filter is a direct form II transposed implementation of the standard

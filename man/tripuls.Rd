@@ -13,14 +13,14 @@ tripuls(t, w = 1, skew = 0)
 
 \item{skew}{Skew, a value between -1 and 1, indicating the relative placement
 of the peak within the width. -1 indicates that the peak should be at
-\code{-w/2}, and 1 indicates that the peak should be at \code{w/2}.
+\code{-w / 2}, and 1 indicates that the peak should be at \code{w / 2}.
 Default: 0 (no skew).}
 }
 \value{
 Triangular pulse, returned as a vector.
 }
 \description{
-Generate a triangular pulse over the interval \code{-w/2} to \code{w/2},
+Generate a triangular pulse over the interval \code{-w / 2} to \code{w / 2},
 sampled at times \code{t}.
 }
 \details{

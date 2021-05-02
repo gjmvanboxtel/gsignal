@@ -45,10 +45,9 @@
 #' n <- length(x)
 #' y2 <- drop(x %*% dftmtx(n))
 #' mx <- max(abs(y1 - y2))
-#' # [1] 1.455416e-11
 #'
-#' @author David Bateman, \email{adb014@@gmail.com}.\cr
-#'  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author David Bateman, \email{adb014@@gmail.com}.\cr Conversion to R by Geert
+#'   van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'
 #' @seealso \code{\link[stats]{fft}}, \code{\link{ifft}}
 #'

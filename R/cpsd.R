@@ -50,13 +50,13 @@
 #'   Default: 1.
 #' @param detrend character string specifying detrending option; one of:
 #'   \describe{
-#'     \item{\code{long-mean}}{remove the mean from the data before
+#'     \item{\code{"long-mean"}}{remove the mean from the data before
 #'     splitting into segments (default)}
-#'     \item{\code{short-mean}}{remove the mean value of each segment}
-#'     \item{\code{long-linear}}{remove linear trend from the data before
+#'     \item{\code{"short-mean"}}{remove the mean value of each segment}
+#'     \item{\code{"long-linear"}}{remove linear trend from the data before
 #'     splitting into segments}
-#'     \item{\code{short-linear}}{remove linear trend from each segment}
-#'     \item{\code{none}}{no detrending}
+#'     \item{\code{"short-linear"}}{remove linear trend from each segment}
+#'     \item{\code{"none"}}{no detrending}
 #'  }
 #'
 #' @return A list containing the following elements:

@@ -15,13 +15,12 @@ zp2sos(z, p, g = 1, order = c("down", "up"))
 
 \item{order}{row order, specified as:
 \describe{
-  \item{up}{(the default in Matlab): order the sections so the first row
-  contains the poles farthest from the unit circle.}
-  \item{down}{(the default in Python scipy); order the sections so the first
-  row of \code{sos} contains the poles closest to the unit circle.}
+  \item{"up"}{order the sections so the first row contains the poles farthest
+  from the unit circle.}
+  \item{"down" (Default)}{order the sections so the first row of \code{sos}
+  contains the poles closest to the unit circle.}
 }
-The ordering influences round-off noise and the probability of overflow.
-Default: \code{down}.}
+The ordering influences round-off noise and the probability of overflow.}
 }
 \value{
 A list with the following list elements:
@@ -31,8 +30,9 @@ A list with the following list elements:
   the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
   cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each
-  section.} \item{g}{Overall gain factor that effectively scales the output
-  \code{b} vector (or any one of the input \code{Bi} vectors).}
+  section.}
+  \item{g}{Overall gain factor that effectively scales the output \code{b}
+  vector (or any one of the input \code{Bi} vectors).}
 }
 }
 \description{
@@ -44,8 +44,7 @@ sosg <- zp2sos (zpk$z, zpk$p, zpk$g)
 
 }
 \seealso{
-See also \code{\link{as.Sos}}, \code{\link{filter}},
-  \code{\link{sosfilt}}
+\code{\link{as.Sos}}, \code{\link{filter}}, \code{\link{sosfilt}}
 }
 \author{
 Julius O. Smith III, \email{jos@ccrma.stanford.edu}.\cr

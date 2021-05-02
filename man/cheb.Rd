@@ -37,6 +37,6 @@ cp <- cheb(5, c(2,3))
 
 }
 \author{
-André Carezia, \email{acarezia@uol.com.br}.\cr
-Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+André Carezia, \email{acarezia@uol.com.br}.\cr Conversion to R by
+  Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

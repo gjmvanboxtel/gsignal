@@ -35,7 +35,7 @@ u <- rep(1L, 3)
 v <- c(1, 1, 0, 0, 0, 1, 1)
 w1 <- conv(u, v)              # time-domain convolution
 w2 <- fftconv(u, v)           # frequency domain convolution
-## all.equal(w1, w2)          # same results
+all.equal(w1, w2)             # same results
 
 }
 \seealso{

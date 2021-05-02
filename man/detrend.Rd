@@ -7,7 +7,8 @@
 detrend(x, p = 1)
 }
 \arguments{
-\item{x}{Input vector, array, or matrix}
+\item{x}{Input vector or matrix. If \code{x} is a matrix, the trend is
+removed from the columns.}
 
 \item{p}{Order of the polynomial. Default: 1. The order of the polynomial can
 also be given as a string, in which case \code{p} must be either
@@ -20,11 +21,6 @@ The detrended data, of same type and dimensions as \code{x}
 \description{
 \code{detrend} removes the polynomial trend of order \code{p} from the data
 \code{x}.
-}
-\details{
-If \code{x} is a vector, \code{detrend (x, p)} removes the best fit of a
-polynomial of order \code{p} from the data \code{x}. If \code{x} is a matrix,
-\code{detrend(x, p)} does the same for each column in \code{x}.
 }
 \examples{
 t <- 0:20

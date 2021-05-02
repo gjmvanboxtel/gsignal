@@ -31,8 +31,8 @@ Default: \code{"low"}.}
 smoothing window. Default: \code{hamming(n + 1)}.}
 
 \item{scale}{whether to normalize or not. Use \code{TRUE} (default) or
-\code{'scale'} to set the magnitude of the center of the first passband to
-1, and \code{FALSE} or \code{'noscale'} to not normalize.}
+\code{"scale"} to set the magnitude of the center of the first passband to
+1, and \code{FALSE} or \code{"noscale"} to not normalize.}
 }
 \value{
 The FIR filter coefficients, a vector of length \code{n + 1}, of

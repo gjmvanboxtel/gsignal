@@ -40,7 +40,7 @@
 #' x <- seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40)
 #' X <- dst(x)
 #' xx <- idst(X)
-#' ## all.equal(x, xx)
+#' all.equal(x, xx)
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.

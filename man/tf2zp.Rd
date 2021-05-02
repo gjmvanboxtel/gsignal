@@ -32,7 +32,7 @@ zpk <- tf2zp(b, a)
 
 }
 \seealso{
-See also \code{\link{filter}}
+\code{\link{filter}}
 }
 \author{
 Geert van Boxtel, \email{gjmvanboxtel@gmail.com}

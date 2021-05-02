@@ -2,7 +2,7 @@
 % Please edit documentation in R/ellipap.R
 \name{ellipap}
 \alias{ellipap}
-\title{Lowpass analog elliptic filter}
+\title{Low-pass analog elliptic filter}
 \usage{
 ellipap(n, Rp, Rs)
 }
@@ -15,15 +15,15 @@ ellipap(n, Rp, Rs)
 }
 \value{
 list of class \code{\link{Zpg}} containing zeros, poles and gain of
-  the filter
+  the filter.
 }
 \description{
-Return the zeros, poles and gain of an analog elliptic lowpass filter
+Return the zeros, poles and gain of an analog elliptic low-pass filter
 prototype.
 }
 \details{
-This function exists for Matlab/OCtave compatibility only, and is equivalent
-to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
+This function exists for compatibility with 'Matlab' and 'OCtave' only, and
+is equivalent to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
 }
 \examples{
 ## 9th order elliptic low-pass analog filter

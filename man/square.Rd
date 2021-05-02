@@ -36,10 +36,6 @@ square wave is positive.
                    ontime + offtime
 }}
 }
-\note{
-The input argument \code{width} is called \code{xmax} in the Matlab
-  signal package
-}
 \examples{
 
 ## Create a vector of 100 equally spaced numbers from 0 to 3pi.

@@ -31,7 +31,7 @@
 #'   vector of ascending values
 #' @param C constant of integration. Default: 0
 #'
-#' @return  Vector of integrated function values.
+#' @return Vector of integrated function values.
 #'
 #' @examples
 #' f <- function(t) sin(2 * pi * 3 * t)

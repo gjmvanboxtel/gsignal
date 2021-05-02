@@ -20,20 +20,20 @@
 # 20200527 Geert van Boxtel          First version for v0.1.0
 #------------------------------------------------------------------------------
 
-#' Lowpass analog elliptic filter
+#' Low-pass analog elliptic filter
 #'
-#' Return the zeros, poles and gain of an analog elliptic lowpass filter
+#' Return the zeros, poles and gain of an analog elliptic low-pass filter
 #' prototype.
 #'
-#' This function exists for Matlab/OCtave compatibility only, and is equivalent
-#' to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
+#' This function exists for compatibility with 'Matlab' and 'OCtave' only, and
+#' is equivalent to \code{ellip(n, Rp, Rs, 1, "low", "s")}.
 #'
 #' @param n Order of the filter.
 #' @param Rp dB of passband ripple.
 #' @param Rs dB of stopband ripple.
 #'
 #' @return list of class \code{\link{Zpg}} containing zeros, poles and gain of
-#'   the filter
+#'   the filter.
 #'
 #' @examples
 #' ## 9th order elliptic low-pass analog filter

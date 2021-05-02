@@ -27,15 +27,10 @@ in the rows of the array \code{x}. The function works by finding the indexes
 of jumps between consecutive values in the rows of \code{x}.
 }
 \examples{
-x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1)
-# [1] 0 0 1 1 1 0 0 1 0 0 0 1 1
-ranges <- clustersegment(x)
-#       [,1] [,2] [,3]
-# [1,]    3    8   12
-# [2,]    5    8   13
+(x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1))
+(ranges <- clustersegment(x))
 # The first sequence of 1's in x lies in the interval
-r <- ranges[1,1]:ranges[2,1]
-# [1] 3 4 5
+(r <- ranges[1,1]:ranges[2,1])
 
 x <- matrix(as.numeric(runif(30) > 0.4), 3, 10)
 ranges <- clustersegment(x)

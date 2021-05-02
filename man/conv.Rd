@@ -9,14 +9,14 @@ conv(a, b, shape = c("full", "same", "valid"))
 \arguments{
 \item{a, b}{Input, coerced to vectors, can be different lengths or data types.}
 
-\item{shape}{Subsection of convolution, partially matched to \code{'full'}
-(full convolution - default), \code{'same'} (central part of the
-convolution of the same size as \code{a}), or \code{'valid'} (only those
+\item{shape}{Subsection of convolution, partially matched to \code{"full"}
+(full convolution - default), \code{"same"} (central part of the
+convolution of the same size as \code{a}), or \code{"valid"} (only those
 parts of the convolution that are computed without the zero-padded edges)}
 }
 \value{
 Output vector with length equal to \code{length (a) + length (b) -
-  1}. When the parameter \code{shape} is set to \code{'valid'}, the length of
+  1}. When the parameter \code{shape} is set to \code{"valid"}, the length of
   the output is \code{max(length(a) - length(b) + 1, 0)}, except when
   length(b) is zero. In that case, the length of the output vector equals
   \code{length(a)}.
@@ -34,7 +34,7 @@ overlap under the points as \code{B} slides across \code{a}. Algebraically,
 convolution is the same operation as multiplying polynomials whose
 coefficients are the elements of \code{a} and \code{b}.
 
-The function \code{conv} uses the \code{\link[gsignal]{filter}} function, NOT
+The function \code{conv} uses the \code{\link{filter}} function, NOT
 \code{fft}, which may be faster for large vectors.
 }
 \examples{
@@ -48,7 +48,6 @@ u <- c(1, 0, 1)
 v <- c(2, 7)
 ## Use convolution to multiply the polynomials.
 w <- conv(u, v)
-## [1] 2 7 2 7
 ## w contains the polynomial coefficients for 2x^3 + 7x^2 + 2x + 7.
 
 ## Central part of convolution
@@ -58,7 +57,7 @@ w <- conv(u, v, 'same')
 
 }
 \author{
-Tony Richardson, \email{arichard@stark.cc.oh.us},
-  adapted by John W. Eaton.\cr
-  Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
+Tony Richardson, \email{arichard@stark.cc.oh.us}, adapted by John W.
+  Eaton.\cr Conversion to R by Geert van Boxtel,
+  \email{G.J.M.vanBoxtel@gmail.com}.
 }

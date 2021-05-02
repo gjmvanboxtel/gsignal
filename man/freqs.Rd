@@ -45,9 +45,9 @@ Frequency response, returned as a complex vector.
 Compute the s-plane frequency response of an IIR filter.
 }
 \details{
-The s-plane frequency response of the IIR filter \code{B(s)/A(s)} is computed
-as \code{H = polyval(B, 1i * W) / polyval(A, 1i * W)}. If called with no
-output argument, a plot of magnitude and phase are displayed.
+The s-plane frequency response of the IIR filter \code{B(s) / A(s)} is
+computed as \code{H = polyval(B, 1i * W) / polyval(A, 1i * W)}. If called
+with no output argument, a plot of magnitude and phase are displayed.
 }
 \examples{
 b <- c(1, 2); a <- c(1, 1)

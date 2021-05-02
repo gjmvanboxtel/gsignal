@@ -35,14 +35,14 @@
 #' k(x) =  -------------------------------------,  -m/2 <= x <= m/2
 #'         besselO(0, Beta)
 #' }}
-#' The variable parameter \eqn{\beta} determines the tradeoff between main lobe
+#' The variable parameter \eqn{\beta} determines the trade-off between main lobe
 #' width and side lobe levels of the spectral leakage pattern. Increasing
-#' \eqn{\beta} widens the mainlobe and decreases the amplitude of the sidelobes
-#' (i.e., increases the attenuation).
+#' \eqn{\beta} widens the main lobe and decreases the amplitude of the side
+#' lobes (i.e., increases the attenuation).
 #'
 #' @param n Window length, specified as a positive integer.
 #' @param beta Shape factor, specified as a positive real scalar. The parameter
-#'   \code{beta} affects the sidelobe attenuation of the Fourier transform of
+#'   \code{beta} affects the side lobe attenuation of the Fourier transform of
 #'   the window. Default: 0.5
 #'
 #' @return Kaiser window, returned as a vector.
@@ -52,9 +52,9 @@
 #' k <- kaiser(200, 2.5)
 #' plot (k, type = "l", xlab = "Samples", ylab =" Amplitude")
 #'
-#' @author Kurt Hornik, \email{Kurt.Hornik@@ci.tuwien.ac.at},\cr
-#' Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
-#'  Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
+#' @author Kurt Hornik, \email{Kurt.Hornik@@ci.tuwien.ac.at},\cr Paul Kienzle,
+#'   \email{pkienzle@@users.sf.net}.\cr Conversion to R by Geert van Boxtel
+#'   \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
 

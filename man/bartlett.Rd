@@ -18,9 +18,9 @@ Return the filter coefficients of a Bartlett (triangular) window.
 }
 \details{
 The Bartlett window is very similar to a triangular window as returned by the
-\code{triang} function. However, the Bartlett window always has zeros at the
-first and last samples, while the triangular window is nonzero at those
-points.
+\code{\link{triang}} function. However, the Bartlett window always has zeros
+at the first and last samples, while the triangular window is nonzero at
+those points.
 }
 \examples{
 

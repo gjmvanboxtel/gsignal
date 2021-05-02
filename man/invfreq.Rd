@@ -49,14 +49,14 @@ specified as positive integers.}
 \item{wt}{Weighting factors, specified as a vector of the same length as
 \code{w}. Default: \code{rep(1, length(w))}}
 
-\item{plane}{\code{'z'} (default) for discrete-time spectra; \code{'s'} for
+\item{plane}{\code{"z"} (default) for discrete-time spectra; \code{"s"} for
 continuous-time spectra}
 
 \item{method}{minimization method used to solve the normal equations, one of:
 \describe{
-  \item{ols}{ordinary least squares (default)}
-  \item{tls}{total least squares}
-  \item{qr}{QR decomposition}
+  \item{"ols"}{ordinary least squares (default)}
+  \item{"tls"}{total least squares}
+  \item{"qr"}{QR decomposition}
 }}
 
 \item{norm}{logical indicating whether frequencies must be normalized to

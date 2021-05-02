@@ -38,7 +38,7 @@
 #'
 #' @return A \code{list} containing the following elements:
 #'   \describe{
-#'     \item{a}{vector or matrix containing \code{(p+1)} autoregression
+#'     \item{a}{vector or matrix containing \code{(p + 1)} autoregression
 #'     coefficients. If \code{x} is a matrix, then each row of a corresponds to
 #'     a column of \code{x}. \code{a} has \code{p + 1} columns.}
 #'     \item{e}{white noise input variance, returned as a vector. If \code{x} is

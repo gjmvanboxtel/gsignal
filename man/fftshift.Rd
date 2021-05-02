@@ -38,7 +38,7 @@ Xeven <- 1:6
 ev <- fftshift(Xeven)   # returns 4 5 6 1 2 3
 
 Xodd <- 1:7
-fftshift(Xodd)          # returns 5 6 7 1 2 3 4
+odd <- fftshift(Xodd)   # returns 5 6 7 1 2 3 4
 
 fs <- 100                      # sampling frequency
 t <- seq(0, 10 - 1/fs, 1/fs)   # time vector

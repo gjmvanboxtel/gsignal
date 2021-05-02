@@ -16,7 +16,7 @@ A list of class \code{Ma} with the polynomial coefficients
 Create an MA model representing a filter or system model
 }
 \examples{
-f <- Ma(b = c(1, 2, 1)/3)
+f <- Ma(b = c(1, 2, 1) / 3)
 freqz(f)
 zplane(f)
 

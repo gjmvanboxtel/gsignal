@@ -6,15 +6,20 @@
 \alias{gsignal-package}
 \title{gsignal: Signal Processing}
 \description{
-R implementation of the Octave signal package.
+R implementation of the 'Octave' package 'signal', containing
+    a variety of signal processing tools, such as signal generation and
+    measurement, correlation and convolution, filtering, filter design,
+    filter analysis and conversion, power spectrum analysis, system
+    identification, decimation and sample rate change, and windowing.
 }
 \details{
-The package gsignal is an implementation in R of the Matlab/Octave 'signal'
-package. It provides signal processing algorithms for use with R, include the
-creation of waveforms, FIR and IIR filter design, spectral analysis, Fourier
-and other transforms, window functions, and resampling and rate changing.
+The package 'gsignal' is an implementation in R of the 'Octave' package
+'signal'. It provides signal processing algorithms for use with R, include
+the creation of waveforms, FIR and IIR filter design, spectral analysis,
+Fourier and other transforms, window functions, and resampling and rate
+changing.
 
-Octave signal package release 1.4.1 (2019-02-08) was used to port the
+The 'Octave' package 'signal' release 1.4.1 (2019-02-08) was used to port the
 functions to R. Note that compatibility of function parameters and return
 values was not explicitly pursued.
 }
@@ -35,7 +40,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Tom Short \email{tshort@eprisolutions.com} (Author of signal package)
+  \item Tom Short \email{tshort@eprisolutions.com} (Author of 'signal' package)
   \item Paul Kienzle (Majority of the original sources)
 }
 

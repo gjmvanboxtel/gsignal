@@ -24,7 +24,6 @@ zplane(stable, 1)
 
 }
 \author{
-Original Octave version by Paul Kienzle,
-  \email{pkienzle@users.sf.net}.\cr Conversion to R by Geert van Boxtel,
-  \email{G.J.M.vanBoxtel@gmail.com}
+Paul Kienzle, \email{pkienzle@users.sf.net}.\cr Conversion to R by
+  Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}
 }

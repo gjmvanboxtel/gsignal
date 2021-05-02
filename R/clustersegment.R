@@ -18,7 +18,7 @@
 #
 # Version history
 # 20201122  GvB       setup for gsignal v0.1.0
-# 20201127  GvB       adapted algorithm because of indexing bug (also in Octave)
+# 20201127  GvB       also accept numeric values other than  0 and 1
 #------------------------------------------------------------------------------
 
 #' Cluster Segments
@@ -40,15 +40,10 @@
 #'   second row is the end index of that sequence.
 #'
 #' @examples
-#' x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1)
-#' # [1] 0 0 1 1 1 0 0 1 0 0 0 1 1
-#' ranges <- clustersegment(x)
-#' #       [,1] [,2] [,3]
-#' # [1,]    3    8   12
-#' # [2,]    5    8   13
+#' (x <- c(0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1))
+#' (ranges <- clustersegment(x))
 #' # The first sequence of 1's in x lies in the interval
-#' r <- ranges[1,1]:ranges[2,1]
-#' # [1] 3 4 5
+#' (r <- ranges[1,1]:ranges[2,1])
 #'
 #' x <- matrix(as.numeric(runif(30) > 0.4), 3, 10)
 #' ranges <- clustersegment(x)

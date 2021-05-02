@@ -39,7 +39,7 @@ function is based on elliptic rational functions.Cauer-type filters use
 generalized continued fractions.[1]
 }
 \examples{
-zpg <- ncauer(0.5, 40, 5)
+zpg <- ncauer(1, 40, 5)
 freqz(zpg)
 zplane(zpg)
 

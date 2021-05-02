@@ -28,10 +28,8 @@ A list containing 2 variables; \code{x}, the grid on which the
 Compute the Complex Shannon wavelet.
 }
 \details{
-The code \code{sw <- shanwavf(lb, ub, n, fb, fc)} returns values of the
-complex Shannon wavelet. The complex Shannon wavelet is defined by a
-bandwidth parameter \code{fb}, a wavelet center frequency \code{fc}, and the
-expression
+The complex Shannon wavelet is defined by a bandwidth parameter \code{fb}, a
+wavelet center frequency \code{fc}, and the expression
 \deqn{\psi(x) = (fb^{0.5} * (sinc(fb * x) * e^{2 * 1i * pi * fc * x}))}
 on an \code{n}-point regular grid in the interval of \code{lb} to \code{ub}.
 }

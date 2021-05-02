@@ -31,7 +31,7 @@
 #' for \code{x <- seq(-(n - 1) / n, (n - 1) / n, by = n)}.
 #'
 #' The exact correspondence with the standard deviation of a Gaussian
-#' probability density function is \eqn{\sigma = (n - 1)/(2a)}.
+#' probability density function is \eqn{\sigma = (n - 1) / (2a)}.
 #'
 #' @param n Window length, specified as a positive integer.
 #' @param a Width factor, specified as a positive real scalar. \code{a} is

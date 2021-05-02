@@ -56,11 +56,11 @@
 #'   buffering operation is one in a sequence of consecutive buffering
 #'   operations. To maintain the desired segment overlap from one buffer to the
 #'   next, \code{opt} should contain the final \code{p} samples of the previous
-#'   buffer in the sequence. Set \code{opt} to \code{'nodelay'} to skip the
+#'   buffer in the sequence. Set \code{opt} to \code{"nodelay"} to skip the
 #'   initial condition and begin filling the buffer immediately with
 #'   \code{x[1]}. In this case, \code{L} must be \code{length(p)} or longer. See
 #'   the example where \code{x = 1:30}, \code{n = 7}, \code{p = 3}, and
-#'   \code{opt = 'nodelay'}.}
+#'   \code{opt = "nodelay"}.}
 #'   \item {For \code{p < 0} (underlap), \code{opt} is an integer value in the
 #'     range \code{0 : -p} specifying the number of initial input samples,
 #'     \code{x[1:opt]}, to skip before adding samples to the buffer. The first
@@ -68,13 +68,14 @@
 #' }
 #' The \code{opt} option is especially useful when the current buffering
 #' operation is one in a sequence of consecutive buffering operations. To
-#' maintain the desired frame underlap from one buffer to the next, opt should
-#' equal the difference between the total number of points to skip between
-#' frames (p) and the number of points that were available to be skipped in the
-#' previous input to buffer. If the previous input had fewer than p points that
-#' could be skipped after filling the final frame of that buffer, the remaining
-#' opt points need to be removed from the first frame of the current buffer. See
-#' Continuous Buffering for an example of how this works in practice.
+#' maintain the desired frame underlap from one buffer to the next, \code{opt}
+#' should equal the difference between the total number of points to skip
+#' between frames (\code{p}) and the number of points that were available to be
+#' skipped in the previous input to buffer. If the previous input had fewer than
+#' p points that could be skipped after filling the final frame of that buffer,
+#' the remaining opt points need to be removed from the first frame of the
+#' current buffer. See Continuous Buffering for an example of how this works in
+#' practice.
 #'
 #' \code{buf <- buffer(..., zopt = TRUE)} returns the last \code{p} samples of a
 #' overlapping buffer in output \code{buf$opt}. In an underlapping buffer,

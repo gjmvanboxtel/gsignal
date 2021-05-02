@@ -40,7 +40,7 @@ A list of class \code{Sos} with the following list elements:
   \item{sos}{second-order section representation of the model, returned as an
     \code{L x 6} matrix, one row for each section \code{1:L}. Each row
     consists of an \code{[B, A]}, pair, where \code{B = c(b0, b1, b2)}, and
-    \code{A = c(1, a1, a2)}, the filer coefficents for each section. Each
+    \code{A = c(1, a1, a2)}, the filer coefficients for each section. Each
     \code{b0} entry must be nonzero for each section.}
   \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors}
 }

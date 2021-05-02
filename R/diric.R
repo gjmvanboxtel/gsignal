@@ -30,11 +30,11 @@
 #' The Dirichlet function, or periodic sinc function, has period \eqn{2 \pi} for
 #' odd \eqn{N} and period \eqn{4 \pi} for even \eqn{N}. Its maximum value is 1
 #' for all N, and its minimum value is -1 for even N. The magnitude of the
-#' function is 1/N times the magnitude of the discrete-time Fourier transform of
-#' the N-point rectangular window.
+#' function is 1 / N times the magnitude of the discrete-time Fourier transform
+#' of the N-point rectangular window.
 #'
 #' @param x Input array, specified as a real scalar, vector, matrix, or
-#'   multidimensional array. When \code{x} is nonscalar, diric is an
+#'   multidimensional array. When \code{x} is non-scalar, \code{diric} is an
 #'   element-wise operation.
 #' @param n Function degree, specified as a positive integer scalar.
 #'

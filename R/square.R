@@ -63,9 +63,6 @@
 #' y <- square(2 * pi * 30 * t, 37) + rnorm(length(t)) / 10
 #' plot(t, y, type="l", xlab = "", ylab = "")
 #'
-#' @note The input argument \code{width} is called \code{xmax} in the Matlab
-#'   signal package
-#'
 #' @author Paul Kienzle.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #

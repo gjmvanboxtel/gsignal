@@ -28,14 +28,14 @@
 #'
 #' @param n Window length, specified as a positive integer.
 #' @param method Character string. Window sampling method, specified as:
-#' \itemize{
-#'   \item 'symmetric' (Default). Use this option when using windows for filter
-#'   design.
-#'   \item 'periodic'. This option is useful for spectral analysis because it
+#' \describe{
+#'   \item{"symmetric" (Default)}{Use this option when using windows for filter
+#'   design.}
+#'   \item{"periodic"}{This option is useful for spectral analysis because it
 #'   enables a windowed signal to have the perfect periodic extension implicit
-#'   in the discrete Fourier transform. When 'periodic' is specified, the
+#'   in the discrete Fourier transform. When "periodic" is specified, the
 #'   function computes a window of length \code{n + 1} and returns the first
-#'   \code{n} points.
+#'   \code{n} points.}
 #' }
 #'
 #' @return Blackman window, returned as a vector.

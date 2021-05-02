@@ -20,8 +20,8 @@ Return the poles and gain of an analog Chebyshev Type I lowpass filter
 prototype.
 }
 \details{
-This function exists for Matlab/OCtave compatibility only, and is equivalent
-to \code{cheby1(n, Rp, 1, "low", "s")}.
+This function exists for compatibility with 'Matlab' and 'OCtave' only, and
+is equivalent to \code{cheby1(n, Rp, 1, "low", "s")}.
 }
 \examples{
 ## 9th order Chebyshev type I low-pass analog filter

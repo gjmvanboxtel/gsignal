@@ -33,8 +33,7 @@
 #'   \eqn{pi}. Default: \deqn{pi}.
 #'
 #' @return Unwrapped phase angle, returned as a vector, matrix, or
-#'   multidimensional array. The size of the output is always the same as the
-#'   size of the input.
+#'   multidimensional array.
 #'
 #' @examples
 #' ## Define spiral shape.

@@ -35,8 +35,8 @@
 #' The frequency response of a digital filter can be interpreted as the transfer
 #' function evaluated at \eqn{z = e^{j\omega}}.
 #'
-#' The Matlab and Octave versions of \code{freqz} produce magnitude and phase
-#' plots. The \code{freqz} version in the \code{signal} package produces
+#' The 'Matlab' and 'Octave' versions of \code{freqz} produce magnitude and
+#' phase plots. The \code{freqz} version in the 'signal' package produces
 #' separate plots of magnitude in the pass band (max - 3 dB to max) and stop
 #' (total) bands, as well as a phase plot. The current version produces slightly
 #' different plots. The magnitude plots are separate for stop and pass bands,
@@ -68,7 +68,7 @@
 #' @param ...	 for methods of \code{freqz}, arguments are passed to the default
 #'   method. For \code{freqz_plot}, additional arguments are passed through to
 #'   plot.
-#' @param object object of class \code{'freqz'} for \code{summary}
+#' @param object object of class \code{"freqz"} for \code{summary}
 #'
 #' @return For \code{freqz}, a list of class \code{'freqz'} with items:
 #' \describe{
@@ -83,7 +83,7 @@
 #' freqz(b, a)
 #'
 #' hw <- freqz(b, a)
-#' ## summary(hw)
+#' summary(hw)
 #'
 #' @author John W. Eaton, Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #'  Port to R by Tom Short,\cr

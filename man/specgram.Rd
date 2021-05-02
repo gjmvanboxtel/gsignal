@@ -70,7 +70,7 @@ overlapping segments of length \code{n}, and each segment is windowed and
 transformed into the frequency domain using the FFT. The default segment size
 is 256. If \code{fs} is given, it specifies the sampling rate of the input
 signal. The argument \code{window} specifies an alternate window to apply
-rather than the default of \code{hanning (n)}. The argument overlap specifies
+rather than the default of \code{hanning(n)}. The argument overlap specifies
 the number of samples overlap between successive segments of the input
 signal. The default overlap is \code{length (window)/2}.
 
@@ -143,17 +143,15 @@ sp <- specgram(chirp(seq(-2, 15, by = 0.001), 400, 10, 100, 'quadratic'))
 specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500,
         "logarithmic"), fs = 8000)
 
-\dontrun{
 # use other color palettes than grayscale
-require(grDevices)
-jet <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
-                          "yellow", "#FF7F00", "red", "#7F0000"))
-plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
-8000), col = jet(20))
-c2w <- colorRampPalette(colors = c("red", "white", "blue"))
-plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"), fs =
-8000), col = c2w(50))
-}
+jet <- grDevices::colorRampPalette(
+         c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F",
+           "yellow", "#FF7F00", "red", "#7F0000"))
+plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"),
+         fs = 8000), col = jet(20))
+c2w <- grDevices::colorRampPalette(colors = c("red", "white", "blue"))
+plot(specgram(chirp(seq(0, 5, by = 1/8000), 200, 2, 500, "logarithmic"),
+         fs = 8000), col = c2w(50))
 
 }
 \author{

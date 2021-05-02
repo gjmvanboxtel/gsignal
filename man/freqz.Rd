@@ -76,7 +76,7 @@ frequencies are in radians.}
 
 \item{x}{object to be printed or plotted.}
 
-\item{object}{object of class \code{'freqz'} for \code{summary}}
+\item{object}{object of class \code{"freqz"} for \code{summary}}
 
 \item{w}{vector of frequencies}
 
@@ -99,8 +99,8 @@ filter.
 The frequency response of a digital filter can be interpreted as the transfer
 function evaluated at \eqn{z = e^{j\omega}}.
 
-The Matlab and Octave versions of \code{freqz} produce magnitude and phase
-plots. The \code{freqz} version in the \code{signal} package produces
+The 'Matlab' and 'Octave' versions of \code{freqz} produce magnitude and
+phase plots. The \code{freqz} version in the 'signal' package produces
 separate plots of magnitude in the pass band (max - 3 dB to max) and stop
 (total) bands, as well as a phase plot. The current version produces slightly
 different plots. The magnitude plots are separate for stop and pass bands,
@@ -120,7 +120,7 @@ a <- c(1, 0, 0, 0, 0.25)
 freqz(b, a)
 
 hw <- freqz(b, a)
-## summary(hw)
+summary(hw)
 
 }
 \author{

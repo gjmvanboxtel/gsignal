@@ -10,15 +10,15 @@ buttap(n)
 \item{n}{Order of the filter.}
 }
 \value{
-List of class \code{'\link{Zpg}'} containing poles and gain of the
+List of class \code{\link{Zpg}} containing poles and gain of the
   filter.
 }
 \description{
 Return the poles and gain of an analog Butterworth lowpass filter prototype.
 }
 \details{
-This function exists for Matlab/OCtave compatibility only, and is equivalent
-to \code{butter(n, 1, "low", "s")}.
+This function exists for compatibility with 'Matlab' and 'Octave' only, and
+is equivalent to \code{butter(n, 1, "low", "s")}.
 }
 \examples{
 ## 9th order Butterworth low-pass analog filter

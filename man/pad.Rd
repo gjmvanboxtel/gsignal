@@ -13,7 +13,7 @@ prepad(x, l, c = 0, MARGIN = 2)
 postpad(x, l, c = 0, MARGIN = 2)
 }
 \arguments{
-\item{x}{Vector, array, or matrix to be padded}
+\item{x}{Vector or matrix to be padded}
 
 \item{l}{Length of output data along the padding dimension. If \code{length
 (x) > l}, elements from the beginning (\code{dimension = "pre"}) or the end
@@ -35,21 +35,17 @@ dimensions. Default: 2 (columns).}
 \item{direction}{Where to pad the array along each dimension. One of the
   following:
 \describe{
-  \item{pre}{Before the first element}
-  \item{post}{After the last element}
-  \item{both}{(default) Before the first and after the last element}
+  \item{"pre"}{Before the first element}
+  \item{"post"}{After the last element}
+  \item{"both"}{(default) Before the first and after the last element}
 }}
 }
 \value{
-Padded data.
+Padded data, returned as a vector or matrix.
 }
 \description{
 Pre- or postpad the data object \code{x} with the value \code{c} until it is
 of length \code{l}.
-}
-\note{
-Unlike the Matlab/Octave \code{postpad} function, this implementation
-  is limited to 2-dimensional arrays (matrices).
 }
 \examples{
 v <- 1:24

@@ -26,12 +26,12 @@
 #' @param a,b Input matrices, coerced to numeric.
 #' @param shape Subsection of convolution, partially matched to:
 #' \describe{
-#'   \item{full}{Return the full convolution (default)}
-#'   \item{same}{Return the central part of the convolution with the same size
+#'   \item{"full"}{Return the full convolution (default)}
+#'   \item{"same"}{Return the central part of the convolution with the same size
 #'   as A. The central part of the convolution begins at the indices
 #'   \code{floor(c(nrow(b), ncol(b)) / 2 + 1)}}
-#'   \item{valid}{Return only the parts which do not include zero-padded edges.
-#'   The size of the result is \code{max(nrow(a) - nrow(a) + 1, 0)} by
+#'   \item{"valid"}{Return only the parts which do not include zero-padded
+#'   edges. The size of the result is \code{max(nrow(a) - nrow(a) + 1, 0)} by
 #'   \code{max(ncol(A) - ncol(B) + 1, 0)}}
 #' }
 #'
@@ -41,10 +41,10 @@
 #' a <- matrix(1:16, 4, 4)
 #' b <- matrix(1:9, 3,3)
 #' cnv <- conv2(a, b)
-#' cnv <- conv2(a, b, 'same')
-#' cnv <- conv2(a, b, 'valid')
+#' cnv <- conv2(a, b, "same")
+#' cnv <- conv2(a, b, "valid")
 #'
-#' @seealso \code{\link[gsignal]{conv}}, \code{\link[stats]{convolve}}
+#' @seealso \code{\link{conv}}, \code{\link[stats]{convolve}}
 #'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'

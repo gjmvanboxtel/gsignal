@@ -66,14 +66,15 @@
 #' @param scale Character string. Specifies the type of scaling applied to the
 #'   correlation vector (or matrix). matched to one of:
 #'   \describe{
-#'     \item{'none'}{return the unscaled correlation, R}
-#'     \item{'biased'}{return the biased average, R/N}
-#'     \item{'unbiased'}{return the unbiased average, R(k)/(N-|k|)}
-#'     \item{'coeff'}{return the correlation coefficient, R/(rms(x).rms(y))},
-#'     where \code{k} is the lag, and \code{N} is the length of \code{x}
+#'     \item{"none"}{return the unscaled correlation, R}
+#'     \item{"biased"}{return the biased average, R / N}
+#'     \item{"unbiased"}{return the unbiased average, R(k) / (N - |k|)}
+#'     \item{"coeff"}{return the correlation coefficient, R / (rms(x) .
+#'     rms(y))}, where \code{k} is the lag, and \code{N} is the length of
+#'     \code{x}
 #'   }
-#'  If omitted, the default value is \code{none}. If \code{y} is supplied but
-#'  does not have the same length as \code{x}, scale must be \code{none}.
+#'  If omitted, the default value is \code{"none"}. If \code{y} is supplied but
+#'  does not have the same length as \code{x}, scale must be \code{"none"}.
 #'
 #' @return A list containing the following variables:
 #' \describe{

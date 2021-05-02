@@ -9,7 +9,7 @@ cheb2ap(n, Rs)
 \arguments{
 \item{n}{Order of the filter.}
 
-\item{Rs}{dB of stopband ripple.}
+\item{Rs}{dB of stop-band ripple.}
 }
 \value{
 list of class \code{\link{Zpg}} containing poles and gain of the
@@ -20,8 +20,8 @@ Return the poles and gain of an analog Chebyshev Type II lowpass filter
 prototype.
 }
 \details{
-This function exists for Matlab/OCtave compatibility only, and is equivalent
-to \code{cheby2(n, Rp, 1, "low", "s")}.
+This function exists for compatibility with 'Matlab' and 'Octave'only, and is
+equivalent to \code{cheby2(n, Rp, 1, "low", "s")}.
 }
 \examples{
 ## 9th order Chebyshev type II low-pass analog filter
