@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # bartlett()
 
@@ -35,7 +37,7 @@ test_that("parameters to hamming() are correct", {
 
 test_that("hamming() tests are correct", {
   expect_equal(hamming(1), 1L)
-  expect_equal(hamming(2), 25 / 46 - 21 / 46 * rep(1L, 2))
+  expect_equal(hamming(2), 25 / 46 - 21 / 46 * rep(1L, 2), tolerance = tol)
   expect_equal(rev(hamming(15)), hamming(15))
   expect_equal(rev(hamming(16)), hamming(16))
   
@@ -43,8 +45,8 @@ test_that("hamming() tests are correct", {
   A <- hamming(N)
   expect_equal(A[ceiling(N / 2)], 1L)
   
-  expect_equal(hamming(15), hamming(15, 'symmetric'))
-  expect_equal(hamming(16)[1:15], hamming(15, 'periodic'))
+  expect_equal(hamming(15), hamming(15, 'symmetric'), tolerance = tol)
+  expect_equal(hamming(16)[1:15], hamming(15, 'periodic'), tolerance = tol)
   
   N <- 16
   A <- hamming(N, 'periodic')
@@ -73,8 +75,8 @@ test_that("hann() tests are correct", {
   A <- hann(N)
   expect_equal(A[ceiling(N / 2)], 1L)
   
-  expect_equal(hann(15), hann(15, 'symmetric'))
-  expect_equal(hann(16)[1:15], hann(15, 'periodic'))
+  expect_equal(hann(15), hann(15, 'symmetric'), tolerance = tol)
+  expect_equal(hann(16)[1:15], hann(15, 'periodic'), tolerance = tol)
   
   N <- 16
   A <- hann(N, 'periodic')
@@ -122,8 +124,8 @@ test_that("blackman() tests are correct", {
   A <- blackman(N)
   expect_equal(A[ceiling(N / 2)], 1L)
   
-  expect_equal(blackman(15), blackman(15, 'symmetric'))
-  expect_equal(blackman(16)[1:15], blackman(15, 'periodic'))
+  expect_equal(blackman(15), blackman(15, 'symmetric'), tolerance = tol)
+  expect_equal(blackman(16)[1:15], blackman(15, 'periodic'), tolerance = tol)
   
   N <- 16
   A <- blackman(N, 'periodic')
@@ -165,8 +167,8 @@ test_that("blackmanharris() tests are correct", {
   expect_equal(blackmanharris(2), c(6e-5, 6e-5))
   expect_equal(rev(blackmanharris(15)), blackmanharris(15))
   expect_equal(rev(blackmanharris(16)), blackmanharris(16))
-  expect_equal(blackmanharris(15), blackmanharris(15, 'symmetric'))
-  expect_equal(blackmanharris(16)[1:15], blackmanharris(15, 'periodic'))
+  expect_equal(blackmanharris(15), blackmanharris(15, 'symmetric'), tolerance = tol)
+  expect_equal(blackmanharris(16)[1:15], blackmanharris(15, 'periodic'), tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -182,11 +184,11 @@ test_that("parameters to blackmannuttall() are correct", {
 
 test_that("blackmannuttall() tests are correct", {
   expect_equal(blackmannuttall(1), 1L)
-  expect_equal(blackmannuttall(2), c(0.0003628, 0.0003628))
+  expect_equal(blackmannuttall(2), c(0.0003628, 0.0003628), , tolerance = tol)
   expect_equal(rev(blackmannuttall(15)), blackmannuttall(15))
   expect_equal(rev(blackmannuttall(16)), blackmannuttall(16))
-  expect_equal(blackmannuttall(15), blackmannuttall(15, 'symmetric'))
-  expect_equal(blackmannuttall(16)[1:15], blackmannuttall(15, 'periodic'))
+  expect_equal(blackmannuttall(15), blackmannuttall(15, 'symmetric'), tolerance = tol)
+  expect_equal(blackmannuttall(16)[1:15], blackmannuttall(15, 'periodic'), tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -254,7 +256,7 @@ test_that("parameters to chebwin() are correct", {
   expect_error(chebwin(array(1L, c(1, 4))))
 })
 
-test_that("boxcar() tests are correct", {
+test_that("chebwin() tests are correct", {
   expect_equal(chebwin(1), 1L)
   expect_equal(chebwin(2), rep(1L, 2))
   expect_equal(rev(chebwin(15)), chebwin(15))
@@ -274,11 +276,11 @@ test_that("parameters to flattopwin() are correct", {
 
 test_that("flattopwin() tests are correct", {
   expect_equal(flattopwin(1), 1L)
-  expect_equal(flattopwin(2), 0.0042 / 4.6402 * rep(1L, 2))
+  expect_equal(flattopwin(2), 0.0042 / 4.6402 * rep(1L, 2), tolerance = tol)
   expect_equal(rev(flattopwin(15)), flattopwin(15))
   expect_equal(rev(flattopwin(16)), flattopwin(16))
-  expect_equal(flattopwin(15), flattopwin(15, 'symmetric'))
-  expect_equal(flattopwin(16)[1:15], flattopwin(15, 'periodic'))
+  expect_equal(flattopwin(15), flattopwin(15, 'symmetric'), tolerance = tol)
+  expect_equal(flattopwin(16)[1:15], flattopwin(15, 'periodic'), tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -311,8 +313,8 @@ test_that("parameters to gausswin() are correct", {
 
 test_that("gausswin() tests are correct", {
   expect_equal(gausswin(1), 1)
-  expect_equal(gausswin(2), c(exp(-3.125), exp(-3.125)))
-  expect_equal(gausswin(3), c(exp(-3.125), 1, exp(-3.125)))
+  expect_equal(gausswin(2), c(exp(-3.125), exp(-3.125)), tolerance = tol)
+  expect_equal(gausswin(3), c(exp(-3.125), 1, exp(-3.125)), tolerance = tol)
   expect_equal(rev(gausswin(15)), gausswin(15))
   expect_equal(rev(gausswin(16)), gausswin(16))
 })
@@ -352,8 +354,8 @@ test_that("nuttallwin() tests are correct", {
   expect_equal(nuttallwin(2), c(0, 0))
   expect_equal(rev(nuttallwin(15)), nuttallwin(15))
   expect_equal(rev(nuttallwin(16)), nuttallwin(16))
-  expect_equal(nuttallwin(15), nuttallwin(15, 'symmetric'))
-  expect_equal(nuttallwin(16)[1:15], nuttallwin(15, 'periodic'))
+  expect_equal(nuttallwin(15), nuttallwin(15, 'symmetric'), tolerance = tol)
+  expect_equal(nuttallwin(16)[1:15], nuttallwin(15, 'periodic'), tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -414,7 +416,7 @@ test_that("tukeywin() tests are correct", {
   expect_equal(tukeywin(5, 0), rep(1L, 5))
   expect_equal(tukeywin(5, 1), c(0, 0.5, 1, 0.5, 0))
   expect_equal(tukeywin(16, 0), rectwin(16))
-  expect_equal(tukeywin(16, 1), hann(16))
+  expect_equal(tukeywin(16, 1), hann(16), tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -435,6 +437,6 @@ test_that("welchwin() tests are correct", {
   expect_equal(welchwin(3, 'symmetric'), c(0, 1, 0))
   expect_equal(rev(welchwin(15)), welchwin(15))
   expect_equal(rev(welchwin(16)), welchwin(16))
-  expect_equal(welchwin(15), welchwin(15, 'symmetric'))
-  expect_equal(welchwin(16)[1:15], welchwin(15, 'periodic'))
+  expect_equal(welchwin(15), welchwin(15, 'symmetric'), tolerance = tol)
+  expect_equal(welchwin(16)[1:15], welchwin(15, 'periodic'), tolerance = tol)
 })

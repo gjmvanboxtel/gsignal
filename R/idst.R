@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201016  GvB       setup for gsignal v0.1.0
+# 20210506  GvB       use matrix() instead of as.matrix()
 #------------------------------------------------------------------------------
 
 #' Inverse Discrete Sine Transform
@@ -59,7 +60,7 @@ idst <- function(x, n = NROW(x)) {
 
   if (is.vector(x)) {
     vec <- TRUE
-    x <- as.matrix(x, ncol = 1)
+    x <- matrix(x, ncol = 1)
   } else {
     vec <- FALSE
   }

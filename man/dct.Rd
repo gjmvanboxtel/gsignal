@@ -34,7 +34,7 @@ the original variant first proposed for image processing.
 The transform is faster if \code{x} is real-valued and has even length.
 }
 \examples{
-x <- as.matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
+x <- matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
 X <- dct(x)
 
 # Find which cosine coefficients are significant (approx.)

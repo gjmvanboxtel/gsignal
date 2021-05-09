@@ -22,6 +22,7 @@
 # 20210306  GvB       initialize a, b with sos[1, ] instead of 1 (bug in Octave
 #                     signal?)
 # 20210326  GvB       return object of class 'Arma'
+# 20210506  GvB       use matrix() instead of as.matrix()
 #------------------------------------------------------------------------------
 
 #' Sos to transfer function
@@ -55,7 +56,7 @@
 
 sos2tf <- function(sos, g = 1) {
 
-  sos <- as.matrix(sos, ncol = 6)
+  sos <- matrix(sos, ncol = 6)
   n <- nrow(sos)
   m <- ncol(sos)
   if (n <= 0) {

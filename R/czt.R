@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201011  GvB       setup for gsignal v0.1.0
+# 20210506  GvB       use matrix() instead of as.matrix()
 #------------------------------------------------------------------------------
 
 #' Chirp Z-transform
@@ -94,7 +95,7 @@ czt <- function(x, m = NROW(x),
   }
 
   if (is.vector(x)) {
-    x <- as.matrix(x, ncol = 1)
+    x <- matrix(x, ncol = 1)
     vec <- TRUE
   } else {
     vec <- FALSE

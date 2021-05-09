@@ -60,7 +60,14 @@ rmsq <- function(x) sqrt(msq(x))
 nextpow2 <- function(x) 2^ceiling(log2(x))
 
 # convert complex number to real if imaginary part is zero
-zapIm <- function(x) if (all(Im(z <- zapsmall(x, 12)) == 0)) Re(z) else x
+# zapIm <- function(x, nd = 10) if (all(Im(z <- zapsmall(x, nd)) == 0))
+#   Re(z) else x
+zapIm <- function(x, tol = .Machine$double.eps^0.5) {
+  z <- all(abs(Im(x)) < tol) 
+  if (!is.na(z) && z) 
+    Re(x)
+  else x
+}
 
 # reverse string (taken from strsplit examples)
 strReverse <- function(x) sapply(lapply(strsplit(x, NULL), rev),

@@ -45,7 +45,7 @@ more coefficients than DCTs to encode most blocks. This explanation was
 provided by Douglas Bagnall on Stackoverflow.
 }
 \examples{
-x <- as.matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
+x <- matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
 ct <- dct(x)
 st <- dst(x)
 

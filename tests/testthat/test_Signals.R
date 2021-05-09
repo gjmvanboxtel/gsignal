@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # buffer()
 
@@ -136,18 +138,18 @@ test_that("chirp() works for linear, quadratic and logarithmic shapes", {
   
   t <- seq(0, 5, 0.001)
   y <- chirp (t)
-  expect_equal(sum(head(y)), 5.999952, tolerance = 1e-6)
-  expect_equal(sum(tail(y)), 2.146626e-05, tolerance = 1e-6)
+  expect_equal(sum(head(y)), 5.999952, tolerance = tol)
+  expect_equal(sum(tail(y)), 2.146626e-05, tolerance = tol)
   
   t <- seq(-2, 15, 0.001)
   y <- chirp (t, 400, 10, 100, "quadratic")
-  expect_equal(sum(head(y)), 0.8976858, tolerance = 1e-6)
-  expect_equal(sum(tail(y)), 0.4537373, tolerance = 1e-6)
+  expect_equal(sum(head(y)), 0.8976858, tolerance = tol)
+  expect_equal(sum(tail(y)), 0.4537373, tolerance = tol)
   
   t <- seq(0, 5, 1/8000)
   y <- chirp (t, 200, 2, 500, "logarithmic")
-  expect_equal(sum(head(y)), -4.56818, tolerance = 1e-6)
-  expect_equal(sum(tail(y)), 0.8268064, tolerance = 1e-6)
+  expect_equal(sum(head(y)), -4.56818, tolerance = tol)
+  expect_equal(sum(tail(y)), 0.8268064, tolerance = tol)
   
 })
 
@@ -419,9 +421,9 @@ test_that("parameters to sigmoid_train() are correct", {
 
 test_that("sigmoid_train() works correctly", {
   st <- sigmoid_train(1:10, rbind(c(2,3)), 1)
-  expect_equal(st$y, st$s)
+  expect_equal(st$y, st$s, tolerance = tol)
   st <- sigmoid_train(1:10, c(2,3), 1)
-  expect_equal(st$y, st$s)
+  expect_equal(st$y, st$s, tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -542,10 +544,10 @@ test_that("parameters to sinewave() are correct", {
 test_that("sinetone() works correctly", {
   expect_equal(sinewave(1), 0)
   expect_equal(sinewave(1, 4, 1), 1)
-  expect_equal(sinewave(1, 12, 1), 1 / 2)
-  expect_equal(sinewave(1, 12, 2), sqrt(3) / 2)
-  expect_equal(sinewave(1, 20, 1), (sqrt(5) - 1) / 4)
-  expect_equal(sinewave(1), sinewave(1, 1, 0))
-  expect_equal(sinewave(3, 4), sinewave(3, 4, 0))
+  expect_equal(sinewave(1, 12, 1), 1 / 2, tolerance = tol)
+  expect_equal(sinewave(1, 12, 2), sqrt(3) / 2, tolerance = tol)
+  expect_equal(sinewave(1, 20, 1), (sqrt(5) - 1) / 4, tolerance = tol)
+  expect_equal(sinewave(1), sinewave(1, 1, 0), tolerance = tol)
+  expect_equal(sinewave(3, 4), sinewave(3, 4, 0), tolerance = tol)
 })
 

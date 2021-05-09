@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # filtfilt()
 
@@ -53,14 +55,14 @@ test_that("filtic() tests are correct", {
   b <- c(0.2065721, 0.4131442, 0.2065721)
   a <- c(1.0000000, -0.3695274,  0.1958157)
   x <- y <- c(1, 1)
-  expect_equal(filtic(b, a, y, x), c(0.7934280, 0.0107564), tolerance = 1e-7)
+  expect_equal(filtic(b, a, y, x), c(0.7934280, 0.0107564), tolerance = tol)
   N <- 1000
   xx <- cos(2 * pi * seq(0, N-1, length.out = N)/8)
   yy <- filter(b, a, xx)
   x <- xx[seq(N, N - 1, -1)]
   y <- yy[seq(N, N - 1, -1)]
   zf <- filtic(b, a, y, x)
-  expect_equal(filtic(b, a, y, x), c( 0.4039015, 0.1625113), tolerance = 1e-7)
+  expect_equal(filtic(b, a, y, x), c( 0.4039015, 0.1625113), tolerance = tol)
   
 })
 
@@ -84,7 +86,7 @@ test_that("medfilt1() tests are correct", {
   expect_equal(medfilt1(c(1, 1, 2, 3, 3, 4, 4, 4, 5)), 
                c(1, 1, 2, 3, 3, 4, 4, 4, 4))
   expect_equal(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5)),
-               c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = 1e-7)
+               c(1, 1, 2, 3, 3.676871, 4, 4, 4, 4), tolerance = tol)
   expect_equal(medfilt1(c(1, 1, 2, 3, NA, 4, 4, 4, 5), na.omit = TRUE),
                c(1, 1, 2, 3, 4, 4, 4, 4))
   expect_equal(medfilt1(cbind(1:5, 1:5)), cbind(1:5, 1:5))
@@ -176,21 +178,21 @@ test_that("parameters to fftfilt() are correct", {
 })
 
 test_that("fftfilt() tests are correct", {
-
+  
   b <- c(1, 1)
   x <- c(1L, rep(0L, 9))
   res <- c(rep(1L, 2), rep(0L, 8))
   expect_equal(fftfilt(b, x), res)
   expect_equal(fftfilt(b, replicate(2, x)), replicate(2,res))
   expect_equal(fftfilt(b, replicate(2, x + 2 *.Machine$double.eps)),
-               replicate(2,res))
+               replicate(2,res), tolerance = tol)
   
   r <- sqrt (1/2) * (1+1i)
   b <-  c(1, 1) * r
   x <- c(1L, rep(0L, 9))
   res <- c(rep(1L, 2), rep(0L, 8))
-  expect_equal(fftfilt(b, x), r * res)
-  expect_equal(fftfilt(b, r * x), r * r * res)
+  expect_equal(fftfilt(b, x), r * res, tolerance = tol)
+  expect_equal(fftfilt(b, r * x), r * r * res, tolerance = tol)
 
   b  <- c(1, 1)
   x  <- matrix(rep(0L, 30), 10, 3); x[1, 1] <--1; x[1, 2] <- 1
@@ -205,14 +207,14 @@ test_that("fftfilt() tests are correct", {
   expect_equal(-y0, y)
   x  <- runif(10)
   y  <- fftfilt(b, cbind(x, x * 1i))
-  expect_equal(all(abs(Im(y[, 1])) < .Machine$double.eps), TRUE)
-  expect_equal(all(abs(Re(y[, 2])) < .Machine$double.eps), TRUE)
+  expect_equal(all(abs(Im(y[, 1])) < tol), TRUE)
+  expect_equal(all(abs(Re(y[, 2])) < tol), TRUE)
   
   b  <- runif(10)
   x  <- runif(10)
   y0 <- filter(b, 1, x)
   y  <- fftfilt(b, x)
-  expect_equal(y0, y, tolerance =  1e-6)
+  expect_equal(y0, y, tolerance =  tol)
   
 })
 
@@ -232,6 +234,6 @@ test_that("filter_zi() tests are correct", {
   h <- butter(2, 0.4)
   l <- max(length(h$b), length(h$a)) - 1
   x <- y <- rep(1, l)
-  expect_equal(filtic(h, y, x), filter_zi(h))
+  expect_equal(filtic(h, y, x), filter_zi(h), tolerance = tol)
 
 })

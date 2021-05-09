@@ -20,6 +20,7 @@
 # 20200403  GvB       compute roots with the "eigen" method, and sort them
 # 20200406  GvB       validated
 # 20210326  GvB       renamed k to g, return object of class 'Zpg'
+# 20210506  GvB       sort output z and p
 #------------------------------------------------------------------------------
 
 #' Transfer function to zero-pole-gain form
@@ -81,5 +82,5 @@ tf2zp <- function(b, a) {
     k <- 1
   }
 
-  Zpg(z = z, p = p, g = k)
+  Zpg(z = sort(z), p = sort(p), g = k)
 }

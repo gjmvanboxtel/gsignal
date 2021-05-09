@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # sgolay()
 
@@ -69,9 +71,9 @@ test_that("fir2() tests are correct", {
   b16 <- fir2 (30, f, m, 16)
   b17 <- fir2 (30, f, m, 17)
   b32 <- fir2 (30, f, m, 32)
-  expect_equal(b9,  b16)
-  expect_equal(b17, b32)
-  expect_false(isTRUE(all.equal(b16, b17)))
+  expect_equal(b9,  b16, tolerance = tol)
+  expect_equal(b17, b32, tolerance = tol)
+  expect_false(isTRUE(all.equal(b16, b17, tolerance = tol)))
   
   # Test expected magnitudes of passbands, stopbands, and cutoff frequencies
   f <- c(0, 0.7, 0.7, 1); m <- c(0, 0, 1, 1)

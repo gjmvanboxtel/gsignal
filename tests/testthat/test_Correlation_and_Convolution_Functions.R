@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # cconv()
 
@@ -103,7 +105,7 @@ test_that("xcorr() tests are correct", {
   expect_equal(rl$lags, -2:2)
 
   rl <- xcorr(1:10, 1:10, 2, 'coeff')
-  expect_equal(rl$R, c(0.7168831, 0.8571429, 1.0000000, 0.8571429, 0.7168831), tolerance = 1e-7)
+  expect_equal(rl$R, c(0.7168831, 0.8571429, 1.0000000, 0.8571429, 0.7168831), tolerance = tol)
   expect_equal(rl$lags, -2:2)
   
 })
@@ -185,7 +187,7 @@ test_that("xcov() tests are correct", {
   expect_equal(cl$lags, -2:2)
   
   cl <- xcov(1:10, 1:10, 2, 'coeff')
-  expect_equal(cl$C, c(0.4121212, 0.7, 1, 0.7, 0.4121212), tolerance = 1e-7)
+  expect_equal(cl$C, c(0.4121212, 0.7, 1, 0.7, 0.4121212), tolerance = tol)
   expect_equal(cl$lags, -2:2)
   
 })

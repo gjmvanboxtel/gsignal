@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # pwelch()
 
@@ -87,12 +89,12 @@ test_that("parameters to ar_psd() are correct", {
 test_that("ar_psd() tests are correct", {
   
   psd <- ar_psd(c(1,0), 1)
-  expect_equal(psd$freq, (1 / 2 / 256) * seq(0, 255))
+  expect_equal(psd$freq, (1 / 2 / 256) * seq(0, 255), tolerance = tol)
   expect_equal(psd$psd, rep(2L, 256))
 
   n <- 64
   psd <- ar_psd(c(1,0, 0), 1, n)
-  expect_equal(psd$freq, (1 / 2 / n) * seq(0, n - 1))
+  expect_equal(psd$freq, (1 / 2 / n) * seq(0, n - 1), tolerance = tol)
   expect_equal(psd$psd, rep(2L, n))
 
   psd <- ar_psd(c(1,0, 1), 1, n)
@@ -135,7 +137,7 @@ test_that("pow2db() tests are correct", {
   expect_equal(db2pow(pow2db(pow)), pow)
   
   db <- c(-10, 0, 10, 20, 25)
-  expect_equal(db2pow(db), c(0.1, 1, 10, 100, 316.22777), tolerance = 1--4)
+  expect_equal(db2pow(db), c(0.1, 1, 10, 100, 316.22777), tolerance = 1e-4)
   expect_equal(pow2db(db2pow(db)), db)
   
 })

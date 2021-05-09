@@ -21,6 +21,7 @@
 # 20200405  GvB       replaced roots() by pracma::roots()
 # 20200406  GvB       validated
 # 20210326  GvB       return object of class 'Zpg'
+# 20210506  GvB       use matrix() instead of as.matrix(), sort output
 #------------------------------------------------------------------------------
 
 #' Sos to zero-pole-gain
@@ -55,7 +56,7 @@
 
 sos2zp <- function(sos, g = 1) {
 
-  sos <- as.matrix(sos, ncol = 6)
+  sos <- matrix(sos, ncol = 6)
   n <- nrow(sos)
   m <- ncol(sos)
   if (m != 6) {
@@ -78,5 +79,5 @@ sos2zp <- function(sos, g = 1) {
     p[ndx] <- pi
   }
 
-  Zpg(z = z, p = p, g = g)
+  Zpg(z = sort(z), p = sort(p), g = g)
 }

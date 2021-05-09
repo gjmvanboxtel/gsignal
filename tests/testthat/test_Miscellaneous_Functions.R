@@ -70,32 +70,6 @@ test_that("poly() tests are correct", {
   expect_equal(poly(c(-1 + 1i)), c(1 + 0i, 1 - 1i))
 })
 
-# # -----------------------------------------------------------------------
-# # roots() 
-# 
-# test_that("parameters to roots() are correct", {
-#   expect_error(roots())
-#   expect_error(roots('invalid'))
-#   expect_error(roots(1, 2))
-# })
-# 
-# test_that("roots() tests are correct", {
-#   expect_equal(roots(0), NULL)
-#   expect_equal(roots(0, "eigen"), NULL)
-#   expect_equal(roots(1), numeric(0))
-#   expect_equal(roots(1, "eigen"), numeric(0))
-#   
-#   p <- c(poly(rep(3, 4)), rep(0, 4))
-#   r <- pracma::roots(p)
-#   expect_equal(r, c(rep(0, 4), rep(3, 4)))
-#   r <- roots(p, "eigen")
-#   expect_equal(r, c(3.000362+0.000362i, 3.000362-0.000362i, 2.999638+0.000362i, 2.999638-0.000362i,
-#                     rep(0.0+0.0i, 4)), tolerance = 1e-6)
-#   
-#   expect_equal(roots(c(1e-200, -1e200, 1)), 1e-200)
-#   expect_equal(roots(c(1e-200, -1e200 * 1i, 1)), 1e-200 * 1i)
-# })
-
 # -----------------------------------------------------------------------
 # filter() 
 
@@ -388,6 +362,8 @@ test_that("parameters to residue() are correct", {
 })
 
 test_that("residue() tests are correct", {
+  tol <- 1e-6
+  
   b <- c(1, 1, 1)
   a <- c(1, -5, 8, -4)
   rpk <- residue (b, a)
@@ -401,7 +377,7 @@ test_that("residue() tests are correct", {
   b <- c(1, 0, 1)
   a <- c(1, 0, 18, 0, 81)
   rpk <- residue (b, a)
-  expect_equal(rpk$r, c(-5i, 12, +5i, 12) / 54)
+  expect_equal(rpk$r, c(-5i, 12, +5i, 12) / 54, tolerance = tol)
   expect_equal(rpk$p, c(+3i, +3i, -3i, -3i))
   expect_null(rpk$k)
   ba <- rresidue (rpk$r, rpk$p, rpk$k)

@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # fracshift()
 
@@ -39,8 +41,8 @@ test_that("fracshift() tests are correct", {
   x <- exp(-t^2 / 2 / 0.25^2) * sin(2 * pi * 10 * t)
   d  <- 10
   y <- fracshift(x, as.integer(d))
-  yh <- fracshift(x, as.double(d) + 1e-8)
-  expect_equal(y, yh, tolerance = 1e-8)
+  yh <- fracshift(x, as.double(d) + tol)
+  expect_equal(y, yh, tolerance = tol)
   
   # test Octave bug #52758
   x <- c(0, 1, 0, 0, 0, 0, 0, 0)

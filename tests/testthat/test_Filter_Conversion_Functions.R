@@ -2,13 +2,14 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # sos2tf()
 
 test_that("parameters to sos2tf() are correct", {
   expect_error(sos2tf())
   expect_error(sos2tf(1, 2, 3))
-  expect_error(sos2tf(1, 1))
 })
 
 test_that("sos2tf() tests are correct", {
@@ -33,7 +34,6 @@ test_that("sos2tf() tests are correct", {
 test_that("parameters to sos2zp() are correct", {
   expect_error(sos2zp())
   expect_error(sos2zp(1, 2, 3))
-  expect_error(sos2zp(1, 1))
 })
 
 test_that("sos2zp() tests are correct", {
@@ -42,8 +42,8 @@ test_that("sos2zp() tests are correct", {
   pref <- c(-0.2-0.678232998312527i, -0.2+0.678232998312527i, -0.1-0.538516480713450i, -0.1+0.538516480713450i)
   kref <- 4
   zpg <- sos2zp(sos, 1)
-  expect_equal(cplxpair(zpg$z, 1e-7), as.vector(zref))
-  expect_equal(cplxpair(zpg$p, 1e-7), as.vector(pref))
+  expect_equal(cplxpair(zpg$z, tol), as.vector(zref), tolerance = tol)
+  expect_equal(cplxpair(zpg$p, tol), as.vector(pref), tolerance = tol)
   expect_equal(zpg$g, 4)
 })
 
@@ -60,8 +60,8 @@ test_that("tf2zp() tests are correct", {
   b <- c(2, 3)
   a <- c(1, 1/sqrt(2), 1/4)
   zpk <- tf2zp(b, a)
-  expect_equal(zpk$z, pracma::roots(b))
-  expect_equal(zpk$p, pracma::roots(a))
+  expect_equal(zpk$z, sort(pracma::roots(b)))
+  expect_equal(zpk$p, sort(pracma::roots(a)), tolerance = tol)
   expect_equal(zpk$g, 2)
   
 })
@@ -113,7 +113,8 @@ test_that("tf2sos() tests are correct", {
   sec1 <- c(1, 0.618034, 1, 1, 0.6051470, 0.9587315)
   sec2 <- c(1, -1.618034,  1, 1, -1.5842953, 0.9587315)
   sec3 <- c(1, 1.000000, 0, 1, 0.9791484, 0.0000000)
-  expect_equal(sosg$sos, rbind(sec1, sec2, sec3, deparse.level = 0))
+  expect_equal(sosg$sos, rbind(sec1, sec2, sec3, deparse.level = 0),
+               tolerance = 1e-6)
   
   # these are slightly different in Matlab (b[0] and b[1] swapped),
   # and produce errors in Octave
@@ -133,8 +134,6 @@ test_that("parameters to zp2tf() are correct", {
 })
 
 test_that("zp2tf() tests are correct", {
-  # Matlab returns a = [1 0.01 1] - bug?
-  # Octave gives an error
   ba <- zp2tf(c(0, 0), pracma::roots(c(1, 0.01, 1)), 1)
   expect_equal(ba$b, c(1, 0, 0))
   expect_equal(ba$a, c(1, 0.01, 1))
@@ -154,8 +153,8 @@ test_that("zp2tf() tests are correct", {
   poles <- c(p1, p2)
   ba <- zp2tf(zeros, poles, 1)
   inv <- tf2zp(ba$b, ba$a)
-  expect_equal(inv$z, zeros, tolerance = 1e-6)
-  expect_equal(inv$p, poles, tolerance = 1e-6)
+  expect_equal(sort(inv$z), sort(zeros), tolerance = tol)
+  expect_equal(sort(inv$p), sort(poles), tolerance = tol)
   expect_equal(inv$g, 1)
 })
 
@@ -237,8 +236,8 @@ test_that("residuez() tests are correct", {
             1,
             0.30901699437495 + 0.95105651629515i,
             -0.80901699437495 + 0.58778525229247i)
-  expect_equal(rpk$r[s$ix], rise)
-  expect_equal(rpk$p[s$ix], pise)
+  expect_equal(rpk$r[s$ix], rise, tolerance = tol)
+  expect_equal(rpk$p[s$ix], pise, tolerance = tol)
   expect_null(rpk$k)
   
 })

@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # cheb()
 
@@ -35,7 +37,7 @@ test_that("besselap() tests are correct", {
   expect_equal(besselap(1)$p, -1)
   expect_equal(besselap(2)$p, c(-0.8660254+0.5i, -0.8660254-0.5i))
   expect_equal(besselap(3)$p, c(-0.7456404+0.7113666i, -0.7456404-0.7113666i, -0.9416000+0.0000000i),
-               tolerance = 1e-7)
+               tolerance = tol)
 })
 
 # -----------------------------------------------------------------------
@@ -62,33 +64,33 @@ test_that("besself() tests are correct", {
   expect_equal(zpg$g, 1L)
 
   zpg <- besself(1, c(1, 2), 'stop')
-  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i), tolerance = 1e-6)
-  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = 1e-6)
+  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i), tolerance = tol)
+  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = tol)
   expect_equal(zpg$g, 1L)
 
   zpg <- besself(1, c(1, 2), 'pass')
   expect_equal(zpg$z, 0L)
-  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = 1e-6)
+  expect_equal(zpg$p, c(-0.5+1.322876i, -0.5-1.322876i), tolerance = tol)
   expect_equal(zpg$g, 1L)
 
   zpg <- besself(2, 1, 'low')
   expect_equal(zpg$z, complex(0))
-  expect_equal(zpg$p, c(-0.8660254+0.5i, -0.8660254-0.5i))
+  expect_equal(zpg$p, c(-0.8660254+0.5i, -0.8660254-0.5i), tolerance = tol)
   expect_equal(zpg$g, 1L)
   
   zpg <- besself(2, 1, 'high')
   expect_equal(zpg$z, c(0L, 0L))
-  expect_equal(zpg$p, c(-0.8660254-0.5i, -0.8660254+0.5i))
+  expect_equal(zpg$p, c(-0.8660254-0.5i, -0.8660254+0.5i), tolerance = tol)
   expect_equal(zpg$g, 1L)
   
   zpg <- besself(2, c(1, 2), 'stop')
-  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i, 0-1.414214i, 0+1.414214i), tolerance = 1e-6)
-  expect_equal(zpg$p, c(-0.354087+1.121579i, -0.354087-1.121579i, -0.511939-1.621579i, -0.511939+1.621579i), tolerance = 1e-6)
+  expect_equal(zpg$z, c(0-1.414214i, 0+1.414214i, 0-1.414214i, 0+1.414214i), tolerance = tol)
+  expect_equal(zpg$p, c(-0.354087+1.121579i, -0.354087-1.121579i, -0.511939-1.621579i, -0.511939+1.621579i), tolerance = tol)
   expect_equal(zpg$g, 1L)
   
   zpg <- besself(2, c(1, 2), 'pass')
   expect_equal(zpg$z, c(0L, 0L))
-  expect_equal(zpg$p, c( -0.354087-1.121579i, -0.354087+1.121579i, -0.511939+1.621579i, -0.511939-1.621579i), tolerance = 1e-6)
+  expect_equal(zpg$p, c( -0.354087-1.121579i, -0.354087+1.121579i, -0.511939+1.621579i, -0.511939-1.621579i), tolerance = tol)
   expect_equal(zpg$g, 1L)
   
 })
@@ -146,7 +148,7 @@ test_that("sftrans() tests are correct", {
   
   res <- sftrans(1, 3, 1, 1, TRUE)
   expect_equal(res$z, 1)
-  expect_equal(res$p, 1/3)
+  expect_equal(res$p, 1 / 3, tolerance = tol)
   expect_equal(res$g, 1/3)
 
   res <- sftrans(1, 3, 1, 1, FALSE)
@@ -864,7 +866,7 @@ test_that("pei_tseng_notch() tests are correct", {
   ba <-  pei_tseng_notch( 50 / nyq, 2 / nyq)
   filtered <- filter(ba, data)
   damp_db <- apply(filtered, 2, function(x) 20 * log10(max(x[(l - 1000):l])))
-  expect_equal(as.vector(damp_db), c(-3.037382, -44.16588, -3.065681), tolerance = 1e-7)
+  expect_equal(as.vector(damp_db), c(-3.037382, -44.16588, -3.065681), tolerance = tol)
 
   ## 1Hz bandwidth
   data <- cbind(sinetone(49.5, fs, 10, 1), sinetone(50, fs, 10, 1), sinetone(50.5, fs, 10, 1))
@@ -872,6 +874,6 @@ test_that("pei_tseng_notch() tests are correct", {
   ba <-  pei_tseng_notch( 50 / nyq, 1 / nyq)
   filtered <- filter(ba, data)
   damp_db <- apply(filtered, 2, function(x) 20 * log10(max(x[(l - 1000):l])))
-  expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = 1e-7)
+  expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = tol)
 })
   

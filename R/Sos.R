@@ -17,6 +17,7 @@
 # Version history
 # 20200402  GvB       setup for gsignal v0.1.0
 # 20210306  GvB       as.Sos.Zpg()): x$g instead of x$k
+# 20210506  GvB       default g = 1
 #------------------------------------------------------------------------------
 
 #' Second-order sections
@@ -38,7 +39,8 @@
 #'     consists of an \code{[B, A]}, pair, where \code{B = c(b0, b1, b2)}, and
 #'     \code{A = c(1, a1, a2)}, the filer coefficients for each section. Each
 #'     \code{b0} entry must be nonzero for each section.}
-#'   \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors}
+#'   \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors.
+#'   Default: 1}
 #' }
 #'
 #' @seealso \code{\link{Arma}}, \code{\link{Ma}}, \code{\link{Zpg}}
@@ -52,7 +54,7 @@
 #' @rdname Sos
 #' @export
 
-Sos <- function(sos, g) {
+Sos <- function(sos, g = 1) {
   res <- list(sos = sos, g = g)
   class(res) <- "Sos"
   res

@@ -2,8 +2,7 @@
 title: "Signal Processing in R"
 author: Geert van Boxtel
 date: April 30, 2021
-#output: rmarkdown::html_vignette
-output: pdf_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Signal Processing in R}
   %\VignetteEngine{knitr::rmarkdown}

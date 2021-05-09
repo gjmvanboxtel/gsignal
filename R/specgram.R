@@ -141,6 +141,8 @@
 #'
 #' @rdname specgram
 #' @export
+#' 
+#' @import grDevices
 
 specgram <- function(x, n = min(256, length(x)), fs = 2, window = hanning(n),
                      overlap = ceiling(n / 2)) {

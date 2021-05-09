@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201015  GvB       setup for gsignal v0.1.0
+# 20210506  GvB       use matrix() instead of as.matrix()
 #------------------------------------------------------------------------------
 
 #' Discrete Cosine Transform
@@ -44,7 +45,7 @@
 #' @return Discrete cosine transform, returned as a vector or matrix.
 #'
 #' @examples
-#' x <- as.matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
+#' x <- matrix(seq_len(100) + 50 * cos(seq_len(100) * 2 * pi / 40))
 #' X <- dct(x)
 #'
 #' # Find which cosine coefficients are significant (approx.)
@@ -80,7 +81,7 @@
 
   if (is.vector(x)) {
     vec <- TRUE
-    x <- as.matrix(x, ncol = 1)
+    x <- matrix(x, ncol = 1)
   } else {
     vec <- FALSE
   }

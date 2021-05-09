@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # cplxreal()
 
@@ -23,7 +25,7 @@ test_that("cplxreal() tests are correct", {
   expect_equal(length(ret$zr), 0)
   
   ret <- cplxreal(polyroot(c(1, 0, 0, 1)))
-  expect_equal(ret$zc, complex(real = 0.5, imag = sinpi(1 / 3)))
+  expect_equal(ret$zc, complex(real = 0.5, imag = sinpi(1 / 3)), tolerance = tol)
   expect_equal(ret$zr, -1)
 })
 
@@ -200,8 +202,8 @@ test_that("parameters to czt() are correct", {
 
 test_that("czt() tests are correct", {
   x <- c(1, 2, 4, 1, 2, 3, 5, 2, 3, 5, 6, 7, 8, 4, 3, 6, 3, 2, 5, 1)
-  expect_equal(stats::fft(x), czt(x))
-  expect_equal(stats::mvfft(cbind(x, x)), czt(cbind(x, x)))
+  expect_equal(stats::fft(x), czt(x), tolerance = 1e-6)
+  expect_equal(stats::mvfft(cbind(x, x)), czt(cbind(x, x)), tolerance = 1e-6)
 })
 
 # -----------------------------------------------------------------------

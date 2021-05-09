@@ -2,6 +2,8 @@
 library(gsignal)
 library(testthat)
 
+tol <- 1e-6
+
 # -----------------------------------------------------------------------
 # arburg()
 
@@ -32,9 +34,9 @@ test_that("arburg() tests are correct", {
   expect_equal(cf$k, 0)
 
   cf <- arburg(c(1L, 0L, 1L, 0L, 0L), 2)
-  expect_equal(cf$a, c(1, 0, -2 / 3))
-  expect_equal(cf$e, 2 / 9)
-  expect_equal(cf$k, c(0, -2 / 3))
+  expect_equal(cf$a, c(1, 0, -2 / 3), tolerance = tol)
+  expect_equal(cf$e, 2 / 9, tolerance = tol)
+  expect_equal(cf$k, c(0, -2 / 3), tolerance = tol)
 
   x <- filter(1, c(1, -0.75, 0.5), 0.2 * rnorm(1024))
   y <- cbind(x, x)
@@ -44,9 +46,9 @@ test_that("arburg() tests are correct", {
   expect_equal(length(cf$e), 2)
   expect_equal(ncol(cf$k), 2)
   expect_equal(nrow(cf$k), 2)
-  expect_equal(cf$a[1, ], cf$a[2, ])
-  expect_equal(cf$e[1], cf$e[2])
-  expect_equal(cf$k[, 1], cf$k[, 1])
+  expect_equal(cf$a[1, ], cf$a[2, ], tolerance = tol)
+  expect_equal(cf$e[1], cf$e[2], tolerance = tol)
+  expect_equal(cf$k[, 1], cf$k[, 1], tolerance = tol)
   
 })
 
@@ -87,9 +89,9 @@ test_that("levinson() tests are correct", {
   expect_equal(length(cf$e), 2)
   expect_equal(ncol(cf$k), 2)
   expect_equal(nrow(cf$k), 2)
-  expect_equal(cf$a[1, ], cf$a[2, ])
-  expect_equal(cf$e[1], cf$e[2])
-  expect_equal(cf$k[, 1], cf$k[, 1])
+  expect_equal(cf$a[1, ], cf$a[2, ], tolerance = tol)
+  expect_equal(cf$e[1], cf$e[2], tolerance = tol)
+  expect_equal(cf$k[, 1], cf$k[, 1], tolerance = tol)
   
 })
 
@@ -130,9 +132,9 @@ test_that("aryule() tests are correct", {
   expect_equal(length(cf$e), 2)
   expect_equal(ncol(cf$k), 2)
   expect_equal(nrow(cf$k), 2)
-  expect_equal(cf$a[1, ], cf$a[2, ])
-  expect_equal(cf$e[1], cf$e[2])
-  expect_equal(cf$k[, 1], cf$k[, 1])
+  expect_equal(cf$a[1, ], cf$a[2, ], tolerance = tol)
+  expect_equal(cf$e[1], cf$e[2], tolerance = tol)
+  expect_equal(cf$k[, 1], cf$k[, 1], tolernce = tol)
   
 })
 

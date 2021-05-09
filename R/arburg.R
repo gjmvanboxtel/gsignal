@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201104  GvB       setup for gsignal v0.1.0
+# 20210507  GvB       bugfix in inner product to compute v
 #------------------------------------------------------------------------------
 
 #' Autoregressive model coefficients - Burg's method
@@ -154,7 +155,7 @@ arburg <- function(x, p, criterion = NULL) {
     #      E = expectation operator
     f <- x[2:nr, icol]
     b <- x[1:(nr - 1), icol]
-    v <- Re(t(x[, icol]) %*% x[, icol]) / nr
+    v <- Re(x[, icol] %*% x[, icol]) / nr
     # new_crit/old_crit is the mode-selection criterion
     new_crit <- abs(v)
     old_crit <- 2 * new_crit
@@ -162,7 +163,7 @@ arburg <- function(x, p, criterion = NULL) {
     for (ip in seq_len(p)) {
 
       # new reflection coeff = -2* E(f.conj(b)) / ( E(f^2)+E(b(^2) )
-      last_k <- as.vector(-2 * (t(b) %*% f) / (t(f) %*% f + t(b) %*% b))
+      last_k <- as.vector(-2 * (b %*% f) / (f %*% f + b %*% b))
       ##  Levinson-Durbin recursion for residual
       new_v <- v * (1.0 - Re(last_k * Conj(last_k)))
       if (ip > 1) {

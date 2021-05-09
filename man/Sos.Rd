@@ -9,7 +9,7 @@
 \alias{as.Sos.Zpg}
 \title{Second-order sections}
 \usage{
-Sos(sos, g)
+Sos(sos, g = 1)
 
 as.Sos(x, ...)
 
@@ -42,7 +42,8 @@ A list of class \code{Sos} with the following list elements:
     consists of an \code{[B, A]}, pair, where \code{B = c(b0, b1, b2)}, and
     \code{A = c(1, a1, a2)}, the filer coefficients for each section. Each
     \code{b0} entry must be nonzero for each section.}
-  \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors}
+  \item{g}{overall gain factor that scales any one of the \eqn{B_i} vectors.
+  Default: 1}
 }
 }
 \description{
