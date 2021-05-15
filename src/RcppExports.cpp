@@ -97,21 +97,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ultrwin
-Nullable<NumericVector> ultrwin(int m, double mu, double par, int par_type, int even_norm);
-RcppExport SEXP _gsignal_ultrwin(SEXP mSEXP, SEXP muSEXP, SEXP parSEXP, SEXP par_typeSEXP, SEXP even_normSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type m(mSEXP);
-    Rcpp::traits::input_parameter< double >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< double >::type par(parSEXP);
-    Rcpp::traits::input_parameter< int >::type par_type(par_typeSEXP);
-    Rcpp::traits::input_parameter< int >::type even_norm(even_normSEXP);
-    rcpp_result_gen = Rcpp::wrap(ultrwin(m, mu, par, par_type, even_norm));
-    return rcpp_result_gen;
-END_RCPP
-}
 // upfirdn
 NumericMatrix upfirdn(NumericMatrix x, NumericMatrix h, int p, int q);
 RcppExport SEXP _gsignal_upfirdn(SEXP xSEXP, SEXP hSEXP, SEXP pSEXP, SEXP qSEXP) {
@@ -135,7 +120,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_fwht", (DL_FUNC) &_gsignal_fwht, 1},
     {"_gsignal_remez", (DL_FUNC) &_gsignal_remez, 8},
     {"_gsignal_rsosfilt", (DL_FUNC) &_gsignal_rsosfilt, 3},
-    {"_gsignal_ultrwin", (DL_FUNC) &_gsignal_ultrwin, 5},
     {"_gsignal_upfirdn", (DL_FUNC) &_gsignal_upfirdn, 4},
     {NULL, NULL, 0}
 };

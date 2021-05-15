@@ -125,48 +125,6 @@
 #' plot(t, z, type = "l", xlab = "Time (s)", ylab = "Waveform",
 #'      main = "Custom pulse train")
 #'
-#' ## Generate the pulse train again, but now use the generating
-#' ## function as an input argument. Include the frequency and damping
-#' ## parameter in the function call. In this case, pulstran generates
-#' ## the pulse so that it is centered about zero.
-#' y <- pulstran(t, dd, 'fnx', fn = 30)
-#' plot(t, y, type = "l", xlab = "Time (s)", ylab = "Waveform",
-#'      main = "Custom pulse train")
-#'
-#' ## Change Interpolation Method with Custom Pulse
-#' ## Generate a custom exponentially decaying sawtooth waveform of
-#' ## requency 0.25 Hz. The generating function has a second input argument
-#' ## that specifies a single value for the sawtooth frequency and the damping
-#' ## factor. Display a generated pulse, sampled at 0.1 kHz for 1 second, with
-#' ## a frequency and damping value equal to 50.
-#'
-#' fnx <- function(x, fn) sawtooth(2 * pi * fn * 0.25 * x) * exp(-2 * fn * x^2)
-#' fs <- 100
-#' t <- seq(0, 1, 1/fs)
-#' pp <- fnx(t, 50)
-#' plot(t, pp, type = "l", xlab = "Time (s)", ylab = "Waveform")
-#'
-#' ## Use the pulstran function to generate a train of custom pulses.
-#' ## The train is sampled at 0.1 kHz for 125 seconds. The pulses occur
-#' ## every 25 seconds and have exponentially decreasing amplitudes. Specify
-#' ## the generated pulse as a prototype. Generate three pulse trains using the
-#' ## default linear interpolation method, nearest neighbor interpolation
-#' ## and piecewise cubic interpolation. Compare the pulse trains on a
-#' ##  single plot.
-#' d <- cbind(seq(0, 125, 25), exp(-0.015 * seq(0, 125, 25)))
-#' ffs <- 100
-#' tp <- seq(0, 125, 1/ffs)
-#'
-#' r <- pulstran(tp, d, pp)
-#' y <- pulstran(tp, d, pp, method = 'nearest')
-#' q <- pulstran(tp, d, pp, method = 'spline')
-#' plot(tp, r, type = "l", xlab = "Time (s)", ylab = "Waveform")
-#' lines(tp, y, col=2)
-#' lines(tp, q, col=3)
-#' legend ("bottomright", lty=1,
-#'         legend=c("linear", "nearest neighbor", "spline"),
-#'         col=1:3)
-#'
 #' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #'

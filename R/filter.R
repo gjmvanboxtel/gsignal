@@ -20,6 +20,7 @@
 # 20210319  GvB       new setup using filter.cpp to handle initial conditions
 #                     the function now also has the options to return the
 #                     final conditions
+# 20210515  GvB       check return value of rfilter
 #------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -182,6 +183,9 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   for (icol in seq_len(ncx)) {
     l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
                filt, a, x[, icol], zi[, icol])
+    if (length(l) <= 0) {
+      stop("Error filtering data")
+    }
     y[, icol] <- l[["y"]]
     zf[, icol] <- l[["zf"]]
   }

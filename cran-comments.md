@@ -1,3 +1,11 @@
+## Resubmission
+
+This is a resubmission. In this version an issue resulting from a valgrind check was fixed:
+==1100340== Invalid read of size 8
+==1100340==    at 0x48C55C9: rfilter(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>) (/tmp/gsignal.Rcheck/00_pkg_src/gsignal/src/filter.cpp:40) 
+
+Thank you.
+
 ## Submission of gsignal v0.3-2
 
 * corrected CRAN WARNINGs on ATLAS, MKL, valgrind, fedora, solaris:
@@ -19,20 +27,16 @@
 ## R CMD check results
 > On windows-x86_64-devel (r-devel), ubuntu-gcc-release (r-release), fedora-clang-devel (r-devel)
   checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>'
   
-  Days since last update: 6
-
-I submitted v0.3-1 last week (my first submission to CRAN) and it was accepted,
-but the results page later gave some additional errors for some builds. These errors have been
-corrected in this update, and some minor bugfixes and improvements have also been made. 
+  Maintainer: 'Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>'
+  Version contains large components (0.3-2.9000)
 
 > On ubuntu-gcc-release (r-release)
   checking installed package size ... NOTE
     installed size is  5.5Mb
     sub-directories of 1Mb or more:
       doc    1.0Mb
-      libs   3.2Mb
+      libs   3.3Mb
 
 It is a large package with 195 objects, compiled C++ code and a vignette.
 

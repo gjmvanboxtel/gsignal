@@ -29,10 +29,6 @@ rsosfilt <- function(sos, x, zi) {
     .Call(`_gsignal_rsosfilt`, sos, x, zi)
 }
 
-ultrwin <- function(m, mu, par, par_type, even_norm) {
-    .Call(`_gsignal_ultrwin`, m, mu, par, par_type, even_norm)
-}
-
 upfirdn <- function(x, h, p, q) {
     .Call(`_gsignal_upfirdn`, x, h, p, q)
 }
