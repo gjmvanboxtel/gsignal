@@ -1,8 +1,12 @@
 ## Resubmission
 
-This is a resubmission. In this version an issue resulting from a valgrind check was fixed:
-==1100340== Invalid read of size 8
-==1100340==    at 0x48C55C9: rfilter(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<14, Rcpp::PreserveStorage>) (/tmp/gsignal.Rcheck/00_pkg_src/gsignal/src/filter.cpp:40) 
+This is a resubmission. In this version an issue resulting from a valgrind check was fixed in upfirdn.R:
+
+delay <- floor(((ko$n - 1) / 2 - (L - 1)) / L) + 1
+y <- y[(delay + 1):length(y)]
+ty <- seq(0, (length(y) - 1)) / Fcd
+points(ty, y, col = "red", pch = 2)
+==1067179== Conditional jump or move depends on uninitialised value(s) 
 
 Thank you.
 

@@ -1,6 +1,6 @@
 # gsignal 0.3-2
 
-- date: 20210515
+- date: 20210517
 - corrected CRAN WARNINGs on ATLAS, MKL, valgrind, fedora, solaris
 - corrected import NOTE for grDevices
 - adapted code in vignette "gsignal"
@@ -10,7 +10,7 @@
 - use matrix() instead of as.matrix() in functions
     dct(), idct(), czt(), dst(), idst(), fht(), ifht()
 - minor bugfix in arburg()
-- bugfix in filter.cpp: resize a and b vectors length of zi
+- bugfix in filter.cpp: resize a and b vectors, length of zi
 
 
 ---

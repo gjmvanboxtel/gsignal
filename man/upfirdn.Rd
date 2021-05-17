@@ -47,33 +47,24 @@ This function uses a polyphase implementation, which is generally
   factor, since it only calculates the needed outputs.
 }
 \examples{
-## Change the sample rate of a signal by a rational conversion factor
-## from the DAT rate of 48 kHz to the CD sample rate of 44.1 kHz.
-Fdat <- 48e3
-Fcd <- 44.1e3
-LM <- scan(text = capture.output(pracma::rats(Fcd / Fdat)), sep = '/',
- quiet = TRUE)
-L <- LM[1]; M <- LM[2]
 
-## Generate a 1.5 kHz sinusoid sampled at fDAT for 0.25 seconds. Plot the
-## first millisecond.
-t <- seq(0, 0.25 - 1 / Fdat, 1 / Fdat)
-x <- sin(2 * pi * 1.5e3 * t)
-plot(t, x, type = "h", xlim = c(0, 0.001))
-points(t, x)
+x <- c(1, 1, 1)
+h <- c(1, 1)
 
-## Design an antialiasing lowpass filter using a Kaiser window.
-## band edges 90\% and 110\%
-f <- (Fdat / 2) * min(1 / L, 1 / M)
-ko <- kaiserord(c(f - 0.1*f, f + 0.1*f), c(1, 0), c(0.1, 0.1), Fdat)
-h <- L * fir1(ko$n, ko$Wc, ko$type, kaiser(ko$n + 1, ko$beta))
+## FIR filter
+y <- upfirdn(x, h)
 
-y <- upfirdn(x, h, L, M)
+## FIR filter + upsampling
+y <- upfirdn(x, h, 5)
 
-delay <- floor(((ko$n - 1) / 2 - (L - 1)) / L) + 1
-y <- y[(delay + 1):length(y)]
-ty <- seq(0, (length(y) - 1)) / Fcd
-points(ty, y, col = "red", pch = 2)
+## FIR filter + downsampling
+y <- upfirdn(x, h, 1, 2)
+
+## FIR filter + up/downsampling
+y <- upfirdn(x, h, 5, 2)
+
+
+
 
 }
 \seealso{
