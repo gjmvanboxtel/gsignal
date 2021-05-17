@@ -18,6 +18,7 @@
 #
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
+# 20210517    GvB       adapted examples
 #------------------------------------------------------------------------------
 
 #' Moving Root Mean Square
@@ -43,20 +44,13 @@
 #' }
 #'
 #' @examples
+#'        
 #' N <- 128
+#' fs <- 5
 #' t <- seq(0, 1, length.out = N)
-#' x <- sigmoid_train(t, c(0.4, Inf), 1e-2)$y * (2 * runif(length(t)) - 1)
-#' fs <- 1 / diff(t[1:2])
-#' width <- 0.05
-#' rc <- 5e-3
-#' ret <- movingrms(as.numeric(scale(x)), width, rc, fs)
-#' plot(t, x, type = "l", col = "red", xlab = "", ylab = "")
-#' lines(t, ret$rmsx, lwd = 4, col = "black")
-#' polygon(c(0, t, length(t)), c(0, ret$rmsx, 0), col = "blue")
-#' lines (t, ret$w, lwd = 2, col = "green")
-#' legend("topleft", c("data", "window", "movingrms"), lty = 1,
-#'        col = c("red", "green", "blue"))
-#'
+#' x <- sin(2 * pi * fs * t) + runif(N)
+#' y <- movingrms(x, 5)
+#' 
 #' @seealso \code{\link{sigmoid_train}}
 #'
 #' @author Juan Pablo Carbajal, \email{carbajal@@ifi.uzh.ch}.\cr

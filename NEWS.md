@@ -1,6 +1,6 @@
 # gsignal 0.3-2
 
-- date: 20210517
+- date: 20210518
 - corrected CRAN WARNINGs on ATLAS, MKL, valgrind, fedora, solaris
 - corrected import NOTE for grDevices
 - adapted code in vignette "gsignal"

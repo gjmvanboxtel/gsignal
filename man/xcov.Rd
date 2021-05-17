@@ -56,12 +56,16 @@ The array of covariance estimates has one of the following forms:
 Compute covariance at various lags (= correlation(x-mean(x), y-mean(y))).
 }
 \examples{
-x <- rnorm(1000)
-cl <- xcov(x, maxlag = 10, scale = 'coeff')
+\donttest{
+N <- 128
+fs <- 5
+t <- seq(0, 1, length.out = N)
+x <- sin(2 * pi * fs * t) + runif(N)
+cl <- xcov(x, maxlag = 20, scale = 'coeff')
 plot (cl$lags, cl$C, type = "h", xlab = "", ylab = "")
 points (cl$lags, cl$C)
 abline(h = 0)
-
+}
 }
 \seealso{
 \code{\link{xcorr}}.

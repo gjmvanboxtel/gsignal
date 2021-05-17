@@ -17,7 +17,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
-# 2020313  GvB       setup for gsignal v0.1.0
+# 20200313  GvB       setup for gsignal v0.1.0
+# 20210518  GvB       adapted example
 #------------------------------------------------------------------------------
 
 #' Cross-covariance
@@ -62,12 +63,16 @@
 #' @seealso \code{\link{xcorr}}.
 #'
 #' @examples
-#' x <- rnorm(1000)
-#' cl <- xcov(x, maxlag = 10, scale = 'coeff')
+#' \donttest{
+#' N <- 128
+#' fs <- 5
+#' t <- seq(0, 1, length.out = N)
+#' x <- sin(2 * pi * fs * t) + runif(N)
+#' cl <- xcov(x, maxlag = 20, scale = 'coeff')
 #' plot (cl$lags, cl$C, type = "h", xlab = "", ylab = "")
 #' points (cl$lags, cl$C)
 #' abline(h = 0)
-#'
+#'}
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #'

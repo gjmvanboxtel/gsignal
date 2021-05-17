@@ -16,6 +16,7 @@
 #
 # Version history
 # 20200929  GvB       setup for gsignal v0.1.0
+# 20210517  GvB       adapted examples
 #------------------------------------------------------------------------------
 
 #' Upsample, apply FIR filter, downsample
