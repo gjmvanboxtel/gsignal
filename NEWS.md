@@ -11,6 +11,7 @@
     dct(), idct(), czt(), dst(), idst(), fht(), ifht()
 - minor bugfix in arburg()
 - bugfix in filter.cpp: resize a and b vectors, length of zi
+- adapted some examples
 
 
 ---
