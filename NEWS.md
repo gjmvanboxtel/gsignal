@@ -1,6 +1,6 @@
 # gsignal 0.3-3
 
-- 
+- Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
 
 # gsignal 0.3-2
 

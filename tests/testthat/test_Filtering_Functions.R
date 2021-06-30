@@ -216,6 +216,16 @@ test_that("fftfilt() tests are correct", {
   y  <- fftfilt(b, x)
   expect_equal(y0, y, tolerance =  tol)
   
+  # Github Issue #3
+  b  <- c(1, 1)
+  x  <- matrix(rep(0L, 30), 10, 3); x[1, 1] <--1; x[1, 2] <- 1
+  # y0 <- matrix(rep(0L, 30), 10, 3); y0[1:2, 1] <- -1; y0[1:2, 2] <- 1
+  # y  <- fftfilt(b, x, n = 10)
+  # expect_equal(y0, y)
+  y <- matrix(rep(0L, 30), 10, 3); y[1:2, 1] <- -1; y[1:2, 2] <- 1
+  expect_equal(fftfilt(b, x, n = 10), y)
+  expect_equal(fftfilt(b, x[, 1], n = 10), y[, 1])
+  
 })
 
 # -----------------------------------------------------------------------
