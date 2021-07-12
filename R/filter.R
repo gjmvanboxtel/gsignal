@@ -21,6 +21,7 @@
 #                     the function now also has the options to return the
 #                     final conditions
 # 20210515  GvB       check return value of rfilter
+# 20210712  GvB       copy attributes of input x to output y
 #------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -119,6 +120,9 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   lb <- length(filt)
   lab <- max(la, lb)
 
+  #save attributes of x
+  atx <- attributes(x)
+  
   if (is.null(x)) {
     return(NULL)
   }
@@ -194,7 +198,9 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
     y <- as.vector(y)
     zf <- as.vector(zf)
   }
-
+  # set attributes of y nd return
+  attributes(y) <- atx
+  
   if (rzf) {
     retval <- list(y = y, zf = zf)
   } else {

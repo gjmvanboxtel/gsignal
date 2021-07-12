@@ -17,6 +17,7 @@
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
 # 20210329  GvB       different setup for v0.3.0 including initial conditions
+# 20210712  GvB       copy attributes of input x to output y
 #------------------------------------------------------------------------------
 
 #' Second-order sections filtering
@@ -118,6 +119,9 @@ sosfilt <- function(sos, x, zi = NULL) {
   if (!is.numeric(x)) {
     stop("x must be a numeric vector or matrix")
   }
+  
+  #save attributes of x
+  atx <- attributes(x)
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
     vec <- TRUE
@@ -175,6 +179,10 @@ sosfilt <- function(sos, x, zi = NULL) {
     y <- as.vector(y)
     dim(zf) <- dims_zi[1:2]
   }
+  
+  # set attributes of y nd return
+  attributes(y) <- atx
+  
   if (rzf) {
     rv <- list(y = y, zf = zf)
   } else {

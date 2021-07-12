@@ -1,6 +1,8 @@
 # gsignal 0.3-3
 
 - Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
+- copy attributes of input object x to output object y in functions filter, filtfilt, sosfilt, fftfilt
+- TODO: added ultrwin() function
 
 # gsignal 0.3-2
 

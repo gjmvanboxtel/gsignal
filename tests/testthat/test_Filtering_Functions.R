@@ -5,6 +5,30 @@ library(testthat)
 tol <- 1e-6
 
 # -----------------------------------------------------------------------
+# filter()
+
+test_that("parameters to filter() are correct", {
+  expect_error(filter())
+  expect_error(filter(0, 0, 1:10))
+  expect_error(filter(1, 1, c('invalid', 'invalid')))
+})
+
+test_that("filter() tests are correct", {
+  expect_equal(filter(1, 1, 1:2), c(1,2))
+  expect_equal(filter(1, 2, 1:2), c(0.50, 1.00))
+  expect_equal(filter(2, 1, 1:2), c(2, 4))
+  x <- runif(100)
+  y <- filter(1, 1, x)
+  expect_equal(length(y), length(x))
+  x <- matrix(runif(200), 100, 2)
+  colnames(x) <- c("one", "two")
+  y <- filter(1, 1, x)
+  expect_equal(ncol(y), ncol(x))
+  expect_equal(nrow(y), nrow(x))
+  expect_equal(colnames(y), colnames(x))
+})
+
+# -----------------------------------------------------------------------
 # filtfilt()
 
 test_that("parameters to filtfilt() are correct", {
@@ -22,9 +46,11 @@ test_that("filtfilt() tests are correct", {
   y <- filtfilt(1, 1, x)
   expect_equal(length(y), length(x))
   x <- matrix(runif(200), 100, 2)
+  colnames(x) <- c("one", "two")
   y <- filtfilt(1, 1, x)
   expect_equal(ncol(y), ncol(x))
   expect_equal(nrow(y), nrow(x))
+  expect_equal(colnames(y), colnames(x))
 })
 
 # -----------------------------------------------------------------------
@@ -159,10 +185,12 @@ test_that("sosfilt() tests are correct", {
   # multidimensional
   sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
   x <- cbind(1:10, 11:20)
+  colnames(x) <- c("one", "two")
   y <- sosfilt(sos, x, "zf")
-  expect_equal(y$y, cbind(c(0,1,7,26,70,155,301,532,876,1365),
-                          c(0,11,67,216,510,1005,1761,2842,4316,6255)))
+  expect_equal(y$y, cbind(one = c(0,1,7,26,70,155,301,532,876,1365),
+                          two = c(0,11,67,216,510,1005,1761,2842,4316,6255)))
   expect_equal(y$zf, array(c(55,1980,0,-1320,155,8580,0,-6120), c(2,2,2)))
+  expect_equal(colnames(y$y), colnames(x))
 })
 
 # -----------------------------------------------------------------------
@@ -223,7 +251,9 @@ test_that("fftfilt() tests are correct", {
   # y  <- fftfilt(b, x, n = 10)
   # expect_equal(y0, y)
   y <- matrix(rep(0L, 30), 10, 3); y[1:2, 1] <- -1; y[1:2, 2] <- 1
+  colnames(x) <- colnames(y) <- c("one", "two", "three")
   expect_equal(fftfilt(b, x, n = 10), y)
+  expect_equal(colnames(fftfilt(b, x, n = 10)), colnames(y))
   expect_equal(fftfilt(b, x[, 1], n = 10), y[, 1])
   
 })

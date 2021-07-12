@@ -22,6 +22,7 @@
 # 20201121  GvB       done away with FFTfilt, only method for Ma()
 # 20210630  GvB       fixed Github bug #3: Problems with fftfilt when FFT
 #                     length is provided by user
+# 20210712  GvB       copy attributes of input x to output y
 #------------------------------------------------------------------------------
 
 #' FFT-based FIR filtering
@@ -110,6 +111,9 @@ fftfilt.default <- function(b, x, n = NULL) {
   } else {
     lb <- length(b)
   }
+  
+  #save attributes of x
+  atx <- attributes(x)
 
   if (is.vector(x)) {
     lx <- length(x)
@@ -183,6 +187,8 @@ fftfilt.default <- function(b, x, n = NULL) {
     idx <- !any(as.logical(x - round(x)))
     y[idx] <- round(y[idx])
   }
+  # set attributes of y nd return
+  attributes(y) <- atx
   y
 }
 

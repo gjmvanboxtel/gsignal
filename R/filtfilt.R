@@ -22,6 +22,7 @@
 # 20200217  GvB       setup for gsignal v0.1
 # 20200413  GvB       added S3 method method for Sos
 # 20210402  GvB       use padding and Gustafsson method for initial conditions
+# 20210712  GvB       copy attributes of input x to output y
 #------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
@@ -104,6 +105,9 @@ filtfilt.default <- function(filt, a, x, ...) {
     zi <- NULL
   }
 
+  #save attributes of x
+  atx <- attributes(x)
+  
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
     vec <- TRUE
@@ -136,6 +140,8 @@ filtfilt.default <- function(filt, a, x, ...) {
   if (vec) {
     y <- as.vector(y)
   }
+  # set attributes of y nd return
+  attributes(y) <- atx
   y
 }
 
@@ -168,6 +174,9 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
     zi <- NULL
   }
 
+  #save attributes of x
+  atx <- attributes(x)
+  
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
     vec <- TRUE
@@ -199,6 +208,8 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
   if (vec) {
     y <- as.vector(y)
   }
+  # set attributes of y and return
+  attributes(y) <- atx
   y
 }
 
