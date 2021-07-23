@@ -207,6 +207,13 @@ test_that("sosfilt() tests are correct", {
   y <- sosfilt(sos,x)
   expect_equal(y, c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365))
 
+  # complex input
+  r <- sqrt (1 / 2) * (1 + 1i)
+  sos <- rbind(c(0,1,0,1,-1,0),c(1,2,1,1,-2,1))
+  x <- 1:10
+  y <- sosfilt(sos, r * x)
+  expect_equal(y, r * c(0, 1, 7, 26, 70, 155, 301, 532, 876, 1365))
+  
   # initial conditions  
   sos <- rbind(c(0,1,0,1,-1,0), c(1,2,1,1,-2,1))
   x1 <- 1:10
@@ -230,6 +237,9 @@ test_that("sosfilt() tests are correct", {
                           two = c(0,11,67,216,510,1005,1761,2842,4316,6255)))
   expect_equal(y$zf, array(c(55,1980,0,-1320,155,8580,0,-6120), c(2,2,2)))
   expect_equal(colnames(y$y), colnames(x))
+  
+  # complex input
+  
 })
 
 # -----------------------------------------------------------------------

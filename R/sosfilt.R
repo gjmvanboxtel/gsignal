@@ -18,6 +18,7 @@
 # 20200413  GvB       setup for gsignal v0.1.0
 # 20210329  GvB       different setup for v0.3.0 including initial conditions
 # 20210712  GvB       copy attributes of input x to output y
+# 20210724  GvB       allow filtering complex signals
 #------------------------------------------------------------------------------
 
 #' Second-order sections filtering
@@ -33,8 +34,8 @@
 #'   the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
 #'   cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
 #'   a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.
-#' @param x the input signal to be filtered, specified as a vector or as a
-#'   matrix. If \code{x} is a matrix, each column is filtered.
+#' @param x the input signal to be filtered, specified as a numeric or complex
+#'   vector or matrix. If \code{x} is a matrix, each column is filtered.
 #' @param zi If \code{zi} is provided, it is taken as the initial state of the
 #'   system and the final state is returned as zf. If \code{x} is a vector,
 #'   \code{zi} must be a matrix with \code{nrow(sos)} rows and 2 columns. If
@@ -116,8 +117,8 @@ sosfilt <- function(sos, x, zi = NULL) {
   if (is.null(x)) {
     return(NULL)
   }
-  if (!is.numeric(x)) {
-    stop("x must be a numeric vector or matrix")
+  if (!(is.numeric(x) || is.complex(x))) {
+    stop("x must be a numeric or complex vector or matrix")
   }
   
   #save attributes of x
@@ -140,7 +141,11 @@ sosfilt <- function(sos, x, zi = NULL) {
     stop("zi must be NULL, a numeric vector or matrix, or the string 'zf'")
   }
   if (is.null(zi) || rzf) {
-    zi <- array(0, dim = c(nrow(sos), 2, ncx))
+    if (is.numeric(x)) {
+      zi <- array(0, dim = c(nrow(sos), 2, ncx))
+    } else if(is.complex(x)) {
+      zi <- array(0 + 0i, dim = c(nrow(sos), 2, ncx))
+    }
     if (is.null(zi)) {
       rzf <- FALSE
     }
@@ -166,20 +171,44 @@ sosfilt <- function(sos, x, zi = NULL) {
     stop("third dimension of zi must be equal the number of columns in x")
   }
 
-  y <- matrix(0, nrx, ncx)
-  zf <- array(0, dim = dims_zi)
-  for (icol in seq_len(ncx)) {
-    l <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal",
-               sos, x[, icol], matrix(zi[, , icol], ncol = 2))
-    y[, icol] <- l[["y"]]
-    zf[, , icol] <- l[["zf"]]
+  if (is.numeric(x)) {
+    y <- matrix(0, nrx, ncx)
+    zf <- array(0, dim = dims_zi)
+    for (icol in seq_len(ncx)) {
+      l <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal",
+                 sos, x[, icol], matrix(zi[, , icol], ncol = 2))
+      if (length(l) <= 0) {
+        stop("Error filtering data")
+      }
+      y[, icol] <- l[["y"]]
+      zf[, , icol] <- l[["zf"]]
+    }
+  } else if (is.complex(x)) {
+    y <- matrix(0 + 0i, nrx, ncx)
+    zf <- array(0 + 0i, dim = dims_zi)
+    for (icol in seq_len(ncx)) {
+      re <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal",
+                 sos, Re(x[, icol]), Re(matrix(zi[, , icol], ncol = 2)))
+      if (length(re) <= 0) {
+        stop("Error filtering data")
+      }
+      im <- .Call("_gsignal_rsosfilt", PACKAGE = "gsignal",
+                  sos, Im(x[, icol]), Im(matrix(zi[, , icol], ncol = 2)))
+      if (length(im) <= 0) {
+        stop("Error filtering data")
+      }
+      y[, icol] <- re[["y"]] + 1i * im[["y"]]
+      zf[, , icol] <- re[["zf"]] + 1i * im[["zf"]]
+    }
   }
-
   if (vec) {
     y <- as.vector(y)
     dim(zf) <- dims_zi[1:2]
   }
-  
+  if (is.complex(x)) {
+    y <- zapIm(y)
+    zf <- zapIm(zf)
+  }
   # set attributes of y nd return
   attributes(y) <- atx
   

@@ -22,7 +22,7 @@
 #                     final conditions
 # 20210515  GvB       check return value of rfilter
 # 20210712  GvB       copy attributes of input x to output y
-# 20210720  GvB       allow filtering complex signals (with real coefficients)
+# 20210724  GvB       allow filtering complex signals and coefficients
 #------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -47,12 +47,12 @@
 #' examples.
 #'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’), specified as a vector. Generically,
-#'   \code{filt} specifies an arbitrary filter operation.
+#'   filter (normally called ‘b’), specified as a numeric or complex vector.
+#'   Generically, \code{filt} specifies an arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
-#'   specified as a vector. If \code{a[1]} is not equal to 1, then filter
-#'   normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
-#'   must be nonzero.
+#'   specified as a numeric or complex vector. If \code{a[1]} is not equal to 1,
+#'   then filter normalizes the filter coefficients by \code{a[1]}. Therefore,
+#'   \code{a[1]} must be nonzero.
 #' @param x the input signal to be filtered, specified as a numeric or complex
 #'   vector or matrix. If \code{x} is a matrix, each column is filtered.
 #' @param zi If \code{zi} is provided, it is taken as the initial state of the

@@ -13,8 +13,8 @@ the second-order sections:\cr \code{sos <- rbind(cbind(B1, A1), cbind(...),
 cbind(Bn, An))}, where \code{B1 <- c(b0, b1, b2)}, and \code{A1 <- c(a0,
 a1, a2)} for section 1, etc. The b0 entry must be nonzero for each section.}
 
-\item{x}{the input signal to be filtered, specified as a vector or as a
-matrix. If \code{x} is a matrix, each column is filtered.}
+\item{x}{the input signal to be filtered, specified as a numeric or complex
+vector or matrix. If \code{x} is a matrix, each column is filtered.}
 
 \item{zi}{If \code{zi} is provided, it is taken as the initial state of the
 system and the final state is returned as zf. If \code{x} is a vector,
