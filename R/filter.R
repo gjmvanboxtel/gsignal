@@ -22,6 +22,7 @@
 #                     final conditions
 # 20210515  GvB       check return value of rfilter
 # 20210712  GvB       copy attributes of input x to output y
+# 20210720  GvB       allow filtering complex signals (with real coefficients)
 #------------------------------------------------------------------------------
 
 #' Filter a signal
@@ -52,8 +53,8 @@
 #'   specified as a vector. If \code{a[1]} is not equal to 1, then filter
 #'   normalizes the filter coefficients by \code{a[1]}. Therefore, \code{a[1]}
 #'   must be nonzero.
-#' @param x the input signal to be filtered, specified as a vector or as a
-#'   matrix. If \code{x} is a matrix, each column is filtered.
+#' @param x the input signal to be filtered, specified as a numeric or complex
+#'   vector or matrix. If \code{x} is a matrix, each column is filtered.
 #' @param zi If \code{zi} is provided, it is taken as the initial state of the
 #'   system and the final state is returned as zf. The state vector is a vector
 #'   or a matrix (depending on \code{x}) whose length or number of rows is equal
@@ -111,23 +112,33 @@ filter <- function(filt, ...) UseMethod("filter")
 #' @export
 
 filter.default <- function(filt, a, x, zi = NULL, ...) {
-
-  if (!is.vector(filt) || ! is.vector(a) ||
-      !is.numeric(filt) || !is.numeric(a)) {
+  
+  if (!is.vector(filt) || ! is.vector(a)) {
     stop("b and a must be numeric vectors")
+  }
+  if (is.numeric(filt) && is.numeric(a)) {
+    real_coefs <- TRUE
+  } else if (is.complex(filt) || is.complex(a)) {
+    real_coefs <- FALSE
+  } else {
+    stop("b and a must be numeric or complex")
   }
   la <- length(a)
   lb <- length(filt)
   lab <- max(la, lb)
-
+  
   #save attributes of x
   atx <- attributes(x)
   
   if (is.null(x)) {
     return(NULL)
   }
-  if (!is.numeric(x)) {
-    stop("x must be a numeric vector or matrix")
+  if (is.numeric(x)) {
+    real_x <- TRUE
+  } else if (is.complex(x)) {
+    real_x <- FALSE
+  } else {
+    stop("x must be a numeric or complex vector or matrix")
   }
   if (is.vector(x)) {
     x <- as.matrix(x, ncol = 1)
@@ -140,13 +151,17 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   if (is.null(nrx) || nrx <= 0) {
     return(x)
   }
-
+  
   rzf <- (is.character(zi) && zi == "zf")
-  if (!is.null(zi) && !is.numeric(zi) && !rzf) {
-    stop("zi must be NULL, a numeric vector or matrix, or the string 'zf'")
+  if (!is.null(zi) && !is.numeric(zi) && ! is.complex(zi) && !rzf) {
+    stop("invalid value for zi")
   }
   if (is.null(zi) || rzf) {
-    zi <- matrix(0, lab - 1, ncx)
+    if (is.numeric(x)) {
+      zi <- matrix(0, lab - 1, ncx)
+    } else if(is.complex(x)) {
+      zi <- matrix(0 + 0i, lab - 1, ncx)
+    }
     if (is.null(zi)) {
       rzf <- FALSE
     }
@@ -164,7 +179,7 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   if (nczi != ncx) {
     stop("number of columns of zi and x must agree")
   }
-
+  
   while (length(a) > 1 && a[1] == 0) {
     a <- a[2:length(a)]
   }
@@ -181,22 +196,96 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
     if (vec) retval <- as.vector(retval)
     return(retval)
   }
-
-  y <- matrix(0, nrx, ncx)
-  zf <- matrix(0, lab - 1, nczi)
-  for (icol in seq_len(ncx)) {
-    l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
-               filt, a, x[, icol], zi[, icol])
-    if (length(l) <= 0) {
-      stop("Error filtering data")
+  
+  if (real_coefs) {
+    if (real_x) {
+      # real filter coefs, real x
+      y <- matrix(0, nrx, ncx)
+      zf <- matrix(0, lab - 1, nczi)
+      for (icol in seq_len(ncx)) {
+        l <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                   filt, a, x[, icol], zi[, icol])
+        if (length(l) <= 0) {
+          stop("Error filtering data")
+        }
+        y[, icol] <- l[["y"]]
+        zf[, icol] <- l[["zf"]]
+      }
+    } else {
+      # real filter coefs, complex x
+      y <- matrix(0 + 0i, nrx, ncx)
+      zf <- matrix(0 + 0i, lab - 1, nczi)
+      for (icol in seq_len(ncx)) {
+        re <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    filt, a, Re(x[, icol]), Re(zi[, icol]))
+        if (length(re) <= 0) {
+          stop("Error filtering data")
+        }
+        im <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    filt, a, Im(x[, icol]), Im(zi[, icol]))
+        if (length(im) <= 0) {
+          stop("Error filtering data")
+        }
+        y[, icol] <- re[["y"]] + 1i * im[["y"]]
+        zf[, icol] <- re[["zf"]] + 1i * im[["zf"]]
+      }
     }
-    y[, icol] <- l[["y"]]
-    zf[, icol] <- l[["zf"]]
+  } else {
+    if (real_x) {
+      # complex filter coefs, real x
+      y <- matrix(0 + 0i, nrx, ncx)
+      zf <- matrix(0 + 0i, lab - 1, nczi)
+      for (icol in seq_len(ncx)) {
+        re <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    Re(filt), Re(a), x[, icol], Re(zi[, icol]))
+        if (length(re) <= 0) {
+          stop("Error filtering data")
+        }
+        im <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    Im(filt), Im(a), x[, icol], Im(zi[, icol]))
+        if (length(im) <= 0) {
+          stop("Error filtering data")
+        }
+        y[, icol] <- re[["y"]] + 1i * im[["y"]]
+        zf[, icol] <- re[["zf"]] + 1i * im[["zf"]]
+      }
+    } else {
+      # complex filter coefs, complex x
+      # avoid one filtering operation
+      y <- matrix(0 + 0i, nrx, ncx)
+      zf <- matrix(0 + 0i, lab - 1, nczi)
+      for (icol in seq_len(ncx)) {
+        l1 <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    Re(filt), Re(a), Re(x[, icol]), Re(zi[, icol]))
+        if (length(l1) <= 0) {
+          stop("Error filtering data")
+        }
+        l2 <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    Im(filt), Im(a), Im(x[, icol]), Im(zi[, icol]))
+        if (length(l2) <= 0) {
+          stop("Error filtering data")
+        }
+        l3 <- .Call("_gsignal_rfilter", PACKAGE = "gsignal",
+                    Re(filt) + Im(filt), Re(a) + Im(a),
+                    Re(x[, icol]) + Im(x[, icol]), Re(zi[, icol]) + Im(zi[, icol]))
+        if (length(l3) <= 0) {
+          stop("Error filtering data")
+        }
+        y[, icol] <- l1[["y"]] - l2[["y"]] +
+          + 1i * (l3[["y"]] - l1[["y"]] - l2[["y"]])
+        zf[, icol] <- l1[["zf"]] - l2[["zf"]] +
+          + 1i * (l3[["zf"]] - l1[["zf"]] - l2[["zf"]])
+      }
+    }
   }
-
+  
   if (vec) {
     y <- as.vector(y)
     zf <- as.vector(zf)
+  }
+  if (!real_x || !real_coefs) {
+    y <- zapIm(y)
+    zf <- zapIm(zf)
   }
   # set attributes of y nd return
   attributes(y) <- atx
@@ -206,8 +295,9 @@ filter.default <- function(filt, a, x, zi = NULL, ...) {
   } else {
     retval <- y
   }
-
+  
   retval
+  
 }
 
 #' @rdname filter
@@ -237,3 +327,4 @@ filter.Sos <- function(filt, x, ...) { # Second-order sections
 #' @export
 filter.Zpg <- function(filt, x, ...) # zero-pole-gain form
   filter(as.Arma(filt), x, ...)
+

@@ -26,6 +26,45 @@ test_that("filter() tests are correct", {
   expect_equal(ncol(y), ncol(x))
   expect_equal(nrow(y), nrow(x))
   expect_equal(colnames(y), colnames(x))
+  
+  # Octave tests - shared a, b, x, r
+  a <- c(1, 1)
+  b <- c(1, 1)
+  x <- rep(0, 10); x[1] <- 1
+  expect_equal(filter(b, 1, x), c(1, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(filter(1, a, x), c(+1, -1, +1, -1, +1, -1, +1, -1, +1, -1))
+  expect_equal(filter(b, a, x), x)
+  
+  # complex variables
+  r <- sqrt (1 / 2) * (1 + 1i)
+  expect_equal(filter(b, 1, r * x), r * c(1, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(filter(1, b, r * x), r * c(+1, -1, +1, -1, +1, -1, +1, -1, +1, -1))
+  expect_equal(filter(b, a, r * x), r * x)
+  a <- a * r
+  b <- b * r
+  expect_equal(filter(b, 1, x), r * c(1, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(filter(b, 1, r * x), r * r * c(1, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(filter(b, a, x),  c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(filter(b, a, r * x), r * c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+  
+  a <- c(1, 1)
+  b <- c(1, 1)
+  x <- rep(0, 10); x[1] <- 1
+  l <- filter(b, 1, x, -1)
+  expect_equal(l$y, c(0, 1, 0, 0, 0, 0, 0, 0, 0, 0))
+  expect_equal(l$zf, 0)
+  
+  x  <- matrix(0, 10, 3); x[1, 1] <- -1;  x[1, 2] <- 1
+  y0 <- matrix(0, 10, 3); y0[1:2, 1] = -1;  y0[1:2, 2] = 1
+  y <- filter (b, 1, x)
+  expect_equal(y, y0)
+  
+  # Test using initial conditions
+  expect_equal(filter(c(1, 1, 1), c(1, 1), c(1, 2), c(1, 1))$y, c(2, 2))
+  expect_equal(filter(c(1, 3), 1, matrix(1:6, 3, byrow = TRUE), matrix(c(4, 5), 1))$y,
+               matrix(c(5, 6, 14, 7, 10, 18), 3))
+  expect_error(filter(c(1, 3), 1, matrix(1:6, 3, byrow = TRUE), c(4, 5)))
+  
 })
 
 # -----------------------------------------------------------------------

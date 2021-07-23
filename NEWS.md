@@ -3,6 +3,7 @@
 - Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
 - copy attributes of input object x to output object y in functions filter, filtfilt, sosfilt, fftfilt
 - added ultrwin() function
+- adapted filter() to allow data and filter coefficients to be of type complex
 
 # gsignal 0.3-2
 
