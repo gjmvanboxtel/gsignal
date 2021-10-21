@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // conv2df
 NumericMatrix conv2df(NumericMatrix a, NumericMatrix b);
 RcppExport SEXP _gsignal_conv2df(SEXP aSEXP, SEXP bSEXP) {

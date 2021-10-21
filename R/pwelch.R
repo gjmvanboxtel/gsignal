@@ -21,6 +21,7 @@
 # 20201112  GvB       bug in assigning colnames when ns > 1
 # 20210302  GvB       bug when x is matrix: xx[1:seg_len] -> xx[1:seg_len, ]
 # 20210408  GvB       added range parameter ('half' o 'whole')
+# 20211021  GvB       corrected bug in col ptr into coh, phase, trans matrices
 #------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
@@ -290,10 +291,13 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
     Pxx <- Pxx + Re(fft_x * Conj(fft_x))
     # acculumulate crossspectrum for all signals
     if (ns > 1) {
+      ptr <- 1
       for (i in seq_len(ns - 1)) {
         for (j in seq(i + 1, ns)) {
-          ptr <- i + (j - 1) * (j - 2) / 2
+          # corrected bug 20211021
+          # ptr <- i + (j - 1) * (j - 2) / 2
           Pxy[, ptr] <- Pxy[, ptr] + fft_x[, i] * Conj(fft_x[, j])
+          ptr <- ptr + 1
         }
       }
     }
@@ -342,13 +346,16 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
     cross <- Mod(Pxy) / scale
     coh <- phase <- trans <- matrix(0, nrow = psd_len, ncol = ns * (ns - 1) / 2)
     cn <- NULL
+    ptr <- 1
     for (i in seq_len(ns - 1)) {
       for (j in seq(i + 1, ns)) {
-        ptr <- i + (j - 1) * (j - 2) / 2
+        # corrected bug 20211021
+        # ptr <- i + (j - 1) * (j - 2) / 2
         coh[, ptr] <- Mod(Pxy[, ptr])^2 / Pxx[, i] / Pxx[, j]
         phase[, ptr] <- Arg(Pxy[, ptr])
         trans[, ptr] <- Pxy[, ptr] / Pxx[, i]
         cn <- c(cn, paste(snames[i], snames[j], sep = "-"))
+        ptr <- ptr + 1
       }
     }
     colnames(phase) <- colnames(cross)  <-

@@ -5,6 +5,7 @@
 - added ultrwin() function
 - adapted filter() to allow data and filter coefficients to be of type complex
 - adapted sosfilt() to allow data and filter coefficients to be of type complex
+- bugfix in pwelch() for multivariate input
 
 # gsignal 0.3-2
 
