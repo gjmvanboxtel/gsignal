@@ -17,6 +17,7 @@
 # Version history
 # 20200113  GvB       setup for gsignal v0.1.0
 # 20200123  GvB       adapted rest for Imaginary component == 0 using zapsmall
+# 20211031  GvB       replaced zapsmall test by test for conjugate symmetry
 #------------------------------------------------------------------------------
 
 #' Inverse Fast Fourier Transform
@@ -62,7 +63,7 @@
 ifft <- function(x) {
 
   y <- stats::fft(x, inverse = TRUE) / length(x)
-  zapIm(y)
+  if (isConjSymm(x)) Re(y) else y
 }
 
 #' @rdname ifft
@@ -71,5 +72,5 @@ ifft <- function(x) {
 imvfft <- function(x) {
 
   y <- stats::mvfft(x, inverse = TRUE) / nrow(x)
-  zapIm(y)
+  if(all(apply(x, 2, isConjSymm))) Re(y) else y
 }

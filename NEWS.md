@@ -6,6 +6,9 @@
 - adapted filter() to allow data and filter coefficients to be of type complex
 - adapted sosfilt() to allow data and filter coefficients to be of type complex
 - bugfix in pwelch() for multivariate input
+- Fixed Github Issue #4: Problem with hilbert for small amplitude signals
+- added isConjSymm() function to gsignal-internal
+- adapted ifft() to use isConjSymm instead of ZapIm
 
 # gsignal 0.3-2
 

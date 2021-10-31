@@ -318,3 +318,25 @@ test_that("fwht() and ifwht() tests are correct", {
   expect_equal(ifwht(fwht(x, ordering = "dyadic"), ordering = "dyadic"), x)
 })
 
+# -----------------------------------------------------------------------
+# hilbert()
+
+test_that("parameters to hilbert() are correct", {
+  expect_error(hilbert())
+  expect_error(hilbert('a'))
+  expect_warning(hilbert(1 + 1i))
+  expect_error(hilbert(1, 'a'))
+  expect_error(hilbert(1, -1))
+})
+
+test_that("hilbert() tests are correct", {
+  x <- 1:4
+  i <- c(1, -1, -1, 1)
+  expect_equal(Re(hilbert(x)), x)
+  expect_equal(Im(hilbert(x)), i)
+  
+  # test with small numbers (Github bug #4)
+  expect_equal(Re(hilbert(1e-12 * x)), 1e-12 * x)
+  expect_equal(Im(hilbert(1e-12 * x)), 1e-12 * i)
+  
+})
