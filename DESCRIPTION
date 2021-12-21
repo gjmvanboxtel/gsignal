@@ -79,6 +79,6 @@ Language: en-US
 URL: https://github.com/gjmvanboxtel/gsignal
 BugReports: https://github.com/gjmvanboxtel/gsignal/issues
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: knitr, rmarkdown, testthat, ggplot2, gridExtra, microbenchmark, imager
 VignetteBuilder: knitr

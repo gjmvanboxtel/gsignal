@@ -6,11 +6,7 @@
 \alias{gsignal-package}
 \title{gsignal: Signal Processing}
 \description{
-R implementation of the 'Octave' package 'signal', containing
-    a variety of signal processing tools, such as signal generation and
-    measurement, correlation and convolution, filtering, filter design,
-    filter analysis and conversion, power spectrum analysis, system
-    identification, decimation and sample rate change, and windowing.
+R implementation of the 'Octave' package 'signal', containing a variety of signal processing tools, such as signal generation and measurement, correlation and convolution, filtering, filter design, filter analysis and conversion, power spectrum analysis, system identification, decimation and sample rate change, and windowing.
 }
 \details{
 The package 'gsignal' is an implementation in R of the 'Octave' package
