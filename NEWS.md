@@ -9,6 +9,9 @@
 - Fixed Github Issue #4: Problem with hilbert for small amplitude signals
 - added isConjSymm() function to gsignal-internal
 - adapted ifft() to use isConjSymm instead of ZapIm
+- reduced default tolerance for isWhole() and zapIm()
+- bugfix in detrend(): function now returns a vector if input was a vector
+
 
 # gsignal 0.3-2
 

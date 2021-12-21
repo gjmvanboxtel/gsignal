@@ -18,6 +18,7 @@
 #
 # Version history
 # 20200104  GvB       setup for gsignal v0.1.0
+# 20211221  GvB       corrected bug in return value when input is a vector
 #------------------------------------------------------------------------------
 
 #' Remove Polynomial Trend
@@ -52,11 +53,18 @@
 detrend <- function(x, p = 1) {
 
   if (!is.numeric(x)) {
-    stop("input argument x must be a numeric vector, array or matrix")
-  } else {
-    x <- as.matrix(x)
+    stop("x must be numeric")
   }
 
+  if (is.vector(x)) {
+    x <- matrix(x, ncol = 1)
+    vec <- TRUE
+  } else if (is.matrix(x)) {
+    vec <- FALSE
+  } else {
+    stop("x must be a numeric vector or matrix")
+  }
+  
   if (is.character(p)) {
     p <- match.arg(p, c("constant", "linear"))
     if (p == "constant") {
@@ -74,17 +82,13 @@ detrend <- function(x, p = 1) {
     }
   }
 
-  dims <- dim(x)
-  if (dims[1] == 1) {
-    x <- t(x)
-  }
-
   r <- nrow(x)
   b <- (as.matrix(1:r) %*% matrix(1L, 1, (p + 1))) ^
      (matrix(1L, r, 1) %*% as.matrix(t(0:p)))
   y <- x - b %*% pracma::mldivide(b, x)
 
-  class(y) <- class(x)
-  attributes(y) <- attributes(x)
+  if (vec) {
+    y <- as.vector(y)
+  }
   y
 }

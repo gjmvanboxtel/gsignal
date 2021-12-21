@@ -38,7 +38,7 @@ isScalar <- function(x)
 isPosscal <- function(x) isScalar(x) && is.numeric(x) && x >= 0
 
 # test if x is a whole number
-isWhole <- function(x, tol = .Machine$double.eps^0.5)
+isWhole <- function(x, tol = .Machine$double.eps * 5)
   !(is.null(x) || is.character(x)) && any(abs(x - round(x)) < tol)
 
 # convert factor to numeric
@@ -63,7 +63,7 @@ nextpow2 <- function(x) 2^ceiling(log2(x))
 # convert complex number to real if imaginary part is zero
 # zapIm <- function(x, nd = 10) if (all(Im(z <- zapsmall(x, nd)) == 0))
 #   Re(z) else x
-zapIm <- function(x, tol = .Machine$double.eps^0.5) {
+zapIm <- function(x, tol = .Machine$double.eps * 5) {
   z <- all(abs(Im(x)) < tol) 
   if (!is.na(z) && z) 
     Re(x)
