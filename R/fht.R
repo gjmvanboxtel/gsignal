@@ -20,6 +20,7 @@
 # 20201020  GvB       setup for gsignal v0.1.0
 # 20201023  GvB       corrected padding
 # 20210506  GvB       use matrix() instead of as.matrix()
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Fast Hartley Transform
@@ -101,6 +102,7 @@
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }
 
@@ -135,5 +137,6 @@ ifht <- function(x, n = NROW(x)) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
  }

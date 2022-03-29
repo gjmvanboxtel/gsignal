@@ -17,6 +17,7 @@
 # Version history
 # 20200929  GvB       setup for gsignal v0.1.0
 # 20210517  GvB       adapted examples
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Upsample, apply FIR filter, downsample
@@ -72,10 +73,6 @@
 #' ## FIR filter + up/downsampling
 #' y <- upfirdn(x, h, 5, 2)
 #' 
-#' 
-
-#' 
-#'
 #' @author Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export
@@ -112,11 +109,12 @@ upfirdn <- function(x, h, p = 1, q = 1) {
       !(isPosscal(q) && isWhole(q))) {
     stop("p and q must be positive integers")
   }
-
+  
   y <- .Call("_gsignal_upfirdn", PACKAGE = "gsignal", x, h, p, q)
 
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

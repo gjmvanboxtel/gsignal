@@ -19,6 +19,7 @@
 #
 # Version history
 # 20200929  GvB       setup for gsignal v0.1.0
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Change sampling rate
@@ -174,5 +175,6 @@ resample <- function(x, p, q, h) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

@@ -19,6 +19,7 @@
 # Version history
 # 20200104  GvB       setup for gsignal v0.1.0
 # 20211221  GvB       corrected bug in return value when input is a vector
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Remove Polynomial Trend
@@ -90,5 +91,6 @@ detrend <- function(x, p = 1) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

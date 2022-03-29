@@ -19,6 +19,7 @@
 # Version history
 # 20200322    GvB       setup for gsignal v0.1.0
 # 20210405    GvB       if x is a matrix, filter its columns
+# 20220328    GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Savitzky-Golay filtering
@@ -125,5 +126,6 @@ sgolayfilt <- function(x, p = 3, n = p + 3 - p %% 2, m = 0, ts = 1) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

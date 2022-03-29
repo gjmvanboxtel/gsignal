@@ -63,9 +63,6 @@ y <- upfirdn(x, h, 1, 2)
 ## FIR filter + up/downsampling
 y <- upfirdn(x, h, 5, 2)
 
-
-
-
 }
 \seealso{
 \code{\link{fir1}}

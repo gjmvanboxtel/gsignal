@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201128  GvB       setup for gsignal v0.1.0
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Upsample and Fill
@@ -98,6 +99,6 @@ upsamplefill <- function(x, v, copy = FALSE) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
-
 }

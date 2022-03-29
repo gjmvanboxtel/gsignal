@@ -19,6 +19,7 @@
 # Version history
 # 20201015  GvB       setup for gsignal v0.1.0
 # 20210506  GvB       use matrix() instead of as.matrix
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Inverse Discrete Cosine Transform
@@ -117,5 +118,6 @@ idct <- function(x, n = NROW(x)) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

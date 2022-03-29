@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201129  GvB       setup for gsignal v0.1.0
+# 20220328  GvB       copy dimnames of x to output object
 #------------------------------------------------------------------------------
 
 #' Decrease sample rate
@@ -46,7 +47,7 @@
 #' xd <- downsample(x, 3)
 #'
 #' @seealso \code{\link{decimate}}, \code{\link{resample}}
-#'s
+#'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
@@ -77,5 +78,6 @@ downsample <- function(x, n, phase = 0) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }

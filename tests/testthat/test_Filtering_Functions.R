@@ -72,6 +72,7 @@ test_that("filter() tests are correct", {
 
 test_that("parameters to filtfilt() are correct", {
   expect_error(filtfilt())
+  expect_error(filtfile(0, 0))
   expect_error(filtfilt(0, 0, 1:10))
   expect_error(filtfilt(1, 2, array(1:8, c(2, 2, 2))))
   expect_error(filtfilt(1, 1, c('invalid', 'invalid')))
@@ -90,6 +91,9 @@ test_that("filtfilt() tests are correct", {
   expect_equal(ncol(y), ncol(x))
   expect_equal(nrow(y), nrow(x))
   expect_equal(colnames(y), colnames(x))
+  # bug 20220328
+  expect_equal(filtfilt(1:4, 1:4, 1:10), 1:10)
+  
 })
 
 # -----------------------------------------------------------------------

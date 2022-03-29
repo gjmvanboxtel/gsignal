@@ -1,7 +1,10 @@
 # gsignal 0.3-3
 
+- date: 20220328
 - Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
-- copy attributes of input object x to output object y in functions filter, filtfilt, sosfilt, fftfilt
+- copy attributes of input object x to output in functions filter, filtfilt, sosfilt, fftfilt
+- copy dimnames of input object x to output in functions upfirdn, resample, upsample, upsamplefill,
+       downsample, decimate, detrend, fht, sgolayfilt, 
 - added ultrwin() function
 - adapted filter() to allow data and filter coefficients to be of type complex
 - adapted sosfilt() to allow data and filter coefficients to be of type complex
@@ -11,6 +14,7 @@
 - adapted ifft() to use isConjSymm instead of ZapIm
 - reduced default tolerance for isWhole() and zapIm()
 - bugfix in detrend(): function now returns a vector if input was a vector
+- bugfix in filtfilt
 
 
 # gsignal 0.3-2

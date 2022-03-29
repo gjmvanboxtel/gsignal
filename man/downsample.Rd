@@ -38,7 +38,6 @@ xd <- downsample(x, 3)
 }
 \seealso{
 \code{\link{decimate}}, \code{\link{resample}}
-s
 }
 \author{
 Paul Kienzle, \email{pkienzle@users.sf.net}.\cr

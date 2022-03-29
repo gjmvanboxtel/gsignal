@@ -18,6 +18,7 @@
 #
 # Version history
 # 20201121  GvB       setup for gsignal v0.1.0
+# 20220328  GvB       copy dimnaes of x to output object
 #------------------------------------------------------------------------------
 
 #' Increase sample rate
@@ -78,5 +79,6 @@ upsample <- function(x, n, phase = 0) {
   if (vec) {
     y <- as.vector(y)
   }
+  dimnames(y) <- dimnames(x)
   y
 }
