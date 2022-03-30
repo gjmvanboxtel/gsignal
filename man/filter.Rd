@@ -26,8 +26,8 @@ filter(filt, ...)
 }
 \arguments{
 \item{filt}{For the default case, the moving-average coefficients of an ARMA
-filter (normally called ‘b’), specified as a numeric or complex vector.
-Generically, \code{filt} specifies an arbitrary filter operation.}
+filter (normally called \code{b}), specified as a numeric or complex
+vector. Generically, \code{filt} specifies an arbitrary filter operation.}
 
 \item{...}{additional arguments (ignored).}
 
