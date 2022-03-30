@@ -98,7 +98,7 @@
 #' Please note that a pole and a zero at the same place exactly cancel. This is
 #' significant for High Pass, Band Pass and Band Stop filters which create
 #' numerous extra poles and zeros, most of which cancel. Those which do not
-#' cancel have a ‘fill-in’ effect, extending the shorter of the sets to have the
+#' cancel have a fill-in effect, extending the shorter of the sets to have the
 #' same number of as the longer of the sets of poles and zeros (or at least
 #' split the difference in the case of the band pass filter). There may be other
 #' opportunistic cancellations, but it does not check for them.

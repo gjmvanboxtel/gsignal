@@ -38,11 +38,11 @@
 #'
 #' Before filtering the input signal is extended with a reflected part of both
 #' ends of the signal. The length of this extension is 3 times the filter order.
-#' Gustafsson's [1] method is then used to specify the initial conditions used
+#' The Gustafsson [1] method is then used to specify the initial conditions used
 #' to further handle the edges of the signal.
 #'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’). Generically, \code{filt} specifies an
+#'   filter (normally called \code{b}). Generically, \code{filt} specifies an
 #'   arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
 #'   specified as a vector. If \code{a[1]} is not equal to 1, then filter

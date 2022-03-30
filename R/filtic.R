@@ -39,7 +39,7 @@
 #' then it is zero padded.
 #'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’), specified as a vector. Generically,
+#'   filter (normally called \code{b}), specified as a vector. Generically,
 #'   \code{filt} specifies an arbitrary filter operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter.
 #' @param y output vector, with the most recent values first.

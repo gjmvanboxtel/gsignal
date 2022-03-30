@@ -30,7 +30,7 @@
 #'
 #' Plot the poles and zeros of a filter or model on the complex Z-plane
 #'
-#' Poles are marked with an ‘x’, and zeros are marked with an ‘o’.
+#' Poles are marked with an \code{x}, and zeros are marked with an \code{o}.
 #'
 #' @note When results of \code{zplane} are printed, \code{plot} will be called.
 #'   As with lattice plots, automatic printing does not work inside loops and

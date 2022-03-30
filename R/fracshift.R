@@ -37,7 +37,7 @@
 #'
 #' @return A list of matrices size \code{nr}, where \code{nr} is the number of
 #'   rows in \code{x}. Each element of the list contains a matrix with two rows.
-#'   The first row is the initial index of a sequence of 1’s and the second row
+#'   The first row is the initial index of a sequence of 1s and the second row
 #'   is the end index of that sequence. If \code{nr == 1} the output is a matrix
 #'   with two rows.
 #'

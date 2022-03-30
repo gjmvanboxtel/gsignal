@@ -25,7 +25,7 @@
 #'
 #' Calculate boundary indexes of clusters of 1’s.
 #'
-#' The function calculates the initial index and end index of sequences of 1's
+#' The function calculates the initial index and end index of sequences of 1s
 #' rising and falling phases of the signal in \code{x}. The clusters are sought
 #' in the rows of the array \code{x}. The function works by finding the indexes
 #' of jumps between consecutive values in the rows of \code{x}.

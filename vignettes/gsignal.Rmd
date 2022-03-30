@@ -379,7 +379,7 @@ For long series convolution may be sped up by making use of the fact that convol
 
 One-dimensional Filtering in `gsignal` is performed by the function `filter`. It is a direct form II transposed implementation in C++ of the standard linear time-invariant difference equation 
 $$\sum_{k=0}^{N} a(k+1) y(n-k) + \sum_{k=0}^{M} b(k+1) x(n-k) = 0; 1 \le n \le length(x)$$
-If a matrix is passed to `filter`, its columns are filtered. Two-dimensional filtering can be done using `filter2`. THe function `fftfilt` uses the overlapp-add method and FFT convolution for speed (but your mileage may vary), and `filtfilt` uses forward and backward filtering to avoid filter delay, as used above. If numerical stability of filter coefficients is an issue, filter design using series second order sections and filtering with the function `sosfilt` may be used.
+If a matrix is passed to `filter`, its columns are filtered. Two-dimensional filtering can be done using `filter2`. The function `fftfilt` uses the overlap-add method and FFT convolution for speed (but your mileage may vary), and `filtfilt` uses forward and backward filtering to avoid filter delay, as used above. If numerical stability of filter coefficients is an issue, filter design using series second order sections and filtering with the function `sosfilt` may be used.
 
 ## Filtering long series in chunks
 
@@ -462,7 +462,7 @@ par(op)
 
 [Welch (1967)](https://en.wikipedia.org/wiki/Welch%27s_method) proposed a method to estimate the power spectrum that reduces the variance of the spectrum (ath the expense of decreasing frequency resolution - remember, there is no free lunch) by splitting the signal into (usually) overlapping segments and windowing each segment, for instance by a Hamming window. The periodogram is then computed for each segment, and the squared magnitude is computed, which is then averaged for all segments. The spectral density is the mean of the modified periodograms, scaled so that area under the spectrum is the same as the mean square of the data. In case of multivariate signals, cross-spectral density, phase, and coherence are also returned. The input data can be demeaned or detrended, overall or for each segment separately.
 
-The following figure shows two signals, a sine and a cosine of 5 Hz with noise added. Sines and cosines are the same waveforms, the only difference being that a cosine leads the sine wave by an amount of 90$^{\circ}$ ($\pi / 2$ radians). Hence, a plot of the PSD shoulld show identical shapes for both signals, but a phase difference at $\pi / 2$ radians should be visible at 5 Hz, which should also produce a high magnitude squared coherence (near 1) at that frequency (coherence reflects constant phase differences).
+The following figure shows two signals, a sine and a cosine of 5 Hz with noise added. Sines and cosines are the same waveforms, the only difference being that a cosine leads the sine wave by an amount of 90$^{\circ}$ ($\pi / 2$ radians). Hence, a plot of the PSD should show identical shapes for both signals, but a phase difference at $\pi / 2$ radians should be visible at 5 Hz, which should also produce a high magnitude squared coherence (near 1) at that frequency (coherence reflects constant phase differences).
 
 ```{r welch, fig.height=7, fig.width=7}
 

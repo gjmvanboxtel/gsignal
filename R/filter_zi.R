@@ -27,14 +27,14 @@
 #' finds the initial condition for which the response to an input of all ones is
 #' a constant. Therefore, the results returned by this function can also be
 #' obtained using the function \code{\link{filtic}} by setting \code{x} and
-#' \code{y} to all 1's (see the examples).
+#' \code{y} to all 1s (see the examples).
 #'
 #' A typical use of this function is to set the initial state so that the output
 #' of the filter starts at the same value as the first element of the signal to
 #' be filtered.
 #'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
-#'   filter (normally called ‘b’), specified as a vector.
+#'   filter (normally called \code{b}), specified as a vector.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
 #'   specified as a vector.
 #' @param ... additional arguments (ignored).
