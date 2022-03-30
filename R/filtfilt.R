@@ -23,7 +23,7 @@
 # 20200413  GvB       added S3 method method for Sos
 # 20210402  GvB       use padding and Gustafsson method for initial conditions
 # 20210712  GvB       copy attributes of input x to output y
-# 20220328  GvB       corrected bug in nfact (filter.default)
+# 20220330  GvB       corrected bug in nfact (default and Sos)
 #------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
@@ -188,8 +188,10 @@ filtfilt.Sos <- function(filt, x, ...) { # Second-order sections
   }
   nrx <- nrow(x)
   ncx <- ncol(x)
-  nfact <- min(nfact - 1, nrx)
-
+  # nfact <- min(nfact - 1, nrx)
+  # corrected bug 20220328
+  nfact <- min(nfact - 1, nrx - 1)
+  
   y <- matrix(0, nrx, ncx)
 
   for (icol in seq_len(ncx)) {
