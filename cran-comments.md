@@ -1,3 +1,18 @@
+## gsignal v0.3-4
+
+This is a resubmission of gsignal v0.3-3, which was submitted to CRAN 
+on 2022-03-30 11:29:29 UTC
+
+This release fixes an issue in a test on MKL and OpenBLAS:
+── Failure (test_Miscellaneous_Functions.R:384:3): residue() tests are correct ──
+  ba$b not equal to c(0, b).
+  Modes: complex, numeric
+  target is complex, current is numeric
+  
+  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1919 ]
+
+This has now been corrected and retested.
+
 ## Submission of gsignal v0.3-3
 
 Changes with respect to v0.3-2 (on CRAN):

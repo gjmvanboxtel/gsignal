@@ -1,3 +1,9 @@
+# gsignal 0.3-4
+
+- date: 20220404
+- Fixed test failure in tests/testthat/test_miscellaneous_Functions.R
+
+
 # gsignal 0.3-3
 
 - date: 20220330

@@ -123,8 +123,9 @@ findpeaks <- function(data,
 
   # check function arguments
   ld <- length(data)
-  if (!is.numeric(data) || !(is.vector(data) ||
-                             is.array(data) || class(data) == "ts") || ld < 3)
+  if (!is.numeric(data) ||
+      !(is.vector(data) || is.array(data) || "ts" %in% class(data))
+      || ld < 3)
     stop("data must be a numeric vector of at least 3 elements")
   if (!isPosscal(MinPeakHeight))
     stop("MinPeakHeight must be a positive scalar")
