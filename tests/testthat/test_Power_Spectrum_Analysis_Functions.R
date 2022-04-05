@@ -68,7 +68,22 @@ test_that("pwelch() tests are correct", {
   Pxx <- pwelch(x, fs = fs, range = "whole")
   expect_equal(length(Pxx$freq), 128L)
   expect_equal(length(Pxx$spec), 128L)
-
+  
+  # test if pwelch returns N/2 + 1 instead of nextpow2
+  # Github discussion #5
+  # and Github Issue #6: expect $spec to be vector if x is vector
+  x <- runif(2e6)
+  fs <- 100
+  win <- 4 * fs
+  Pxx <- pwelch(x, win, fs = fs)
+  expect_true(is.vector(Pxx$spec))
+  expect_length(Pxx$spec, 201L)
+  
+  # Github Issue #6: expect matrix of column 1 if input is matrix
+  x <- matrix(runif(2e6), ncol = 1)
+  Pxx <- pwelch(x, win, fs = fs)
+  expect_equal(ncol(Pxx$spec), 1L)
+  
 })
 
 # -----------------------------------------------------------------------

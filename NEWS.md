@@ -1,3 +1,10 @@
+# gsignal 0.3-5
+
+- date: 20220405
+- Fixed Github Discussion #6: remove padding to nearest power of 2 in pwelch()
+- Fixed Github Issie #5: returning matrix when input is matrix in pwelch()
+
+
 # gsignal 0.3-4
 
 - date: 20220404

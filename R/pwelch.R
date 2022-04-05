@@ -22,6 +22,8 @@
 # 20210302  GvB       bug when x is matrix: xx[1:seg_len] -> xx[1:seg_len, ]
 # 20210408  GvB       added range parameter ('half' o 'whole')
 # 20211021  GvB       corrected bug in col ptr into coh, phase, trans matrices
+# 20220405  GvB       remove padding to nearest power of 2 (Github Disc #6)
+#                     bug in returning vector when ncol is 1 (Github Issue #5)
 #------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
@@ -204,9 +206,11 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
 
   series <- deparse(substitute(x))
   if (is.vector(x)) {
+    vec <- TRUE
     x <- as.matrix(x, ncol = 1)
     snames <- ""
   } else {
+    vec <- FALSE
     snames <- colnames(x)
   }
   x_len <- nrow(x)
@@ -247,7 +251,9 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   # initialize variables
   seg_len <- length(window)
   overlap <- trunc(seg_len * overlap)
-  nfft <- nextpow2(max(nfft, seg_len))
+  # GvB 20220405 removed nextpow2
+  # nfft <- nextpow2(max(nfft, seg_len))
+  nfft <- max(nfft, seg_len)
   win_meansq <- as.vector(window %*% window / seg_len)
   if (overlap >= seg_len) {
     stop("overlap must be smaller than windowlength")
@@ -365,7 +371,7 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   }
   freq <- seq.int(0, psd_len - 1) * (fs / nfft)
 
-  if (ns == 1) {
+  if (vec) {
     spec <- as.vector(spec)
   }
   all <- list(freq = freq, spec = spec, cross = cross, phase = phase,

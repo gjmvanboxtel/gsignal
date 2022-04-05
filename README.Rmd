@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![](https://cranlogs.r-pkg.org/badges/gsignal)](https://cran.rstudio.com/web/packages/gsignal/index.html)
 [![codecov](https://codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg?token=7ZAU9VV73X)](https://codecov.io/gh/gjmvanboxtel/gsignal)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Codecov test coverage](https://codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gjmvanboxtel/gsignal?branch=master)
 <!-- badges: end -->
 
 R implementation of the 'Octave' package 'signal'.
