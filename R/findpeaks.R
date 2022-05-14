@@ -18,6 +18,7 @@
 #
 # Version history
 # 20200105  GvB       setup for gsignal v0.1.0
+# 20220511  GvB       use inherits() instead of direct comparison of class name
 #------------------------------------------------------------------------------
 
 #' Find local extrema
@@ -124,7 +125,7 @@ findpeaks <- function(data,
   # check function arguments
   ld <- length(data)
   if (!is.numeric(data) ||
-      !(is.vector(data) || is.array(data) || "ts" %in% class(data))
+      !(is.vector(data) || is.array(data) || inherits(data, "ts"))
       || ld < 3)
     stop("data must be a numeric vector of at least 3 elements")
   if (!isPosscal(MinPeakHeight))

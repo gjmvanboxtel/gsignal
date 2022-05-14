@@ -2,7 +2,7 @@ Package: gsignal
 Type: Package
 Title: Signal Processing
 Version: 0.3-5.9000
-Date: 2022-04-04
+Date: 2022-05-14
 Authors@R:
     c(person("Geert", "van Boxtel", role = c("aut", "cre"),
              email = "G.J.M.vanBoxtel@gmail.com",

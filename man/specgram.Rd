@@ -2,8 +2,8 @@
 % Please edit documentation in R/specgram.R
 \name{specgram}
 \alias{specgram}
-\alias{print.specgram}
 \alias{plot.specgram}
+\alias{print.specgram}
 \title{Spectrogram}
 \usage{
 specgram(
@@ -14,7 +14,7 @@ specgram(
   overlap = ceiling(n/2)
 )
 
-\method{print}{specgram}(
+\method{plot}{specgram}(
   x,
   col = grDevices::gray(0:512/512),
   xlab = "Time",
@@ -22,7 +22,7 @@ specgram(
   ...
 )
 
-\method{plot}{specgram}(
+\method{print}{specgram}(
   x,
   col = grDevices::gray(0:512/512),
   xlab = "Time",

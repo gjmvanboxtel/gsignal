@@ -44,7 +44,7 @@
 #' m <- morlet(-4, 4, 1000)
 #' plot(m$x, m$psi, type="l", main = "Morlet Wavelet", xlab = "", ylab = "")
 #'
-#' @author Sylvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.\cr
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #'   Conversion to R by Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export

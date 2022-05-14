@@ -20,6 +20,7 @@
 # 20200322    GvB       setup for gsignal v0.1.0
 # 20210405    GvB       if x is a matrix, filter its columns
 # 20220328    GvB       copy dimnames of x to output object
+# 20220511  GvB       use inherits() instead of direct comparison of class name
 #------------------------------------------------------------------------------
 
 #' Savitzky-Golay filtering
@@ -109,7 +110,7 @@ sgolayfilt <- function(x, p = 3, n = p + 3 - p %% 2, m = 0, ts = 1) {
   ## As the filter coefficients are used in the reverse order of what
   ## seems the logical notation, reverse F[k+1,] so that antisymmetric
   ## sequences are used with the right sign.
-  if ("sgolayFilter" %in% class(p) || (!is.null(dim(p)) && dim(p) > 1)) {
+  if (inherits(p, "sgolayFilter") || (!is.null(dim(p)) && dim(p) > 1)) {
     Fm <- p
     n <- nrow(Fm)
   } else {

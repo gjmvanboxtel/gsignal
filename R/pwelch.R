@@ -24,6 +24,8 @@
 # 20211021  GvB       corrected bug in col ptr into coh, phase, trans matrices
 # 20220405  GvB       remove padding to nearest power of 2 (Github Disc #6)
 #                     bug in returning vector when ncol is 1 (Github Issue #5)
+# 20220511  GvB       use inherits() instead of direct comparison of class name
+# 20220512  GvB       plot method for class 'pwelch'
 #------------------------------------------------------------------------------
 
 #' Welch’s power spectral density estimate
@@ -196,7 +198,7 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
                    fs = 1,
                    detrend = c("long-mean", "short-mean",
                                "long-linear", "short-linear", "none"),
-                  range = if (is.numeric(x)) "half" else "whole") {
+                   range = if (is.numeric(x)) "half" else "whole") {
 
   # check parameters
   if (!(is.vector(x) || is.matrix(x)) &&
@@ -381,16 +383,17 @@ pwelch <- function(x, window = nextpow2(sqrt(NROW(x))), overlap = 0.5,
   class(all) <- "pwelch"
   all
 }
+
 #' @rdname pwelch
 #' @export
 
-plot.pwelch <-
-  function(x, plot.type = c("spectrum", "cross-spectrum",
-                            "phase", "coherence", "transfer"),
-           yscale = c("linear", "log", "dB"),
-           xlab = NULL, ylab = NULL, main = NULL, ...) {
+plot.pwelch <- function(
+    x, xlab = NULL, ylab = NULL, main = NULL,
+    plot.type = c("spectrum", "cross-spectrum",
+                  "phase", "coherence", "transfer"),
+    yscale = c("linear", "log", "dB"), ...) {
 
-  if (!("pwelch" %in% class(x))) {
+  if (!inherits(x, "pwelch")) {
     stop("invalid object type")
   }
   plot.type <- match.arg(plot.type)
@@ -471,7 +474,7 @@ plot.pwelch <-
 
   }
   graphics::matplot(x$freq, plt, type = "l", xlab = xlab, ylab = "", ...)
-  graphics::title(main, sub = sub)
+  graphics::title(main = main, sub = sub)
   graphics::title(ylab = ylab, line = 2)
 
   if (plot.type == "phase") {
@@ -483,10 +486,13 @@ plot.pwelch <-
   }
 }
 
+#' @rdname pwelch
+#' @export
+
 print.pwelch <-
   function(x, plot.type = c("spectrum", "cross-spectrum",
                             "phase", "coherence", "transfer"),
            yscale = c("linear", "log", "dB"),
            xlab = NULL, ylab = NULL, main = NULL, ...) {
     plot.pwelch(x, plot.type, yscale, xlab, ylab, main, ...)
-}
+  }

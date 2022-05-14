@@ -19,6 +19,7 @@
 # Version history
 # 20201129  GvB       setup for gsignal v0.1.0
 # 20220328  GvB       copy dimnames of x to output object
+# 20220513  GvB       Github Issue #7
 #------------------------------------------------------------------------------
 
 #' Decrease sample rate
@@ -56,7 +57,7 @@
 #
 #' @export
 
-decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
+decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = c("iir", "fir")) {
 
   if (!is.numeric(x)) {
     stop("x must be numeric")
@@ -64,20 +65,21 @@ decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
 
   if (is.vector(x)) {
     x <- matrix(x, ncol = 1)
+    l <- length(x)
     vec <- TRUE
   } else if (is.matrix(x)) {
     vec <- FALSE
+    l <- nrow(x)
   } else {
     stop("x must be a numeric vector or matrix")
   }
-
+  ftype <- match.arg(ftype)
   if (!(isPosscal(q) && isWhole(q))) {
     stop("q must be a positive integer")
   }
   if (!(isPosscal(n) && isWhole(n))) {
     stop("n must be a positive integer")
   }
-  ftype <- match.arg(ftype)
 
   if (ftype == "fir") {
     b <- fir1(n, 1 / q)
@@ -86,7 +88,7 @@ decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir") {
     ba <- cheby1(n, 0.05, 0.8 / q)
     y <- filtfilt(ba, x)
   }
-  y <- y[seq(1, length(x), q)]
+  y <- y[seq(1, l, q), ]
   if (vec) {
     y <- as.vector(y)
   }

@@ -18,6 +18,7 @@
 # 20200929  GvB       setup for gsignal v0.1.0
 # 20210517  GvB       adapted examples
 # 20220328  GvB       copy dimnames of x to output object
+# 20220511  GvB       use inherits() instead of direct comparison of class name
 #------------------------------------------------------------------------------
 
 #' Upsample, apply FIR filter, downsample
@@ -86,7 +87,7 @@ upfirdn <- function(x, h, p = 1, q = 1) {
 
   if (is.vector(x)) {
     # if x is a vector then h must be a vector too
-    if (!(is.vector(h) || "Ma" %in% class(h))) {
+    if (!(is.vector(h) || inherits(h, "Ma"))) {
       stop("h must be a numeric vector")
     }
     ns <- 1

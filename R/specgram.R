@@ -20,6 +20,7 @@
 #
 # 20191204  Geert van Boxtel          First version for v0.1.0
 # 20210418  GvB                       v0.3.0 plotting via S3 method
+# 20220512  GvB                       plot method for class 'specgram'
 #------------------------------------------------------------------------------
 
 #' Spectrogram
@@ -203,11 +204,12 @@ specgram <- function(x, n = min(256, length(x)), fs = 2, window = hanning(n),
   ret
 }
 
+
 #' @rdname specgram
 #' @export
 
-print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
-                           xlab = "Time", ylab = "Frequency", ...) {
+plot.specgram <- function(x, col = grDevices::gray(0:512 / 512),
+                          xlab = "Time", ylab = "Frequency", ...) {
   graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))),
                   col = col, xlab = xlab, ylab = ylab, ...)
 }
@@ -215,8 +217,8 @@ print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
 #' @rdname specgram
 #' @export
 
-plot.specgram <- function(x, col = grDevices::gray(0:512 / 512),
-                           xlab = "Time", ylab = "Frequency", ...) {
+print.specgram <- function(x, col = grDevices::gray(0:512 / 512),
+                          xlab = "Time", ylab = "Frequency", ...) {
   graphics::image(x$t, x$f, 20 * log10(t(abs(x$S))),
                   col = col, xlab = xlab, ylab = ylab, ...)
 }

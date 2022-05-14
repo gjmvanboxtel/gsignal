@@ -51,7 +51,7 @@
 #'
 #' @seealso \code{\link{blackman}}, \code{\link{blackmanharris}}
 
-#' @author Sylvain Pelissier, \email{<sylvain.pelissier@@gmail.com>}.\cr
+#' @author Sylvain Pelissier, \email{sylvain.pelissier@@gmail.com}.\cr
 #' Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
 #
 #' @export

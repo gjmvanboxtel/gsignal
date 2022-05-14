@@ -67,7 +67,7 @@
 #' y <- filter(A, 0.2 * rnorm(1024))
 #' py <- pyulear(y, 4)
 #'
-#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au>}.\cr
+#' @author Peter V. Lanspeary, \email{pvl@@mecheng.adelaide.edu.au}.\cr
 #' Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
 #' @seealso \code{\link{ar_psd}}, \code{\link{arburg}}

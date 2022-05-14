@@ -4,7 +4,7 @@
 \alias{decimate}
 \title{Decrease sample rate}
 \usage{
-decimate(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = "iir")
+decimate(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = c("iir", "fir"))
 }
 \arguments{
 \item{x}{input data, specified as a numeric vector or matrix. In case of a

@@ -3,6 +3,7 @@
 \name{pwelch}
 \alias{pwelch}
 \alias{plot.pwelch}
+\alias{print.pwelch}
 \title{Welch’s power spectral density estimate}
 \usage{
 pwelch(
@@ -16,6 +17,16 @@ pwelch(
 )
 
 \method{plot}{pwelch}(
+  x,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  plot.type = c("spectrum", "cross-spectrum", "phase", "coherence", "transfer"),
+  yscale = c("linear", "log", "dB"),
+  ...
+)
+
+\method{print}{pwelch}(
   x,
   plot.type = c("spectrum", "cross-spectrum", "phase", "coherence", "transfer"),
   yscale = c("linear", "log", "dB"),
@@ -80,14 +91,14 @@ Default: 1.}
   Default: If \code{x} are real, the default range is \code{"half"},
   otherwise the default range is \code{"whole"}.}
 
+\item{xlab, ylab, main}{labels passed to plotting function. Default: NULL}
+
 \item{plot.type}{character string specifying which plot to produce; one of
 \code{"spectrum"}, \code{"cross-spectrum"}, \code{"phase"},
 \code{"coherence"}, \code{"transfer"}}
 
 \item{yscale}{character string specifying scaling of Y-axis; one of
 \code{"linear"}, \code{"log"}, \code{"dB"}}
-
-\item{xlab, ylab, main}{labels passed to plotting function. Default: NULL}
 
 \item{...}{additional arguments passed to functions}
 }

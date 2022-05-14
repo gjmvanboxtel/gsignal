@@ -18,6 +18,8 @@
 #
 # Version history
 # 20201101  GvB       setup for gsignal v0.1.0
+# 20220511  GvB       use inherits() instead of direct comparison of class name
+# 20220512  GvB       plot method for class 'ar_psd'
 #------------------------------------------------------------------------------
 
 #' Power spectrum of AR model
@@ -224,10 +226,11 @@ ar_psd <- function(a, v = 1, freq = 256, fs = 1,
 #' @rdname ar_psd
 #' @export
 
-plot.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
-                        xlab = NULL, ylab = NULL, main = NULL, ...) {
+plot.ar_psd  <- function(
+    x, yscale = c("linear", "log", "dB"),
+    xlab = NULL, ylab = NULL, main = NULL, ...) {
 
-  if (!("ar_psd" %in% class(x))) {
+  if (!inherits(x, "ar_psd")) {
     stop("invalid object type")
   }
   yscale <- match.arg(yscale)
@@ -260,6 +263,9 @@ plot.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
   graphics::title(main, sub = sub)
   graphics::title(ylab = ylab, line = 2)
 }
+
+#' @rdname ar_psd
+#' @export
 
 print.ar_psd <- function(x, yscale = c("linear", "log", "dB"),
                          xlab = NULL, ylab = NULL, main = NULL, ...) {

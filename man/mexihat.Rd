@@ -40,6 +40,6 @@ plot(mh$x, mh$psi, type="l", main = "Mexican Hat Wavelet",
 
 }
 \author{
-Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.\cr
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
 Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

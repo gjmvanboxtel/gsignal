@@ -86,6 +86,6 @@ plot(pb <- pburg(y, 4))
 \code{\link{ar_psd}}, \code{\link{arburg}}
 }
 \author{
-Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au>}.\cr
+Peter V. Lanspeary, \email{pvl@mecheng.adelaide.edu.au}.\cr
 Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

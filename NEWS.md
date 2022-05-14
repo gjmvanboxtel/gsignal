@@ -1,9 +1,13 @@
 # gsignal 0.3-5
 
-- date: 20220405
+- date: 20220514
 - Fixed Github Discussion #6: remove padding to nearest power of 2 in pwelch()
-- Fixed Github Issie #5: returning matrix when input is matrix in pwelch()
-
+- Fixed Github Issue #5: returning matrix when input is matrix in pwelch()
+- Adapted e-mail addresses in mexihat, morlet, nutallwin, pburg, pyulear
+- use inherits() instead of direct comparison of class name in ar_psd, findpeaks,
+    pwelch, sgolayfilt, upfirdn
+- defined plot methods for ar_psd, pwelch, specgram classes
+- Fixed Github Issue #7: decimate with a matrix;, added "fir" argument to ftype
 
 # gsignal 0.3-4
 

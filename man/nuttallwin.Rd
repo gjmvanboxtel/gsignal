@@ -43,6 +43,6 @@ plot (n, type = "l", xlab = "Samples", ylab =" Amplitude")
 \code{\link{blackman}}, \code{\link{blackmanharris}}
 }
 \author{
-Sylvain Pelissier, \email{<sylvain.pelissier@gmail.com>}.\cr
+Sylvain Pelissier, \email{sylvain.pelissier@gmail.com}.\cr
 Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@gmail.com}.
 }

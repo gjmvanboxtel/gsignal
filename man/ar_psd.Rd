@@ -3,6 +3,7 @@
 \name{ar_psd}
 \alias{ar_psd}
 \alias{plot.ar_psd}
+\alias{print.ar_psd}
 \title{Power spectrum of AR model}
 \usage{
 ar_psd(
@@ -15,6 +16,15 @@ ar_psd(
 )
 
 \method{plot}{ar_psd}(
+  x,
+  yscale = c("linear", "log", "dB"),
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  ...
+)
+
+\method{print}{ar_psd}(
   x,
   yscale = c("linear", "log", "dB"),
   xlab = NULL,
