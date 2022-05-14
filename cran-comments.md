@@ -1,35 +1,13 @@
-## gsignal v0.3-4
+## Submission of gsignal v0.3-5
 
-This is a resubmission of gsignal v0.3-3, which was submitted to CRAN 
-on 2022-03-30 11:29:29 UTC
-
-This release fixes an issue in a test on MKL and OpenBLAS:
-── Failure (test_Miscellaneous_Functions.R:384:3): residue() tests are correct ──
-  ba$b not equal to c(0, b).
-  Modes: complex, numeric
-  target is complex, current is numeric
-  
-  [ FAIL 1 | WARN 0 | SKIP 0 | PASS 1919 ]
-
-This has now been corrected and retested.
-
-## Submission of gsignal v0.3-3
-
-Changes with respect to v0.3-2 (on CRAN):
-- Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
-- copy attributes of input object x to output in functions filter, filtfilt, sosfilt, fftfilt
-- copy dimnames of input object x to output in functions upfirdn, resample, upsample, upsamplefill,
-       downsample, decimate, detrend, fht, sgolayfilt, 
-- added ultrwin() function
-- adapted filter() to allow data and filter coefficients to be of type complex
-- adapted sosfilt() to allow data and filter coefficients to be of type complex
-- bugfix in pwelch() for multivariate input
-- Fixed Github Issue #4: Problem with hilbert for small amplitude signals
-- added isConjSymm() function to gsignal-internal
-- adapted ifft() to use isConjSymm instead of ZapIm
-- reduced default tolerance for isWhole() and zapIm()
-- bugfix in detrend(): function now returns a vector if input was a vector
-- bugfix in filtfilt(): corrected bug in computing filter ends (default and Sos methods)
+Changes with respect to v0.3-4:
+- Fixed Github Discussion #6: remove padding to nearest power of 2 in pwelch()
+- Fixed Github Issue #5: returning matrix when input is matrix in pwelch()
+- Adapted e-mail addresses in mexihat, morlet, nutallwin, pburg, pyulear
+- use inherits() instead of direct comparison of class name in ar_psd, findpeaks,
+    pwelch, sgolayfilt, upfirdn
+- defined plot methods for ar_psd, pwelch, specgram classes
+- Fixed Github Issue #7: decimate with a matrix;, added "fir" argument to ftype
 
 ## Test environments
 - Windows Server 2022, R-devel, 64 bit
@@ -65,8 +43,6 @@ In https://github.com/r-hub/rhub/issues/503, gaborcsardi noted:
 Seems like a bug/crash in miktex, so you can ignore this.
 
 ## revdepcheck results
-
-revdepcheck::revdep_check() reports: *Wow, no problems at all. :)*
 
 We checked 0 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
