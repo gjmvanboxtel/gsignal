@@ -9,7 +9,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/gsignal)](https://cran.r-project.org/package=gsignal)
 [![R-CMD-check](https://github.com/gjmvanboxtel/gsignal/workflows/R-CMD-check/badge.svg)](https://github.com/gjmvanboxtel/gsignal/actions)
 [![](https://cranlogs.r-pkg.org/badges/gsignal)](https://cran.r-project.org/package=gsignal)
-[![codecov](https://codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg?token=7ZAU9VV73X)](https://codecov.io/gh/gjmvanboxtel/gsignal)
+[![codecov](https://codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg?token=7ZAU9VV73X)](https://app.codecov.io/gh/gjmvanboxtel/gsignal)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- badges: end -->
 

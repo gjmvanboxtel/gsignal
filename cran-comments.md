@@ -1,3 +1,22 @@
+## Resubmission of gsignal v0.3-5
+
+> Thanks, we see:
+
+> Found the following (possibly) invalid URLs:
+    URL: https://codecov.io/gh/gjmvanboxtel/gsignal (moved to https://app.codecov.io/gh/gjmvanboxtel/gsignal)
+      From: README.md
+      Status: 301
+      Message: Moved Permanently
+
+> Please change http --> https, add trailing slashes, or follow moved content as appropriate.
+
+> Please fix and resubmit. 
+
+Sorry for missing that one.
+Now fixed.
+Thank you,
+Geert van Boxtel
+
 ## Submission of gsignal v0.3-5
 
 Changes with respect to v0.3-4:
