@@ -83,6 +83,10 @@ test_that("fwhm() tests are correct", {
 test_that("parameters to freqz() are correct", {
   expect_error(freqz())
   expect_error(freqz('invalid'))
+  expect_error(freqz(NA, 1))
+  expect_error(freqz(1, NA))
+  expect_error(freqz(1, 1, -1))
+  expect_error(freqz(1, 1, 1, FALSE, 0))
 })
 
 test_that("freqz() tests are correct", {
@@ -114,6 +118,24 @@ test_that("freqz() tests are correct", {
   expect_equal(hw$h, hw2$h, tolerance = tol)
   hw3 <- freqz(b, a, 32, whole = TRUE, fs = 320)
   expect_equal(hw3$w, (0:31) * 10)
+  
+  # Github Issue #9
+  sys <- Arma(b = c(0.000731569700125585, 0, -0.00292627880050234, 0, 
+                    0.00438941820075351, 0, -0.00292627880050234,
+                    0, 0.000731569700125585),
+              a = c(1, -7.04203950456817, 21.7283807572297,
+                    -38.3801847495478, 42.4586614063362, -30.1289923970756,
+                    13.3939745471932, -3.41070179210893, 0.380901732541468)
+              )
+  hw <- freqz(sys, 5L)
+  expect_equal(hw$h, c(3.255208e-06+0.000000e+00i, -9.759891e-04+1.062529e-01i,
+                       3.328587e-03+2.658062e-03i,  3.101129e-04+1.143374e-04i,
+                       1.305432e-05+2.075128e-06i), tol = 1e-3)
+  
+  hw <- freqz(sys, c(0, 1))
+  expect_equal(hw$w, c(0, 1))
+  expect_equal(hw$h, c(3.25520833e-06+0i, 8.25367425e-03+0.01047173i), tol = 1e-5)
+  
 })
 
 

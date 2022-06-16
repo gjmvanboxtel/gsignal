@@ -25,6 +25,9 @@
 # 20200616  GvB       pass default parameters to methods
 # 20200629  GvB       bug in parameter passing for class 'Ma'
 # 20201103  GvB       changed the S3 method handling
+# 20220616  GvB       match freqz.default to Octave signal-1.4.2 setup
+#                     implemented freqz.Sos instead of converting to Arma
+#                     freqz.Zpg converted to Sos instead of Arma for accuracy
 #------------------------------------------------------------------------------
 
 #' Frequency response of digital filter
@@ -102,11 +105,21 @@ freqz.default <- function(filt, a = 1, n = 512,
                           fs = 2 * pi, ...)  {
 
   if (!(is.vector(filt) && is.vector(a))) {
-    stop("'filt' and 'a' must be vectors")
+    stop("filt and a must be vectors")
   }
-  b <- filt
+  if (anyNA(filt) || anyNA(a)) {
+    stop("filt and a must not contain missing values")
+  } else {
+    b <- filt
+  }
+  if(!is.vector(n) || anyNA(n) || any(n < 0)) {
+    stop("n must be positive")
+  }
   if (!is.logical(whole)) {
     whole <- FALSE
+  }
+  if (!(isScalar(fs) && fs > 0)) {
+    stop("fs must be a scalar > 0")
   }
   if (fs == 2 * pi) {
     u <- "rad/s"
@@ -114,24 +127,45 @@ freqz.default <- function(filt, a = 1, n = 512,
     u <- "Hz"
   }
 
-  if (length(n) > 1) { ## Explicit frequency vector given
+  if (!isScalar(n) || !isWhole(n) || as.integer(n) == 0) {
+    ## Explicit frequency vector given
+    w <- f <- n
     w <- 2 * pi * n / fs
-    hb <- pracma::polyval(rev(b), exp(-1i * w))
-    ha <- pracma::polyval(rev(a), exp(-1i * w))
-    w <- n
-  } else if (whole) {
-    w <- fs * (0:(n - 1)) / n
-    hb <- stats::fft(postpad(b, n))
-    ha <- stats::fft(postpad(a, n))
+    k <- max(length(b), length(a))
+    hb <- pracma::polyval(postpad(b, k), exp(1i * w))
+    ha <- pracma::polyval(postpad(a, k), exp(1i * w))
   } else {
-    w <- fs / 2 * (0:(n - 1)) / n
-    hb <- stats::fft(postpad(b, 2 * n))[1:n]
-    ha <- stats::fft(postpad(a, 2 * n))[1:n]
+    ## polyval(fliplr(P),exp(jw)) is O(p n) and fft(x) is O(n log(n)),
+    ## where p is the order of the polynomial P.  For small p it
+    ## would be faster to use polyval but in practice the overhead for
+    ## polyval is much higher and the little bit of time saved isn't
+    ## worth the extra code.
+    k <- max(length(b), length(a))
+
+    if (whole) {
+      N <- n
+      f <- fs * (0:(n - 1)) / N
+    } else {
+      N <- 2 * n
+      f <- fs * (0:(n - 1)) / N
+    }
+
+    pad_sz <- N * ceiling(k / N)
+    b <- postpad(b, pad_sz)
+    a <- postpad(a, pad_sz)
+
+    hb <- rep(0, n)
+    ha <- rep(0, n)
+
+    for (i in seq(1, pad_sz, N)) {
+      hb <- hb + stats::fft(postpad(b[i:(i + N -1)], N))[1:n]
+      ha <- ha + stats::fft(postpad(a[i:(i + N -1)], N))[1:n]
+    }
   }
 
   h <- hb / ha
 
-  res <- list(h = h, w = w, u = u)
+  res <- list(h = h, w = f, u = u)
   class(res) <- "freqz"
   res
 }
@@ -157,14 +191,24 @@ freqz.Ma <- function(filt, n = 512,
 #' @rdname freqz
 #' @export
 
-freqz.Sos <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...)
-  freqz.Arma(as.Arma(filt), n, whole, fs, ...)
+freqz.Sos <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...) {
+  filt$sos[1, 1:3] <- filt$sos[1, 1:3] * filt$g #apply gain
+  h <- 1
+  for (row in seq_len(nrow(filt$sos))) {
+    wh <- freqz.default(filt$sos[row, 1:3], filt$sos[row, 4:6], n = n, whole = whole, fs = fs)
+    h <- h * wh$h
+  }
+  
+  res <- list(h = h, w = wh$w, u = wh$u)
+  class(res) <- "freqz"
+  res
+}
 
 #' @rdname freqz
 #' @export
 
 freqz.Zpg <- function(filt, n = 512, whole = FALSE, fs = 2 * pi, ...)
-  freqz.Arma(as.Arma(filt), n, whole, fs, ...)
+  freqz.Sos(as.Sos(filt), n, whole, fs, ...)
 
 #' @rdname freqz
 #' @export
