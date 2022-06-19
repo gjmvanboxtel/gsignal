@@ -27,6 +27,17 @@ test_that("cplxreal() tests are correct", {
   ret <- cplxreal(polyroot(c(1, 0, 0, 1)))
   expect_equal(ret$zc, complex(real = 0.5, imag = sinpi(1 / 3)), tolerance = tol)
   expect_equal(ret$zr, -1)
+  
+  # Octave signal 1.4.2: Test with 2 real zeros, one of them equal to 0
+  ret <- cplxreal(pracma::roots(c(1, 0, 0, 1, 0)))
+  expect_equal(ret$zc, 0.5 + sin(pi/3) * 1i)
+  expect_equal(ret$zr, c(-1, 0), tolerance = tol)
+  
+  # Octave signal 1.4.2: Test with 3 real zeros, two of them equal to 0
+  ret <- cplxreal(pracma::roots(c(1, 0, 0, 1, 0, 0)))
+  expect_equal(ret$zc, 0.5 + sin (pi/3) * 1i)
+  expect_equal(ret$zr, c(-1, 0, 0))
+  
 })
 
 # -----------------------------------------------------------------------

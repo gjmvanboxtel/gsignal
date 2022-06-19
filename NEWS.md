@@ -1,9 +1,13 @@
 # gsignal 0.3.6
-- date: 20220616
+- date: 20220619
 - Fixed Github Issue #9: differences between freqz and signal.scipy.freqz
-    * updated freqz() to match current 'Octave' 1.4.2 version
-    * implemented proper freqz.Sos() instead of converting to Arma
-    * freqz.Zpg() converts to Sos instead of Arma
+  * updated freqz() to match current Octave version
+  * implemented proper freqz.Sos() instead of converting to Arma
+  * freqz.Zpg() converts to Sos instead of Arma
+- Implemented changes in 'Octave' 'signal' 1.4.2 with respect to 1.4.1
+  * added tests for cplxreal() (gsignal did not have Octave bug #60606)
+  * added test for cheb2ap (gsignal did not have Octave bug #58218)
+  * all other changes concerned code style or documentation
 
 # gsignal 0.3-5
 

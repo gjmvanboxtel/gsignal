@@ -877,3 +877,13 @@ test_that("pei_tseng_notch() tests are correct", {
   expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = tol)
 })
   
+# -----------------------------------------------------------------------
+# cheb2ap()
+
+test_that("parameters to cheb2ap() are correct", {
+  expect_error(cheb2ap())
+  expect_error(cheb2ap(1))
+  expect_error(cheb2ap(-1, 3))
+  expect_error(cheb2ap(3, -1))
+})
+
