@@ -1,5 +1,5 @@
 # gsignal 0.3.6
-- date: 20220619
+- date: 20221121
 - Fixed Github Issue #9: differences between freqz and signal.scipy.freqz
   * updated freqz() to match current Octave version
   * implemented proper freqz.Sos() instead of converting to Arma
@@ -8,6 +8,9 @@
   * added tests for cplxreal() (gsignal did not have Octave bug #60606)
   * added test for cheb2ap (gsignal did not have Octave bug #58218)
   * all other changes concerned code style or documentation
+- correct typos in stft.R (H. Dieter Wilhelm - Pull request #10)
+- Negate the signal reversed in time at both ends in filtfilt.R
+  (Rafael Laboissière - Pull request #12)
 
 # gsignal 0.3-5
 

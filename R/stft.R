@@ -19,6 +19,8 @@
 # Version history
 # 20201206  GvB       setup for gsignal v0.1.0
 # 20210411  GvB       v0.3.0 bugfix in output time points
+# 20221103  GvB       correct typos in stft.R
+#                     (H. Dieter Wilhelm - Pull request #10)
 #------------------------------------------------------------------------------
 
 #' Short-Term Fourier Transform

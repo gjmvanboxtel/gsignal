@@ -24,6 +24,8 @@
 # 20210402  GvB       use padding and Gustafsson method for initial conditions
 # 20210712  GvB       copy attributes of input x to output y
 # 20220330  GvB       corrected bug in nfact (default and Sos)
+# 20221222  GvB       merged pull request from Rafael Laboissière
+#                     Negate the signal reversed in time at both ends
 #------------------------------------------------------------------------------
 
 #' Zero-phase digital filtering
