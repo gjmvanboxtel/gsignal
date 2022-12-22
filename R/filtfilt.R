@@ -125,8 +125,8 @@ filtfilt.default <- function(filt, a, x, ...) {
 
   for (icol in seq_len(ncx)) {
     if (nfact > 0) {
-      temp <- c(x[seq(nfact + 1, 2, -1), icol], x[, icol],
-                x[seq(nrx - 1, nrx - nfact, -1), icol])
+      temp <- c(2 * x[1, icol] - x[seq(nfact + 1, 2, -1), icol], x[, icol],
+                2 * x[nrx, icol] - x[seq(nrx - 1, nrx - nfact, -1), icol])
       temp <- filter(filt, a, temp, zi * temp[1])$y
       temp <- rev(temp)
       temp <- rev(filter(filt, a, temp, zi * temp[1])$y)
