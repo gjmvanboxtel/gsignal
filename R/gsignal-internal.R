@@ -23,6 +23,7 @@
 # 20200709  GvB       normalized sinc function
 # 20200820  GvB       added strReverse() function
 # 20211031  GvB       added isConjSymm() function
+# 20230830  GvB       check is.null(x) in zapIm
 #------------------------------------------------------------------------------
 
 #' Internal functions not exported to the namespace
@@ -64,6 +65,7 @@ nextpow2 <- function(x) 2^ceiling(log2(x))
 # zapIm <- function(x, nd = 10) if (all(Im(z <- zapsmall(x, nd)) == 0))
 #   Re(z) else x
 zapIm <- function(x, tol = .Machine$double.eps * 5) {
+  if (is.null(x)) return(x)
   z <- all(abs(Im(x)) < tol) 
   if (!is.na(z) && z) 
     Re(x)

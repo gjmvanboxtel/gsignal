@@ -18,6 +18,9 @@
 #
 # Version history
 # 20200804  GvB       setup for gsignal v0.1.0
+# 20230830  GvB       solved Github Issue #15 by loeriver:
+#                     - Removed Conj() on rev(rpk$k)
+#                     - check is.null(rpk$p)
 #------------------------------------------------------------------------------
 
 #' Z-transform partial fraction expansion
@@ -63,11 +66,16 @@ residuez <- function(b, a) {
   }
 
   rpk <- residue(rev(b), rev(a))
-  p <- 1 / rpk$p
-  m <- mpoles(p)
-  r <- rpk$r * ((-p)^m)
+  if (!is.null(rpk$p)) {
+    p <- 1 / rpk$p
+    m <- mpoles(p)
+    r <- rpk$r * ((-p)^m)
+} else {
+    r <- NULL
+    p <- NULL
+  }
   if (!is.null(rpk$k)) {
-    k <- Conj(rev(rpk$k))
+    k <- rev(rpk$k)
   } else {
     k <- NULL
   }

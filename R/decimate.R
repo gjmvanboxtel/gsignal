@@ -57,7 +57,8 @@
 #
 #' @export
 
-decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = c("iir", "fir")) {
+decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30),
+                     ftype = c("iir", "fir")) {
 
   if (!is.numeric(x)) {
     stop("x must be numeric")

@@ -98,10 +98,10 @@ test_that("parameters to upsample() are correct", {
 })
 
 test_that("upsample() tests are correct", {
-  expect_equal(round(decimate(1:10, 2), 3), c(1.306, 2.833, 5.037, 6.789, 9.142))
+  expect_equal(round(decimate(1:10, 2), 3), c(0.997, 2.977, 4.899, 7.007, 8.843))
   expect_equal(round(decimate(1:10, 2, ftype = "fir"), 3),
                c(-0.002, -0.002, -0.007, -0.003, -0.014))
   expect_equal(round(decimate(matrix(c(1:10, 1:10), ncol = 2), 2), 3),
-               matrix(c(1.306, 2.833, 5.037, 6.789, 9.142,
-                        1.306, 2.833, 5.037, 6.789, 9.142), ncol = 2))
+               matrix(c(0.997, 2.977, 4.899, 7.007, 8.843,
+                        0.997, 2.977, 4.899, 7.007, 8.843), ncol = 2))
 })

@@ -221,7 +221,7 @@ test_that("residuez() tests are correct", {
   s <- sort(Mod(rpk$r), index.return = TRUE)
   expect_equal(rpk$r[s$ix], c(-2+2.5i, 7.5+7.5i, -4.5-12i))
   expect_equal(rpk$p[s$ix], c(1i, 1, 1))
-  expect_equal(rpk$k, -2i)
+  expect_equal(rpk$k, 2i)
   
   b <- c(1, 0, 1); a <- c(1, 0, 0, 0, 0, -1)
   rpk <-  residuez(b, a)
@@ -239,6 +239,16 @@ test_that("residuez() tests are correct", {
   expect_equal(rpk$r[s$ix], rise, tolerance = tol)
   expect_equal(rpk$p[s$ix], pise, tolerance = tol)
   expect_null(rpk$k)
+  
+  # Github Issue #15
+  rpk <-residuez(c(1+3i,-3i), c(1,-1))
+  expect_equal(rpk$r, 1)
+  expect_equal(rpk$p, 1)
+  expect_equal(rpk$k, 0+3i)
+  rpk <-residuez(3, 2)
+  expect_null(rpk$r)
+  expect_null(rpk$p)
+  expect_equal(rpk$k, 1.5)
   
 })
 

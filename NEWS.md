@@ -1,5 +1,5 @@
 # gsignal 0.3.6
-- date: 20221121
+- date: 20230830
 - Fixed Github Issue #9: differences between freqz and signal.scipy.freqz
   * updated freqz() to match current Octave version
   * implemented proper freqz.Sos() instead of converting to Arma
@@ -11,6 +11,11 @@
 - correct typos in stft.R (H. Dieter Wilhelm - Pull request #10)
 - Negate the signal reversed in time at both ends in filtfilt.R
   (Rafael Laboissière - Pull request #12)
+- add check on NULL value in zapIm()
+- Fixed Github Issue #15 (loeriver): incorrect results and error in residuez()
+  * removed Cong() on calculation of k
+  * made calculation of r and p conditional
+
 
 # gsignal 0.3-5
 
