@@ -25,9 +25,6 @@
 #' Produce a linear phase filter such that the integral of the weighted mean
 #' squared error in the specified bands is minimized.
 #'
-#' The least squares optimization algorithm for computing FIR filter
-#' coefficients is derived in detail in [1].
-#'
 #' @param n filter order (1 less than the length of the filter). Must be even.
 #'   If odd, it is incremented by one.
 #' @param f vector of frequency points in the range from 0 to 1, where 1
@@ -50,10 +47,6 @@
 #'
 #' @author Quentin Spencer, \email{qspencer@@ieee.org}.\cr
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
-#'
-#' @references [1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
-#'   Squares",
-#'   \url{https://cnx.org/contents/6x7LNQOp@7/Linear-Phase-Fir-Filter-Design-By-Least-Squares}
 #'
 #' @export
 
