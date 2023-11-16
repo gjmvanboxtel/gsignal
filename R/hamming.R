@@ -18,6 +18,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20191209 Geert van Boxtel          First version for v0.1.0
+# 20231116 Geert van Boxtel          use coefficients 0.54 - 0.46 as in
+#                                    Matlab/Octave
 #------------------------------------------------------------------------------
 
 #' Hamming window
@@ -60,6 +62,7 @@ hamming <- function(n, method = c("symmetric", "periodic")) {
 
   if (!isPosscal(n) || ! isWhole(n) || n <= 0)
     stop("n must be an integer strictly positive")
+  
   method <- match.arg(method)
 
   if (method == "periodic") {
@@ -74,7 +77,7 @@ hamming <- function(n, method = c("symmetric", "periodic")) {
     w <- 1
   } else {
     n <- n - 1
-    w <- (25 / 46) - (21 / 46) * cos(2 * pi * (0:n) / N)
+    w <- 0.54 - 0.46 * cos(2 * pi * (0:n) / N)
   }
   w
 }

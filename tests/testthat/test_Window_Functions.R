@@ -37,7 +37,7 @@ test_that("parameters to hamming() are correct", {
 
 test_that("hamming() tests are correct", {
   expect_equal(hamming(1), 1L)
-  expect_equal(hamming(2), 25 / 46 - 21 / 46 * rep(1L, 2), tolerance = tol)
+  expect_equal(hamming(2), 0.54 - 0.46 * rep(1L, 2), tolerance = tol)
   expect_equal(rev(hamming(15)), hamming(15))
   expect_equal(rev(hamming(16)), hamming(16))
   

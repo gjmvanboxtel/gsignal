@@ -15,6 +15,7 @@
 - Fixed Github Issue #15 (loeriver): incorrect results and error in residuez()
   * removed Cong() on calculation of k
   * made calculation of r and p conditional
+- Changed coefficients of the hamming() window function as in Matlab/Octave
 
 
 # gsignal 0.3-5
