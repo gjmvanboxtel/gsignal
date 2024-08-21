@@ -18,6 +18,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200704 Geert van Boxtel           First version for v0.1.0
+# 20240821 Geert van Boxtel           Bugfix determining w_o
 #------------------------------------------------------------------------------
 
 #' Window-based FIR filter design
@@ -115,9 +116,17 @@ fir1 <- function(n, w, type = c("low", "high", "stop", "pass", "DC-0", "DC-1"),
   ## normalize filter magnitude
   if (scale) {
     ## find the middle of the first band edge
+    ## find the frequency of the normalizing gain
     if (m[1] == 1) {
-      w_o <- (f[2] - f[1]) / 2
-    } else {
+      ## if the first band is a passband, use DC gain
+      w_o <- 0
+    } else if (f[4] == 1) {
+      ## for a highpass filter,
+      ## use the gain at half the sample frequency
+      w_o <- 1
+    } else{
+      ## otherwise, use the gain at the center
+      ## frequency of the first passband
       w_o <- f[3] + (f[4] - f[3]) / 2
     }
     ## compute |h(w_o)|^-1

@@ -88,7 +88,7 @@ test_that("upsample() tests are correct", {
 # -----------------------------------------------------------------------
 # decimate()
 
-test_that("parameters to upsample() are correct", {
+test_that("parameters to decimate() are correct", {
   expect_error(decimate())
   expect_error(decimate(1))
   expect_error(decimate(1, -1))
@@ -97,11 +97,13 @@ test_that("parameters to upsample() are correct", {
   expect_error(decimate(1, 2, 3, "error"))
 })
 
-test_that("upsample() tests are correct", {
+test_that("decimate() tests are correct", {
   expect_equal(round(decimate(1:10, 2), 3), c(0.997, 2.977, 4.899, 7.007, 8.843))
   expect_equal(round(decimate(1:10, 2, ftype = "fir"), 3),
-               c(-0.002, -0.002, -0.007, -0.003, -0.014))
+               c(0.953, 3.095, 4.097, 3.966, 4.029))
   expect_equal(round(decimate(matrix(c(1:10, 1:10), ncol = 2), 2), 3),
                matrix(c(0.997, 2.977, 4.899, 7.007, 8.843,
                         0.997, 2.977, 4.899, 7.007, 8.843), ncol = 2))
+  # Github #17
+  expect_equal(decimate(1:100, 2, 'fir'), seq(1, 100, 2))
 })

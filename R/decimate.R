@@ -20,6 +20,8 @@
 # 20201129  GvB       setup for gsignal v0.1.0
 # 20220328  GvB       copy dimnames of x to output object
 # 20220513  GvB       Github Issue #7
+# 20240821  GvB       Github Issue #17: replace fftfilt() with filtfilt()
+#                     when ftype == 'fir'; changed order of arguments
 #------------------------------------------------------------------------------
 
 #' Decrease sample rate
@@ -57,8 +59,8 @@
 #
 #' @export
 
-decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30),
-                     ftype = c("iir", "fir")) {
+decimate <- function(x, q, ftype = c("iir", "fir"),
+                     n = ifelse(ftype == "iir", 8, 30)) {
 
   if (!is.numeric(x)) {
     stop("x must be numeric")
@@ -84,7 +86,7 @@ decimate <- function(x, q, n = ifelse(ftype == "iir", 8, 30),
 
   if (ftype == "fir") {
     b <- fir1(n, 1 / q)
-    y <- fftfilt(b, x)
+    y <- filtfilt(b, x)
   } else {
     ba <- cheby1(n, 0.05, 0.8 / q)
     y <- filtfilt(ba, x)

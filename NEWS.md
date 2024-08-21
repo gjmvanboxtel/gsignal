@@ -16,6 +16,11 @@
   * removed Cong() on calculation of k
   * made calculation of r and p conditional
 - Changed coefficients of the hamming() window function as in Matlab/Octave
+- Fixed Github Issue #17 (dipterix): decimate() not compatible with Matlab
+  * replaced fftfilt() with filtfilt() if FIR filter is requested
+- Bugfix in fir1(): adapted calculation of w_o
+- Fixed Github Issue #19 (jefferis): changed control flow logic in findpeaks()
+  (line 174)
 
 
 # gsignal 0.3-5

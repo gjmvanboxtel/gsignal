@@ -19,6 +19,7 @@
 # Version history
 # 20200105  GvB       setup for gsignal v0.1.0
 # 20220511  GvB       use inherits() instead of direct comparison of class name
+# 20240708  GvB       pull request #19 from jefferis: line 174 changed 
 #------------------------------------------------------------------------------
 
 #' Find local extrema
