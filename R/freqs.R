@@ -19,6 +19,7 @@
 # Version history
 # 20200413  GvB       setup for gsignal v0.1.0
 # 20200427  GvB       added S3 methods
+# 20240822  GvB       changed setup to match freqz using S3 methods
 #------------------------------------------------------------------------------
 
 #' Frequency response of analog filters
@@ -36,12 +37,17 @@
 #' @param a autoregressive (AR) polynomial coefficients, specified as a vector.
 #' @param w angular frequencies, specified as a positive real vector expressed
 #'   in rad/second.
-#' @param plot logical. If \code{TRUE} (default), plots the magnitude and phase
-#'   responses as a function of angular frequency, otherwise a vector of the
-#'   frequency response is returned.
-#' @param ... additional parameters (not used)
+#' @param x	object to be printed or plotted.
+#' @param object object of class \code{"freqs"} for \code{summary}
+#' @param ... for methods of \code{freqs}, arguments are passed to the default
+#'   method. For \code{freqs_plot}, additional arguments are passed through to
+#'   plot.
 #'
-#' @return Frequency response, returned as a complex vector.
+#' @return For \code{freqs}, a list of class \code{'freqs'} with items:
+#' \describe{
+#'   \item{h}{complex array of frequency responses at frequencies \code{f}.}
+#'   \item{w}{array of frequencies.}
+#' }
 #'
 #' @examples
 #' b <- c(1, 2); a <- c(1, 1)
@@ -59,16 +65,13 @@ freqs <- function(filt, ...) UseMethod("freqs")
 #' @rdname freqs
 #' @export
 
-freqs.default <- function(filt, a, w, plot = TRUE, ...) {
+freqs.default <- function(filt, a, w, ...) {
 
   h <- pracma::polyval(filt, 1i * w) / pracma::polyval(a, 1i * w)
 
-  if (plot) {
-    freqs_plot(w, h)
-    invisible(h)
-  } else {
-    h
-  }
+  res <- list(h = h, w = w)
+  class(res) <- "freqs"
+  res
 }
 
 #' @rdname freqs
@@ -94,3 +97,83 @@ freqs.Sos <- function(filt, w, ...) # second-order sections
 
 freqs.Zpg <- function(filt, w, ...) # zero-pole-gain
   freqs.Arma(as.Arma(filt), w, ...)
+
+#' @rdname freqs
+#' @export
+
+print.freqs <- plot.freqs <- function(x, ...)
+  freqs_plot(x$w, x$h, ...)
+
+#' @rdname freqs
+#' @export
+
+summary.freqs <- function(object, ...) {
+  
+  nm <- deparse(substitute(object))
+  h <- object$h
+  w <- object$w
+  
+  rw <- range(w)
+  
+  mag <- 20 * log10(abs(h))
+  mmag <- max(mag)
+  wmag <- w[which.max(mag)]
+  cutoff <-
+    w[diff(ifelse((!is.finite(mag) | is.na(mag) | mag < -3), 0, 1)) != 0]
+  
+  phase <- unwrap(Arg(h))
+  rp <- range(phase)
+  
+  structure(list(nm = nm, rw = rw, mmag = mmag, wmag = wmag,
+                 cutoff = cutoff, rp = rp),
+            class = c("summary.freqs", "list"))
+}
+
+#' @rdname freqs
+#' @export
+
+print.summary.freqs <- function(x, ...) {
+  
+  cat(paste0("\nSummary of freqs object '", x$nm, "':\n"))
+  rw <- round(x$rw, 3)
+  cat(paste("\nFrequencies ranging from", rw[1], "to", rw[2]))
+  mmag <- round(x$mmag, 3)
+  wmag <- round(x$wmag, 3)
+  cat(paste0("\nMaximum magnitude ", mmag, " dB at frequency ", wmag))
+  cutoff <- round(x$cutoff, 3)
+  lc <- length(cutoff)
+  fr <- ifelse(lc > 1, "frequencies", "frequency")
+  cat(paste0("\n-3 dB cutoff at ", fr, " ", cutoff[1]))
+  if (lc > 1) {
+    for (i in 2:lc) {
+      cat(paste(",", cutoff[i]))
+    }
+  }
+  rp <- round(x$rp, 3)
+  rpd <- round(rp * 360 / (2 * pi), 3)
+  cat(paste0("\nPhase ranging from ", rp[1], " to ", rp[2], " rad (",
+             rpd[1], " to ", rpd[2], " degrees)"))
+  cat("\n")
+}
+
+#' @rdname freqs
+#' @export
+
+freqs_plot <- function(w, h, ...) {
+  
+  mag <- 20 * log10(abs(h))
+  phase <- unwrap(Arg(h))
+  
+  op <- graphics::par(mfrow = c(2, 1))
+  on.exit(graphics::par(op))
+  
+  graphics::plot(w, mag, type = "l", xlab = "", ylab = "dB", ...)
+  graphics::legend("topright", "Magnitude (dB)", lty = 1)
+  graphics::title("Frequency response plot by freqs")
+  
+  graphics::plot(w, phase / (2 * pi), type = "l",
+                 xlab = "Frequency (rad/s)", ylab = "Phase", ...)
+  graphics::legend("topright", "Phase (radians / 2 pi)", lty = 1)
+  graphics::title("")
+  
+}
