@@ -11,15 +11,14 @@ test_that("parameters to freqs() are correct", {
   expect_error(freqs())
   expect_error(freqs(1))
   expect_error(freqs(1, 2))
-  expect_error(freqs(1, 2, 3, plot = 'invalid'))
 })
 
 test_that("freqs() tests are correct", {
-  h <- freqs(1, 1, 1, plot = FALSE)
-  expect_equal(h, 1 + 0i)
+  h <- freqs(1, 1, 1)
+  expect_equal(h$h, 1 + 0i)
 
-  h <- freqs(c(1, 2), c(1, 1), 1:4, plot = FALSE)
-  expect_equal(h, c(1.5-0.5i, 1.2-0.4i, 1.1-0.3i, 1.058824-0.235294i), tolerance = tol)
+  h <- freqs(c(1, 2), c(1, 1), 1:4)
+  expect_equal(h$h, c(1.5-0.5i, 1.2-0.4i, 1.1-0.3i, 1.058824-0.235294i), tolerance = tol)
   
 })
 

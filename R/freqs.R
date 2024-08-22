@@ -102,7 +102,7 @@ freqs.Zpg <- function(filt, w, ...) # zero-pole-gain
 #' @export
 
 print.freqs <- plot.freqs <- function(x, ...)
-  freqs_plot(x$w, x$h, ...)
+  freqs_plot(x, ...)
 
 #' @rdname freqs
 #' @export
@@ -159,19 +159,19 @@ print.summary.freqs <- function(x, ...) {
 #' @rdname freqs
 #' @export
 
-freqs_plot <- function(w, h, ...) {
+freqs_plot <- function(x, ...) {
   
-  mag <- 20 * log10(abs(h))
-  phase <- unwrap(Arg(h))
+  mag <- 20 * log10(abs(x$h))
+  phase <- unwrap(Arg(x$h))
   
   op <- graphics::par(mfrow = c(2, 1))
   on.exit(graphics::par(op))
   
-  graphics::plot(w, mag, type = "l", xlab = "", ylab = "dB", ...)
+  graphics::plot(x$w, mag, type = "l", xlab = "", ylab = "dB", ...)
   graphics::legend("topright", "Magnitude (dB)", lty = 1)
   graphics::title("Frequency response plot by freqs")
   
-  graphics::plot(w, phase / (2 * pi), type = "l",
+  graphics::plot(x$w, phase / (2 * pi), type = "l",
                  xlab = "Frequency (rad/s)", ylab = "Phase", ...)
   graphics::legend("topright", "Phase (radians / 2 pi)", lty = 1)
   graphics::title("")

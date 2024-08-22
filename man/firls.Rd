@@ -29,18 +29,9 @@ The FIR filter coefficients, a vector of length \code{n + 1}, of
 Produce a linear phase filter such that the integral of the weighted mean
 squared error in the specified bands is minimized.
 }
-\details{
-The least squares optimization algorithm for computing FIR filter
-coefficients is derived in detail in [1].
-}
 \examples{
 freqz(firls(255, c(0, 0.25, 0.3, 1), c(1, 1, 0, 0)))
 
-}
-\references{
-[1] I. Selesnick, "Linear-Phase FIR Filter Design by Least
-  Squares",
-  \url{https://cnx.org/contents/6x7LNQOp@7/Linear-Phase-Fir-Filter-Design-By-Least-Squares}
 }
 \seealso{
 \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},

@@ -25,7 +25,7 @@
 #' Compute the Dirichlet or periodic sinc function.
 #'
 #' \code{y <- diric(x, n)} returns the Dirichlet Function of degree \code{n}
-#' evaluated at the elements of the input array {x}.
+#' evaluated at the elements of the input array \code{x}.
 #'
 #' The Dirichlet function, or periodic sinc function, has period \eqn{2 \pi} for
 #' odd \eqn{N} and period \eqn{4 \pi} for even \eqn{N}. Its maximum value is 1

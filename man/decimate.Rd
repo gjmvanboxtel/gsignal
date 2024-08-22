@@ -4,7 +4,7 @@
 \alias{decimate}
 \title{Decrease sample rate}
 \usage{
-decimate(x, q, n = ifelse(ftype == "iir", 8, 30), ftype = c("iir", "fir"))
+decimate(x, q, ftype = c("iir", "fir"), n = ifelse(ftype == "iir", 8, 30))
 }
 \arguments{
 \item{x}{input data, specified as a numeric vector or matrix. In case of a
@@ -13,14 +13,14 @@ signal.}
 
 \item{q}{decimation factor, specified as a positive integer.}
 
-\item{n}{Order of the filter used prior to the downsampling, specified as a
-positive integer. Default: 8 if \code{ftype} equals \code{"iir"}; 30 of
-\code{ftype} equals \code{"fir"}.}
-
 \item{ftype}{filter type; either \code{"fir"}, specifying a FIR filter of
 length \code{n} designed with the function \code{\link{fir1}}, or
 \code{"iir"} (default), specifying an IIR Chebyshev filter of order 8 using
 the function \code{\link{cheby1}}.}
+
+\item{n}{Order of the filter used prior to the downsampling, specified as a
+positive integer. Default: 8 if \code{ftype} equals \code{"iir"}; 30 of
+\code{ftype} equals \code{"fir"}.}
 }
 \value{
 downsampled signal, returned as a vector or matrix.

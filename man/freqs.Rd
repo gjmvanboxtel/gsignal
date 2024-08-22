@@ -7,11 +7,15 @@
 \alias{freqs.Ma}
 \alias{freqs.Sos}
 \alias{freqs.Zpg}
+\alias{print.freqs}
+\alias{summary.freqs}
+\alias{print.summary.freqs}
+\alias{freqs_plot}
 \title{Frequency response of analog filters}
 \usage{
 freqs(filt, ...)
 
-\method{freqs}{default}(filt, a, w, plot = TRUE, ...)
+\method{freqs}{default}(filt, a, w, ...)
 
 \method{freqs}{Arma}(filt, w, ...)
 
@@ -20,6 +24,14 @@ freqs(filt, ...)
 \method{freqs}{Sos}(filt, w, ...)
 
 \method{freqs}{Zpg}(filt, w, ...)
+
+\method{print}{freqs}(x, ...)
+
+\method{summary}{freqs}(object, ...)
+
+\method{print}{summary.freqs}(x, ...)
+
+freqs_plot(x, ...)
 }
 \arguments{
 \item{filt}{for the default case, moving average (MA) polynomial
@@ -27,19 +39,25 @@ coefficients, specified as a numeric vector or matrix. In case of a matrix,
 then each row corresponds to an output of the system. The number of columns
 of \code{b} must be less than or equal to the length of \code{a}.}
 
-\item{...}{additional parameters (not used)}
+\item{...}{for methods of \code{freqs}, arguments are passed to the default
+method. For \code{freqs_plot}, additional arguments are passed through to
+plot.}
 
 \item{a}{autoregressive (AR) polynomial coefficients, specified as a vector.}
 
 \item{w}{angular frequencies, specified as a positive real vector expressed
 in rad/second.}
 
-\item{plot}{logical. If \code{TRUE} (default), plots the magnitude and phase
-responses as a function of angular frequency, otherwise a vector of the
-frequency response is returned.}
+\item{x}{object to be printed or plotted.}
+
+\item{object}{object of class \code{"freqs"} for \code{summary}}
 }
 \value{
-Frequency response, returned as a complex vector.
+For \code{freqs}, a list of class \code{'freqs'} with items:
+\describe{
+  \item{h}{complex array of frequency responses at frequencies \code{f}.}
+  \item{w}{array of frequencies.}
+}
 }
 \description{
 Compute the s-plane frequency response of an IIR filter.

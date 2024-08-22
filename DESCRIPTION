@@ -79,7 +79,7 @@ Language: en-US
 URL: https://github.com/gjmvanboxtel/gsignal
 BugReports: https://github.com/gjmvanboxtel/gsignal/issues
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.2
 Suggests: 
     knitr,
     rmarkdown,
