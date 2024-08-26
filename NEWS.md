@@ -1,5 +1,5 @@
 # gsignal 0.3.6
-- date: 20240822
+- date: 20240826
 - Fixed Github Issue #9: differences between freqz and signal.scipy.freqz
   * updated freqz() to match current Octave version
   * implemented proper freqz.Sos() instead of converting to Arma
@@ -22,7 +22,6 @@
 - Fixed Github Issue #19 (jefferis): changed control flow logic in findpeaks()
   (line 174)
 - Adapt freqs() to match freqz() - delete freqs_plot.R
-
 
 
 # gsignal 0.3-5
