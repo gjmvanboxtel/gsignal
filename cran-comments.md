@@ -29,10 +29,13 @@ This is a resubmission. In this version I have:
 ## R CMD check results
 
 0 errors ✔ | 0 warnings ✔ | 1 note ✖
-Version contains large components (0.3-6.9010)
+checking CRAN incoming feasibility ... [6s/19s] NOTE (19s)
+   Maintainer: ‘Geert van Boxtel <G.J.M.vanBoxtel@gmail.com>’
+   
+   Version contains large components (0.3-6.9010)
 
  * This is a big package with nearly 200 functions and C++ code
-   with large object files. It also include example data. These components
+   with large object files. It also includes example data. These components
    will rarely be updated.
 
 ## revdepcheck results
@@ -42,6 +45,17 @@ We checked 9 reverse dependencies (5 from CRAN + 4 from Bioconductor), comparing
  * We saw 0 new problems
  * We failed to check 0 packages
 
+## test environments
+
+via rhub:
+ubuntu-latest on GitHub
+macos-13 on GitHub
+macos-latest on GitHub
+windows-latest on GitHub
+
+Using R-devel with win-builder.r-project.org: unstable x86_64-w64-mingw32
+Using R-release with win-builder.r-project.org: v4.3.3 x86_64-w64-mingw32 (64-bit)
+Using R-oldrelease with win-builder.r-project.org: v4.4.1 x86_64-w64-mingw32
 
 
 
