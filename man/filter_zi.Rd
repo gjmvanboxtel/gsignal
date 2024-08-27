@@ -6,6 +6,7 @@
 \alias{filter_zi.Arma}
 \alias{filter_zi.Ma}
 \alias{filter_zi.Sos}
+\alias{filter_zi.Zpg}
 \title{Filter initial conditions}
 \usage{
 filter_zi(filt, ...)
@@ -17,6 +18,8 @@ filter_zi(filt, ...)
 \method{filter_zi}{Ma}(filt, ...)
 
 \method{filter_zi}{Sos}(filt, ...)
+
+\method{filter_zi}{Zpg}(filt, ...)
 }
 \arguments{
 \item{filt}{For the default case, the moving-average coefficients of an ARMA

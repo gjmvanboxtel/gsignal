@@ -148,8 +148,8 @@ filter_zi.Sos <- function(filt, ...) { # Second-order sections
   zi
 }
 
-#' @rdname filter
-#' @method filter Zpg
+#' @rdname filter_zi
+#' @method filter_zi Zpg
 #' @export
-filter_zi.Zpg <- function(filt, x, ...) # zero-pole-gain form
+filter_zi.Zpg <- function(filt, ...) # zero-pole-gain form
   filter_zi(as.Arma(filt), ...)

@@ -1,80 +1,91 @@
 # gsignal 0.3.6
-- date: 20240826
-- Fixed Github Issue #9: differences between freqz and signal.scipy.freqz
-  * updated freqz() to match current Octave version
-  * implemented proper freqz.Sos() instead of converting to Arma
-  * freqz.Zpg() converts to Sos instead of Arma
-- Implemented changes in 'Octave' 'signal' 1.4.2 with respect to 1.4.1
-  * added tests for cplxreal() (gsignal did not have Octave bug #60606)
-  * added test for cheb2ap (gsignal did not have Octave bug #58218)
-  * all other changes concerned code style or documentation
-- correct typos in stft.R (H. Dieter Wilhelm - Pull request #10)
-- Negate the signal reversed in time at both ends in filtfilt.R
-  (Rafael Laboissière - Pull request #12)
-- add check on NULL value in zapIm()
-- Fixed Github Issue #15 (loeriver): incorrect results and error in residuez()
-  * removed Cong() on calculation of k
-  * made calculation of r and p conditional
-- Changed coefficients of the hamming() window function as in Matlab/Octave
-- Fixed Github Issue #17 (dipterix): decimate() not compatible with Matlab
-  * replaced fftfilt() with filtfilt() if FIR filter is requested
-- Bugfix in fir1(): adapted calculation of w_o
-- Fixed Github Issue #19 (jefferis): changed control flow logic in findpeaks()
-  (line 174)
-- Adapt freqs() to match freqz() - delete freqs_plot.R
 
+* date: 20240827
+* Fixed issue #9: differences between `freqz()` and `signal.scipy.freqz`
+  - updated `freqz()` to match current Octave version
+  - implemented proper `freqz.Sos()` instead of converting to Arma
+  - `freqz.Zpg()` converts to Sos instead of Arma
+* Implemented changes in 'Octave' 'signal' 1.4.5 with respect to 1.4.1
+  - added tests for `cplxreal()` (gsignal did not have Octave bug #60606)
+  - added test for `cheb2ap()` (gsignal did not have Octave bug #58218)
+  - all other changes concerned code style or documentation
+* correct typos in stft.R (H. Dieter Wilhelm - pull request #10)
+* Negate the signal reversed in time at both ends in `filtfilt()`
+  (Rafael Laboissière - pull request #12)
+* add check on NULL value in `zapIm()`
+* Fixed issue #15 (loeriver): incorrect results and error in `residuez()`
+  - removed `Cong()` on calculation of k
+  - made calculation of `r` and `p` conditional
+* Changed coefficients of the `hamming()` window function as in Matlab/Octave
+* Fixed issue #17 (dipterix): `decimate()` not compatible with Matlab
+  - replaced call to `fftfilt()` with `filtfilt()` if FIR filter is requested
+* Bugfix in `fir1()`: adapted calculation of w_o
+* Fixed issue #19 (jefferis): changed control flow logic in `findpeaks()`
+  (line 174)
+* Adapt `freqs()` to match `freqz()` - delete freqs_plot.R and add function
+  `freqs_plot()` to freqs.R.
+
+---
 
 # gsignal 0.3-5
 
-- date: 20220514
-- Fixed Github Discussion #6: remove padding to nearest power of 2 in pwelch()
-- Fixed Github Issue #5: returning matrix when input is matrix in pwelch()
-- Adapted e-mail addresses in mexihat, morlet, nutallwin, pburg, pyulear
-- use inherits() instead of direct comparison of class name in ar_psd, findpeaks,
-    pwelch, sgolayfilt, upfirdn
-- defined plot methods for ar_psd, pwelch, specgram classes
-- Fixed Github Issue #7: decimate with a matrix;, added "fir" argument to ftype
+* date: 20220514
+* Fixed  Discussion #6: remove padding to nearest power of 2 in `pwelch()`
+* Fixed Github Issue #5: returning matrix when input is matrix in `pwelch()`
+* Adapted e-mail addresses in mexihat, morlet, nutallwin, pburg, pyulear
+* use `inherits()` instead of direct comparison of class name in ar_psd,
+    findpeaks, pwelch, sgolayfilt, upfirdn
+* defined plot methods for ar_psd, pwelch, specgram classes
+* Fixed Github Issue #7: decimate with a matrix;, added "fir" argument to ftype
+
+---
 
 # gsignal 0.3-4
 
-- date: 20220404
-- Fixed test failure in tests/testthat/test_miscellaneous_Functions.R
+* date: 20220404
+* Fixed test failure in tests/testthat/test_miscellaneous_Functions.R
 
+---
 
 # gsignal 0.3-3
 
-- date: 20220330
-- Fixed Github Issue #3: Problems with fftfilt when FFT length is provided by user
-- copy attributes of input object x to output in functions filter, filtfilt, sosfilt, fftfilt
-- copy dimnames of input object x to output in functions upfirdn, resample, upsample, upsamplefill,
-       downsample, decimate, detrend, fht, sgolayfilt, 
-- added ultrwin() function
-- adapted filter() to allow data and filter coefficients to be of type complex
-- adapted sosfilt() to allow data and filter coefficients to be of type complex
-- bugfix in pwelch() for multivariate input
-- Fixed Github Issue #4: Problem with hilbert for small amplitude signals
-- added isConjSymm() function to gsignal-internal
-- adapted ifft() to use isConjSymm instead of ZapIm
-- reduced default tolerance for isWhole() and zapIm()
-- bugfix in detrend(): function now returns a vector if input was a vector
-- bugfix in filtfilt(): corrected bug in computing filter ends (default and Sos methods)
+* date: 20220330
+* Fixed Github Issue #3: Problems with `fftfilt()` when FFT length is 
+    provided by user
+* copy attributes of input object x to output in functions filter, filtfilt,
+    sosfilt, fftfilt
+* copy dimnames of input object x to output in functions upfirdn, resample,
+    upsample, upsamplefill, downsample, decimate, detrend, fht, sgolayfilt 
+* added `ultrwin()` function
+* adapted `filter()` to allow data and filter coefficients to be of type
+    complex
+* adapted `sosfilt()` to allow data and filter coefficients to be of type
+    complex
+* bugfix in `pwelch()` for multivariate input
+* Fixed Github Issue #4: Problem with `hilbert()` for small amplitude signals
+* added `isConjSymm()` function to gsignal-internal
+* adapted `ifft()` to use `isConjSymm()` instead of `ZapIm()`
+* reduced default tolerance for `isWhole()` and `zapIm()`
+* bugfix in `detrend()`: function now returns a vector if input was a vector
+* bugfix in `filtfilt()`: corrected bug in computing filter ends
+    (default and Sos methods)
 
+---
 
 # gsignal 0.3-2
 
-- date: 20210518
-- corrected CRAN WARNINGs on ATLAS, MKL, valgrind, fedora, solaris
-- corrected import NOTE for grDevices
-- adapted code in vignette "gsignal"
-- use explicit tolerance in testthat tests
-- added badges and logo (just for the fun of it)
-- sort zeros and poles on output in sos2zp(), tf2zp()
-- use matrix() instead of as.matrix() in functions
-    dct(), idct(), czt(), dst(), idst(), fht(), ifht()
-- minor bugfix in arburg()
-- bugfix in filter.cpp: resize a and b vectors, length of zi
-- adapted some examples
-
+* date: 20210518
+* corrected CRAN WARNINGs on ATLAS, MKL, valgrind, fedora, solaris
+* corrected import NOTE for grDevices
+* adapted code in vignette "gsignal"
+* use explicit tolerance in testthat tests
+* added badges and logo (just for the fun of it)
+* sort zeros and poles on output in sos2zp(), tf2zp()
+* use `matrix()` instead of `as.matrix()` in functions
+    `dct()`, `idct()`, `czt()`, `dst()`, `idst()`, `fht()`, `ifht()`
+* minor bugfix in `arburg()`
+* bugfix in filter.cpp: resize `a` and `b` vectors, length of `zi`
+* adapted some examples
 
 ---
 

@@ -27,10 +27,10 @@
 #' Compute the coefficients of a polynomial when the roots are given, or the
 #' characteristic polynomial of a matrix.
 #'
-#' If a vector is passed as an argument, then \code{poly((x)} is a vector of the
+#' If a vector is passed as an argument, then \code{poly(x)} is a vector of the
 #' coefficients of the polynomial whose roots are the elements of \code{x}.
 #'
-#' If an \eqn{N x N} square matrix is given, \code{poly((x)}
+#' If an \eqn{N x N} square matrix is given, \code{poly(x)}
 #' is the row vector of the coefficients of \code{det (z * diag (N) - x)},
 #' which is the characteristic polynomial of \code{x}.
 #'
@@ -44,7 +44,7 @@
 #' p <- poly(pracma::roots(1:3))
 #' p <- poly(matrix(1:9, 3, 3))
 #'
-#' @seealso \code{\link{roots}}
+#' @seealso \code{\link[pracma]{roots}}
 #'
 #' @author Kurt Hornik.\cr
 #'  Conversion to R by Tom Short,\cr
