@@ -113,14 +113,13 @@ test_that("ar_psd() tests are correct", {
   expect_equal(psd$psd, rep(2L, n))
 
   psd <- ar_psd(c(1,0, 1), 1, n)
-  expect_equal(which.max(psd$psd), (n / 2) + 1)
-
+  expect_equal(which(is.infinite(psd$psd)), (n / 2) + 1)
+  
   psd <- ar_psd(c(1,0, 1), 1, n, range = "whole")
-  expect_equal(which.max(psd$psd), (n / 4) + 1)
-
+  expect_equal(which(is.infinite(psd$psd))[1], (n / 4) + 1)
+  
   psd <- ar_psd(c(1,0, 1), 1, n, range = "centerdc")
   expect_equal(which(is.infinite(psd$psd)), c(17, 49))
-  
 })
 
 # -----------------------------------------------------------------------
