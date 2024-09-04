@@ -87,6 +87,5 @@ Suggests:
     ggplot2,
     gridExtra,
     microbenchmark,
-    imager,
     covr
 VignetteBuilder: knitr

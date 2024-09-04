@@ -46,16 +46,6 @@
 #'
 #' @examples
 #' D <- dctmtx(8)
-#' 
-#' #if (requireNamespace("imager", quietly = TRUE)) {
-#'#   boats <- imager::boats
-#'#   A <- imager::grayscale(boats)[1:256, 65:320, 1, 1]  # make it 256*256
-#'#   plot(imager::as.cimg(A), axes = FALSE, main = "Boats from imager package")
-#'#   D <- dctmtx(nrow(A))
-#'#   ctrans <- D %*% A %*% t(D)
-#'#   ctrans2 <- dct2(A)
-#'#   all.equal(ctrans, ctrans2)
-#'# }
 #'
 #' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
 #'   Conversion to R by Geert van Boxtel, \email{G.J.M.vanBoxtel@@gmail.com}.
