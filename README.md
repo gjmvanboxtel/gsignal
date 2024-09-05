@@ -13,6 +13,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![Codecov test
 coverage](https://app.codecov.io/gh/gjmvanboxtel/gsignal/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gjmvanboxtel/gsignal?branch=master)
+[![R-CMD-check](https://github.com/gjmvanboxtel/gsignal/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gjmvanboxtel/gsignal/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 R implementation of the ‘Octave’ package ‘signal’.

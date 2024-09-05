@@ -7,3 +7,6 @@ src/*.so
 src/*.dll
 /doc/
 /Meta/
+CRAN-SUBMISSION
+cran-comments.md
+

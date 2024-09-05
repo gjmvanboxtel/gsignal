@@ -34,16 +34,6 @@ A \%*\% t(D)} (where A is each 8-by-8 block). This is faster than calling
 \examples{
 D <- dctmtx(8)
 
-#if (requireNamespace("imager", quietly = TRUE)) {
-#   boats <- imager::boats
-#   A <- imager::grayscale(boats)[1:256, 65:320, 1, 1]  # make it 256*256
-#   plot(imager::as.cimg(A), axes = FALSE, main = "Boats from imager package")
-#   D <- dctmtx(nrow(A))
-#   ctrans <- D \%*\% A \%*\% t(D)
-#   ctrans2 <- dct2(A)
-#   all.equal(ctrans, ctrans2)
-# }
-
 }
 \seealso{
 \code{\link{dct}}, \code{\link{dct2}}, \code{\link{idct}},
