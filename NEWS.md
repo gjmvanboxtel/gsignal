@@ -1,3 +1,8 @@
+# gsignal 0.3.7
+
+* date: 240909
+* Fixed issue #21: `findpeaks()` crashes on call to pracma::polyfit
+
 # gsignal 0.3.6
 
 * date: 20240827

@@ -20,6 +20,10 @@
 # 20200105  GvB       setup for gsignal v0.1.0
 # 20220511  GvB       use inherits() instead of direct comparison of class name
 # 20240708  GvB       pull request #19 from jefferis: line 174 changed 
+# 20240909  GvB       Issue #21 (bnicenboim); added test on success of call to
+#                     pracma::polyfit 
+# 20240911  GvB       Issue #22 (bnicenboim) corrected typos that resulted
+#                     in crash with weid error msg
 #------------------------------------------------------------------------------
 
 #' Find local extrema
@@ -122,7 +126,7 @@ findpeaks <- function(data,
                       MinPeakWidth = 1,
                       MaxPeakWidth = Inf,
                       DoubleSided = FALSE) {
-
+  
   # check function arguments
   ld <- length(data)
   if (!is.numeric(data) ||
@@ -137,7 +141,7 @@ findpeaks <- function(data,
     stop("MinPeakWidth must be a positive scalar")
   if (!is.logical(DoubleSided))
     stop("DoubleSided should a a logical value TRUE or FALSE")
-
+  
   wdata <- abs(detrend(data, 0))
   if (DoubleSided) {
     tmp <- data
@@ -148,25 +152,25 @@ findpeaks <- function(data,
       stop("Data contains negative values. Use the 'DoubleSided' option?")
     }
   }
-
+  
   # Rough estimates of first and second derivative
   df1 <- diff(data, differences = 1)[c(1, 1:(ld - 1))]
   df2 <- diff(data, differences = 2)[c(1, 1, 1:(ld - 2))]
-
+  
   # check for changes of sign of 1st derivative and negativity of 2nd deriv.
   # <= in 1st derivative includes the case of oversampled signals.
   idx <- which(df1 * c(df1[2:length(df1)], 0) <= 0 &
                  c(df2[2:length(df2)], 0) < 0)
-
+  
   # Get peaks that are beyond given height
   tf  <- which(data[idx] > MinPeakHeight)
   idx <- idx[tf]
   if (length(idx) <= 0) return(NULL)
-
+  
   # sort according to magnitude
   tmp <- sort(data[idx], decreasing = TRUE, index = TRUE)
   idx_s <- idx[tmp$ix]
-
+  
   ## Treat peaks separated less than MinPeakDistance as one
   D <- with(expand.grid(A = idx_s, B = t(idx_s)), abs(A - B))
   dim(D) <- c(length(idx_s), length(idx_s))
@@ -190,26 +194,39 @@ findpeaks <- function(data,
     idx <- idx_pruned
   }
   idx <- sort(idx)
-
+  
   extra_x <- extra_pp <- extra_roots <-
     extra_height <- extra_baseline <- data.frame()
-
+  
   # Estimate widths of peaks and filter for:
   # width smaller than given.
   # wrong concavity.
   # not high enough
   # data at peak is lower than parabola by 1%
-
-  idx.pruned <- idx
+  
+  idx_pruned <- idx
   n  <- length(idx)
   for (i in 1:n) {
-    ind <- round(max(idx[i] - MinPeakDistance / 2, 1)) :
-      round(min(idx[i] + MinPeakDistance / 2, ld))
+    ind <- floor(pmax(idx[i] - MinPeakDistance / 2, 1)) :
+      ceiling(pmin(idx[i] + MinPeakDistance / 2, ld))
     pp <- rep(0L, 3)
-    if (any(data[ind] > data[idx[i]])) {
-      pp <- pracma::polyfit(ind, data[ind], 2)
-      xm <- -pp[2]^2 / (2 * pp[1])       # position of extrema
-      H <- pracma::polyval(pp, xm)       # value at extrema
+    if (isTRUE(any(data[idx[i] - 1] == data[idx[i]]))) {
+      # sample on left same as peak: skip
+      xm <- 0
+      pp <- rep(1L, 3)
+    } else if (isTRUE(any(data[ind] > data[idx[i]]))) {
+      # Matlab/Octave give warning if matrix is singular,
+      # pracma produces an error
+      # Catch error and skip peak in this case
+      result <- try(pp <- pracma::polyfit(ind, data[ind], 2),
+                    silent = TRUE)
+      if (inherits(result, 'try-error')) {
+        xm <- 0
+        pp <- rep(1L, 3)
+      } else {  
+        xm <- -pp[2]^2 / (2 * pp[1])       # position of extrema
+        H <- pracma::polyval(pp, xm)       # value at extrema
+      }
     } else {                             # use it as vertex of parabola
       H <- data[idx[i]]
       xm <- idx[i]
@@ -219,7 +236,7 @@ findpeaks <- function(data,
       pp[3] <- H + pp[1] * xm^2
     }
     width <- sqrt(abs(1 / pp[1])) + xm
-
+    
     if ((width > MaxPeakWidth || width < MinPeakWidth) ||
         pp[1] > 0 || H < MinPeakHeight ||
         data[idx[i]] < 0.99 * H || abs(idx[i] - xm) > MinPeakDistance / 2) {
@@ -232,15 +249,15 @@ findpeaks <- function(data,
       extra_baseline <- rbind(extra_baseline, mean(c(H, MinPeakHeight)))
     }
   }
-  idx <- idx.pruned
-
+  idx <- idx_pruned
+  
   # check for double sided
   if (DoubleSided) {
     pks <- wdata[idx]
   } else {
     pks <- data[idx]
   }
-
+  
   # return values
   colnames(extra_x) <- c("from", "to")
   colnames(extra_pp) <- c("b2", "b", "a")

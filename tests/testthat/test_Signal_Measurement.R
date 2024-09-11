@@ -31,7 +31,7 @@ test_that("findpeaks() tests are correct", {
   ## Test for bug #45056
   ## Test input vector is an oversampled sinusoid with clipped peaks
   x <- pmin(3, cos (2*pi*c(0:8000) / 600) + 2.01)
-  expect_equal(findpeaks(x)$pks, rep(3L, 27))
+  expect_equal(findpeaks(x)$pks, rep(3L, 13))
   
 })
 
