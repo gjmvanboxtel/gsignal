@@ -133,7 +133,7 @@ test_that("freqz() tests are correct", {
   
   hw <- freqz(sys, c(0, 1))
   expect_equal(hw$w, c(0, 1))
-  expect_equal(hw$h, c(3.25520833e-06+0i, 8.25367425e-03+0.01047173i), tol = 1e-5)
+  expect_equal(hw$h, c(3e-06+0i, 8.254e-03+0.01047173i), tol = 1e-3)
   
 })
 

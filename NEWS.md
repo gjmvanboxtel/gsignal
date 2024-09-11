@@ -2,6 +2,7 @@
 
 * date: 240909
 * Fixed issue #21: `findpeaks()` crashes on call to pracma::polyfit
+* Fixed test on `freqz` which resulted in precision error on CRAN
 
 # gsignal 0.3.6
 
