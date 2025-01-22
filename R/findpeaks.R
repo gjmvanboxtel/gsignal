@@ -23,7 +23,9 @@
 # 20240909  GvB       Issue #21 (bnicenboim); added test on success of call to
 #                     pracma::polyfit 
 # 20240911  GvB       Issue #22 (bnicenboim) corrected typos that resulted
-#                     in crash with weid error msg
+#                     in crash with weird error msg
+# 20250122  GvB       Issue #25(bnicenboim) error still persisted, adapted
+#                     return values
 #------------------------------------------------------------------------------
 
 #' Find local extrema
@@ -196,7 +198,7 @@ findpeaks <- function(data,
   idx <- sort(idx)
   
   extra_x <- extra_pp <- extra_roots <-
-    extra_height <- extra_baseline <- data.frame()
+    extra_height <- extra_baseline <- NULL
   
   # Estimate widths of peaks and filter for:
   # width smaller than given.
@@ -242,9 +244,10 @@ findpeaks <- function(data,
         data[idx[i]] < 0.99 * H || abs(idx[i] - xm) > MinPeakDistance / 2) {
       idx_pruned <- setdiff(idx_pruned, idx[i])
     } else {
-      extra_x <- rbind(extra_x, ind[c(1, length(ind))])
-      extra_pp <- rbind(extra_pp, pp)
-      extra_roots <- rbind(extra_roots, xm + c(-width, width) / 2)
+      extra_x <- rbind(extra_x, data.frame(ind[1], length(ind)))
+      extra_pp <- rbind(extra_pp, data.frame(pp[1], pp[2], pp[3]))
+      extra_roots <- rbind(extra_roots, data.frame(
+        matrix(xm + c(-width, width) / 2, ncol = 2)))
       extra_height <- rbind(extra_height, H)
       extra_baseline <- rbind(extra_baseline, mean(c(H, MinPeakHeight)))
     }
@@ -259,12 +262,26 @@ findpeaks <- function(data,
   }
   
   # return values
-  colnames(extra_x) <- c("from", "to")
-  colnames(extra_pp) <- c("b2", "b", "a")
-  colnames(extra_roots) <- c("a0", "a1")
+  # handle Issue #25: explicitly check if data frames not empty
+  if (NROW(extra_x) > 0) {
+    colnames(extra_x) <- c("from", "to")
+  }
+  if (NROW(extra_pp) > 0) {
+    colnames(extra_pp) <- c("b2", "b", "a")
+  }
+  if (NROW(extra_roots) > 0) {
+    colnames(extra_roots) <- c("a0", "a1")
+  }
+  if (NROW(extra_height) > 0) {
+    extra_height <- as.numeric(extra_height[, 1])
+  }
+  if (NROW(extra_height) > 0) {
+    extra_baseline <- as.numeric(extra_baseline[, 1])
+  }
+  
   list(pks = pks, loc = idx,
        parabol = list(x = as.list(extra_x), pp = as.list(extra_pp)),
-       height = as.numeric(extra_height[, 1]),
-       baseline = as.numeric(extra_baseline[, 1]),
+       height = extra_height,
+       baseline = extra_baseline,
        roots = as.list(extra_roots))
 }

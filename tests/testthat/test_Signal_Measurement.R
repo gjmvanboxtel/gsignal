@@ -33,6 +33,19 @@ test_that("findpeaks() tests are correct", {
   x <- pmin(3, cos (2*pi*c(0:8000) / 600) + 2.01)
   expect_equal(findpeaks(x)$pks, rep(3L, 13))
   
+  # Test for Issue #22/#25
+  x <- c(38.36496, 38.86303, 39.49029, 40.17124, 40.82394, 41.37635, 41.78170,
+         42.02370, 42.11781, 42.10938, 42.06585, 42.06298, 42.17052, 42.43946,
+         42.89256, 43.51914, 44.27617, 45.09633, 45.90211, 46.61510)
+  p <- findpeaks(x, MinPeakDistance = 100)
+  expect_length(p$pks, 0)
+  expect_length(p$loc, 0)
+  expect_length(p$parabol$x, 0)
+  expect_length(p$parabol$pp, 0)
+  expect_null(p$height)
+  expect_null(p$baseline)
+  expect_length(p$roots, 0)
+  
 })
 
 # -----------------------------------------------------------------------

@@ -1,6 +1,11 @@
+# gsignal 0.4.0
+
+* date: 20250122
+* Fixed issue #25: `findpeaks()` gives cryptic error message
+
 # gsignal 0.3.7
 
-* date: 240909
+* date: 20240909
 * Fixed issue #21: `findpeaks()` crashes on call to pracma::polyfit
 * Fixed test on `freqz` which resulted in precision error on CRAN
 
