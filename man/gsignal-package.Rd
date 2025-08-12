@@ -32,12 +32,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com} (Maintainer)
+\strong{Maintainer}: Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com} (Maintainer, Author)
 
 Authors:
 \itemize{
   \item Tom Short \email{tshort@eprisolutions.com} (Author of 'signal' package)
-  \item Paul Kienzle (Majority of the original sources)
+  \item Paul Kienzle (Majority of the original 'Octave' sources)
 }
 
 Other contributors:

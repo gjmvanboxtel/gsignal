@@ -1,17 +1,17 @@
 Package: gsignal
 Type: Package
 Title: Signal Processing
-Version: 0.4.0-9001
-Date: 2025-01-22
+Version: 0.4.0-9002
+Date: 2025-08-12
 Authors@R:
     c(person("Geert", "van Boxtel", role = c("aut", "cre"),
              email = "G.J.M.vanBoxtel@gmail.com",
-             comment = "Maintainer"),
+             comment = "Maintainer, Author"),
       person("Tom", "Short", role = "aut",
              email = "tshort@eprisolutions.com",
              comment="Author of 'signal' package"),
       person("Paul", "Kienzle", role = "aut",
-             comment = "Majority of the original sources"),
+             comment = "Majority of the original 'Octave' sources"),
       person("Ben", "Abbott", role = "ctb"),
       person("Juan", "Aguado", role = "ctb"),
       person("Muthiah", "Annamalai", role = "ctb"),

@@ -875,6 +875,13 @@ test_that("pei_tseng_notch() tests are correct", {
   filtered <- filter(ba, data)
   damp_db <- apply(filtered, 2, function(x) 20 * log10(max(x[(l - 1000):l])))
   expect_equal(as.vector(damp_db), c(-3.064986, -38.10409, -2.997267), tolerance = tol)
+  
+  ## multiple parameters (issue #27)
+  nyq <- 256
+  ba <- pei_tseng_notch(c(50, 70) / nyq, c(2, 2) / nyq)
+  expect_equal(ba$b, c(0.9757124, -2.8700730, 4.0356409, -2.8700730, 0.9757124), tolerance = tol)
+  expect_equal(ba$a, c(1.0000000, -2.9059859, 4.0356409, -2.8341600, 0.9514248), tolerance = tol)
+  
 })
   
 # -----------------------------------------------------------------------

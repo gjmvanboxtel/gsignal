@@ -17,7 +17,10 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20200622 Geert van Boxtel           First version for v0.1.0
+# 20200622 Geert van Boxtel     First version for v0.1.0
+# 20250812 Geert van Boxtel     Issue #27 (hvduartegit): does not work when
+#                               b and bw are vectors not scalars
+#                               (corrected if statements on lines 71, 74)
 #------------------------------------------------------------------------------
 
 #' Pei-Tseng notch filter
@@ -66,10 +69,10 @@ pei_tseng_notch <- function(w, bw) {
   if (length(w) != length(bw)) {
     stop("All arguments must be of equal length")
   }
-  if (!all(w > 0 && bw < 1)) {
+  if (!all(w > 0) || !all(w < 1)) {
     stop("All frequencies must be in the range (0, 1)")
   }
-  if (!all(bw > 0 && bw < 1)) {
+  if (!all(bw > 0) || !all(bw < 1)) {
     stop("All bandwidths must be in the range (0, 1)")
   }
 

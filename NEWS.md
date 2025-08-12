@@ -1,7 +1,9 @@
-# gsignal 0.4.0
+# gsignal 0.4.0.9002
 
-* date: 20250122
+* date: 20250812
 * Fixed issue #25: `findpeaks()` gives cryptic error message
+* Fixed issue #27: `pei_tseng_notch()` returns error when input are vectors
+  of length > 1
 
 # gsignal 0.3.7
 
