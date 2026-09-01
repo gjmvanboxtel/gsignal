@@ -36,65 +36,9 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com} (Maintainer, Author)
   \item Tom Short \email{tshort@eprisolutions.com} (Author of 'signal' package)
-  \item Paul Kienzle (Majority of the original 'Octave' sources)
-}
-
-Other contributors:
-\itemize{
-  \item Ben Abbott [contributor]
-  \item Juan Aguado [contributor]
-  \item Muthiah Annamalai [contributor]
-  \item Leonardo Araujo [contributor]
-  \item William Asquith [contributor]
-  \item David Bateman [contributor]
-  \item David Billinghurst [contributor]
-  \item Juan Pablo Carbajal [contributor]
-  \item André Carezia [contributor]
-  \item Vincent Cautaerts [contributor]
-  \item Eric Chassande-Mottin [contributor]
-  \item Luca Citi [contributor]
-  \item Dave Cogdell [contributor]
-  \item Carlo de Falco [contributor]
-  \item Carne Draug [contributor]
-  \item Pascal Dupuis [contributor]
-  \item John W. Eaton [contributor]
-  \item R.G.H Eschauzier [contributor]
-  \item Andrew Fitting [contributor]
-  \item Alan J. Greenberger [contributor]
-  \item Mike Gross [contributor]
-  \item Daniel Gunyan [contributor]
-  \item Kai Habel [contributor]
-  \item Kurt Hornik [contributor]
-  \item Jake Janovetz [contributor]
-  \item Alexander Klein [contributor]
-  \item Peter V. Lanspeary [contributor]
-  \item Bill Lash [contributor]
-  \item Friedrich Leissh [contributor]
-  \item Laurent S. Mazet [contributor]
-  \item Mike Miller [contributor]
-  \item Petr Mikulik [contributor]
-  \item Paolo Neis [contributor]
-  \item Georgios Ouzounis [contributor]
-  \item Sylvain Pelissier [contributor]
-  \item Francesco Potortì [contributor]
-  \item Charles Praplan [contributor]
-  \item Lukas F. Reichlin [contributor]
-  \item Tony Richardson [contributor]
-  \item Asbjorn Sabo [contributor]
-  \item Thomas Sailer [contributor]
-  \item Rolf Schirmacher [contributor]
-  \item Rolf Schirmacher [contributor]
-  \item Ivan Selesnick [contributor]
-  \item Julius O. Smith III [contributor]
-  \item Peter L. Soendergaard [contributor]
-  \item Quentin Spencer [contributor]
-  \item Doug Stewart [contributor]
-  \item P. Sudeepam [contributor]
-  \item Stefan van der Walt [contributor]
-  \item Andreas Weber [contributor]
-  \item P. Sudeepam [contributor]
-  \item Andreas Weingessel [contributor]
+  \item Octave-Forge community \email{maintainers@octave.org} (Various authors of 'Octave' functions) [contributor]
 }
 
 }

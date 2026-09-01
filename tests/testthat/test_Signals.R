@@ -551,3 +551,28 @@ test_that("sinetone() works correctly", {
   expect_equal(sinewave(3, 4), sinewave(3, 4, 0), tolerance = tol)
 })
 
+# -----------------------------------------------------------------------
+# vco()
+
+test_that("parameters to vco() are correct", {
+  expect_error(vco())
+  expect_error(vco(1, 'invalid'))
+  expect_error(vco(1, 1, 'invalid'))
+  expect_error(vco(1, 2, 3, 4))
+  expect_error(vco(1, c(2, 3, 4)))
+  expect_error(vco(2))
+  expect_error(vco(1, -1))
+  expect_error(vco(1, 1, -1))
+})
+
+test_that("vco() works correctly", {
+  expect_equal(round(vco(1)), 0L)
+  x <- c(0, 0.5, 0.8, -0.2)
+  y1 <- vco (x, 10, 100)
+  y2 <- vco (x, c(5, 15), 100)
+  expect_equal(y1, c(1.0000, 0.5878, -0.4818, -0.8443), tol = 1e-4)
+  expect_equal(y2, c(1.0000, 0.7071, -0.0941, -0.6129), tol = 1e-4)
+  X <- cbind(x, x, deparse.level = 0) 
+  Y <- vco(X, 10, 100)
+  expect_equal(Y, cbind(y1, y1, deparse.level = 0))
+})
