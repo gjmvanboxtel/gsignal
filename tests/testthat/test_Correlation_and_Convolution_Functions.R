@@ -44,6 +44,55 @@ test_that("convmtx() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# corrmtx()
+
+test_that("parameters to corrmtx() are correct", {
+  expect_error(corrmtx())
+  expect_error(corrmtx(1))
+  expect_error(corrmtx(1, 1))
+  expect_error(corrmtx(1, 2))
+  expect_error(corrmtx(1, -1))
+  expect_error(corrmtx(c(1, 2), 1, 'invalid'))
+})
+
+test_that("convmtx() tests are correct", {
+  x <- 1:5
+  m <- 2
+  
+  HR = corrmtx (x, m)
+  expected_H <- (1 / sqrt(5)) * 
+    matrix(c(1,0,0, 2,1,0, 3,2,1, 4,3,2, 5,4,3, 0,5,4, 0,0,5),
+           7, 3, byrow = TRUE)
+  expect_equal(HR$H, expected_H, tol = tol)
+  expect_equal(HR$R, t(HR$H) %*% HR$H, tol= tol)
+
+  HR <- corrmtx(x, m, "prewindowed")
+  expected_H <- (1 / sqrt(5)) * matrix(c(1,0,0, 2,1,0, 3,2,1, 4,3,2, 5,4,3),
+                                       5, 3, byrow = TRUE)
+  expect_equal(HR$H, expected_H, tol = tol)
+  expect_equal(HR$R, t(HR$H) %*% HR$H, tol = tol)
+  
+  HR <- corrmtx(x, m, "postwindowed")
+  expected_H <- (1 / sqrt(5)) * matrix(c(3,2,1, 4,3,2, 5,4,3, 0,5,4, 0,0,5),
+                                      5, 3, byrow = TRUE)
+  expect_equal(HR$H, expected_H, tol = tol)
+  expect_equal(HR$R, t(HR$H) %*% HR$H, tol = tol)
+  
+  HR <- corrmtx (x, m, "covariance")
+  expected_H <-(1 / sqrt(3)) * matrix(c(3,2,1, 4,3,2, 5,4,3),
+                                       3, 3, byrow = TRUE)
+  expect_equal(HR$H, expected_H, tol = tol)
+  expect_equal(HR$R, t(HR$H) %*% HR$H, tol = tol)
+  
+  HR <- corrmtx(x, m, "modified");
+  expected_H <- (1 / sqrt(6)) * matrix(c(3,2,1, 4,3,2, 5,4,3, 1,2,3, 2,3,4, 3,4,5),
+                                       6, 3, byrow = TRUE)
+  expect_equal(HR$H, expected_H, tol = tol)
+  expect_equal(HR$R, t(HR$H) %*% HR$H, tol = tol)
+  
+})
+
+# -----------------------------------------------------------------------
 # wconv()
 
 test_that("parameters to wconv() are correct", {

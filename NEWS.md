@@ -1,7 +1,8 @@
-# gsignal 0.4.0.9003
+# gsignal 0.4.0.9004
 
 * date: 20260901
-* Added function `vco()` (**Signals** section)
+* Added function `corrmtx()` (Correlation and Convolution section)
+* Added function `vco()` (Signals section)
 * Fixed issue #25: `findpeaks()` gives cryptic error message
 * Fixed issue #27: `pei_tseng_notch()` returns error when input are vectors
   of length > 1
