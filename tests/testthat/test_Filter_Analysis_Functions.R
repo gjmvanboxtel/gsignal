@@ -3,6 +3,68 @@ library(gsignal)
 library(testthat)
 
 tol <- 1e-6
+# -----------------------------------------------------------------------
+# filternorm()
+
+test_that("parameters to filternorm() are correct", {
+  expect_error(filternorm())
+  expect_error(filternorm(1))
+  expect_error(filternorm(1, 1, 1))
+  expect_error(filternorm(1, 1, 2, -1))
+  expect_error(filternorm(matrix(1:10, 5, 2), 1))
+  expect_error(filternorm(1, matrix(1:10, 5, 2)))
+  expect_error(filternorm(rep(1L, 3), rep(1L, 3)))
+})
+
+test_that("filternorm() tests are correct", {
+  ba <- butter (5, 0.5)
+  expect_equal(filternorm(ba), sqrt(2) / 2)
+  expect_equal(filternorm (ba, Inf), 1)
+  
+  # identify filter
+  expect_equal(filternorm(1, 1), 1)
+  
+  # known FIR filter
+  ba <- Arma(c(1, 2, 1), 1)
+  expect_equal(filternorm(ba), norm(ba$b, '2'))
+  
+  # gain scaling
+  b <- c(1, -0.5, 0.25)
+  a <- c(1, -0.2)
+  n1 <- filternorm(b, a)
+  n2 <- filternorm(3 * b, a)
+  expect_equal(n2, 3 * n1)
+  
+  # zero numerator
+  ba <- Arma(c(0, 0, 0), c(1, -0.5))
+  expect_equal(filternorm(ba), 0)
+  
+  # denominator normalization
+  b <- c(1, 2, 1)
+  a <- c(1, -0.3)
+  n1 <- filternorm(b, a)
+  n2 <- filternorm(5 * b, 5 * a)
+  expect_equal(n1, n2)
+  
+  # complex coefficients
+  b <- c(1, 1i)
+  a <- c(1, -0.2)
+  L <- filternorm(b, a)
+  expect_true(isPosscal(L))
+  
+  # long filter
+  b <- runif(100)
+  a <- c(1, runif(20) * 0.01)
+  L = filternorm(b, a)
+  expect_true(is.finite(L))
+  expect_true(isPosscal(L))
+
+  # unstable filter
+  zpg <- Zpg(1, c(1, -1.2), 1) # Pole outside the unit circle
+  L <- filternorm(zpg)
+  expect_true(is.na(L) || is.infinite(L) || isPosscal(L))
+
+})
 
 # -----------------------------------------------------------------------
 # freqs()

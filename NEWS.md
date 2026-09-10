@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9004
+# gsignal 0.4.0.9005
 
-* date: 20260901
+* date: 20260910
+* Added function `filternorm()` (Filter Analysis section)
 * Added function `corrmtx()` (Correlation and Convolution section)
 * Added function `vco()` (Signals section)
 * Fixed issue #25: `findpeaks()` gives cryptic error message
