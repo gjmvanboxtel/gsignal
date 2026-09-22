@@ -40,7 +40,7 @@ isPosscal <- function(x) isScalar(x) && is.numeric(x) && x >= 0
 
 # test if x is a whole number
 isWhole <- function(x, tol = .Machine$double.eps * 5)
-  !(is.null(x) || is.character(x)) && any(abs(x - round(x)) < tol)
+  !(is.null(x) || is.character(x)) && all(abs(x - round(x)) < tol)
 
 # convert factor to numeric
 unfactor <- function(f)

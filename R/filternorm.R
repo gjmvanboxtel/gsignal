@@ -33,7 +33,8 @@
 #'
 #' @param filt For the default case, the moving-average coefficients of an ARMA
 #'   filter (normally called \code{b}), specified as a numeric or complex
-#'   vector. Generically, \code{filt} specifies an arbitrary filter operation.
+#'   vector. Generically, \code{filt} specifies an arbitrary model or filter
+#'   operation.
 #' @param a the autoregressive (recursive) coefficients of an ARMA filter,
 #'   specified as a numeric or complex vector. If \code{a[1]} is not equal to 1,
 #'   then filter normalizes the filter coefficients by \code{a[1]}. Therefore,
@@ -72,12 +73,12 @@
 #' #internal signals more strongly, even if both filters have similar passband
 #' #responses.
 #' 
-#' 
 #' ## 2. Normalizing a filter
 #' 
 #' # A filter may have excessive gain because of its coefficient values or
 #' # design requirements:
-#' 
+#'
+#' ba <- butter(4, fc / (fs / 2))
 #' n <- filternorm(ba)
 #' b_normalized <- ba$b / n
 #' a_normalized <- ba$a
@@ -90,7 +91,6 @@
 #' desired_gain <- 2
 #' b_normalized <- desired_gain * ba$b / n
 #' ba_normalized <- Arma(b_normalized, a_normalized)
-#' 
 #' 
 #' ## 3. Comparing filters with respect to noise amplification
 #' 
@@ -106,7 +106,6 @@
 #' # If one filter has a substantially larger norm, it may amplify round-off
 #' # noise or quantization effects more strongly. This is particularly relevant
 #' # when implementing filters with short word lengths.
-#' 
 #' 
 #' ## 4. Scaling sections in a cascaded filter
 #' 
@@ -135,8 +134,7 @@
 #' ### In practice, filternorm should be used alongside other tools such as
 #' ### freqz, rather than as the only measure of filter quality.
 #' 
-#'
-#' @author Leonardo Araujo \email{leolca@@gmail.com>}.\cr Conversion to R by
+#' @author Leonardo Araujo \email{leolca@@gmail.com}.\cr Conversion to R by
 #'   Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}.
 #'
 #' @rdname filternorm
@@ -145,15 +143,40 @@
 filternorm <- function(filt, ...) UseMethod("filternorm")
 
 #' @rdname filternorm
+#' @method filternorm Arma
+#' @export
+filternorm.Arma <- function(filt, ...) # IIR
+  filternorm(filt$b, filt$a, ...)
+
+#' @rdname filternorm
+#' @method filternorm Ma
+#' @export
+filternorm.Ma <- function(filt, ...) # FIR
+  filternorm(unclass(filt), ...)
+
+#' @rdname filternorm
+#' @method filternorm Sos
+#' @export
+filternorm.Sos <- function(filt, ...) { # Second-order sections
+  filternorm(as.Arma(filt), ...)
+}
+
+#' @rdname filternorm
+#' @method filternorm Zpg
+#' @export
+filternorm.Zpg <- function(filt, ...) # zero-pole-gain form
+  filternorm(as.Arma(filt), ...)
+
+#' @rdname filternorm
 #' @method filternorm default
 #' @export
 
-filternorm.default <- function(filt, a, pnorm = 2, tol = 1e-8, ...) {
+filternorm.default <- function(filt, a = 1, pnorm = 2, tol = 1e-8, ...) {
   
   if (!is.vector(filt) || ! is.vector(a)) {
     stop("b and a must be numeric vectors")
   }
-
+  
   if (pnorm != 2 && pnorm != Inf) {
     stop("pnorm must be 2 or Inf")
   }
@@ -167,7 +190,7 @@ filternorm.default <- function(filt, a, pnorm = 2, tol = 1e-8, ...) {
     ## response H(e^{j\omega}) is the square-root of the sum of the squares
     ## of its filter impulse response (the energy of the impulse response).
     h <- impz(filt, a)$x
-    L <- sqrt(sum(abs(h)^2))
+    L <- sqrt(sum(abs(h)^2))  # equivalent to pracma::Norm(h)
   }
   else if (pnorm == Inf) {
     ## the norm in L-infinity is simply the maximum of the frequency response:
@@ -177,28 +200,3 @@ filternorm.default <- function(filt, a, pnorm = 2, tol = 1e-8, ...) {
   }
   L
 }
-
-#' @rdname filternorm
-#' @method filternorm Arma
-#' @export
-filternorm.Arma <- function(filt, pnorm = 2, tol = 1e-8, ...) # IIR
-  filternorm(filt$b, filt$a, pnorm, tol, ...)
-
-#' @rdname filternorm
-#' @method filternorm Ma
-#' @export
-filternorm.Ma <- function(filt, pnorm = 2, tol = 1e-8, ...) # FIR
-  filternorm(unclass(filt), 1, pnorm, tol, ...)
-
-#' @rdname filternorm
-#' @method filternorm Sos
-#' @export
-filternorm.Sos <- function(filt, pnorm = 2, tol = 1e-8, ...) { # Second-order sections
-  filternorm(as.Arma(filt), pnorm, tol, ...)
-}
-
-#' @rdname filternorm
-#' @method filternorm Zpg
-#' @export
-filternorm.Zpg <- function(filt, pnorm = 2, tol = 1e-8, ...) # zero-pole-gain form
-  filternorm(as.Arma(filt), pnorm, tol, ...)

@@ -8,12 +8,10 @@ tol <- 1e-6
 
 test_that("parameters to filternorm() are correct", {
   expect_error(filternorm())
-  expect_error(filternorm(1))
   expect_error(filternorm(1, 1, 1))
   expect_error(filternorm(1, 1, 2, -1))
   expect_error(filternorm(matrix(1:10, 5, 2), 1))
   expect_error(filternorm(1, matrix(1:10, 5, 2)))
-  expect_error(filternorm(rep(1L, 3), rep(1L, 3)))
 })
 
 test_that("filternorm() tests are correct", {
@@ -51,6 +49,15 @@ test_that("filternorm() tests are correct", {
   a <- c(1, -0.2)
   L <- filternorm(b, a)
   expect_true(isPosscal(L))
+  
+  expect_equal(filternorm(c(1, 1i), 1), sqrt (2))
+
+  ## Complex IIR impulse responses have real, nonnegative energy.
+  b <- c(1, 1i)
+  a <- c(1, -0.2)
+  L <- filternorm(b, a)
+  expect_true(is.numeric(L))
+  expect_equal(filternorm(b, a, 2), L)
   
   # long filter
   b <- runif(100)
@@ -277,5 +284,95 @@ test_that("impz() tests are correct", {
   expect_equal(length(xt$t), 102L)
   expect_equal(xt$t, 0:101)
   
+  ## FIR filter with scalar n
+  xt <- impz(1, c(1, -0.5), 5)
+  expect_equal(xt$x, c(1, 0.5, 0.25, 0.125, 0.0625))
+  expect_equal(xt$t, 0:4)
+  
+  ## FIR filter with vector n
+  xt <- impz(1, c(1, -0.5), c(0, 2, 4), 2)
+  expect_equal(xt$x, c(1, 0.25, 0.0625))
+  expect_equal(xt$t, c(0, 2, 4) / 2)
+  
+  ## With fs provided
+  xt <- impz(1, c(1, -1, 0.9), 10, 1000)
+  expect_equal(length(xt$x), 10)
+  expect_equal(length(xt$t), 10)
+  expect_equal(xt$t[2] - xt$t[1], 0.001)
+  
+})
+
+# -----------------------------------------------------------------------
+# impzlength()
+
+test_that("parameters to impzlength() are correct", {
+  expect_error(impzlength())
+  expect_error(impzlength('invalid'))
+  expect_error(impzlength(1, 'invalid'))
+  expect_error(impzlength(1, 1, 'invalid'))
+  expect_error(impzlength(1, 1, -1))
+})
+
+test_that("impzlength() tests are correct", {
+  
+  ## tests below shows different pole cases
+
+  ## FIR filter
+  expect_equal(impzlength(c(1, 2, 3, 4, 5)), 5)
+  
+  ## Stable IIR filter and with different tolerance
+  b <- 1
+  a <- c(1, -0.95)
+  len1 <- impzlength(b, a)
+  len2 <- impzlength(b, a, 1e-3)
+  len3 <- impzlength(b, a, 1e-7)
+  expect_equal(len1, 193)
+  expect_equal(len2, 134)
+  expect_equal(len3, 314)
+    
+  ## Unstable IIR filter
+  b <- 1
+  a <- c(1, -1.1)
+  expect_equal(impzlength(b, a), 144)
+
+  ## Oscillatory IIR filter
+  b <- 1
+  a <- c(1, 0.5, 1)
+  expect_equal(impzlength(b, a), 17)
+
+  ## IIR filter with repeated poles
+  b <- 1
+  a <- conv(c(1, -0.9), c(1, -0.9))
+  expect_equal(impzlength(b, a), 187)
+  
+  ## Oscillatory IIR filter with damped component
+  b <- 1
+  a1 <- c(1, 0.5, 1)  ## oscillatory,len = 17
+  a2 <- c(1, -0.1)    ## damped,len=4
+  a3 <- c(1, -0.9)    ## damped,len=93
+  len1 <- impzlength(b, conv(a1, a2))  ## damped component shorter than oscillatory
+  len2 <- impzlength(b, a2)            ## damped
+  len3 <- impzlength(b, conv(a1, a3))  ## damped component longer than oscillatory
+  expect_equal(len1, 17)
+  expect_equal(len2, 4)
+  expect_equal(len3, 93)
+  
+  ## IIR filter with delay
+  b <- c(0, 0, 1) 
+  a <- c(1, -0.95)
+  expect_equal(impzlength(b, a), 195)  ## 193 + 2 delay
+              
+  ## Special case: this is why r(i) = -r(i) to avoid case with arg(r) near 0
+  b <- 1
+  a <- c(1, -1)
+  expect_equal(impzlength(b, a), 10)
+  
+  # zero numerator
+  ba <- Arma(c(0, 0, 0), c(1, -0.5))
+  expect_equal(impzlength(ba), 14)
+  
+  ## Second-order sections input
+  sos <- ellip (4, 1, 60, 0.4, output = "Sos")
+  expect_equal(impzlength(sos), 80)
 })
 

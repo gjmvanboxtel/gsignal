@@ -69,9 +69,24 @@ impz(elp)
 
 xt <- impz(elp)
 
+## Impulse response with a custom number of points
+impz(1, c(1, -0.9), 30)
+
+## Impulse response at specific sample indices
+impz (1, c(1, -0.9), c(0, 5, 10, 15, 20))
+
+## Impulse response with sampling frequency (time axis in seconds)
+ba <- butter(4, 0.2)
+impz (ba, fs =1000)
+
+## Impulse response at specific time points with sampling frequency
+ba <- butter (4, 0.2)
+impz (ba, seq(0, 50, 5), 1000)
+
 }
 \author{
-Paul Kienzle, \email{pkienzle@users.sf.net}.\cr
+Paul Kienzle, \email{pkienzle@users.sf.net}, Tang Chonghao 
+\email{chadholton@qq.com}.\cr
 Conversion to R by Tom Short;\cr
  adapted by Geert van Boxtel, \email{gjmvanboxtel@gmail.com}
 }

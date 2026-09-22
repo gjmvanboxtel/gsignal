@@ -2,29 +2,30 @@
 % Please edit documentation in R/filternorm.R
 \name{filternorm}
 \alias{filternorm}
-\alias{filternorm.default}
 \alias{filternorm.Arma}
 \alias{filternorm.Ma}
 \alias{filternorm.Sos}
 \alias{filternorm.Zpg}
+\alias{filternorm.default}
 \title{2-norm or infinity-norm of digital filter}
 \usage{
 filternorm(filt, ...)
 
-\method{filternorm}{default}(filt, a, pnorm = 2, tol = 1e-08, ...)
+\method{filternorm}{Arma}(filt, ...)
 
-\method{filternorm}{Arma}(filt, pnorm = 2, tol = 1e-08, ...)
+\method{filternorm}{Ma}(filt, ...)
 
-\method{filternorm}{Ma}(filt, pnorm = 2, tol = 1e-08, ...)
+\method{filternorm}{Sos}(filt, ...)
 
-\method{filternorm}{Sos}(filt, pnorm = 2, tol = 1e-08, ...)
+\method{filternorm}{Zpg}(filt, ...)
 
-\method{filternorm}{Zpg}(filt, pnorm = 2, tol = 1e-08, ...)
+\method{filternorm}{default}(filt, a = 1, pnorm = 2, tol = 1e-08, ...)
 }
 \arguments{
 \item{filt}{For the default case, the moving-average coefficients of an ARMA
 filter (normally called \code{b}), specified as a numeric or complex
-vector. Generically, \code{filt} specifies an arbitrary filter operation.}
+vector. Generically, \code{filt} specifies an arbitrary model or filter
+operation.}
 
 \item{...}{additional arguments (ignored).}
 
@@ -78,12 +79,12 @@ cat("FIR norm:", n2)
 #internal signals more strongly, even if both filters have similar passband
 #responses.
 
-
 ## 2. Normalizing a filter
 
 # A filter may have excessive gain because of its coefficient values or
 # design requirements:
 
+ba <- butter(4, fc / (fs / 2))
 n <- filternorm(ba)
 b_normalized <- ba$b / n
 a_normalized <- ba$a
@@ -96,7 +97,6 @@ ba_normalized <- Arma(b_normalized, a_normalized)
 desired_gain <- 2
 b_normalized <- desired_gain * ba$b / n
 ba_normalized <- Arma(b_normalized, a_normalized)
-
 
 ## 3. Comparing filters with respect to noise amplification
 
@@ -112,7 +112,6 @@ cat("Moving-average norm:", n_ma)
 # If one filter has a substantially larger norm, it may amplify round-off
 # noise or quantization effects more strongly. This is particularly relevant
 # when implementing filters with short word lengths.
-
 
 ## 4. Scaling sections in a cascaded filter
 
@@ -141,9 +140,8 @@ baB_scaled <- Arma(bB_scaled, baB$a)
 ### In practice, filternorm should be used alongside other tools such as
 ### freqz, rather than as the only measure of filter quality.
 
-
 }
 \author{
-Leonardo Araujo \email{leolca@gmail.com>}.\cr Conversion to R by
+Leonardo Araujo \email{leolca@gmail.com}.\cr Conversion to R by
   Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.
 }

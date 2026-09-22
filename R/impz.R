@@ -2,6 +2,7 @@
 # Copyright (C) 2020 Geert van Boxtel <gjmvanboxtel@gmail.com>
 # Original Octave function:
 # Copyright (C) 1999 Paul Kienzle <pkienzle@users.sf.net>
+# Copyright (C) 2026 Tang Chonghao <chadholton@qq.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
 # Version history
 # 20200423  GvB       setup for gsignal v0.1.0
 # 20210420  GvB       bugfix, added impz.Zpg
+# 20260922  GvB       implemented changes in Octave function
 #------------------------------------------------------------------------------
 
 #' Impulse response of digital filter
@@ -58,8 +60,23 @@
 #' impz(elp)
 #'
 #' xt <- impz(elp)
+#' 
+#' ## Impulse response with a custom number of points
+#' impz(1, c(1, -0.9), 30)
 #'
-#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}.\cr
+#' ## Impulse response at specific sample indices
+#' impz (1, c(1, -0.9), c(0, 5, 10, 15, 20))
+#' 
+#' ## Impulse response with sampling frequency (time axis in seconds)
+#' ba <- butter(4, 0.2)
+#' impz (ba, fs =1000)
+#' 
+#' ## Impulse response at specific time points with sampling frequency
+#' ba <- butter (4, 0.2)
+#' impz (ba, seq(0, 50, 5), 1000)
+#' 
+#' @author Paul Kienzle, \email{pkienzle@@users.sf.net}, Tang Chonghao 
+#' \email{chadholton@@qq.com}.\cr
 #' Conversion to R by Tom Short;\cr
 #'  adapted by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
 #'
@@ -127,52 +144,84 @@ impz.default <- function(filt, a = 1, n = NULL, fs = 1, ...)  {
 
   b <- filt
 
-  if (length(n) == 0 && length(a) > 1) {
-    precision <- 1e-6
-    r <- pracma::roots(a)
-    maxpole <- max(abs(r))
-    if (maxpole > 1 + precision) {        # unstable -- cutoff at 120 dB
-      n <- floor(6 / log10(maxpole))
-    } else if (maxpole < 1 - precision) { # stable -- cutoff at -120 dB
-      n <- floor(-6 / log10(maxpole))
-    } else {                              # periodic -- cutoff after 5 cycles
-      n <- 30
-
-      ## find longest period less than infinity
-      ## cutoff after 5 cycles (w=10*pi)
-      rperiodic <- r[abs(r) >= 1 - precision & abs(Arg(r)) > 0]
-      if (!is.null(rperiodic) && length(rperiodic) > 0) {
-        n_periodic <- ceiling(10 * pi / min(abs(Arg(rperiodic))))
-        if (n_periodic > n) {
-          n <- n_periodic
-        }
-      }
-
-      ## find most damped pole
-      ## cutoff at -60 dB
-      rdamped <- r[abs(r) < 1 - precision]
-      if (!is.null(rdamped) && length(rdamped) > 0) {
-        n_damped <- floor(-3 / log10(max(abs(rdamped))))
-      }
-      if (n_damped > n) {
-        n <- n_damped
-      }
+  # Old code
+  # if (length(n) == 0 && length(a) > 1) {
+  #   precision <- 1e-6
+  #   r <- pracma::roots(a)
+  #   maxpole <- max(abs(r))
+  #   if (maxpole > 1 + precision) {        # unstable -- cutoff at 120 dB
+  #     n <- floor(6 / log10(maxpole))
+  #   } else if (maxpole < 1 - precision) { # stable -- cutoff at -120 dB
+  #     n <- floor(-6 / log10(maxpole))
+  #   } else {                              # periodic -- cutoff after 5 cycles
+  #     n <- 30
+  # 
+  #     ## find longest period less than infinity
+  #     ## cutoff after 5 cycles (w=10*pi)
+  #     rperiodic <- r[abs(r) >= 1 - precision & abs(Arg(r)) > 0]
+  #     if (!is.null(rperiodic) && length(rperiodic) > 0) {
+  #       n_periodic <- ceiling(10 * pi / min(abs(Arg(rperiodic))))
+  #       if (n_periodic > n) {
+  #         n <- n_periodic
+  #       }
+  #     }
+  # 
+  #     ## find most damped pole
+  #     ## cutoff at -60 dB
+  #     rdamped <- r[abs(r) < 1 - precision]
+  #     if (!is.null(rdamped) && length(rdamped) > 0) {
+  #       n_damped <- floor(-3 / log10(max(abs(rdamped))))
+  #     }
+  #     if (n_damped > n) {
+  #       n <- n_damped
+  #     }
+  #   }
+  #   n <- n + length(b)
+  # } else if (is.null(n)) {
+  #   n <- length(b)
+  # } else if (length(n) > 1) {
+  #   t <- n
+  #   n <- length(t)
+  # }
+  
+  ## Determine n (number of points or vector of indices)
+  n_is_vector <- FALSE
+  if (length(n) <= 0) {
+    ## Auto-compute length using impzlength
+    n <- impzlength(b, a)
+  } else if (isScalar(n)) {
+    ## n is a given number for points
+    if (n < 0 || !isWhole(n)) {
+      stop("n must be a non-negative integer when specified")
     }
-    n <- n + length(b)
-  } else if (is.null(n)) {
-    n <- length(b)
-  } else if (length(n) > 1) {
-    t <- n
-    n <- length(t)
-  }
-  if (length(a) == 1) {
-    x <- fftfilt(b / a, c(1, numeric(n - 1)))
   } else {
-    x <- filter(b, a, c(1, numeric(n - 1)))
+    ## n is a vector of non-negative integer indices
+    if (any(n < 0) || any(!isWhole(n))) {
+      stop("n must contain non-negative integers when specified")
+    }
+    n_is_vector <- TRUE
   }
   
-  t <- (0:(length(x) - 1)) / fs
-
+  ## Compute impulse response
+  if (n_is_vector) {
+    max_n <- max(n)
+    if (length(a) == 1) {
+      x_full <- fftfilt(b / a, c(1, numeric(max_n)))
+    } else {
+      x_full <- filter(b, a, c(1, numeric(max_n)))
+    }
+    ## Extract the impulse response at the specified indices
+    x <- x_full[n + 1]
+    t <- n / fs
+  } else {
+    if (length(a) == 1) {
+      x <- fftfilt(b / a, c(1, numeric(n - 1)))
+    } else {
+      x <- filter(b, a, c(1, numeric(n - 1)))
+    }
+    t <- (0:(length(x) - 1)) / fs
+  }
+  
   res <- list(x = x, t = t)
   class(res) <- "impz"
   res
