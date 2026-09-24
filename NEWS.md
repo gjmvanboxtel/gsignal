@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9006
+# gsignal 0.4.0.9007
 
-* date: 20260922
+* date: 20260924
+* Added function `filtord()` (Filter Analysis section)
 * Added function `impzlength()` (Filter Analysis section)
 * Changes to `impz()`
 * Added function `filternorm()` (Filter Analysis section)

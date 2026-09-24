@@ -74,6 +74,32 @@ test_that("filternorm() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# filtord()
+
+test_that("parameters to filtord() are correct", {
+  expect_error(filtord())
+})
+
+test_that("filtord() tests are correct", {
+  b <- c(1, 0, 0)
+  a <- c(1, 0, 0, 0)
+  expect_equal(filtord(b, a), 3)
+
+  ba <- butter(5, .5)
+  expect_equal(filtord(ba), 5)
+  
+  ba <- butter(6, .5)
+  expect_equal(filtord(ba), 6)
+
+  sos <- tf2sos(c(1, 0, 0, 0, 0, 0, 0, 1), c(1, 0, 0, 0, 0, 0, 0, .5))
+  expect_equal(filtord(sos), 7)  
+
+  zpg <- tf2zp(c(1, 0, 0, 0, 0, 0, 1), c(1, 0, 0, 0, 0, 0, .5))
+  expect_equal(filtord(zpg), 6)  
+  
+})
+
+# -----------------------------------------------------------------------
 # freqs()
 
 test_that("parameters to freqs() are correct", {
