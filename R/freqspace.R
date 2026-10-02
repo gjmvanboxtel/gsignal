@@ -1,0 +1,184 @@
+# freqspace.R
+# Copyright (C) 2026 Geert van Boxtel <gjmvanboxtel@gmail.com>
+# Original Octave function:
+# Copyright (C) 2026 Tang Chonghao <chadholton@qq.com>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# Version history
+# 20261002  GvB       setup for gsignal v0.4.0
+#------------------------------------------------------------------------------
+
+#' Frequency spacing for frequency response
+#' 
+#' Compute the implied frequency range for equally spaced frequency responses. 
+#' The function is useful when creating desired frequency responses for
+#' various one- and two-dimensional applications.
+#' 
+#' 
+#' @details
+#' \itemize{
+#'  \item{If the argument \code{n} is a single scalar value, and the
+#'    argument \code{output = "1d"}, the function returns a
+#'    frequency vector with evenly spaced points in the range the unit circle:
+#'    (\code{seq(0, 1, 2 / n)}. Range 0 to 1.}
+#'  \item{If \code{output = "whole"}, the function returns evenly spaced points
+#'     around the whole unit circle. In this case, the return value is
+#'     \code{seq(0, 2 * (n - 1) / n, 2 / n)}. Range: 0 to 2. The specification
+#'     of \code{output = "1d"} is implied in this case.}
+#'  \item{If the argument \code{n} is a single scalar value, and the
+#'    argument \code{output} is \code{"2d"}, the function returns a
+#'    list of two equal frequency vectors, \code{x} and \code{y}, with evenly
+#'    spaced points around the unit circle. Range -1 to 1.}
+#'  \item{If the input argument \code{n} is two-element vector \code{c(m, n)},
+#'    then the function returns returns a list with frequency vectors \code{x}
+#'    and \code{y} for an m-by-n matrix. Range: -1 to 1. The specification of
+#'    \code{output = "2d"} is implied in this case.}
+#'  \item{If \code{output = "meshgrid} is specified, the function returns a 
+#'    list with two matrices \code{x) and \code{y} for use in three-dimensional
+#'    plots. Range: -1 to 1. The specification of \code{output = "2d"} is
+#'    implied in this case.}
+#' }
+#' 
+#' @param n length of frequency vectors, either specified as a single
+#'   positive scalar, or as a two-element vector of positive numeric values.
+#' @param output Type of output, one of:
+#'   \describe{
+#'    \item{"1d"}{ruturns a vector of frequencies (default)}
+#'    \item{"whole"}{returns a frequency vector over the whole of the unit
+#'       circle. Implies \code{output = "1d"}}
+#'    \item{"2d"}{returns a list containing two vectors of frequencies,
+#'      \code{x} and \code{y}}
+#'    \item{"meshgrid}{returns a list containing two matrices, \code{x} and
+#'      \code{y}. Implies \code{output = "2d"}}
+#'   }
+#'   See Details for additional information
+#'   
+#' @returns Either a vector of length \code{n}, or a list containing two
+#'   vectors or two matrices, \code{x} and \code{y}, depending on the
+#'   parameter \code{output}. See Details for additional information.
+#'
+#' @examples
+#' 
+#' 
+#' # Display 2-D frequency grid points 
+#' n <- 9
+#' f <- freqspace(9, 'mesh')
+#' plot(f$x, f$y, xlab = "x (normalized frequency)", 
+#'   ylab = "y (normalized frequency)",
+#'   main = paste("2-D frequency grid from freqspace (9)\n",
+#'  "Each point corresponds to a 2-D DFT frequency"),
+#'  xlim = c(-1.2, 1.2), ylim = c(-1.2, 1.2))
+#' 
+#' # Design a simple 2-D lowpass frequency response using freqspace
+#' n <- 21
+#' f <- freqspace(n, "meshgrid")
+#' # Design an ideal circularly symmetric lowpass filter, cutoff 0.4
+#' r <- sqrt(f$x^2 + f$y^2)
+#' H <- matrix(as.numeric(r <= 0.4), dim(r))
+#' if (require("plotly")) {
+#'   sz <- 0.15
+#'   plotly::plot_ly(x = f$x, y = f$y, z = H, type = "surface",
+#'     showscale = FALSE,
+#'     colorscale = list(c(0, "white"), c(1, "white")),
+#'     contours = list(
+#'         x = list(show = TRUE, color = "steelblue",
+#'         start = min(f$x), end = max(f$x), step = sz, size = sz),
+#'         y = list(show = TRUE, color = "steelblue",
+#'         start = min(f$y), end = max(f$y),  step = sz, size = sz),
+#'         z = list(show = TRUE, color = "steelblue",
+#'         start = 0, end = 1, step = sz, size = sz)
+#'     )) %>%
+#'     layout(title = "2-D lowpass frequency response") %>%
+#'     add_surface()
+#' } 
+#'   
+#'
+#' @author Tang Chonghao \email{chadholton@@qq.com}.\cr
+#'  Conversion to R by Geert van Boxtel, \email{gjmvanboxtel@@gmail.com}
+#'
+#' @export
+
+freqspace <- function(n, output = c("1d", "whole", "2d", "meshgrid")) {
+  
+  if (!(length(n) == 1 || length(n) == 2)) {
+    stop("n must be a scalar or a vector or length 2")
+  }
+  if (!is.numeric(n)) {
+    stop("n must be numeric")
+  } else {
+    if (any(n <= 0)) {
+      stop("n must contain positive values")
+    }
+  }
+  
+  meshgrid_flag <- whole_flag <- FALSE
+  dim_out <- 1
+  output <- match.arg(output)
+  if (output == "2d") {
+    dim_out <- 2
+  } else  if (output == 'meshgrid') {
+    meshgrid_flag <- TRUE
+    dim_out <- 2
+  } else if (output == 'whole') {
+    whole_flag <- TRUE
+  } 
+  
+  # one input and one output argument
+  if (length(n) == 1 && dim_out == 1) {
+
+    if (whole_flag) {
+      # f <- freqspace(n, 'whole')
+      ret <- seq(0, 2 * (n - 1) / n, 2 / n)
+    } else {
+      # f <- freqspace(n)
+      ret <- seq(0, 1, 2 / n)
+    }
+    
+  # two output arguments
+  } else {
+    
+    if (isScalar(n)) {
+      # list(x, y)  <- freqspace(n)
+      m <- n
+    } else {
+      # list(x, y) <- freqspace(c(m, n))
+      m <- n[1]
+      n <- n[2]
+    }
+  
+    if (n %% 2 == 0) {
+      x <- seq(-n, n - 2, 2) / n
+    } else {
+      x <- seq(-n + 1, n - 1, 2) / n
+    }
+  
+    if (m %% 2 == 0) {
+      y <- seq(-m, m - 2, 2) / m
+    } else {
+      y <- seq(-m + 1, m - 1, 2) / m
+    }
+  
+    if (meshgrid_flag) {
+      # list(x, y) <- freqspace(...,'meshgrid')
+      msh <- pracma::meshgrid (x, y)
+      ret <- list(x = msh$X, y = msh$Y)
+    } else {
+      ret <- list(x = x, y = y)
+    }  
+
+  }
+  
+  ret
+}

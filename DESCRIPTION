@@ -1,8 +1,8 @@
 Package: gsignal
 Type: Package
 Title: Signal Processing
-Version: 0.4.0-9007
-Date: 2026-09-24
+Version: 0.4.0-9008
+Date: 2026-10-02
 Authors@R:
     c(person("Geert", "van Boxtel", role = c("aut", "cre"),
              email = "G.J.M.vanBoxtel@gmail.com",
@@ -34,6 +34,7 @@ Suggests:
     ggplot2,
     gridExtra,
     microbenchmark,
-    covr
+    covr,
+    plotly
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.1.0

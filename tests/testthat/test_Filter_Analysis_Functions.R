@@ -118,6 +118,39 @@ test_that("freqs() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# freqspace()
+
+test_that("parameters to freqspace() are correct", {
+  expect_error(freqspace())
+  expect_error(freqspace(-1))
+  expect_error(freqspace(1, 2))
+  expect_error(freqspace(c(1, 2, 3)))
+  expect_error(freqspace(1, 'invalid'))
+})
+
+test_that("freqspace() tests are correct", {
+  # 1D: freqspace(n) returns upper half-circle points
+  expect_equal(freqspace(4), c(0, 0.5, 1))
+  expect_equal(freqspace(5), c(0, 0.4, 0.8))
+  expect_equal(freqspace(1), 0)
+
+  # 1D: freqspace(n, 'whole') returns full unit circle
+  expect_equal(freqspace(4, 'whole'), c(0, 0.5, 1, 1.5))
+  expect_equal(freqspace(5, 'whole'), c(0, 0.4, 0.8, 1.2, 1.6))
+  expect_equal(freqspace(2, 'whole'), c(0, 1))
+
+  # 2D: f < freqspace(n, '2d')
+  f <- freqspace(5, '2d')
+  expect_equal(f$x, c(-0.8, -0.4, 0, 0.4, 0.80))
+  expect_equal(f$y, c(-0.8, -0.4, 0, 0.4, 0.8))
+        
+  # 2D: f <- freqspace(c(m,n))
+  f <- freqspace(c(4, 3))
+  expect_equal(f$x, c(-2 / 3, 0, 2 / 3))
+  expect_equal(f$y, c(-1, -0.5, 0, 0.5))
+          
+})
+# -----------------------------------------------------------------------
 # fwhm()
 
 test_that("parameters to fwhm() are correct", {

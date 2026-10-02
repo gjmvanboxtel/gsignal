@@ -1,6 +1,7 @@
 # gsignal 0.4.0.9007
 
-* date: 20260924
+* date: 20261002
+* Added function `freqspace()` (Filter Analysis section)
 * Added function `filtord()` (Filter Analysis section)
 * Added function `impzlength()` (Filter Analysis section)
 * Changes to `impz()`
