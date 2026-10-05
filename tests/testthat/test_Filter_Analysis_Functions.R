@@ -435,3 +435,34 @@ test_that("impzlength() tests are correct", {
   expect_equal(impzlength(sos), 80)
 })
 
+# -----------------------------------------------------------------------
+# isallpass()
+
+test_that("parameters to isallpass() are correct", {
+  expect_error(isallpass())
+  expect_error(isallpass('invalid'))
+})
+
+test_that("isallpass() tests are correct", {
+  
+  b <- c((1 + 1i) / 2, -1)
+  a <- c(1, -(1 - 1i) / 2)
+  expect_true(isallpass(b, a))
+  
+  b <- c((1 + 1i) / 2, -1)
+  a <- c(-1, (1 - 1i) / 2)
+  expect_true(isallpass(b, a))
+  
+  ba <- butter(1, 0.5)
+  expect_false(isallpass(ba))
+
+  sos <- butter(1, 0.5, output = "Sos")
+  expect_false(isallpass(sos))
+  
+  b1 <- 0.5 * (1 + 1i)
+  b2 <- 0.7 * (cos(pi / 6) + 1i * sin(pi / 6))
+  b <- conv(c(b1, -1), c(b2, -1))
+  a <- conv(c(1, -Conj(b1)), c(1, -Conj(b2)))
+  expect_true(isallpass(b, a))
+
+})

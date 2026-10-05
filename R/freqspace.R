@@ -26,8 +26,6 @@
 #' The function is useful when creating desired frequency responses for
 #' various one- and two-dimensional applications.
 #' 
-#' 
-#' @details
 #' \itemize{
 #'  \item{If the argument \code{n} is a single scalar value, and the
 #'    argument \code{output = "1d"}, the function returns a
@@ -45,8 +43,8 @@
 #'    then the function returns returns a list with frequency vectors \code{x}
 #'    and \code{y} for an m-by-n matrix. Range: -1 to 1. The specification of
 #'    \code{output = "2d"} is implied in this case.}
-#'  \item{If \code{output = "meshgrid} is specified, the function returns a 
-#'    list with two matrices \code{x) and \code{y} for use in three-dimensional
+#'  \item{If \code{output = "meshgrid"} is specified, the function returns a 
+#'    list with two matrices \code{x} and \code{y} for use in three-dimensional
 #'    plots. Range: -1 to 1. The specification of \code{output = "2d"} is
 #'    implied in this case.}
 #' }

@@ -33,7 +33,28 @@ The function is useful when creating desired frequency responses for
 various one- and two-dimensional applications.
 }
 \details{
-
+\itemize{
+ \item{If the argument \code{n} is a single scalar value, and the
+   argument \code{output = "1d"}, the function returns a
+   frequency vector with evenly spaced points in the range the unit circle:
+   (\code{seq(0, 1, 2 / n)}. Range 0 to 1.}
+ \item{If \code{output = "whole"}, the function returns evenly spaced points
+    around the whole unit circle. In this case, the return value is
+    \code{seq(0, 2 * (n - 1) / n, 2 / n)}. Range: 0 to 2. The specification
+    of \code{output = "1d"} is implied in this case.}
+ \item{If the argument \code{n} is a single scalar value, and the
+   argument \code{output} is \code{"2d"}, the function returns a
+   list of two equal frequency vectors, \code{x} and \code{y}, with evenly
+   spaced points around the unit circle. Range -1 to 1.}
+ \item{If the input argument \code{n} is two-element vector \code{c(m, n)},
+   then the function returns returns a list with frequency vectors \code{x}
+   and \code{y} for an m-by-n matrix. Range: -1 to 1. The specification of
+   \code{output = "2d"} is implied in this case.}
+ \item{If \code{output = "meshgrid"} is specified, the function returns a 
+   list with two matrices \code{x} and \code{y} for use in three-dimensional
+   plots. Range: -1 to 1. The specification of \code{output = "2d"} is
+   implied in this case.}
+}
 }
 \examples{
 
