@@ -19,7 +19,7 @@ zplane(filt, ...)
 
 \method{zplane}{Zpg}(filt, ...)
 
-\method{zplane}{default}(filt, a, ...)
+\method{zplane}{default}(filt, a = 1, ...)
 }
 \arguments{
 \item{filt}{for the default case, the moving-average coefficients of an ARMA

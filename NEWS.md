@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9007
+# gsignal 0.4.0.9010
 
-* date: 20261005
+* date: 20261007
+* Added functions `ismaxphase()` and `isminphase` (Filter Analysis section)
 * Added function `isallpass()` (Filter Analysis section)
 * Added function `freqspace()` (Filter Analysis section)
 * Added function `filtord()` (Filter Analysis section)

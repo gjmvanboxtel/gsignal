@@ -466,3 +466,78 @@ test_that("isallpass() tests are correct", {
   expect_true(isallpass(b, a))
 
 })
+
+# -----------------------------------------------------------------------
+# ismaxphase()
+
+test_that("parameters to ismaxphase() are correct", {
+  expect_error(ismaxphase())
+  expect_error(ismaxphase('invalid'))
+  expect_error(ismaxphase(1, 1, tol = -1))
+})
+
+test_that("ismaxphase() tests are correct", {
+  
+  z1 <- c(0.9 * exp(1i * 0.6 * pi), 0.9 * exp(-1i * 0.6 * pi))
+  z2 <- c(0.8 * exp(1i * 0.8 * pi), 0.8 * exp(-1i * 0.8 * pi))
+  b <- gsignal::poly(c(z1, z2))
+  a <- 1
+  expect_false(ismaxphase(b, a))
+  
+  z1 <- c(0.9 * exp(1i * 0.6 * pi), 0.9 * exp(-1i * 0.6 * pi))
+  z2 <- c(0.8 * exp(1i * 0.8 * pi), 0.8 * exp(-1i * 0.8 * pi))
+  b <- gsignal::poly(c(1 / z1, 1 / z2))
+  a <- 1
+  expect_true(ismaxphase(b, a))
+  
+  z1 <- c(0.9 * exp(1i * 0.6 * pi), 0.9 * exp(-1i * 0.6 * pi))
+  z2 <- c(0.8 * exp(1i * 0.8 * pi), 0.8 * exp(-1i * 0.8 * pi))
+  b <- gsignal::poly(c(z1, 1 / z2))
+  a <- 1
+  expect_false(ismaxphase(b, a))
+  
+  z1 <- c(0.9 * exp(1i * 0.6 * pi), 0.9 * exp(-1i * 0.6 * pi))
+  z2 <- c(0.8 * exp(1i * 0.8 * pi), 0.8 * exp(-1i * 0.8 * pi))
+  b <- gsignal::poly(c(1 / z1, z2))
+  a <- 1
+  expect_false(ismaxphase(b, a))
+
+  ba <- butter(1, 0.5)
+  expect_false(ismaxphase(ba))
+
+  sos <- butter(1, 0.5, output = "Sos")
+  expect_false(ismaxphase(sos))
+  
+  zpg <- butter (8, .5);
+  expect_false(ismaxphase(zpg))
+})
+
+# -----------------------------------------------------------------------
+# ismaxphase()
+
+test_that("parameters to isminphase() are correct", {
+  expect_error(isminphase())
+  expect_error(isminphase('invalid'))
+  expect_error(isminphase(1, 1, tol = -1))
+})
+
+test_that("isminphase() tests are correct", {
+  
+  b <- c(3, 1)
+  a <- c(1, 0.5)
+  expect_true(isminphase(b, a))
+  
+  ba <- butter(1, 0.5)
+  expect_false(isminphase(ba))
+
+  zp <- butter(8, 0.5, output = "Zpg")
+  expect_false(isminphase(zp))
+  
+  b <- 1.25^2 * conv(conv(conv(c(1, -0.9 * exp(-1i * 0.6 * pi)),
+                               c(1, -0.9 * exp(1i * 0.6 * pi))),
+                          c(1, -0.8 * exp(-1i * 0.8 * pi))),
+                     c(1, -0.8 * exp(1i * 0.8 * pi)))
+  a <- 1
+  expect_true(isminphase(b, a))
+})
+

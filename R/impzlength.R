@@ -39,14 +39,14 @@
 #'    \item{The multiplicity of the dominant pole (the pole with the largest
 #'    magnitude) is determined by counting poles at the same complex coordinate
 #'    within tolerance.}
-#'    \item{For a stable IIR filter (dominant pole magnitude < 1 - 10^{-5}),
+#'    \item{For a stable IIR filter (dominant pole magnitude < 1 - 10^(-5),
 #'     the effective length is estimated as
 #'     
 #'     \code{floor (M * log10 (tol) / log10 (maxpole)) + delay}
 #'     
 #'     where M is the multiplicity of the dominant pole and d is the initial
 #'      delay (number of leading zeros in b).}
-#'    \item{For an unstable IIR filter (dominant pole magnitude > 1 + 10^{-4}),
+#'    \item{For an unstable IIR filter (dominant pole magnitude > 1 + 10^(-4),
 #'     a heuristic formula is used:
 #'     
 #'     \code{floor (6 / log10 (maxpole))}}
@@ -65,8 +65,8 @@
 #'   \code{a[1]} must be nonzero.
 #' @param tol specifies the tolerance used to estimate the effective length of
 #'   an IIR filter's impulse response. The default tolerance is 5e-5.
-#'   Increasing @var{tol} estimates a shorter effective length, while decreasing
-#'   @var{tol} produces a longer effective length.
+#'   Increasing \code{tol} estimates a shorter effective length, while
+#'   decreasing \code{tol} produces a longer effective length.
 #' @param ... additional arguments (ignored).
 #'
 #' @return Length of the impulse response, specified as a positive integer. For

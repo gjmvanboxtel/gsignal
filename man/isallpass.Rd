@@ -56,13 +56,13 @@ isallpass (b, a)
  
 }
 \references{
-$(1:Shyu, Jong-Jy, & Pei, Soo-Chang,
+[1] Shyu, Jong-Jy, & Pei, Soo-Chang,
 A new approach to the design of complex all-pass IIR digital filters,
 Signal Processing, 40(2–3), 207–215, 1994.
-https://doi.org/10.1016/0165-1684(94)90068-x)
+https://doi.org/10.1016/0165-1684(94)90068-x
 
-$(2:Vaidyanathan, P. P. Multirate Systems and Filter Banks.
-1st edition, Pearson College Div, 1992.)
+[2] Vaidyanathan, P. P. Multirate Systems and Filter Banks.
+1st edition, Pearson College Div, 1992.
 }
 \author{
 Leonardo Araujo \email{leolca@gmail.com},\cr

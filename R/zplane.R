@@ -99,7 +99,7 @@ zplane.Zpg <- function(filt, ...) {
 #' @rdname zplane
 #' @export
 
-zplane.default <- function(filt, a, ...) {
+zplane.default <- function(filt, a = 1, ...) {
   zplane(Zpg(pracma::roots(as.numeric(filt)),
              pracma::roots(as.numeric(a)), 1), ...)
 }
