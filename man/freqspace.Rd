@@ -89,7 +89,11 @@ if (require("plotly")) {
     )) \%>\%
     layout(title = "2-D lowpass frequency response") \%>\%
     add_surface()
-} 
+} else {
+  # alternative using base graphics
+  x <- y <- freqspace(n, "whole")
+  persp(x, y, H, theta = 30, phi = 30, expand = 0.5, col = "lightblue")
+}
   
 
 }

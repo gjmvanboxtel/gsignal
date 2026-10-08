@@ -513,7 +513,7 @@ test_that("ismaxphase() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
-# ismaxphase()
+# isminphase()
 
 test_that("parameters to isminphase() are correct", {
   expect_error(isminphase())
@@ -539,5 +539,39 @@ test_that("isminphase() tests are correct", {
                      c(1, -0.8 * exp(1i * 0.8 * pi)))
   a <- 1
   expect_true(isminphase(b, a))
+})
+
+# -----------------------------------------------------------------------
+# isstable()
+
+test_that("parameters to isstable() are correct", {
+  expect_error(isstable())
+  expect_error(isstable('invalid'))
+  expect_error(isstable(1, NULL))
+  
+})
+
+test_that("isstable() tests are correct", {
+  
+  b <- c(1, 2, 3, 4, 5, 5, 1, 2)
+  a <- 1
+  expect_true(isstable(b, a))
+  
+  b <- c(1, 2, 3, 4, 5, 5, 1, 2)
+  a <- c(4, 5, 6, 7, 9, 10, 4, 6)
+  expect_false(isstable(b, a))
+  
+  a <- gsignal::polystab(a)
+  expect_true(isstable(b, a))
+  
+  zpg <- butter(6, 0.7, 'high', output = 'Zpg')
+  expect_true(isstable(zpg))
+  
+  sos <- as.Sos(zpg)
+  expect_true(isstable(sos))
+  
+  ba <- Arma(c(1, -0.5), c(1, -1))
+  expect_false(isstable(ba))
+
 })
 
