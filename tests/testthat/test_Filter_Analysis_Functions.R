@@ -575,3 +575,43 @@ test_that("isstable() tests are correct", {
 
 })
 
+# -----------------------------------------------------------------------
+# phasez()
+
+test_that("parameters to phasez() are correct", {
+  expect_error(phasez())
+  expect_error(phasez('invalid'))
+  expect_error(phasez(NA, 1))
+  expect_error(phasez(1, NA))
+  expect_error(phasez(1, 1, -1))
+  expect_error(phasez(1, 1, 1, FALSE, 0))
+})
+
+test_that("phasez() tests are correct", {
+  
+  # FIR filter
+  n <- 2
+  b <- rep(1, n) / n
+  a <- 1
+  pw <- phasez(b, a)
+  PHI <- -pw$w * (n - 1) /2
+  expect_equal(pw$phi, PHI)
+  
+  # FIR filter
+  n <- 5
+  b <- rep(1, n) / n
+  a <- 1
+  pw <- phasez(b, a)
+  PHI <- -pw$w * (n - 1) /2
+  expect_equal(pw$phi, PHI)
+  
+  # Oppenheim - Example 5.6 - 2nd-Order IIR System
+  r <- 0.5; theta <- pi / 4
+  b <- 1
+  a <- c(1, -2 * r * cos(theta), r^2)
+  pw <- phasez(b, a)
+  PHI <- -atan(r * sin(pw$w - theta) / (1 - r * cos(pw$w - theta))) -
+    atan(r * sin(pw$w + theta) / (1 - r * cos(pw$w + theta)))
+  expect_equal(pw$phi, PHI)
+
+})

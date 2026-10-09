@@ -19,7 +19,7 @@ isminphase(filt, ...)
 
 \method{isminphase}{Zpg}(filt, ...)
 
-\method{isminphase}{default}(filt, a = 1, tol = .Machine$longdouble.eps^(3/4), ...)
+\method{isminphase}{default}(filt, a = 1, tol = .Machine$double.eps^(3/4), ...)
 }
 \arguments{
 \item{filt}{For the default case, the moving-average coefficients of an ARMA
@@ -35,7 +35,7 @@ then filter normalizes the filter coefficients by \code{a[1]}. Therefore,
 \code{a[1]} must be nonzero.}
 
 \item{tol}{tolerance to determine when two numbers are close enough to be
-considered equal. Default: .Machine$longdouble.eps^(3 / 4)}
+considered equal. Default: .Machine$double.eps^(3 / 4)}
 }
 \value{
 Logical indicating whether the filter is minimum phase

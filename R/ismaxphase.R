@@ -37,7 +37,7 @@
 #'   then filter normalizes the filter coefficients by \code{a[1]}. Therefore,
 #'   \code{a[1]} must be nonzero.
 #' @param tol tolerance to determine when two numbers are close enough to be
-#'   considered equal. Default: .Machine$longdouble.eps^(3 / 4)
+#'   considered equal. Default: .Machine$double.eps^(3 / 4)
 #' @param ... additional arguments (ignored).
 #'
 #' @return Logical indicating whether the filter is maximum phase
@@ -101,7 +101,7 @@ ismaxphase.Zpg <- function(filt, ...) # zero-pole-gain form
 #' @export
 
 ismaxphase.default <- function(filt, a = 1,
-                               tol = .Machine$longdouble.eps^(3 / 4), ...) {
+                               tol = .Machine$double.eps^(3 / 4), ...) {
   
   if (missing(filt)) {
     stop("Invalid call to ismaxphase()")
