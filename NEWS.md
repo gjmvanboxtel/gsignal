@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9011
+# gsignal 0.4.0.9012
 
-* date: 20261009
+* date: 20261012
+* Added function `stepz()` (Filter Analysis section)
 * Added function `phasez()` (Filter Analysis section)
 * Added function `isstable()` (Filter Analysis section)
 * Added functions `ismaxphase()` and `isminphase` (Filter Analysis section)

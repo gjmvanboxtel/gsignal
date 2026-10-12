@@ -615,3 +615,41 @@ test_that("phasez() tests are correct", {
   expect_equal(pw$phi, PHI)
 
 })
+
+# -----------------------------------------------------------------------
+# phasez()
+
+test_that("parameters to stepz() are correct", {
+  expect_error(stepz())
+  expect_error(stepz('invalid'))
+  expect_error(stepz(NA, 1))
+  expect_error(stepz(1, NA))
+  expect_error(stepz(1, 1, -1))
+  expect_error(stepz(1, 1, 1, FALSE))
+})
+
+test_that("phasez() tests are correct", {
+  
+  expect_equal(length(stepz(1, c(1, -1, 0.9), 100)$h), 100)
+  
+  ht <- stepz(1, c(1, -1, 0.9), 0:101)
+  expect_equal(length(ht$h), 102)
+  expect_equal(ht$t, (0:101))
+
+  ## FIR filter with scalar n
+  ht <- stepz(1, c(1, -0.5), 5)
+  expect_equal(ht$h, c(1.0000, 1.5000, 1.7500, 1.8750, 1.9375))
+  expect_equal(ht$t, (0:4))
+  
+  ## FIR filter with vector n
+  ht <- stepz(1, c(1, -0.5), c(0, 2, 4), 2)
+  expect_equal(ht$h, c(1.0000, 1.7500, 1.9375))
+  expect_equal(ht$t, c(0, 2, 4) / 2)
+    
+  ## With fs provided
+  ht <- stepz(1, c(1, -1, 0.9), 10, 1000)
+  expect_equal(length(ht$h), 10)
+  expect_equal(length(ht$t), 10)
+  expect_equal(ht$t[2] - ht$t[1], 0.001)  
+})
+
