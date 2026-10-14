@@ -1,8 +1,8 @@
 Package: gsignal
 Type: Package
 Title: Signal Processing
-Version: 0.4.0-9012
-Date: 2026-10-12
+Version: 0.4.0-9013
+Date: 2026-10-14
 Authors@R:
     c(person("Geert", "van Boxtel", role = c("aut", "cre"),
              email = "G.J.M.vanBoxtel@gmail.com",
@@ -20,7 +20,7 @@ Description: R implementation of the 'Octave' package 'signal', containing
     identification, decimation and sample rate change, and windowing.
 Depends: R (>= 3.5.0)
 LinkingTo: Rcpp
-Imports: pracma, Rcpp, grDevices
+Imports: pracma, Rcpp, grDevices, utils
 License: GPL-3
 Encoding: UTF-8
 Language: en-US

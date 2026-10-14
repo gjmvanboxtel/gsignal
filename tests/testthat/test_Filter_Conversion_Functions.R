@@ -5,6 +5,47 @@ library(testthat)
 tol <- 1e-6
 
 # -----------------------------------------------------------------------
+# eqtflength()
+
+test_that("parameters to eqtflength() are correct", {
+  expect_error(eqtflength())
+  expect_error(eqtflength(1))
+  expect_error(eqtflength(1, 2, 3))
+  expect_error(eqtflength('invalid'))
+})
+
+test_that("eqtflength() tests are correct", {
+  ret <- eqtflength(c(1, 2), c(1, 2, 3, 4))
+  expect_equal(ret$b, c(1, 2, 0, 0))
+  expect_equal(ret$a, c(1, 2, 3, 4))
+  expect_equal(ret$n, 1)
+  expect_equal(ret$m, 3)
+  
+  ret <- eqtflength(c(0, 0, 0), 1)
+  expect_equal(ret$b, c(0, 0, 0))
+  expect_equal(ret$a, c(1, 0, 0))
+  expect_equal(ret$n, 0)
+  expect_equal(ret$m, 0)
+  
+  num <- c(0, 0, 2)
+  den <- c(4, 0, 3, -1)
+  ret <- eqtflength(num, den)
+  expect_equal(ret$b, c(0, 0, 2, 0))
+  expect_equal(ret$a, c(4, 0, 3, -1))
+  expect_equal(ret$n, 2)
+  expect_equal(ret$m, 3)
+  
+  # complex coefficients
+  b <- c(0.2 + 0.1i, 0.4 - 0.3i, 0.1 + 0.2i)
+  a <- c(1, -0.5 + 0.2i)
+  ret <- eqtflength(b, a)
+  expect_equal(ret$b, c(0.2+0.1i, 0.4-0.3i, 0.1+0.2i))
+  expect_equal(ret$a, c(1.0+0.0i, -0.5+0.2i, 0.0+0.0i))
+  expect_equal(ret$n, 2)
+  expect_equal(ret$m, 1)
+})
+
+# -----------------------------------------------------------------------
 # sos2tf()
 
 test_that("parameters to sos2tf() are correct", {
