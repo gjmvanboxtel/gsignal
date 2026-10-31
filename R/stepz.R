@@ -175,10 +175,6 @@ print.stepz <- plot.stepz <- function(x, ...)
 #' @rdname stepz
 #' @export
 
-
-#' @rdname stepz
-#' @export
-
 stepz_plot <- function(t, h, ...) {
 
   graphics::plot(t, h, type = "h", xlab = "Time or samples",

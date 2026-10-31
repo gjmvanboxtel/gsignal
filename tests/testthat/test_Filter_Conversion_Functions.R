@@ -89,6 +89,50 @@ test_that("sos2zp() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# tf2ss()
+
+test_that("parameters to tf2ss() are correct", {
+  expect_error(tf2ss())
+  expect_error(tf2ss(1, 2, 3))
+  expect_error(tf2ss(Inf, Inf))
+  expect_error(tf2ss(1, c(0, 1)))
+  expect_error(tf2ss(c(1, 1), 1))
+})
+
+test_that("tf2ss() tests are correct", {
+  cmp <- function (b, a) {
+    N <- 30L
+    u <- c(1, rep(0, N - 1L))
+    h_tf <- impz(b, a, N)$x
+    # Convert from coefficients of z^(-1) to polynomials in z
+    b_z <- c(b, rep(0, length(a) - length(b)))
+    a_z <- a
+    ss <- tf2ss(b_z, a_z)
+    A <- ss$A; B <- ss$B; C <- ss$C; D <- ss$D
+    # Simulate the discrete-time state-space system
+    x <- numeric(nrow(A))
+    h_ss <- numeric(N)
+    for (k in seq_len(N)) {
+      h_ss[k] <- as.numeric(C %*% x + D * u[k])
+      x <- as.numeric(A %*% x + B * u[k])
+    }
+    # Compare the impulse responses
+    max(abs(h_tf - h_ss))
+  }
+  
+  b <- c(1, 0, 0, 0.3^3)
+  a <- c(1, 0, 0, 0, 0, 0.9^5)
+  expect_equal(cmp(b, a), 0)
+  
+  num <- rbind(
+     c(0, 2, 3),
+     c(1, 2, 1)
+  )
+  den <- c(1, 0.4, 1)
+  expect_equal(cmp(b, a), 0)
+})
+
+# -----------------------------------------------------------------------
 # tf2zp()
 
 test_that("parameters to tf2zp() are correct", {

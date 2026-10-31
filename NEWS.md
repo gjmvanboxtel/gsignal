@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9013
+# gsignal 0.4.0.9014
 
-* date: 20261014
+* date: 20261031
+* Added function `tf2ss()` (Filter Conversion Functions section)
 * Added function `eqtflength()` (Filter Conversion Functions section)
 * Added function `stepz()` (Filter Analysis section)
 * Added function `phasez()` (Filter Analysis section)
