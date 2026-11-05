@@ -16,7 +16,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Version history
-# 2026103 GvB       setup for gsignal v0.4.0
+# 20261031 GvB       setup for gsignal v0.4.0
 #------------------------------------------------------------------------------
 
 #' Transfer function to state-space form
@@ -49,7 +49,8 @@
 #'   \item{D}{Feedthrough matrix}
 #' }
 #'
-#' @seealso See also \code{\link{tf2sos}}, \code{\link{tf2zp}}
+#' @seealso See also \code{\link{ss2tf}}, \code{\link{tf2sos}},
+#'   \code{\link{tf2zp}}
 #'
 #' @examples
 #' b <- c(1, 0, 0, 0.3^3)

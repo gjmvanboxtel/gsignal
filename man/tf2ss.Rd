@@ -55,7 +55,8 @@ ss <- tf2ss(num, den)
 
 }
 \seealso{
-See also \code{\link{tf2sos}}, \code{\link{tf2zp}}
+See also \code{\link{ss2tf}}, \code{\link{tf2sos}},
+  \code{\link{tf2zp}}
 }
 \author{
 Geert van Boxtel, \email{gjmvanboxtel@gmail.com}.

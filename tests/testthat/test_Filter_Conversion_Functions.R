@@ -89,6 +89,54 @@ test_that("sos2zp() tests are correct", {
 })
 
 # -----------------------------------------------------------------------
+# ss2tf()
+
+test_that("parameters to ss2tf() are correct", {
+  expect_error(ss2tf())
+  expect_error(ss2tf(1, 2))
+  expect_error(ss2tf(1, 2, 3))
+  expect_error(ss2tf(matrix(0, nrow = 1, ncol = 2), 2, 3, 4))
+  expect_error(ss2tf(matrix(0, nrow = 2, ncol = 2), 2, 3, 4))
+  expect_error(ss2tf(matrix(0, nrow = 2, ncol = 2), rbind(0, 0),
+                     cbind(0, 0), rbind(0, 0)))
+})
+
+test_that("ss2tf() tests are correct", {
+  expect_s3_class(ss2tf(matrix(0, nrow = 2, ncol = 2), rbind(0, 0),
+                     cbind(0, 0), 0), "Arma")
+  
+  # SISO
+  A <- rbind(
+    c(0, 0, 0, 0, -0.9^5),
+    c(1, 0, 0, 0, 0),
+    c(0, 1, 0, 0, 0),
+    c(0, 0, 1, 0, 0),
+    c(0, 0, 0, 1, 0)
+  )
+  B <- matrix(c(1, 0, 0, 0, 0), ncol = 1)
+  C <- matrix(c(0, 1, 0, 0, 0.3^3), nrow = 1)
+  D <- 0
+  ba <- ss2tf(A, B, C, D)
+  expect_equal(ba$b, c(0, 0, 1, 0, 0, 0.027)) #two leading zeroes
+  expect_equal(ba$a, c(1, 0, 0, 0, 0, 0.59049))
+  
+  # MIMO
+  A <- rbind(
+    c(-0.4,-1),
+    c(1, 0)
+  )
+  B <- matrix(c(1, 0), ncol = 1)
+  C <- rbind(
+    c(2, 3),
+    c(1.6, 0)
+  )
+  D <- rbind(0, 1)
+  ba <- ss2tf(A, B, C, D)
+  expect_equal(ba$b, c(0, 1, 2, 2, 3, 1))
+  expect_equal(ba$a, c(1.0, 0.4, 1.0))
+})
+
+# -----------------------------------------------------------------------
 # tf2ss()
 
 test_that("parameters to tf2ss() are correct", {
