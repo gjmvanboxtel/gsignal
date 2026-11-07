@@ -1,6 +1,7 @@
-# gsignal 0.4.0.9015
+# gsignal 0.4.0.9016
 
-* date: 20261105
+* date: 20261107
+* Added functions `sos2ss()`, `ss2sos()` (Filter Conversion Functions section)
 * Added function `ss2tf()` (Filter Conversion Functions section)
 * Added function `tf2ss()` (Filter Conversion Functions section)
 * Added function `eqtflength()` (Filter Conversion Functions section)

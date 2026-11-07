@@ -1,6 +1,5 @@
 # ss2tf.R
 # Copyright (C) 2026 Geert van Boxtel <gjmvanboxtel@gmail.com>
-# Original Octave version:
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
