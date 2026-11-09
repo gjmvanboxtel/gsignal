@@ -25,8 +25,8 @@
 #'
 #' Convert digital filter zero-pole-gain data to transfer function form
 #'
-#' @param z complex vector of the zeros of the model
-#' @param p complex vector of the poles of the model
+#' @param z (complex) vector of the zeros of the model
+#' @param p (complex) vector of the poles of the model
 #' @param g overall gain. Default: 1.
 #'
 #' @return A list of class "Arma" with the following list elements:

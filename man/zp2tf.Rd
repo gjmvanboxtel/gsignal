@@ -7,9 +7,9 @@
 zp2tf(z, p, g = 1)
 }
 \arguments{
-\item{z}{complex vector of the zeros of the model}
+\item{z}{(complex) vector of the zeros of the model}
 
-\item{p}{complex vector of the poles of the model}
+\item{p}{(complex) vector of the poles of the model}
 
 \item{g}{overall gain. Default: 1.}
 }
