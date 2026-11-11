@@ -1,8 +1,8 @@
 # gsignal 0.4.0.9018
 
 * date: 20261111
+* optimization and bug fixes in `remez()`
 * added function `firpm()` (FIR Filter Design Functions)
-* minor changes to `remez()`
 * Added functions `zp2ss()`, `ss2zp()` (Filter Conversion Functions section)
 * Added functions `sos2ss()`, `ss2sos()` (Filter Conversion Functions section)
 * Added function `ss2tf()` (Filter Conversion Functions section)

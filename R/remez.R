@@ -20,14 +20,14 @@
 # <https://www.gnu.org/licenses/>.
 #
 # 20200803  Geert van Boxtel      First version for v0.1.0
-# 20261111  GvB                   added test on w
+# 20261111  GvB                   added further tests on parameters
 #-------------------------------------------------------------------------------
 
 #' Parks-McClellan optimal FIR filter design
 #'
 #' Parks-McClellan optimal FIR filter design using the Remez exchange algorithm.
 #'
-#' @param n filter order (1 less than the length of the filter).
+#' @param n filter order. The resulting filter has \code{n + 1} coefficients.
 #' @param f normalized frequency points, strictly increasing vector in the range
 #'   [0, 1], where 1 is the Nyquist frequency. The number of elements in the
 #'   vector is always a multiple of 2.
@@ -48,20 +48,27 @@
 #' @references \url{https://en.wikipedia.org/wiki/Fir_filter}
 #'
 #' @examples
-#' ## low pass filter
-#' f1 <- remez(15, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0))
-#' freqz(f1)
+#' # Low-pass FIR filter (Type I, 31 taps)
+#' # Frequencies are normalized to Nyquist (1 = Nyquist).
+#' b <- remez(30, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0))
+#' freqz(b)
 #'
-#' ## band pass
-#' f <- c(0, 0.3, 0.4, 0.6, 0.7, 1)
-#' a <- c(0, 0, 1, 1, 0, 0)
-#' b <- remez(17, f, a)
-#' hw <- freqz(b, 512)
-#' plot(f, a, type = "l", xlab = "Radian Frequency (w / pi)",
-#'      ylab = "Magnitude")
-#' lines(hw$w/pi, abs(hw$h), col = "red")
-#' legend("topright", legend = c("Ideal", "Remez"), lty = 1,
-#'        col = c("black", "red"))
+#' # Low-pass FIR filter (Type II, 30 taps)
+#' b <- remez(29, c(0, 0.3, 0.4, 0.95), c(1, 1, 0, 0))
+#' freqz(b)
+#'
+#' # Hilbert transformer (Type III, 31 taps)
+#' b <- remez(30, c(0.1, 0.9), c(1, 1), ftype = "hilbert")
+#' freqz(b)
+#'
+#' # FIR differentiator (Type IV, 30 taps)
+#' b <- remez(29, c(0.1, 0.9), c(0.1, 0.9),
+#'            ftype = "differentiator")
+#' freqz(b)
+#' 
+#' # Low-pass filter with increased stopband weight
+#' b <- remez(30, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0), w = c(1, 10))
+#' freqz(b)
 #'
 #' @seealso \code{\link{Ma}}, \code{\link{filter}}, \code{\link{fftfilt}},
 #'   \code{\link{fir1}}
@@ -89,26 +96,55 @@ remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
   if (!isPosscal(n) || !isWhole(n) || n < 4) {
     stop("Filter length n must be an integer greater than 3")
   }
+  
   if (!is.vector(f) || length(f) %% 2 == 1) {
     stop("f must be a vector of even length")
   }
-  if (any(diff(f) < 0)) {
-    stop("f must be a vector of increasing numbers")
+  
+  if (!is.numeric(f) ||
+      length(f) < 2L ||
+      length(f) %% 2L != 0L ||
+      anyNA(f) ||
+      any(!is.finite(f))) {
+    stop("f must be a finite numeric vector of even length")
   }
+  
   if (any(f < 0) || any(f > 1)) {
     stop("f must be in the range [0,1]")
   }
-  if (length(a) != length(f)) {
-    stop("length(a) must equal length(f)")
+  
+  if (any(diff(f) < 0)) {
+    stop("f must be nondecreasing")
   }
+  
+  lo <- f[seq.int(1L, length(f), by = 2L)]
+  hi <- f[seq.int(2L, length(f), by = 2L)]
+  
+  if (any(hi <= lo)) {
+    stop("Each frequency band must have positive width")
+  }
+  
+  if (!is.numeric(a) ||
+      length(a) != length(f) ||
+      any(!is.finite(a))) {
+    stop("a must contain finite numeric amplitudes matching f")
+  }
+  
   if (2 * length(w) != length(f)) {
     stop("length(w) must be half of length(f)")
   }
+  
   if (any(!is.finite(w)) || any(w <= 0)) {
     stop("w must contain finite positive values")
   }
-  if (density < 16) {
-    stop("density is too low, must be greater than or equal to 16")
+  
+  if (!is.numeric(density) ||
+      length(density) != 1L ||
+      !is.finite(density) ||
+      density != floor(density) ||
+      density < 16 ||
+      density > .Machine$integer.max) {
+    stop("density must be a finite integer >= 16")
   }
 
   z <- .Call("_gsignal_remez",

@@ -14,7 +14,7 @@ remez(
 )
 }
 \arguments{
-\item{n}{filter order (1 less than the length of the filter).}
+\item{n}{filter order. The resulting filter has \code{n + 1} coefficients.}
 
 \item{f}{normalized frequency points, strictly increasing vector in the range
 [0, 1], where 1 is the Nyquist frequency. The number of elements in the
@@ -42,20 +42,23 @@ The FIR filter coefficients, a vector of length \code{n + 1}, of
 Parks-McClellan optimal FIR filter design using the Remez exchange algorithm.
 }
 \examples{
-## low pass filter
-f1 <- remez(15, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0))
-freqz(f1)
+# Low-pass FIR filter (Type I, 31 taps)
+# Frequencies are normalized to Nyquist (1 = Nyquist).
+b <- remez(30, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0))
+freqz(b)
 
-## band pass
-f <- c(0, 0.3, 0.4, 0.6, 0.7, 1)
-a <- c(0, 0, 1, 1, 0, 0)
-b <- remez(17, f, a)
-hw <- freqz(b, 512)
-plot(f, a, type = "l", xlab = "Radian Frequency (w / pi)",
-     ylab = "Magnitude")
-lines(hw$w/pi, abs(hw$h), col = "red")
-legend("topright", legend = c("Ideal", "Remez"), lty = 1,
-       col = c("black", "red"))
+# Low-pass FIR filter (Type II, 30 taps)
+b <- remez(29, c(0, 0.3, 0.4, 0.95), c(1, 1, 0, 0))
+freqz(b)
+
+# Hilbert transformer (Type III, 31 taps)
+b <- remez(30, c(0.1, 0.9), c(1, 1), ftype = "hilbert")
+freqz(b)
+
+# FIR differentiator (Type IV, 30 taps)
+b <- remez(29, c(0.1, 0.9), c(0.1, 0.9),
+           ftype = "differentiator")
+freqz(b)
 
 }
 \references{

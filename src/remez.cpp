@@ -15,13 +15,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // Version history
-// 20200803  GvB      setup for gsignal v0.1.0
-// 20261111  GvB      exit on error on Search instead of returning the error
+// 20200803 GvB       setup for gsignal v0.1.0
+// 20261111 GvB       exit on error on Search instead of returning the error
 //                    value because R expects a NumericVector not an integer
+// 20261111 GvB       corrected several bugs marked by GvB 20261111
 //-----------------------------------------------------------------------------
+
+// GvB 20261111
+// Evaluate the desired response at the actual grid frequency.
+//
+// The original Octave implementation interpolated by grid index,
+// assuming equally spaced frequencies between the band endpoints.
+// However, the grid uses a fixed step delf and explicitly adjusts
+// its endpoints, so index-based interpolation can assign incorrect
+// desired amplitudes to grid frequencies.
+//
+// This is particularly important for differentiators and other
+// filters with nonconstant desired responses.
 
 #include <Rcpp.h>
 using namespace Rcpp;
+
+// GvB 20261111
+#include <cmath>
+#include <limits>
+#include <vector>
 
 /*
 
@@ -50,6 +68,7 @@ using namespace Rcpp;
  *  therein [search for PAK:].  I haven't looked closely at the rest
  *  of the code---it may also have some problems.
  *************************************************************************/
+// GvB 20261111 the present version tried to address those problems
 
 
 #define CONST const
@@ -65,6 +84,126 @@ using namespace Rcpp;
 
 #define GRIDDENSITY    16
 #define MAXITERATIONS  40
+
+
+// GvB 20261111 added DensegridLayout structure and GetDensegridLayoutfunction
+struct DenseGridLayout
+{
+  std::vector<int> count;
+  int size;
+  double delf;
+  double grid0;
+};
+
+
+DenseGridLayout GetDenseGridLayout(
+    int r,
+    int numband,
+    const NumericVector& bands,
+    int symmetry,
+    int griddensity)
+{
+  if (r <= 0 || griddensity <= 0 || numband <= 0)
+    Rcpp::stop("Invalid dense-grid parameters");
+  
+  if (bands.size() != 2 * static_cast<R_xlen_t>(numband))
+    Rcpp::stop("Invalid number of band edges");
+  
+  DenseGridLayout layout;
+  
+  layout.count.resize(numband);
+  layout.size = 0;
+  
+  layout.delf =
+    0.5 / (static_cast<double>(griddensity) * r);
+  
+  if (!std::isfinite(layout.delf) || layout.delf <= 0.0)
+    Rcpp::stop("Invalid dense-grid spacing");
+  
+  for (int i = 0; i < 2 * numband; ++i)
+  {
+    if (!std::isfinite(bands[i]) ||
+        bands[i] < 0.0 ||
+        bands[i] > 0.5)
+    {
+      Rcpp::stop("Invalid frequency band edge");
+    }
+  }
+  
+  layout.grid0 =
+    (symmetry == NEGATIVE && layout.delf > bands[0])
+    ? layout.delf
+  : bands[0];
+  
+  for (int band = 0; band < numband; ++band)
+  {
+    const double lowf =
+      (band == 0)
+    ? layout.grid0
+    : bands[2 * band];
+    
+    const double highf = bands[2 * band + 1];
+    
+    if (highf <= lowf)
+    {
+      Rcpp::stop(
+        "Dense-grid band %d has invalid width",
+        band + 1
+      );
+    }
+    
+    // Preserve the original CreateDenseGrid formula.
+    const double raw =
+      (highf - lowf) / layout.delf + 0.5;
+    
+    if (!std::isfinite(raw))
+      Rcpp::stop("Nonfinite dense-grid size");
+    
+    if (raw > static_cast<double>(
+        std::numeric_limits<int>::max()))
+    {
+      Rcpp::stop("Dense-grid size exceeds integer range");
+    }
+    
+    int k = static_cast<int>(raw);
+    
+    // Preserve the original antisymmetric adjustment.
+    if (band == 0 && symmetry == NEGATIVE)
+      --k;
+    
+    // The existing interpolation requires k >= 2.
+    if (k < 2)
+    {
+      Rcpp::stop(
+        "Dense-grid band %d contains fewer than "
+        "two grid points; increase density or "
+        "band width",
+        band + 1
+      );
+    }
+    
+    if (k > std::numeric_limits<int>::max() -
+        layout.size)
+    {
+      Rcpp::stop("Total dense-grid size exceeds integer range");
+    }
+    
+    layout.count[band] = k;
+    layout.size += k;
+  }
+  
+  if (layout.size < r + 1)
+  {
+    Rcpp::stop(
+      "Dense grid has %d points, but at least %d "
+      "are required",
+      layout.size, r + 1
+    );
+  }
+  
+  return layout;
+}
+
 
 /*******************
  * CreateDenseGrid
@@ -93,54 +232,164 @@ using namespace Rcpp;
  * double W[]        - Weight function on the dense grid [gridsize]
  *******************/
 
-void CreateDenseGrid(int r, int numtaps, int numband, const NumericVector bands,
-                     const NumericVector des, const NumericVector weight, int& gridsize,
-                     NumericVector& Grid, NumericVector& D, NumericVector& W,
-                     int symmetry, int griddensity)
+// GvB 20261111 replaced original with corrected CreateDenseGrid function
+
+void CreateDenseGrid(
+    int numtaps,
+    int numband,
+    const NumericVector& bands,
+    const NumericVector& des,
+    const NumericVector& weight,
+    const DenseGridLayout& layout,
+    NumericVector& Grid,
+    NumericVector& D,
+    NumericVector& W,
+    int symmetry)
 {
-   int i, j, k, band;
-   double delf, lowf, highf, grid0;
-
-   delf = 0.5/(griddensity*r);
-
-   /*
-    * For differentiator, hilbert,
-    *   symmetry is odd and Grid[0] = max(delf, bands[0])
-    */
-   grid0 = (symmetry == NEGATIVE) && (delf > bands[0]) ? delf : bands[0];
-
-   j=0;
-   for (band=0; band < numband; band++)
-   {
-      lowf = (band==0 ? grid0 : bands[2*band]);
-      highf = bands[2*band + 1];
-      k = (int)((highf - lowf)/delf + 0.5);   /* .5 for rounding */
-   if (band == 0 && symmetry == NEGATIVE)
-      k--;
-   for (i=0; i<k; i++)
-   {
-      D[j] = des[2*band] + i*(des[2*band+1]-des[2*band])/(k-1);
-      W[j] = weight[band];
+  const int gridsize = layout.size;
+  
+  // Validate output vector lengths.
+  if (Grid.size() != gridsize ||
+      D.size() != gridsize ||
+      W.size() != gridsize)
+  {
+    Rcpp::stop("Dense-grid vector length mismatch");
+  }
+  
+  // Validate input vector lengths.
+  if (bands.size() != 2 * static_cast<R_xlen_t>(numband) ||
+      des.size() != 2 * static_cast<R_xlen_t>(numband) ||
+      weight.size() != numband)
+  {
+    Rcpp::stop("Invalid band, desired-response or weight length");
+  }
+  
+  // Validate layout.
+  if (static_cast<int>(layout.count.size()) != numband ||
+      gridsize <= 0)
+  {
+    Rcpp::stop("Invalid dense-grid layout");
+  }
+  
+  int j = 0;
+  
+  /*
+   * STEP 1:
+   * Construct the complete frequency grid and weights.
+   *
+   * Do not calculate desired responses yet, because
+   * the frequency grid may subsequently be adjusted.
+   */
+  for (int band = 0; band < numband; ++band)
+  {
+    double lowf =
+      (band == 0)
+    ? layout.grid0
+    : bands[2 * band];
+    
+    const double highf = bands[2 * band + 1];
+    
+    const int k = layout.count[band];
+    
+    if (k < 2)
+    {
+      Rcpp::stop(
+        "Dense-grid band %d has fewer than two points",
+        band + 1
+      );
+    }
+    
+    // Check that the current band fits into the allocated grid.
+    if (k > gridsize - j)
+    {
+      Rcpp::stop("Dense-grid construction overflow");
+    }
+    
+    for (int i = 0; i < k; ++i)
+    {
       Grid[j] = lowf;
-      lowf += delf;
-      j++;
-   }
-   Grid[j-1] = highf;
-   }
-
-   /*
-    * Similar to above, if odd symmetry, last grid point can't be .5
-    *  - but, if there are even taps, leave the last grid point at .5
-    */
-   if ((symmetry == NEGATIVE) &&
-       (Grid[gridsize-1] > (0.5 - delf)) &&
-       (numtaps % 2))
-   {
-      Grid[gridsize-1] = 0.5-delf;
-   }
+      W[j] = weight[band];
+      
+      lowf += layout.delf;
+      ++j;
+    }
+    
+    /*
+     * Preserve the original behavior:
+     * force the last point of each band to its exact
+     * upper frequency endpoint.
+     */
+    Grid[j - 1] = highf;
+  }
+  
+  // Verify that all allocated grid points were generated.
+  if (j != gridsize)
+  {
+    Rcpp::stop(
+      "Dense-grid construction produced %d "
+      "points; expected %d",
+      j, gridsize
+    );
+  }
+  
+  /*
+   * STEP 2:
+   * Preserve the existing Type III Nyquist adjustment.
+   *
+   * Type III filters have odd numtaps and negative
+   * symmetry. Their response must vanish at Nyquist.
+   */
+  if (symmetry == NEGATIVE &&
+      (numtaps % 2) &&
+      Grid[gridsize - 1] > (0.5 - layout.delf))
+  {
+    Grid[gridsize - 1] = 0.5 - layout.delf;
+  }
+  
+  /*
+   * STEP 3:
+   * Calculate the desired response from the ACTUAL
+   * grid frequencies, including endpoint adjustments.
+   *
+   * Linear interpolation within each band:
+   *
+   * D(f) = a0 + (f - f0) * (a1 - a0) / (f1 - f0)
+   *
+   * Here f0 and f1 are the original band endpoints,
+   * not the shifted first grid frequency.
+   */
+  j = 0;
+  
+  for (int band = 0; band < numband; ++band)
+  {
+    const double f0 = bands[2 * band];
+    const double f1 = bands[2 * band + 1];
+    
+    const double a0 = des[2 * band];
+    const double a1 = des[2 * band + 1];
+    
+    const int k = layout.count[band];
+    
+    const double bandwidth = f1 - f0;
+    
+    if (!(bandwidth > 0.0))
+    {
+      Rcpp::stop(
+        "Dense-grid band %d has invalid frequency width",
+        band + 1
+      );
+    }
+    
+    const double slope = (a1 - a0) / bandwidth;
+    
+    for (int i = 0; i < k; ++i)
+    {
+      D[j] = a0 + (Grid[j] - f0) * slope;
+      ++j;
+    }
+  }
 }
-
-
+   
 /********************
  * InitialGuess
  *==============
@@ -599,6 +848,8 @@ int isDone(int r, NumericVector Ext, NumericVector E)
  * returns         - true on success, false on failure to converge
  ********************/
 
+// GvB 20261111: replaced allocation and construction sections
+
 // [[Rcpp::export]]
 NumericVector remez(NumericVector h, int numtaps,
          int numband, const NumericVector bands,
@@ -618,33 +869,82 @@ NumericVector remez(NumericVector h, int numtaps,
       r++;
 
    /*
-    * Predict dense grid size in advance for memory allocation
-    *   .5 is so we round up, not truncate
+    * Determine exact dense-grid layout.
+    * The layout contains the number of grid points per band,
+    * the total grid size, and the grid spacing.
     */
-   gridsize = 0;
-   for (i=0; i<numband; i++)
-   {
-      gridsize += (int)(2*r*griddensity*(bands[2*i+1] - bands[2*i]) + .5);
-   }
-   if (symmetry == NEGATIVE)
-   {
-      gridsize--;
-   }
-
+   DenseGridLayout layout = GetDenseGridLayout(
+     r,
+     numband,
+     bands,
+     symmetry,
+     griddensity
+   );
+   
+   gridsize = layout.size;
+   
    /*
-    * Dynamically allocate memory for arrays with proper sizes
+    * Allocate exactly the required number of elements.
     */
    NumericVector Grid(gridsize), D(gridsize), W(gridsize), E(gridsize);
    NumericVector Ext(r+1), taps(r+1), x(r+1), y(r+1), ad(r+1);
-
+   
    /*
-    * Create dense frequency grid
+    * Construct the dense frequency grid.
     */
-   CreateDenseGrid(r, numtaps, numband, bands, des, weight,
-                gridsize, Grid, D, W, symmetry, griddensity);
-
+   CreateDenseGrid(
+     numtaps, numband, bands, des, weight,
+     layout, Grid, D, W, symmetry
+   );
+   
+   /*
+    * Validate the generated dense grid.
+    */
+   for (int i = 0; i < gridsize; ++i)
+   {
+     if (!std::isfinite(Grid[i]) ||
+         Grid[i] < 0.0 ||
+         Grid[i] > 0.5)
+     {
+       Rcpp::stop("Invalid generated grid frequency");
+     }
+     
+     if (!std::isfinite(D[i]) ||
+         !std::isfinite(W[i]) ||
+         W[i] <= 0.0)
+     {
+       Rcpp::stop("Invalid generated response or weight");
+     }
+   }
+   
+   /*
+    * Verify that grid frequencies are strictly increasing.
+    */
+   for (int i = 1; i < gridsize; ++i)
+   {
+     if (!(Grid[i] > Grid[i - 1]))
+     {
+       Rcpp::stop(
+         "Dense-grid frequencies are not strictly "
+         "increasing at index %d", i
+       );
+     }
+   }
+   
+   /*
+    * Reject the singular Nyquist endpoint for Type II filters.
+    */
+   if (symmetry == POSITIVE &&
+       numtaps % 2 == 0 &&
+       Grid[gridsize - 1] >= 0.5)
+   {
+     Rcpp::stop(
+       "Type II filter dense grid includes Nyquist, "
+       "where the transformation is singular"
+     );
+   }
+   
    InitialGuess(r, Ext, gridsize);
-
    /*
     * For Differentiator: (fix grid)
     */

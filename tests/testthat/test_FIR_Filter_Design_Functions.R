@@ -178,7 +178,7 @@ cases <- list(
 )
 
 call_firpm <- function(spec, output="coefficients", control=c(0,0,0)) {
-  gsignal::firpm(spec$n, spec$f, spec$a,
+  firpm(spec$n, spec$f, spec$a,
                  class=spec$class, control=control, output=output)
 }
 
@@ -230,8 +230,8 @@ test_that("amplitude and weight encodings are equivalent", {
   a_edge <- c(1,1,0,0)
   w_band <- c(1,10)
   w_edge <- c(1,1,10,10)
-  b1 <- gsignal::firpm(s$n,s$f,s$a,w_band,output="coefficients")
-  b2 <- gsignal::firpm(s$n,s$f,a_edge,w_edge,output="coefficients")
+  b1 <- firpm(s$n,s$f,s$a,w_band,output="coefficients")
+  b2 <- firpm(s$n,s$f,a_edge,w_edge,output="coefficients")
   expect_equal(b1,b2,tolerance=tol)
 })
 
@@ -245,16 +245,16 @@ test_that("control defaults and zero padding agree", {
 
 test_that("invalid inputs are rejected", {
   base <- cases$type_I
-  expect_error(gsignal::firpm(0,base$f,base$a), "n")
-  expect_error(gsignal::firpm(2.5,base$f,base$a), "n")
-  expect_error(gsignal::firpm(base$n,c(0,.4,.3,1),base$a), "f")
-  expect_error(gsignal::firpm(base$n,c(-.1,.3,.4,1),base$a), "f")
-  expect_error(gsignal::firpm(base$n,base$f,c(1,0,0)), "a")
-  expect_error(gsignal::firpm(base$n,base$f,base$a,w=c(1,0)), "w")
-  expect_error(gsignal::firpm(base$n,base$f,base$a,control=-1), "control")
-  expect_error(gsignal::firpm(base$n,base$f,base$a,control=c(1,2,3,4)), "control")
-  expect_error(gsignal::firpm(base$n,base$f,base$a,class="other"))
-  expect_error(gsignal::firpm(base$n,base$f,base$a,output="other"))
+  expect_error(firpm(0,base$f,base$a), "n")
+  expect_error(firpm(2.5,base$f,base$a), "n")
+  expect_error(firpm(base$n,c(0,.4,.3,1),base$a), "f")
+  expect_error(firpm(base$n,c(-.1,.3,.4,1),base$a), "f")
+  expect_error(firpm(base$n,base$f,c(1,0,0)), "a")
+  expect_error(firpm(base$n,base$f,base$a,w=c(1,0)), "w")
+  expect_error(firpm(base$n,base$f,base$a,control=-1), "control")
+  expect_error(firpm(base$n,base$f,base$a,control=c(1,2,3,4)), "control")
+  expect_error(firpm(base$n,base$f,base$a,class="other"))
+  expect_error(firpm(base$n,base$f,base$a,output="other"))
 })
 
 test_that("callback errors are recoverable", {
@@ -315,4 +315,129 @@ test_that("invalid callback results are rejected", {
 })
 
 
+# -----------------------------------------------------------------------
+# remez()
 
+# Return ordinary numeric coefficients (remez returns an Ma object).
+remez_coeff <- function(...) as.numeric(remez(...))
+
+# Evaluate the signed, phase-corrected amplitude of an antisymmetric FIR.
+# The sign is calibrated against the desired positive response at midband.
+odd_amplitude <- function(b, f) {
+  k <- seq_along(b) - 1L
+  delay <- (length(b) - 1) / 2
+  vapply(f, function(fi) {
+    omega <- pi * fi
+    h <- sum(b * exp(-1i * omega * k))
+    Im(h * exp(1i * omega * delay))
+  }, numeric(1))
+}
+
+expect_remez_shape <- function(b, order, antisymmetric = FALSE) {
+  expect_length(b, order + 1L)
+  expect_true(all(is.finite(b)))
+  target <- if (antisymmetric) -rev(b) else rev(b)
+  expect_equal(b, target, tolerance = 1e-10)
+  if (antisymmetric && order %% 2L == 0L) {
+    expect_equal(b[(length(b) + 1L) %/% 2L], 0,
+                           tolerance = 1e-12)
+  }
+}
+
+test_that("Type I and II low-pass filters are symmetric", {
+  b1 <- remez_coeff(30, c(0, .3, .4, 1), c(1, 1, 0, 0), density = 32)
+  b2 <- remez_coeff(29, c(0, .3, .4, .95), c(1, 1, 0, 0), density = 32)
+  expect_remez_shape(b1, 30)
+  expect_remez_shape(b2, 29)
+})
+
+
+test_that("Type III and IV Hilbert transformers are antisymmetric", {
+  b3 <- remez_coeff(30, c(.1, .9), c(1, 1),
+                    ftype = "hilbert", density = 32)
+  b4 <- remez_coeff(29, c(.1, .9), c(1, 1),
+                    ftype = "hilbert", density = 32)
+  expect_remez_shape(b3, 30, antisymmetric = TRUE)
+  expect_remez_shape(b4, 29, antisymmetric = TRUE)
+})
+
+test_that("Type III and IV differentiators are antisymmetric", {
+  for (order in c(30L, 29L)) {
+    for (lo in c(0, .1)) {
+      b <- remez_coeff(order, c(lo, .9), c(lo, .9),
+                       ftype = "differentiator", density = 32)
+      expect_remez_shape(b, order, antisymmetric = TRUE)
+    }
+  }
+})
+
+test_that("Type III differentiator has small weighted minimax error", {
+  b <- remez_coeff(30, c(.1, .9), c(.1, .9),
+                   ftype = "differentiator", density = 32)
+  f <- seq(.1, .9, length.out = 4097L)
+  amp <- odd_amplitude(b, f)
+  sgn <- sign(amp[which.min(abs(f - .5))])
+  expect_true(sgn != 0)
+  err <- (sgn * amp - f) / f
+  expect_lt(max(abs(err)), .0042)
+  # Approximate balance of positive and negative ripple.
+  expect_lt(abs(max(err) + min(err)), 5e-4)
+})
+
+test_that("Type IV differentiator approximates the desired slope", {
+  b <- remez_coeff(29, c(.1, .9), c(.1, .9),
+                   ftype = "differentiator", density = 32)
+  f <- seq(.1, .9, length.out = 4097L)
+  amp <- odd_amplitude(b, f)
+  sgn <- sign(amp[which.min(abs(f - .5))])
+  expect_true(sgn != 0)
+  err <- (sgn * amp - f) / f
+  # Broad correctness bound, not a hard-coded optimum.
+  expect_lt(max(abs(err)), .02)
+})
+
+test_that("differentiator coefficients stabilize with grid density", {
+  for (order in c(30L, 29L)) {
+    b32 <- remez_coeff(order, c(.1, .9), c(.1, .9),
+                       ftype = "differentiator", density = 32)
+    b64 <- remez_coeff(order, c(.1, .9), c(.1, .9),
+                       ftype = "differentiator", density = 64)
+    expect_lt(max(abs(b32 - b64)), 1e-4)
+  }
+})
+
+test_that("a multiband design produces finite symmetric taps", {
+  b <- remez_coeff(30, c(0, .2, .3, .5, .6, 1),
+                   c(0, 0, 1, 1, 0, 0), density = 32)
+  expect_remez_shape(b, 30)
+})
+
+test_that("nonconstant desired response is evaluated consistently", {
+  # Sloped bandpass-type design exercises frequency-based interpolation
+  # without the differentiator-specific inverse-frequency weighting.
+  b32 <- remez_coeff(30, c(0, .9), c(0, .9), density = 32)
+  b64 <- remez_coeff(30, c(0, .9), c(0, .9), density = 64)
+  expect_remez_shape(b32, 30)
+  expect_lt(max(abs(b32 - b64)), 1e-3)
+})
+
+test_that("R wrapper rejects invalid inputs", {
+  f <- c(0, .3, .4, 1)
+  a <- c(1, 1, 0, 0)
+  expect_error(remez(3, f, a), "n|length|order")
+  expect_error(remez(30, c(0, .3, 1), c(1, 1, 0)), "even")
+  expect_error(
+    remez(30, f, c(1, 0)),
+    "amplitudes matching f"
+  )
+  expect_error(remez(30, f, a, w = c(1)), "length")
+  expect_error(remez(30, f, a, w = c(1, 0)), "positive")
+  expect_error(remez(30, f, a, w = c(1, -1)), "positive")
+  expect_error(remez(30, f, a, w = c(1, Inf)), "finite")
+  expect_error(remez(30, f, a, density = 15), "density")
+  expect_error(remez(30, c(0, .3, .4, 1.1), a), "range")
+})
+
+# Add the following tests after confirming the intended policy for
+# zero-width bands, extremely narrow bands, and Type II at Nyquist.
+# These cases should never trigger an out-of-bounds access or process crash.
