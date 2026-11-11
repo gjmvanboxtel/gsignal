@@ -157,3 +157,162 @@ test_that("parameters to firls() are correct", {
   expect_error(firls(1, 2, 3, 4, 5))
 })
 
+# -----------------------------------------------------------------------
+# firpm()
+
+cases <- list(
+  type_I = list(n=30L, f=c(0,.3,.4,1), a=c(1,0),
+                class="symmetric", sign=1),
+  type_II = list(n=31L, f=c(0,.3,.4,1), a=c(1,0),
+                 class="symmetric", sign=1),
+  type_III = list(n=30L, f=c(.1,.9), a=c(1,1),
+                  class="antisymmetric", sign=-1),
+  type_IV = list(n=31L, f=c(.1,1), a=c(1,1),
+                 class="antisymmetric", sign=-1),
+  differentiator_even = list(n=30L, f=c(0,.9), a=c(0,.9),
+                             class="differentiator", sign=-1),
+  differentiator_odd = list(n=31L, f=c(0,.9), a=c(0,.9),
+                            class="differentiator", sign=-1),
+  hilbert = list(n=30L, f=c(.1,.9), a=c(1,1),
+                 class="hilbert", sign=-1)
+)
+
+call_firpm <- function(spec, output="coefficients", control=c(0,0,0)) {
+  gsignal::firpm(spec$n, spec$f, spec$a,
+                 class=spec$class, control=control, output=output)
+}
+
+# Absolute tolerance appropriate for the previously verified test designs.
+tol <- 1e-12
+
+test_that("default output, full output, and linear phase agree", {
+  for (nm in names(cases)) {
+    s <- cases[[nm]]
+    b <- call_firpm(s)
+    full <- call_firpm(s, "full")
+    expect_type(b, "double")
+    expect_length(b, s$n+1L)
+    expect_true(all(is.finite(b)))
+    expect_equal(b, full$b, tolerance=0)
+    expect_equal(b, s$sign * rev(b), tolerance=tol)
+    expect_true(is.finite(full$minimax))
+    expect_true(is.numeric(full$iterations))
+    expect_true(is.numeric(full$result))
+    expect_true(is.character(full$message))
+  }
+})
+
+test_that("full diagnostics have consistent shapes and indexing", {
+  for (nm in names(cases)) {
+    z <- call_firpm(cases[[nm]], "full")
+    r <- z$res
+    expect_named(r, c("fgrid","des","wt","H","error","iextr","fextr"),
+                 ignore.order=TRUE)
+    m <- length(r$fgrid)
+    expect_gt(m, 0L)
+    expect_length(r$des, m)
+    expect_length(r$wt, m)
+    expect_length(r$H, m)
+    expect_length(r$error, m)
+    expect_true(is.complex(r$H))
+    expect_true(all(is.finite(r$fgrid)))
+    expect_true(all(diff(r$fgrid) >= 0))
+    expect_true(all(r$fgrid >= 0 & r$fgrid <= 1))
+    expect_length(r$fextr, length(r$iextr))
+    expect_true(all(r$iextr >= 1 & r$iextr <= m))
+    expect_equal(as.numeric(r$fextr), as.numeric(r$fgrid[r$iextr]),
+                 tolerance=tol)
+  }
+})
+
+test_that("amplitude and weight encodings are equivalent", {
+  s <- cases$type_I
+  a_edge <- c(1,1,0,0)
+  w_band <- c(1,10)
+  w_edge <- c(1,1,10,10)
+  b1 <- gsignal::firpm(s$n,s$f,s$a,w_band,output="coefficients")
+  b2 <- gsignal::firpm(s$n,s$f,a_edge,w_edge,output="coefficients")
+  expect_equal(b1,b2,tolerance=tol)
+})
+
+test_that("control defaults and zero padding agree", {
+  s <- cases$type_I
+  expect_equal(call_firpm(s,control=0),
+               call_firpm(s,control=c(0,0,0)),tolerance=0)
+  expect_equal(call_firpm(s,control=c(0,0)),
+               call_firpm(s,control=c(0,0,0)),tolerance=0)
+})
+
+test_that("invalid inputs are rejected", {
+  base <- cases$type_I
+  expect_error(gsignal::firpm(0,base$f,base$a), "n")
+  expect_error(gsignal::firpm(2.5,base$f,base$a), "n")
+  expect_error(gsignal::firpm(base$n,c(0,.4,.3,1),base$a), "f")
+  expect_error(gsignal::firpm(base$n,c(-.1,.3,.4,1),base$a), "f")
+  expect_error(gsignal::firpm(base$n,base$f,c(1,0,0)), "a")
+  expect_error(gsignal::firpm(base$n,base$f,base$a,w=c(1,0)), "w")
+  expect_error(gsignal::firpm(base$n,base$f,base$a,control=-1), "control")
+  expect_error(gsignal::firpm(base$n,base$f,base$a,control=c(1,2,3,4)), "control")
+  expect_error(gsignal::firpm(base$n,base$f,base$a,class="other"))
+  expect_error(gsignal::firpm(base$n,base$f,base$a,output="other"))
+})
+
+test_that("callback errors are recoverable", {
+  
+  result <- local({
+    
+    tryCatch(
+      firpm(
+        30,
+        c(0, 1),
+        function(n, f, g, w) {
+          stop("bad callback")
+        }
+      ),
+      error = function(e) {
+        expect_match(
+          conditionMessage(e),
+          "R response function raised an error"
+        )
+        
+        "RECOVERED"
+      }
+    )
+    
+  })
+  
+  expect_identical(result, "RECOVERED")
+  
+})
+
+test_that("invalid callback results are rejected", {
+  
+  # Incorrect amplitude length
+  expect_error(
+    firpm(
+      30,
+      c(0, 1),
+      function(n, f, g, w) numeric(0)
+    ),
+    "amplitude"
+  )
+  
+  # Negative weights
+  expect_error(
+    firpm(
+      30,
+      c(0, 1),
+      function(n, f, g, w) {
+        list(
+          desired = rep(1, length(g)),
+          weight = rep(-1, length(g))
+        )
+      }
+    ),
+    "weight"
+  )
+  
+})
+
+
+

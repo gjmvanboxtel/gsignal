@@ -19,8 +19,9 @@
 # along with this program; see the file COPYING. If not, see
 # <https://www.gnu.org/licenses/>.
 #
-# 20200803 Geert van Boxtel           First version for v0.1.0
-#------------------------------------------------------------------------------
+# 20200803  Geert van Boxtel      First version for v0.1.0
+# 20261111  GvB                   added test on w
+#-------------------------------------------------------------------------------
 
 #' Parks-McClellan optimal FIR filter design
 #'
@@ -102,6 +103,9 @@ remez <- function(n, f, a, w = rep(1.0, length(f) / 2),
   }
   if (2 * length(w) != length(f)) {
     stop("length(w) must be half of length(f)")
+  }
+  if (any(!is.finite(w)) || any(w <= 0)) {
+    stop("w must contain finite positive values")
   }
   if (density < 16) {
     stop("density is too low, must be greater than or equal to 16")

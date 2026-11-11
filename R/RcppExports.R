@@ -17,6 +17,10 @@ rfilter <- function(b, a, x, zi) {
     .Call(`_gsignal_rfilter`, b, a, x, zi)
 }
 
+firpm_mmfir <- function(n, f, a, w, filterClass, accuracy = 0.0, persistence = 0.0, robustness = 0.0, diagnostics = FALSE, response = NULL, responseArgs = NULL) {
+    .Call(`_gsignal_firpm_mmfir`, n, f, a, w, filterClass, accuracy, persistence, robustness, diagnostics, response, responseArgs)
+}
+
 fwht <- function(x) {
     .Call(`_gsignal_fwht`, x)
 }

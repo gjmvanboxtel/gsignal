@@ -60,6 +60,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// firpm_mmfir
+List firpm_mmfir(int n, NumericVector f, NumericVector a, NumericVector w, int filterClass, double accuracy, double persistence, double robustness, bool diagnostics, SEXP response, SEXP responseArgs);
+RcppExport SEXP _gsignal_firpm_mmfir(SEXP nSEXP, SEXP fSEXP, SEXP aSEXP, SEXP wSEXP, SEXP filterClassSEXP, SEXP accuracySEXP, SEXP persistenceSEXP, SEXP robustnessSEXP, SEXP diagnosticsSEXP, SEXP responseSEXP, SEXP responseArgsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type f(fSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP);
+    Rcpp::traits::input_parameter< int >::type filterClass(filterClassSEXP);
+    Rcpp::traits::input_parameter< double >::type accuracy(accuracySEXP);
+    Rcpp::traits::input_parameter< double >::type persistence(persistenceSEXP);
+    Rcpp::traits::input_parameter< double >::type robustness(robustnessSEXP);
+    Rcpp::traits::input_parameter< bool >::type diagnostics(diagnosticsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type response(responseSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type responseArgs(responseArgsSEXP);
+    rcpp_result_gen = Rcpp::wrap(firpm_mmfir(n, f, a, w, filterClass, accuracy, persistence, robustness, diagnostics, response, responseArgs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // fwht
 NumericMatrix fwht(NumericMatrix x);
 RcppExport SEXP _gsignal_fwht(SEXP xSEXP) {
@@ -122,6 +143,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gsignal_conv2ds", (DL_FUNC) &_gsignal_conv2ds, 2},
     {"_gsignal_conv2dv", (DL_FUNC) &_gsignal_conv2dv, 2},
     {"_gsignal_rfilter", (DL_FUNC) &_gsignal_rfilter, 4},
+    {"_gsignal_firpm_mmfir", (DL_FUNC) &_gsignal_firpm_mmfir, 11},
     {"_gsignal_fwht", (DL_FUNC) &_gsignal_fwht, 1},
     {"_gsignal_remez", (DL_FUNC) &_gsignal_remez, 8},
     {"_gsignal_rsosfilt", (DL_FUNC) &_gsignal_rsosfilt, 3},

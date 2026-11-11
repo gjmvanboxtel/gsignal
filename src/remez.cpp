@@ -15,8 +15,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 // Version history
-// 20200803  GvB       setup for gsignal v0.1.0
-//---------------------------------------------------------------------------------------------------------------------
+// 20200803  GvB      setup for gsignal v0.1.0
+// 20261111  GvB      exit on error on Search instead of returning the error
+//                    value because R expects a NumericVector not an integer
+//-----------------------------------------------------------------------------
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -702,7 +704,14 @@ NumericVector remez(NumericVector h, int numtaps,
       CalcParms(r, Ext, Grid, D, W, ad, x, y);
       CalcError(r, ad, x, y, gridsize, Grid, D, W, E);
       int err = Search(r, Ext, gridsize, E);
-      if (err) return err;
+      // GvB 20261111 if (err) return err;
+      if (err != 0)
+      {
+        Rcpp::stop(
+          "Remez Search failed: status = %d, r = %d, gridsize = %d",
+          err, r, gridsize
+        );
+      }
       for(i=0; i <= r; i++) assert(Ext[i]<gridsize);
       if (isDone(r, Ext, E))
          break;
