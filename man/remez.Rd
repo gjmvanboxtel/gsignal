@@ -60,6 +60,10 @@ b <- remez(29, c(0.1, 0.9), c(0.1, 0.9),
            ftype = "differentiator")
 freqz(b)
 
+# Low-pass filter with increased stopband weight
+b <- remez(30, c(0, 0.3, 0.4, 1), c(1, 1, 0, 0), w = c(1, 10))
+freqz(b)
+
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Fir_filter}

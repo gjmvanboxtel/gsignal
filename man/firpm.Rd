@@ -2,6 +2,8 @@
 % Please edit documentation in R/firpm.R
 \name{firpm}
 \alias{firpm}
+\alias{firpm.default}
+\alias{firpm.firpmord}
 \title{Parks-McClellan Optimal FIR Filter Design}
 \usage{
 firpm(
@@ -14,10 +16,25 @@ firpm(
   output = c("coefficients", "full"),
   response_args = list()
 )
+
+\method{firpm}{default}(
+  n,
+  f,
+  a,
+  w = NULL,
+  class = c("symmetric", "antisymmetric", "hilbert", "differentiator"),
+  control = c(0, 0, 0),
+  output = c("coefficients", "full"),
+  response_args = list()
+)
+
+\method{firpm}{firpmord}(n, ...)
 }
 \arguments{
-\item{n}{Positive integer specifying the filter order. The resulting FIR
-filter has `n + 1` coefficients.}
+\item{n}{For the default case, a list of class \code{'firpmord'} with list elements
+\code{n}, \code{f}, \code{a}, \code{w}, as returned by the function
+\code{\link{firpmord}}. Otherwise, a positive integer specifying the filter
+order. The resulting FIR filter has `n + 1` coefficients.}
 
 \item{f}{Numeric vector of normalized frequency-band edges.
 
@@ -114,6 +131,8 @@ filter has `n + 1` coefficients.}
   Named and unnamed list elements are supported.
 
   This argument is only valid when `a` is a function.}
+
+\item{...}{additional arguments}
 }
 \value{
 If `output = "coefficients"`, a numeric vector of length
@@ -242,5 +261,9 @@ b <- firpm(
 
 }
 \seealso{
-\code{\link{fir1}}, \code{\link{freqz}}
+\code{\link{fir1}}, \code{\link{freqz}}, \code{\link{firpmord}}
+}
+\author{
+Rob Sykes \email{robs@users.sourceforge.net}, conversion to R by
+  Geert van Boxtel \email{G.J.M.vanBoxtel@gmail.com}
 }

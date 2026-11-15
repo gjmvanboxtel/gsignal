@@ -31,8 +31,10 @@
 #' specifications and user-defined R response functions.
 #'
 #' @param n
-#'   Positive integer specifying the filter order. The resulting FIR
-#'   filter has `n + 1` coefficients.
+#'   For the default case, a list of class \code{'firpmord'} with list elements
+#'   \code{n}, \code{f}, \code{a}, \code{w}, as returned by the function
+#'   \code{\link{firpmord}}. Otherwise, a positive integer specifying the filter
+#'   order. The resulting FIR filter has `n + 1` coefficients.
 #'
 #' @param f
 #'   Numeric vector of normalized frequency-band edges.
@@ -136,6 +138,8 @@
 #'   Named and unnamed list elements are supported.
 #'
 #'   This argument is only valid when `a` is a function.
+#'   
+#' @param ... additional arguments
 #'
 #' @details
 #'   The Parks-McClellan algorithm constructs an FIR filter by
@@ -253,12 +257,28 @@
 #'   response_args = list(alpha = 2)
 #' )
 #'
+#' @author Rob Sykes \email{robs@@users.sourceforge.net}, conversion to R by
+#'   Geert van Boxtel \email{G.J.M.vanBoxtel@@gmail.com}
+#'   
 #' @seealso
-#'   \code{\link{fir1}}, \code{\link{freqz}}
+#'   \code{\link{fir1}}, \code{\link{freqz}}, \code{\link{firpmord}}
 #'
+#' @rdname firpm
 #' @export
 
 firpm <- function(n, f, a, w = NULL,
+                  class = c("symmetric", "antisymmetric", "hilbert",
+                            "differentiator"),
+                  control = c(0, 0, 0),
+                  output = c("coefficients", "full"),
+                  response_args = list()) UseMethod("firpm")
+
+#' @rdname firpm
+#' @method firpm default
+#' @export
+
+
+firpm.default <- function(n, f, a, w = NULL,
                   class = c("symmetric", "antisymmetric", "hilbert",
                             "differentiator"),
                   control = c(0, 0, 0),
@@ -351,3 +371,10 @@ firpm <- function(n, f, a, w = NULL,
   list(fgrid = fgrid, des = des, wt = wt, H = H,
        error = error, iextr = iextr, fextr = fgrid[iextr])
 }
+
+#' @rdname firpm
+#' @method firpm firpmord
+#' @export
+
+firpm.firpmord <- function(n, ...) # firpmord list
+  firpm.default(n = n$n, f = n$f, a = n$a, w = n$w, ...)

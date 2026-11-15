@@ -314,6 +314,86 @@ test_that("invalid callback results are rejected", {
   
 })
 
+# -----------------------------------------------------------------------
+# firpmord()
+
+test_that("parameters to firpmord() are correct", {
+  expect_error(firpmord())
+  expect_error(firpmord(-1))
+  expect_error(firpmord(1, -1))
+  expect_error(firpmord(c(1, 2), c(1, 0), c(1, 1), c(1,1)))
+  expect_error(firpmord(c(0, 2), c(1, 0), c(1, 1)))
+  expect_error(firpmord(c(0.1, 1), c(1, 0), c(1, 1)))
+  expect_error(firpmord(c(0.1, 0.9), 1, c(0.1, 0.1)))
+  expect_error(firpmord(c(0.1, 0.2), c(1, 0), c(0.1, 0.1, 0.1)))
+  expect_error(firpmord(c(0.1, 0.2), c(1, 0), c(1, 0)))
+})
+
+test_that("firpmord() tests are correct", {
+  
+  r1 <- firpmord(c(0.4, 0.5), c(0, 1), c(2.5e-4, 2.5e-4))
+  r2 <- firpmord(c(0.4, 0.5), c(0, 1), 2.5e-4)
+  expect_equal(r1, r2)
+
+  ds <- 1e-4; dp = 0.01
+  r1 <- firpmord(seq(1, 8) / 10, c(0, 1, 0, 1, 0), c(ds, dp, ds, dp, ds))
+  r2 <- firpmord(seq(1, 8) / 10, c(0, 1, 0, 1, 0), c(ds, dp))
+  expect_equal(r1, r2)
+  
+  ## Tests using examples from the Ichige paper, tables II & III.
+  ## There are some slight discrepancies; the reason is unknown:
+
+  expect_equal(1 + firpmord(c(.1, .2), c(0, 1), c(1e-4, .01), 1)$n, 33)
+  
+  expect_equal(1 + firpmord(c(15, 20), c(1, 0), c(.1, .001), 100)$n, 38)
+  expect_equal(1 + firpmord(c(8, 10), c(0, 1), c(.001, .1), 100)$n, 91)
+  expect_equal(1 + firpmord(c(8, 10, 15, 20), c(0, 1, 0), c(.001, .1, .001),
+                            100)$n, 90) #+1?
+
+  expect_equal(1 + firpmord(c(17, 20), c(1, 0), c(.01, 1e-4), 100)$n, 107)#-1?
+  expect_equal(1 + firpmord(c(22, 25), c(0, 1), c(1e-4, .01), 100)$n, 107)
+  expect_equal(1 + firpmord(c(17, 20, 22, 25), c(1, 0, 1), c(.01, 1e-4, .01),
+                            100)$n, 107)
+
+  expect_equal(1 + firpmord(c(21, 25), c(1, 0), c(.01, 1e-4), 100)$n, 81) #+1?
+  expect_equal(1 + firpmord(c(10, 20), c(0, 1), c(1e-4, .01), 100)$n, 33)
+  expect_equal(1 + firpmord(c(10, 20, 21, 25), c(0, 1, 0), c(1e-4, .01,  1e-4),
+                            100)$n, 81) #+1?
+
+  expect_equal(1 + firpmord(c(20, 25), c(1, 0), c(.01, 1e-4), 100)$n, 65) #+1?
+  expect_equal(1 + firpmord(c(26, 30), c(0, 1), c(1e-4, .01), 100)$n, 81) #+2?
+  expect_equal(1 + firpmord(c(20, 25, 26, 30), c(1, 0, 1), c(.01, 1e-4, .01),
+                            100)$n, 81) #+2?
+
+})
+
+test_that("firpm accepts firpmord objects", {
+  
+  db2mag <- function(db) 10^(db / 20)
+  
+  spec <- firpmord(
+    f = c(0.4, 0.5),
+    a = c(0, 1),
+    d = c(db2mag(-72), db2mag(-72))
+  )
+  
+  b1 <- firpm(spec)
+  
+  b2 <- firpm(
+    spec$n,
+    spec$f,
+    spec$a,
+    spec$w
+  )
+  
+  expect_equal(b1, b2, tolerance = 1e-12)
+  expect_length(b1, spec$n + 1L)
+  
+  # Verify that optional arguments are forwarded
+  full <- firpm(spec, output = "full")
+  
+  expect_equal(full$b, b1, tolerance = 1e-12)
+})
 
 # -----------------------------------------------------------------------
 # remez()
@@ -437,7 +517,3 @@ test_that("R wrapper rejects invalid inputs", {
   expect_error(remez(30, f, a, density = 15), "density")
   expect_error(remez(30, c(0, .3, .4, 1.1), a), "range")
 })
-
-# Add the following tests after confirming the intended policy for
-# zero-width bands, extremely narrow bands, and Type II at Nyquist.
-# These cases should never trigger an out-of-bounds access or process crash.
